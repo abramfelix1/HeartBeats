@@ -1,8 +1,5 @@
 const express = require("express");
 const fetch = require("node-fetch");
-const cors = require("cors");
-const querystring = require("querystring");
-const cookieParser = require("cookie-parser");
 const router = express.Router();
 
 const client_id = "2c24c289ce0448af9c1a7a9f98f78d31";
@@ -24,16 +21,16 @@ router.get("/public_token", async (req, res) => {
     });
 
     if (!response.ok) {
-      const errorData = await response.text();
+      const errorData = await response.json();
       console.error("Spotify API response:", errorData);
-      throw new Error("Network response was not ok.");
+      throw new Error("Cannot fetch access token");
     }
 
     const data = await response.json();
-    res.send({ access_token: data.access_token });
+    res.send({ access_token: data });
   } catch (error) {
     console.error("Detailed error:", error);
-    res.status(500).send("Error obtaining token.");
+    res.status(500).send("Error obtaining Spotify access token.");
   }
 });
 
