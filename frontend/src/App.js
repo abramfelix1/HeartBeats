@@ -5,6 +5,7 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
+import SpotifyLogin from "./components/Login/SpotifyLogin";
 
 function App() {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ function App() {
         <Switch>
           <Route path="/login">
             <LoginFormPage />
+            <SpotifyLogin />
           </Route>
           <Route path="/signup">
             <SignupFormPage />
