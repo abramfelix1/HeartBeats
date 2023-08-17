@@ -17,7 +17,7 @@ const redirect_uri =
     : "http://localhost:8000/api/spotify/callback"; //Change to Render site when deploying or make if statement for production later
 const redirectURL =
   process.env.NODE_ENV === "production"
-    ? "https://xyz.com/"
+    ? "https://heart-beats.onrender.com/"
     : "http://localhost:3000/";
 
 // Client Credentials (No Spotify Account LOGIN)
