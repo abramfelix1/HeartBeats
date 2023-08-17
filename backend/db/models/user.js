@@ -8,7 +8,6 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   }
-
   User.init(
     {
       username: {
@@ -37,9 +36,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING.BINARY,
         allowNull: false,
         validate: {
-          len: [16, 60],
+          len: [8, 60],
         },
       },
+      spotify: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: null },
     },
     {
       sequelize,

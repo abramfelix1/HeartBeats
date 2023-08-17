@@ -1,4 +1,5 @@
 "use strict";
+/** @type {import('sequelize-cli').Migration} */
 
 let options = {};
 if (process.env.NODE_ENV === "production") {
@@ -30,6 +31,11 @@ module.exports = {
           type: Sequelize.STRING.BINARY,
           allowNull: false,
         },
+        spotify: {
+          type: Sequelize.BOOLEAN,
+          allowNull: true,
+          defaultValue: null,
+        },
         createdAt: {
           allowNull: false,
           type: Sequelize.DATE,
@@ -44,9 +50,7 @@ module.exports = {
       options
     );
   },
-
   async down(queryInterface, Sequelize) {
-    options.tableName = "Users";
-    return queryInterface.dropTable(options);
+    await queryInterface.dropTable("Users");
   },
 };

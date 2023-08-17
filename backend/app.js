@@ -60,6 +60,7 @@ app.use(
     }),
     resave: false,
     secret: process.env.SECRET_SESSION_KEY,
+    saveUninitialized: false,
   })
 );
 
