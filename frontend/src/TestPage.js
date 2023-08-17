@@ -12,7 +12,7 @@ export default function TestPage() {
 
   useEffect(() => {
     dispatch(checkLoggedIn());
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>

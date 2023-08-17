@@ -5,7 +5,6 @@ import LoginFormPage from "./components/LoginFormPage";
 import SignupFormPage from "./components/SignupFormPage";
 import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
-import SpotifyLogin from "./components/Login/SpotifyLogin";
 import TestPage from "./TestPage";
 
 function App() {
