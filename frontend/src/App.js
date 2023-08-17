@@ -21,7 +21,6 @@ function App() {
         <Switch>
           <Route path="/login">
             <LoginFormPage />
-            <SpotifyLogin />
           </Route>
           <Route path="/signup">
             <SignupFormPage />

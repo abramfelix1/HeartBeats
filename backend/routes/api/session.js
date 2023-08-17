@@ -47,7 +47,7 @@ router.post("/", validateLogin, async (req, res, next) => {
     email: user.email,
     username: user.username,
     firstName: user.firstName,
-    lastName: user.lastName
+    lastName: user.lastName,
   };
 
   await setTokenCookie(res, safeUser);
@@ -58,6 +58,8 @@ router.post("/", validateLogin, async (req, res, next) => {
 // Log out
 router.delete("/", (_req, res) => {
   res.clearCookie("token");
+  res.clearCookie("access_token");
+  res.clearCookie("refresh_token");
   return res.json({ message: "success" });
 });
 

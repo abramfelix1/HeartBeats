@@ -1,26 +1,37 @@
-import { csrfFetch } from './csrf';
+import { csrfFetch } from "./csrf";
 
 // Action Type
-const SET_SESSION_USER = 'session/SET_SESSION_USER';
-const CLEAR_SESSION_USER = 'session/CLEAR_SESSION_USER';
+const SET_SESSION_USER = "session/SET_SESSION_USER";
+const CLEAR_SESSION_USER = "session/CLEAR_SESSION_USER";
 
 // Action Creators
 const setSessionUser = (user) => ({
   type: SET_SESSION_USER,
   payload: user,
-})
+});
 
 const clearSessionUser = () => ({
   type: CLEAR_SESSION_USER,
-})
+});
 
 // Thunk action creators
-export const login = (user) => async dispatch => {
+export const login = (user) => async (dispatch) => {
   const { credential, password } = user;
-  const response = await csrfFetch('/api/session', {
-    method: 'POST',
+  const response = await csrfFetch("/api/session", {
+    method: "POST",
     body: JSON.stringify({ credential, password }),
   });
+
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(setSessionUser(data.user));
+    dispatch(spotifyToken());
+    return response;
+  }
+};
+
+export const restoreUser = () => async (dispatch) => {
+  const response = await csrfFetch("/api/session");
 
   if (response.ok) {
     const data = await response.json();
@@ -29,20 +40,10 @@ export const login = (user) => async dispatch => {
   }
 };
 
-export const restoreUser = () => async dispatch => {
-  const response = await csrfFetch('/api/session');
-
-  if (response.ok) {
-    const data = await response.json();
-    dispatch(setSessionUser(data.user));
-    return response;
-  };
-}
-
-export const signup = (user) => async dispatch => {
+export const signup = (user) => async (dispatch) => {
   const { username, firstName, lastName, email, password } = user;
-  const response = await csrfFetch('/api/users', {
-    method: 'POST',
+  const response = await csrfFetch("/api/users", {
+    method: "POST",
     body: JSON.stringify({
       username,
       firstName,
@@ -56,19 +57,40 @@ export const signup = (user) => async dispatch => {
     const data = await response.json();
     dispatch(setSessionUser(data.user));
     return response;
-  };
+  }
 };
 
-export const logout = () => async dispatch => {
-  const response = await csrfFetch('/api/session', {
-    method: 'DELETE',
+export const logout = () => async (dispatch) => {
+  const response = await csrfFetch("/api/session", {
+    method: "DELETE",
   });
 
   if (response.ok) {
     dispatch(clearSessionUser());
     return response;
-  };
-}
+  }
+};
+
+/* SPOTIFY SESSION THUNKS */
+
+export const spotifyLogin = () => async (dispatch) => {
+  window.location.href = "http://localhost:8000/api/spotify/login";
+};
+
+export const spotifyToken = () => async (dispatch) => {
+  await csrfFetch("/api/spotify/public_token");
+};
+
+export const refreshSpotifyToken = () => async (dispatch) => {
+  const response = await csrfFetch("/api/spotify/refresh_token", {
+    method: "GET",
+    credentials: "include", // Important to send cookies with fetch
+  });
+  if (response.ok) {
+    const data = await response.json();
+    console.log(data);
+  }
+};
 
 // Initial state
 const initialState = {
