@@ -1,4 +1,5 @@
 import { csrfFetch } from "./csrf";
+import * as spotifyActions from "./spotify";
 
 // Action Type
 const SET_SESSION_USER = "session/SET_SESSION_USER";
@@ -94,13 +95,8 @@ export const refreshSpotifyToken = () => async (dispatch) => {
   });
   if (response.ok) {
     const data = await response.json();
-    console.log("Refresh Token:", data)
+    console.log("Refresh Token:", data);
   }
-};
-
-// Initial state
-const initialState = {
-  user: null,
 };
 
 export const checkLoggedIn = () => async (dispatch) => {
@@ -110,6 +106,12 @@ export const checkLoggedIn = () => async (dispatch) => {
     dispatch(setSessionUser(data.user));
     return response;
   }
+};
+
+// Initial state
+const initialState = {
+  user: null,
+  spotify: null,
 };
 
 // Reducer
@@ -123,6 +125,9 @@ const sessionReducer = (state = initialState, action) => {
     case CLEAR_SESSION_USER:
       newState = Object.assign({}, state);
       newState.user = null;
+      return newState;
+    case spotifyActions.GET_SPOTIFY:
+      newState = { ...state, spotify: action.payload };
       return newState;
     default:
       return state;
