@@ -98,6 +98,16 @@ const initialState = {
   user: null,
 };
 
+export const checkLoggedIn = () => async (dispatch) => {
+  const response = await fetch("/api/session/user");
+  if (response.ok) {
+    const data = await response.json();
+    console.log("DATA:", data);
+    dispatch(setSessionUser(data.user));
+    return response;
+  }
+};
+
 // Reducer
 const sessionReducer = (state = initialState, action) => {
   let newState;

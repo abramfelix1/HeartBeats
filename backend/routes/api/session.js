@@ -60,7 +60,17 @@ router.delete("/", (_req, res) => {
   res.clearCookie("token");
   res.clearCookie("access_token");
   res.clearCookie("refresh_token");
+  res.clearCookie("connect.sid");
   return res.json({ message: "success" });
+});
+
+// Check for session user
+router.get("/user", (req, res) => {
+  if (req.session && req.session.user) {
+    return res.json({ user: req.session.user });
+  } else {
+    return res.status(401).json({ error: "Not authenticated" });
+  }
 });
 
 // Restore session user
