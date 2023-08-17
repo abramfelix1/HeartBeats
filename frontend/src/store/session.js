@@ -94,6 +94,7 @@ export const refreshSpotifyToken = () => async (dispatch) => {
   });
   if (response.ok) {
     const data = await response.json();
+    console.log("Refresh Token:", data)
   }
 };
 
