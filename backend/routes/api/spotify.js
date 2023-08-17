@@ -121,6 +121,7 @@ router.get("/callback", async (req, res) => {
             hashedPassword: accessToken.slice(0, 40),
             firstName: null,
             lastName: null,
+            spotify: true,
           });
         }
         if (!req.session) {

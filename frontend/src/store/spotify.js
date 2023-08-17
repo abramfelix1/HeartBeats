@@ -1,6 +1,6 @@
 import { csrfFetch } from "./csrf";
 
-export const getSpotifyUser = () => async (dispatch) => {
+//store value as key in session reducer later or as its own reducer
   const res = await csrfFetch("/api/spotify/session", {
     method: "GET",
     credentials: "include",
