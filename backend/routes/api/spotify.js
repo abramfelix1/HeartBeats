@@ -7,10 +7,18 @@ const { User } = require("../../db/models");
 const user = require("../../db/models/user");
 const { Op } = require("sequelize");
 const router = express.Router();
+const { setTokenCookie } = require("../../utils/auth");
 
 const client_id = "2c24c289ce0448af9c1a7a9f98f78d31";
 const client_secret = process.env.CLIENT_SECRET; //Set this ENV key on RENDER
-const redirect_uri = "http://localhost:8000/api/spotify/callback"; //Change to Render site when deploying or make if statement for production later
+const redirect_uri =
+  process.env.NODE_ENV === "production"
+    ? "https://heart-beats.onrender.com/api/spotify/callback"
+    : "http://localhost:8000/api/spotify/callback"; //Change to Render site when deploying or make if statement for production later
+const redirectURL =
+  process.env.NODE_ENV === "production"
+    ? "https://xyz.com/"
+    : "http://localhost:3000/";
 
 // Client Credentials (No Spotify Account LOGIN)
 router.get("/public_token", async (req, res) => {
@@ -127,8 +135,8 @@ router.get("/callback", async (req, res) => {
           email: user.email,
           username: user.username,
         };
+        setTokenCookie(res, user);
         console.log("SESSION USER:", req.session.user);
-        return res.redirect("http://localhost:3000/");
       } else {
         res.status(response.status).json({ error: data.error });
       }
@@ -137,7 +145,7 @@ router.get("/callback", async (req, res) => {
       res.status(500).json({ error: error.message });
     }
 
-    return res.redirect("http://localhost:3000/");
+    return res.redirect(redirectURL);
   } else throw new Error("Failed to fetch Spotify access token");
 });
 
