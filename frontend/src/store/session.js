@@ -125,6 +125,7 @@ const sessionReducer = (state = initialState, action) => {
     case CLEAR_SESSION_USER:
       newState = Object.assign({}, state);
       newState.user = null;
+      newState.spotify = null;
       return newState;
     case spotifyActions.GET_SPOTIFY:
       newState = { ...state, spotify: action.payload };
