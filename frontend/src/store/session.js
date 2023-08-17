@@ -76,7 +76,7 @@ export const logout = () => async (dispatch) => {
 export const spotifyLogin = () => async (dispatch) => {
   const url =
     process.env.NODE_ENV === "production"
-      ? "https://api.xyz.com/api/spotify/login"
+      ? "https://heart-beats.onrender.com/api/spotify/login"
       : "http://localhost:8000/api/spotify/login";
 
   window.location.href = url;
