@@ -4,6 +4,7 @@ const morgan = require("morgan");
 const cors = require("cors");
 const csurf = require("csurf");
 const session = require("express-session");
+const MemoryStore = require("memorystore")(session);
 const helmet = require("helmet");
 const cookieParser = require("cookie-parser");
 const { ValidationError } = require("sequelize");
@@ -43,11 +44,22 @@ app.use(
   })
 );
 
+// app.use(
+//   session({
+//     secret: process.env.SECRET_SESSION_KEY,
+//     resave: false,
+//     saveUninitialized: true,
+//   })
+// );
+
 app.use(
   session({
-    secret: process.env.SECRET_SESSION_KEY,
+    cookie: { maxAge: 86400000 },
+    store: new MemoryStore({
+      checkPeriod: 86400000, //24 hours
+    }),
     resave: false,
-    saveUninitialized: true,
+    secret: process.env.SECRET_SESSION_KEY,
   })
 );
 

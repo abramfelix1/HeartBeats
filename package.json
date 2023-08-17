@@ -23,5 +23,8 @@
   "bugs": {
     "url": "https://github.com/abramfelix1/Heartbeats/issues"
   },
-  "homepage": "https://github.com/abramfelix1/Heartbeats#readme"
+  "homepage": "https://github.com/abramfelix1/Heartbeats#readme",
+  "dependencies": {
+    "memorystore": "^1.6.7"
+  }
 }
