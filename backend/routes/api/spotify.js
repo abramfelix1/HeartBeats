@@ -106,7 +106,6 @@ router.get("/callback", async (req, res) => {
       //Create new User with data if it doesn't exist
       if (response.ok) {
         const { email, display_name } = data;
-        console.log(email, display_name);
         const existingUser = await User.findOne({
           where: {
             [Op.or]: [{ username: display_name }, { email: email }],
@@ -114,7 +113,6 @@ router.get("/callback", async (req, res) => {
         });
         let user;
         if (existingUser) {
-          console.log("Existing user found:", existingUser);
           user = existingUser;
         } else {
           user = await User.create({
@@ -135,7 +133,6 @@ router.get("/callback", async (req, res) => {
           username: user.username,
         };
         setTokenCookie(res, user);
-        console.log("SESSION USER:", req.session.user);
       } else {
         res.status(response.status).json({ error: data.error });
       }
@@ -177,7 +174,6 @@ router.get("/refresh_token", async (req, res) => {
 //Get Spotify User Information
 router.get("/session", async (req, res) => {
   const accessToken = req.cookies.access_token;
-  console.log(accessToken);
   try {
     const response = await fetch("https://api.spotify.com/v1/me", {
       method: "GET",

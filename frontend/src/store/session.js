@@ -94,7 +94,6 @@ export const refreshSpotifyToken = () => async (dispatch) => {
   });
   if (response.ok) {
     const data = await response.json();
-    console.log(data);
   }
 };
 
@@ -107,7 +106,6 @@ export const checkLoggedIn = () => async (dispatch) => {
   const response = await fetch("/api/session/user");
   if (response.ok) {
     const data = await response.json();
-    console.log("DATA:", data);
     dispatch(setSessionUser(data.user));
     return response;
   }
