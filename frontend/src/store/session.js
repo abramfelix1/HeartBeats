@@ -81,10 +81,11 @@ export const spotifyToken = () => async (dispatch) => {
   await csrfFetch("/api/spotify/public_token");
 };
 
+//FIGURE THIS OUT LATER, MAYBE MAKE TIMER TO CALL EVERY HOUR IF STILL LOGGED ON SPOTIFY ACCCOUNT
 export const refreshSpotifyToken = () => async (dispatch) => {
   const response = await csrfFetch("/api/spotify/refresh_token", {
     method: "GET",
-    credentials: "include", // Important to send cookies with fetch
+    credentials: "include",
   });
   if (response.ok) {
     const data = await response.json();

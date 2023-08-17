@@ -34,7 +34,6 @@ router.get("/public_token", async (req, res) => {
   }
 });
 
-// Authorization Code (Spotify Account LOGIN, IMPLEMENT AS BONUS LATER)
 router.get("/login", (req, res) => {
   // https://github.com/spotify/web-api-examples/blob/master/authentication/authorization_code/app.js
 
