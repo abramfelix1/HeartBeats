@@ -91,7 +91,6 @@ router.get("/callback", async (req, res) => {
     const data = await response.json();
     const accessToken = data.access_token;
     const refreshToken = data.refresh_token;
-    console.log(data);
     res.cookie("access_token", accessToken);
     res.cookie("refresh_token", refreshToken);
 
