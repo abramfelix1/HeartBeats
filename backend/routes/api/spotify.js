@@ -199,7 +199,7 @@ router.get("/songtest", async (req, res) => {
   const accessToken = req.cookies.access_token;
   try {
     const response = await fetch(
-      "https://api.spotify.com/v1/recommendations?limit=1&seed_genres=classical%2Ccountry&target_valence=1", //use req body to generate values for queries later
+      "https://api.spotify.com/v1/recommendations?limit=1&seed_genres=classical%2Ccountry&target_valence=0.5", //use req body to generate values for queries later
       {
         method: "GET",
         headers: { Authorization: "Bearer " + accessToken },

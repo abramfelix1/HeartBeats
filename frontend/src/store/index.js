@@ -2,9 +2,11 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 
 import sessionReducer from "./session";
+import { spotifyReducer } from "./spotify";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
+  spotify: spotifyReducer,
 });
 
 let enhancer;
