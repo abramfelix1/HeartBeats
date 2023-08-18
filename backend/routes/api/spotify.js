@@ -193,4 +193,29 @@ router.get("/session", async (req, res) => {
   }
 });
 
+//Get Random Song (TESTING) change to post to send in values later
+router.get("/songtest", async (req, res) => {
+  //https://developer.spotify.com/documentation/web-api/reference/get-recommendations
+  const accessToken = req.cookies.access_token;
+  try {
+    const response = await fetch(
+      "https://api.spotify.com/v1/recommendations?limit=1&seed_genres=classical%2Ccountry&target_valence=1", //use req body to generate values for queries later
+      {
+        method: "GET",
+        headers: { Authorization: "Bearer " + accessToken },
+      }
+    );
+
+    const data = await response.json();
+
+    if (response.ok) {
+      return res.json({ ...data });
+    } else {
+      res.status(response.status).json({ error: data.error });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;
