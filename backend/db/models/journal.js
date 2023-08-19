@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       Journal.hasOne(models.Playlist, {
         as: "Playlist",
         foreignKey: "journalId",
+        onDelete: "CASCADE",
       });
     }
   }

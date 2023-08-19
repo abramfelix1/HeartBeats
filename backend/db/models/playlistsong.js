@@ -6,10 +6,12 @@ module.exports = (sequelize, DataTypes) => {
       PlaylistSong.belongsTo(models.Playlist, {
         as: "Playlist",
         foreignKey: "playlistId",
+        onDelete: "CASCADE",
       });
       PlaylistSong.belongsTo(models.Song, {
         as: "Song",
         foreignKey: "songId",
+        onDelete: "CASCADE",
       });
     }
   }
