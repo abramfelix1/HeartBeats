@@ -1,18 +1,30 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import SpotifyLogin from "./components/Login/SpotifyLogin";
 import { useDispatch } from "react-redux";
-import { getSpotifyUser, getTestSong } from "./store/spotify";
+import { getSpotifyUser, getTestSong, getRecSongs } from "./store/spotify";
 import { checkLoggedIn } from "./store/session";
 import { useSelector } from "react-redux";
 
 export default function TestPage() {
+  const [maxValence, setMaxValence] = useState(0);
+  const [minValence, setMinValence] = useState(0);
+  const [maxEnergy, setMaxEnergy] = useState(0);
+  const [minEnergy, setMinEnergy] = useState(0);
   const dispatch = useDispatch();
   const song = useSelector((state) => state.spotify.song?.tracks[0]);
+  const songs = useSelector((state) =>
+    Object.values(state.spotify.songs?.tracks)
+  );
   const userDataHandler = () => {
     dispatch(getSpotifyUser());
   };
   const testSongHandler = () => {
     dispatch(getTestSong());
+  };
+
+  const recSongsHandler = (payload) => {
+    console.log("REC SONGS HANDLER");
+    dispatch(getRecSongs(payload));
   };
 
   useEffect(() => {
@@ -56,6 +68,74 @@ export default function TestPage() {
           <img src={song.album.images[1].url} alt="album cover" />
         </div>
       )}
+      <div>
+        <p>GENERATE SONGS</p>
+        <p>
+          VALENCE: {minValence} - {maxValence}
+        </p>
+        <p>
+          ENERGY: {minEnergy} - {maxEnergy}
+        </p>
+        <button
+          onClick={() =>
+            recSongsHandler({ minValence, maxValence, minEnergy, maxEnergy })
+          }
+        >
+          GET SONGS
+        </button>
+        Min Valence
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.001"
+          onChange={(e) => setMinValence(e.target.value)}
+        />
+        Max Valence
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.001"
+          onChange={(e) => setMaxValence(e.target.value)}
+        />
+        Min Energy
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.001"
+          onChange={(e) => setMinEnergy(e.target.value)}
+        />
+        Max Energy
+        <input
+          type="range"
+          min="0"
+          max="1"
+          step="0.001"
+          onChange={(e) => setMaxEnergy(e.target.value)}
+        />
+      </div>
+      <div>
+        {songs &&
+          songs.map((song, idx) => (
+            <div>
+              <p>Song Name: {song.name}</p>
+              <a href={song.external_urls.spotify}>Open on Spotify</a>
+              <p>
+                Artist: {song.artists[0].name} ft.{" "}
+                {song.artists.map((artist, idx) => (
+                  <span>{idx > 0 && artist.name}</span>
+                ))}
+              </p>
+              <p>
+                Preview:
+                {song.preview_url}
+              </p>
+              <img src={song.album.images[1].url} alt="album cover" />
+            </div>
+          ))}
+      </div>
     </div>
   );
 }
