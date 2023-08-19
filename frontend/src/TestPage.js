@@ -4,17 +4,27 @@ import { useDispatch } from "react-redux";
 import { getSpotifyUser, getTestSong, getRecSongs } from "./store/spotify";
 import { checkLoggedIn } from "./store/session";
 import { useSelector } from "react-redux";
+import Howl from "howler";
 
 export default function TestPage() {
+  const playSong = (url) => {
+    const sound = new Howl({
+      src: [url],
+    });
+
+    sound.play();
+  };
+
   const [maxValence, setMaxValence] = useState(0);
   const [minValence, setMinValence] = useState(0);
   const [maxEnergy, setMaxEnergy] = useState(0);
   const [minEnergy, setMinEnergy] = useState(0);
   const dispatch = useDispatch();
   const song = useSelector((state) => state.spotify.song?.tracks[0]);
-  const songs = useSelector((state) =>
-    Object.values(state.spotify.songs?.tracks)
-  );
+  const songs = useSelector((state) => {
+    const tracks = state.spotify.songs?.tracks;
+    return tracks ? Object.values(tracks) : [];
+  });
   const userDataHandler = () => {
     dispatch(getSpotifyUser());
   };
@@ -130,7 +140,7 @@ export default function TestPage() {
               </p>
               <p>
                 Preview:
-                {song.preview_url}
+                <button onClick={() => playSong(song.preview_url)}>Play</button>
               </p>
               <img src={song.album.images[1].url} alt="album cover" />
             </div>
