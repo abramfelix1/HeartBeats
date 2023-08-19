@@ -11,9 +11,15 @@ module.exports = {
       },
       journalId: {
         type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Journals",
+        },
+        onDelete: "CASCADE",
       },
       name: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
       spotify_url: {
         type: Sequelize.STRING,

@@ -13,13 +13,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Song.init(
     {
-      userId: DataTypes.INTEGER,
       name: DataTypes.STRING,
       artists: DataTypes.STRING,
       preview: DataTypes.STRING,
       img_url: DataTypes.STRING,
       spotify_url: DataTypes.STRING,
-      feedback: DataTypes.STRING,
     },
     {
       sequelize,
