@@ -218,14 +218,23 @@ router.get("/songtest", async (req, res) => {
   }
 });
 
+//Get reccomended songs
 router.post("/recsongs", async (req, res) => {
   //https://developer.spotify.com/documentation/web-api/reference/get-recommendations
   const accessToken = req.cookies.access_token;
   console.log("REQ BODY:", req.body);
-  const { minValence, maxValence, minEnergy, maxEnergy } = req.body;
+  const {
+    minValence,
+    maxValence,
+    minEnergy,
+    maxEnergy,
+    minInstrumentalness,
+    maxInstrumentalness,
+    genre,
+  } = req.body;
   try {
     const response = await fetch(
-      `https://api.spotify.com/v1/recommendations?seed_genres=classical%2Ccountry&min_energy=${minEnergy}&max_energy=${maxEnergy}&min_valence=${minValence}&max_valence=${maxValence}`, //use req body to generate values for queries later
+      `https://api.spotify.com/v1/recommendations?seed_genres=${genre}&min_energy=${minEnergy}&max_energy=${maxEnergy}&min_instrumentalness=${minInstrumentalness}&max_instrumentalness=${maxInstrumentalness}&min_valence=${minValence}&max_valence=${maxValence}`, //use req body to generate values for queries later
       {
         method: "GET",
         headers: { Authorization: "Bearer " + accessToken },

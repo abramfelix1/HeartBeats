@@ -7,16 +7,22 @@ import { useSelector } from "react-redux";
 import { Howl } from "howler";
 
 export default function TestPage() {
-  const [maxValence, setMaxValence] = useState(0);
-  const [minValence, setMinValence] = useState(0);
-  const [maxEnergy, setMaxEnergy] = useState(0);
-  const [minEnergy, setMinEnergy] = useState(0);
   const dispatch = useDispatch();
   const song = useSelector((state) => state.spotify.song?.tracks[0]);
   const songs = useSelector((state) => {
     const tracks = state.spotify.songs?.tracks;
     return tracks ? Object.values(tracks) : [];
   });
+
+  //Use these for getRecSongs thunk
+  //Split genres with a %2C if sending in an array of generes
+  const [genre, setGenre] = useState("");
+  const [maxInstrumentalness, setMaxInstrumentalness] = useState(1);
+  const [minInstrumentalness, setMinInstrumentalness] = useState(0);
+  const [maxValence, setMaxValence] = useState(1);
+  const [minValence, setMinValence] = useState(0);
+  const [maxEnergy, setMaxEnergy] = useState(1);
+  const [minEnergy, setMinEnergy] = useState(0);
 
   //AUDIO PLAYER: Convert to context later, add volume, play/pause, duration slider, maybe a forward and back, and add all the url's generated to the src arr inside of howl(Look up if possible)
   const [remainingTime, setRemainingTime] = useState("");
@@ -39,7 +45,7 @@ export default function TestPage() {
 
         if (remaining <= 0) {
           clearInterval(interval);
-          setUrl(null)
+          setUrl(null);
         }
       } else {
         clearInterval(interval);
@@ -144,45 +150,89 @@ export default function TestPage() {
         <p>
           ENERGY: {minEnergy} - {maxEnergy}
         </p>
+        <p>
+          Instrumentalness: {minInstrumentalness} - {maxInstrumentalness}
+        </p>
+        <p>GENRE: {genre}</p>
         <button
           onClick={() =>
-            recSongsHandler({ minValence, maxValence, minEnergy, maxEnergy })
+            recSongsHandler({
+              minValence,
+              maxValence,
+              minEnergy,
+              maxEnergy,
+              minInstrumentalness,
+              maxInstrumentalness,
+              genre,
+            })
           }
         >
           GET SONGS
         </button>
-        Min Valence
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.001"
-          onChange={(e) => setMinValence(e.target.value)}
-        />
-        Max Valence
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.001"
-          onChange={(e) => setMaxValence(e.target.value)}
-        />
-        Min Energy
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.001"
-          onChange={(e) => setMinEnergy(e.target.value)}
-        />
-        Max Energy
-        <input
-          type="range"
-          min="0"
-          max="1"
-          step="0.001"
-          onChange={(e) => setMaxEnergy(e.target.value)}
-        />
+        <div>
+          Genre
+          <input type="text" onChange={(e) => setGenre(e.target.value)} />
+        </div>
+        <div>
+          Min Instrumentalness
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            onChange={(e) => setMinInstrumentalness(e.target.value)}
+          />
+        </div>
+        <div>
+          Max Instrumentalness
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.01"
+            onChange={(e) => setMaxInstrumentalness(e.target.value)}
+          />
+        </div>
+        <div>
+          Min Valence
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.001"
+            onChange={(e) => setMinValence(e.target.value)}
+          />
+        </div>
+        <div>
+          Max Valence
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.001"
+            onChange={(e) => setMaxValence(e.target.value)}
+          />
+        </div>
+        <div>
+          Min Energy
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.001"
+            onChange={(e) => setMinEnergy(e.target.value)}
+          />
+        </div>
+        <div>
+          Max Energy
+          <input
+            type="range"
+            min="0"
+            max="1"
+            step="0.001"
+            onChange={(e) => setMaxEnergy(e.target.value)}
+          />
+        </div>
       </div>
       <div>
         {songs &&
