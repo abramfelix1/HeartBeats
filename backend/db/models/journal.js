@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   Journal.init(
     {
       userId: DataTypes.INTEGER,
+      playlistId: DataTypes.INTEGER,
       name: DataTypes.STRING,
       content: DataTypes.STRING,
       image_url: DataTypes.STRING,

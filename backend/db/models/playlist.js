@@ -1,30 +1,33 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Playlist extends Model {
-    /**
-     * Helper method for defining associations.
-     * This method is not a part of Sequelize lifecycle.
-     * The `models/index` file will call this method automatically.
-     */
     static associate(models) {
-      // define association here
+      Playlist.belongsToMany(models.Songs, {
+        as: "Song",
+        foreignKey: "songId",
+      });
+      Playlist.belongsTo(models.Journal, {
+        as: "Journal",
+        foreignKey: "journalId",
+      });
     }
   }
-  Playlist.init({
-    songId: DataTypes.INTEGER,
-    journalId: DataTypes.INTEGER,
-    name: DataTypes.STRING,
-    spotify_url: DataTypes.STRING,
-    image_url: DataTypes.STRING,
-    instrumental: DataTypes.INTEGER,
-    mood: DataTypes.INTEGER,
-    energy: DataTypes.INTEGER
-  }, {
-    sequelize,
-    modelName: 'Playlist',
-  });
+  Playlist.init(
+    {
+      songId: DataTypes.INTEGER,
+      journalId: DataTypes.INTEGER,
+      name: DataTypes.STRING,
+      spotify_url: DataTypes.STRING,
+      image_url: DataTypes.STRING,
+      instrumental: DataTypes.INTEGER,
+      mood: DataTypes.INTEGER,
+      energy: DataTypes.INTEGER,
+    },
+    {
+      sequelize,
+      modelName: "Playlist",
+    }
+  );
   return Playlist;
 };
