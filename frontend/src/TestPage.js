@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SpotifyLogin from "./components/Login/SpotifyLogin";
 import { useDispatch } from "react-redux";
 import { getSpotifyUser, getTestSong, getRecSongs } from "./store/spotify";
@@ -7,16 +7,6 @@ import { useSelector } from "react-redux";
 import { Howl } from "howler";
 
 export default function TestPage() {
-  const playSong = (url) => {
-    const sound = new Howl({
-      src: [url],
-      html5: true,
-      volume: 0.5,
-    });
-
-    sound.play();
-  };
-
   const [maxValence, setMaxValence] = useState(0);
   const [minValence, setMinValence] = useState(0);
   const [maxEnergy, setMaxEnergy] = useState(0);
@@ -27,6 +17,72 @@ export default function TestPage() {
     const tracks = state.spotify.songs?.tracks;
     return tracks ? Object.values(tracks) : [];
   });
+
+  //AUDIO PLAYER: Convert to context later, add volume, play/pause, duration slider, maybe a forward and back, and add all the url's generated to the src arr inside of howl(Look up if possible)
+  const [remainingTime, setRemainingTime] = useState("");
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [url, setUrl] = useState(null);
+  const soundRef = useRef(null);
+
+  const updateRemainingTime = (timeInSeconds) => {
+    const minutes = Math.floor(timeInSeconds / 60);
+    const seconds = Math.floor(timeInSeconds % 60);
+    setRemainingTime(`${minutes}:${seconds < 10 ? "0" : ""}${seconds}`);
+  };
+
+  const startCountdown = (sound) => {
+    const interval = setInterval(() => {
+      if (isPlaying && sound) {
+        const elapsed = sound.seek() || 0;
+        const remaining = sound.duration() - elapsed;
+        updateRemainingTime(remaining);
+
+        if (remaining <= 0) {
+          clearInterval(interval);
+          setUrl(null)
+        }
+      } else {
+        clearInterval(interval);
+      }
+    }, 1000);
+    return interval;
+  };
+
+  useEffect(() => {
+    console.log(url);
+    if (url) {
+      if (soundRef.current) {
+        soundRef.current.unload();
+      }
+      const sound = new Howl({
+        src: [url],
+        html5: true,
+        volume: 0.25,
+        onload: function () {
+          updateRemainingTime(sound.duration());
+        },
+        onplay: function () {
+          setIsPlaying(true);
+          startCountdown(sound);
+        },
+        onend: function () {
+          setIsPlaying(false);
+        },
+      });
+      soundRef.current = sound;
+      sound.play();
+
+      return () => {
+        sound.unload();
+      };
+    }
+  }, [url]);
+
+  const playSound = (songUrl) => {
+    setUrl(songUrl);
+  };
+
+  //TEST BUTTONS
   const userDataHandler = () => {
     dispatch(getSpotifyUser());
   };
@@ -142,7 +198,16 @@ export default function TestPage() {
               </p>
               <p>
                 Preview:
-                <button onClick={() => playSong(song.preview_url)}>Play</button>
+                {song.preview_url ? (
+                  <>
+                    <button onClick={() => playSound(song.preview_url)}>
+                      Play
+                    </button>
+                    <p>Remaining Time: {remainingTime}</p>
+                  </>
+                ) : (
+                  "No Preview"
+                )}
               </p>
               <img src={song.album.images[1].url} alt="album cover" />
             </div>
