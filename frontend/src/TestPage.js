@@ -4,12 +4,14 @@ import { useDispatch } from "react-redux";
 import { getSpotifyUser, getTestSong, getRecSongs } from "./store/spotify";
 import { checkLoggedIn } from "./store/session";
 import { useSelector } from "react-redux";
-import Howl from "howler";
+import { Howl } from "howler";
 
 export default function TestPage() {
   const playSong = (url) => {
     const sound = new Howl({
       src: [url],
+      html5: true,
+      volume: 0.5,
     });
 
     sound.play();
