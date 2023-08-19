@@ -3,9 +3,10 @@ const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
   class Playlist extends Model {
     static associate(models) {
-      Playlist.belongsToMany(models.Songs, {
-        as: "Song",
-        foreignKey: "songId",
+      Playlist.belongsToMany(models.Song, {
+        through: models.PlaylistSong,
+        as: "Songs",
+        foreignKey: "playlistId",
       });
       Playlist.belongsTo(models.Journal, {
         as: "Journal",
@@ -15,7 +16,6 @@ module.exports = (sequelize, DataTypes) => {
   }
   Playlist.init(
     {
-      songId: DataTypes.INTEGER,
       journalId: DataTypes.INTEGER,
       name: DataTypes.STRING,
       spotify_url: DataTypes.STRING,
