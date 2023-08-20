@@ -33,4 +33,28 @@ router.get("/session", requireAuth, async (req, res, next) => {
   res.json({ Playlists: playlists });
 });
 
+/* GET PLAYLIST BY ID */
+router.get("/playlists/:id", requireAuth, async (req, res, next) => {
+  const { user } = req;
+  const playlistId = req.params.id;
+
+  const playlist = await Playlist.findOne({
+    where: { id: playlistId },
+    include: [
+      {
+        model: Song,
+        as: "Songs",
+      },
+    ],
+  });
+
+  if (!playlist) {
+    return next({
+      errors: { playlist: "Playlist could not be found", status: 404 },
+    });
+  }
+
+  res.json({ Playlist: playlist });
+});
+
 module.exports = router;
