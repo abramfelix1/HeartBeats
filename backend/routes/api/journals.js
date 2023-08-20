@@ -29,6 +29,20 @@ router.get("/session", requireAuth, async (req, res, next) => {
   res.json({ journals: journals });
 });
 
+/* CREATE A JOURNAL */
+router.post("/", requireAuth, async (req, res, next) => {
+  const { user } = req;
+
+  const newJournal = await Journal.create({
+    userId: user.dataValues.id,
+    name: req.body.name,
+    content: req.body.content,
+    image_url: req.body.image_url,
+  });
+
+  res.json({ journal: newJournal });
+});
+
 /* GET JOURNALS BY ID */
 router.get("/:id", requireAuth, async (req, res, next) => {
   const { user } = req;
