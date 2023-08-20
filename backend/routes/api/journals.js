@@ -100,7 +100,7 @@ router.put("/:id", requireAuth, async (req, res, next) => {
 });
 
 /* DELETE JOURNAL BY ID */
-router.put("/:id", requireAuth, async (req, res, next) => {
+router.delete("/:id", requireAuth, async (req, res, next) => {
   const { user } = req;
   const journalId = req.params.id;
 

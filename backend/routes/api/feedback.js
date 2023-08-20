@@ -109,7 +109,7 @@ router.put("/:id", requireAuth, async (req, res, next) => {
 });
 
 /* DELETE FEEDBACK FOR A SONG */
-router.put("/:id", requireAuth, async (req, res, next) => {
+router.delete("/:id", requireAuth, async (req, res, next) => {
   const { user } = req;
   const feedbackId = req.params.id;
 
