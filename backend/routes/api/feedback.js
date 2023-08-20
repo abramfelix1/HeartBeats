@@ -23,7 +23,7 @@ router.get("/session", requireAuth, async (req, res, next) => {
 });
 
 /* GET ALL FEEDBACK OF SONG */
-router.get("/:songId", async (req, res, next) => {
+router.get("/:songId", requireAuth, async (req, res, next) => {
   const { songId } = req.params;
 
   const song = await Song.findByPk(songId);
@@ -56,6 +56,29 @@ router.get("/:songId", async (req, res, next) => {
   }
 
   res.json({ songFeedback: songFeedback });
+});
+
+/* CREATE FEEDBACK FOR A SONG */
+router.post("/song/:id", requireAuth, async (req, res, next) => {
+  const { user } = req;
+  const songId = req.params.id;
+
+  const song = await Song.findByPk(songId);
+
+  if (!song) {
+    return next({
+      errors: { song: "Song could not be found", status: 404 },
+    });
+  }
+
+  const newFeedback = await UserFeedback.create({
+    userId: user.dataValues.id,
+    songId: songId,
+    recommendAgain: req.body.recommendAgain,
+    like: req.body.like,
+  });
+
+  res.json({ songFeedback: newFeedback });
 });
 
 module.exports = router;
