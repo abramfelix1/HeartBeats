@@ -30,7 +30,7 @@ router.get("/session", requireAuth, async (req, res, next) => {
     res.json({ Playlist: [] });
   }
 
-  res.json({ Playlists: playlists });
+  res.json({ playlists: playlists });
 });
 
 /* GET PLAYLIST BY ID */
@@ -54,7 +54,7 @@ router.get("/playlists/:id", requireAuth, async (req, res, next) => {
     });
   }
 
-  res.json({ Playlist: playlist });
+  res.json({ playlist: playlist });
 });
 
 /* UPDATE PLAYLIST BY ID */
@@ -74,13 +74,19 @@ router.put("/playlists/:id", requireAuth, async (req, res, next) => {
   if (!journal) {
     const existingPlaylist = await Playlist.findByPk(playlistId);
     if (!existingPlaylist) {
-      return res.status(404).json({ message: "Playlist not found" });
+      return next({
+        errors: { playlist: "Playlist could not be found", status: 404 },
+      });
     }
-    return res.status(401).json({ message: "Unauthorized" });
+    return next({
+      errors: { journal: "Unauthorized Access", status: 401 },
+    });
   }
 
   const playlist = journal.Playlist;
   const updatedPlaylist = await playlist.update(req.body);
+
+  res.json({ playlist: updatedPlaylist });
 });
 
 module.exports = router;

@@ -23,10 +23,10 @@ router.get("/session", requireAuth, async (req, res, next) => {
   });
 
   if (!journals.length) {
-    res.json({ Journals: [] });
+    res.json({ journals: [] });
   }
 
-  res.json({ Journals: journals });
+  res.json({ journals: journals });
 });
 
 /* GET JOURNALS BY ID */
@@ -56,7 +56,7 @@ router.get("/:id", requireAuth, async (req, res, next) => {
     });
   }
 
-  res.json({ Journal: journal });
+  res.json({ journal: journal });
 });
 
 /* UPDATE JOURNAL BY ID */
@@ -82,7 +82,7 @@ router.put("/:id", requireAuth, async (req, res, next) => {
 
   const updatedJournal = await journal.update(req.body);
 
-  res.json({ UpdatedJournal: updatedJournal });
+  res.json({ journal: updatedJournal });
 });
 
 /* DELETE JOURNAL BY ID */
@@ -108,7 +108,7 @@ router.put("/:id", requireAuth, async (req, res, next) => {
 
   await journal.destroy();
 
-  res.json({ message: "Journal deleted successfully" });
+  res.json({ journal: updatedJournal });
 });
 
 module.exports = router;
