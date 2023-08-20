@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   UserFeedback.init(
     {
       recommendAgain: DataTypes.BOOLEAN,
-      like: DataTypes.BOOLEAN,
+      like: DataTypes.INTEGER,
     },
     {
       sequelize,
