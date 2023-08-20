@@ -57,6 +57,23 @@ router.get("/playlists/:id", requireAuth, async (req, res, next) => {
   res.json({ playlist: playlist });
 });
 
+/* CREATE A PLAYLIST */
+router.post("/", requireAuth, async (req, res, next) => {
+  const { user } = req;
+
+  const newPlaylist = await Journal.create({
+    journalId: req.body.journalId,
+    name: req.body.name,
+    spotify_url: req.body.spotify_url,
+    image_url: req.body.image_url,
+    instrumental: req.body.instrumental,
+    mood: req.body.mood,
+    energy: req.body.energy,
+  });
+
+  res.json({ playlist: newPlaylist });
+});
+
 /* UPDATE PLAYLIST BY ID */
 router.put("/playlists/:id", requireAuth, async (req, res, next) => {
   const { user } = req;
