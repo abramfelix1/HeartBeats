@@ -89,4 +89,36 @@ router.put("/playlists/:id", requireAuth, async (req, res, next) => {
   res.json({ playlist: updatedPlaylist });
 });
 
+/* DELETE PLAYLIST BY ID */
+router.delete("/playlists/:id", requireAuth, async (req, res, next) => {
+  const { user } = req;
+  const playlistId = req.params.id;
+
+  const journal = await Journal.findOne({
+    where: { userId: user.dataValues.id },
+    include: {
+      model: Playlist,
+      as: "Playlist",
+      where: { id: playlistId },
+    },
+  });
+
+  if (!journal) {
+    const existingPlaylist = await Playlist.findByPk(playlistId);
+    if (!existingPlaylist) {
+      return next({
+        errors: { playlist: "Playlist could not be found", status: 404 },
+      });
+    }
+    return next({
+      errors: { journal: "Unauthorized Access", status: 401 },
+    });
+  }
+
+  const playlist = journal.Playlist;
+  await playlist.destroy();
+
+  res.json({ message: "Playlist deleted successfully" });
+});
+
 module.exports = router;
