@@ -23,7 +23,7 @@ router.get("/session", requireAuth, async (req, res, next) => {
 });
 
 /* GET ALL FEEDBACK OF SONG */
-router.get("/:songId", requireAuth, async (req, res, next) => {
+router.get("/song/:songId", requireAuth, async (req, res, next) => {
   const { songId } = req.params;
 
   const song = await Song.findByPk(songId);
@@ -80,5 +80,33 @@ router.post("/song/:id", requireAuth, async (req, res, next) => {
 
   res.json({ songFeedback: newFeedback });
 });
+
+/* UPDATE FEEDBACK FOR A SONG */
+router.put("/:id", requireAuth, async (req, res, next) => {
+  const { user } = req;
+  const feedbackId = req.params.id;
+
+  const feedback = await UserFeedback.findByPk(feedbackId);
+
+  if (!feedback) {
+    return next({
+      errors: { feedback: "Feedback could not be found", status: 404 },
+    });
+  }
+
+  if (feedback.userId !== user.dataValues.id) {
+    return next({
+      errors: {
+        feedback: "Unauthorized Action",
+        status: 401,
+      },
+    });
+  }
+
+  const updatedFeedback = await feedback.update(req.body);
+
+  res.json({ songFeedback: updatedFeedback });
+});
+
 
 module.exports = router;
