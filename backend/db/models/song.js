@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "songId",
         onDelete: "CASCADE",
       });
+      Song.hasMany(models.UserFeedback, {
+        as: "Feedback",
+        foreignKey: "songId",
+      });
     }
   }
   Song.init(

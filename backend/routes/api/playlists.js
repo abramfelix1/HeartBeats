@@ -3,7 +3,7 @@ const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const { requireAuth } = require("../../utils/auth");
 const { User } = require("../../db/models");
-const { Journal, Playlist, Song } = require("../../db/models");
+const { Journal, Playlist, Song, PlaylistSong } = require("../../db/models");
 
 const router = express.Router();
 
@@ -34,7 +34,7 @@ router.get("/session", requireAuth, async (req, res, next) => {
 });
 
 /* GET PLAYLIST BY ID */
-router.get("/playlists/:id", requireAuth, async (req, res, next) => {
+router.get("/:id", requireAuth, async (req, res, next) => {
   const { user } = req;
   const playlistId = req.params.id;
 
@@ -75,7 +75,7 @@ router.post("/", requireAuth, async (req, res, next) => {
 });
 
 /* UPDATE PLAYLIST BY ID */
-router.put("/playlists/:id", requireAuth, async (req, res, next) => {
+router.put("/:id", requireAuth, async (req, res, next) => {
   const { user } = req;
   const playlistId = req.params.id;
 
@@ -107,7 +107,7 @@ router.put("/playlists/:id", requireAuth, async (req, res, next) => {
 });
 
 /* DELETE PLAYLIST BY ID */
-router.delete("/playlists/:id", requireAuth, async (req, res, next) => {
+router.delete("/:id", requireAuth, async (req, res, next) => {
   const { user } = req;
   const playlistId = req.params.id;
 
@@ -136,6 +136,33 @@ router.delete("/playlists/:id", requireAuth, async (req, res, next) => {
   await playlist.destroy();
 
   res.json({ message: "Playlist deleted successfully" });
+});
+
+/* ADD SONG TO PLAYLIST */
+router.post("/:playlistId/add/:songId", async (req, res, next) => {
+  const { playlistId, songId } = req.params;
+
+  const playlist = await Playlist.findByPk(playlistId);
+  const song = await Song.findByPk(songId);
+
+  if (!playlist) {
+    return next({
+      errors: { playlist: "Playlist not found", status: 404 },
+    });
+  }
+
+  if (!song) {
+    return next({
+      errors: { song: "Song not found", status: 404 },
+    });
+  }
+
+  const playlistSong = await PlaylistSong.create({
+    playlistId: playlist.id,
+    songId: song.id,
+  });
+
+  res.json({ playlistSong: playlistSong });
 });
 
 module.exports = router;
