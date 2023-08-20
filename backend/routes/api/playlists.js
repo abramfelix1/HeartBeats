@@ -57,4 +57,30 @@ router.get("/playlists/:id", requireAuth, async (req, res, next) => {
   res.json({ Playlist: playlist });
 });
 
+/* UPDATE PLAYLIST BY ID */
+router.put("/playlists/:id", requireAuth, async (req, res, next) => {
+  const { user } = req;
+  const playlistId = req.params.id;
+
+  const journal = await Journal.findOne({
+    where: { userId: user.dataValues.id },
+    include: {
+      model: Playlist,
+      as: "Playlist",
+      where: { id: playlistId },
+    },
+  });
+
+  if (!journal) {
+    const existingPlaylist = await Playlist.findByPk(playlistId);
+    if (!existingPlaylist) {
+      return res.status(404).json({ message: "Playlist not found" });
+    }
+    return res.status(401).json({ message: "Unauthorized" });
+  }
+
+  const playlist = journal.Playlist;
+  const updatedPlaylist = await playlist.update(req.body);
+});
+
 module.exports = router;
