@@ -108,5 +108,31 @@ router.put("/:id", requireAuth, async (req, res, next) => {
   res.json({ songFeedback: updatedFeedback });
 });
 
+/* DELETE FEEDBACK FOR A SONG */
+router.put("/:id", requireAuth, async (req, res, next) => {
+  const { user } = req;
+  const feedbackId = req.params.id;
+
+  const feedback = await UserFeedback.findByPk(feedbackId);
+
+  if (!feedback) {
+    return next({
+      errors: { feedback: "Feedback could not be found", status: 404 },
+    });
+  }
+
+  if (feedback.userId !== user.dataValues.id) {
+    return next({
+      errors: {
+        feedback: "Unauthorized Action",
+        status: 401,
+      },
+    });
+  }
+
+  await feedback.destroy();
+
+  res.json({ message: "Feedback deleted successfully" });
+});
 
 module.exports = router;

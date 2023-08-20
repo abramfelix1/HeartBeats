@@ -122,7 +122,7 @@ router.put("/:id", requireAuth, async (req, res, next) => {
 
   await journal.destroy();
 
-  res.json({ journal: updatedJournal });
+  res.json({ message: "Journal deleted successfully" });
 });
 
 module.exports = router;
