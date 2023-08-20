@@ -167,7 +167,7 @@ export default function TestPage() {
             })
           }
         >
-          GET SONGS
+          <p className="font-extrabold">GENERATE SONGS</p>
         </button>
         <div>
           Genre
@@ -262,6 +262,9 @@ export default function TestPage() {
               <img src={song.album.images[1].url} alt="album cover" />
             </div>
           ))}
+      </div>
+      <div>
+        <p className="font-extrabold">JOURNALS</p>
       </div>
     </div>
   );
