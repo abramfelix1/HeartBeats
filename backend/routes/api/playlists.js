@@ -101,7 +101,7 @@ router.put("/:id", requireAuth, async (req, res, next) => {
     });
   }
 
-  const playlist = journal.Playlist;
+  const playlist = journal.playlist;
   const updatedPlaylist = await playlist.update(req.body);
 
   res.json({ playlist: updatedPlaylist });
