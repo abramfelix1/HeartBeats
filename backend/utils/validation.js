@@ -65,6 +65,13 @@ const validateWordCount = (value, { req }) => {
   return wordCount >= 3 && wordCount <= 500;
 };
 
+const validateImgUrl = (value, { req }) => {
+  if (!/\.(png|jpg|jpeg)$/.test(value)) {
+    return false;
+  }
+  return true;
+};
+
 const validateJournal = [
   check("name")
     .exists({ checkFalsy: true })
@@ -74,6 +81,10 @@ const validateJournal = [
     .exists({ checkFalsy: true })
     .custom(validateWordCount)
     .withMessage("Word Count must be between 3-500"),
+  check("image_url")
+    .optional()
+    .custom(validateImgUrl)
+    .withMessage("URL must end with .png, .jpg, or .jpeg"),
   handleValidationErrors,
 ];
 
