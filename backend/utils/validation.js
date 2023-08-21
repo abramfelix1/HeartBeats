@@ -88,9 +88,22 @@ const validateJournal = [
   handleValidationErrors,
 ];
 
+const validatePlaylist = [
+  check("name")
+    .exists({ checkFalsy: true })
+    .isLength({ min: 1, max: 60 })
+    .withMessage("Please provide a Name between 1-60 characters"),
+  check("image_url")
+    .optional()
+    .custom(validateImgUrl)
+    .withMessage("URL must end with .png, .jpg, or .jpeg"),
+  handleValidationErrors,
+];
+
 module.exports = {
   handleValidationErrors,
   validateLogin,
   validateSignup,
   validateJournal,
+  validatePlaylist,
 };

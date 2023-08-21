@@ -4,6 +4,7 @@ const { Op } = require("sequelize");
 const { requireAuth } = require("../../utils/auth");
 const { User } = require("../../db/models");
 const { Journal, Playlist, Song, PlaylistSong } = require("../../db/models");
+const { validatePlaylist } = require("../../utils/validation");
 const user = require("../../db/models/user");
 
 const router = express.Router();
@@ -59,7 +60,7 @@ router.get("/:id", requireAuth, async (req, res, next) => {
 });
 
 /* CREATE A PLAYLIST */
-router.post("/", requireAuth, async (req, res, next) => {
+router.post("/", requireAuth, validatePlaylist, async (req, res, next) => {
   const { user } = req;
 
   const newPlaylist = await Playlist.create({
