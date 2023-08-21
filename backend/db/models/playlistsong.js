@@ -4,12 +4,12 @@ module.exports = (sequelize, DataTypes) => {
   class PlaylistSong extends Model {
     static associate(models) {
       PlaylistSong.belongsTo(models.Playlist, {
-        as: "Playlist",
+        as: "playlist",
         foreignKey: "playlistId",
         onDelete: "CASCADE",
       });
       PlaylistSong.belongsTo(models.Song, {
-        as: "Song",
+        as: "song",
         foreignKey: "songId",
         onDelete: "CASCADE",
       });

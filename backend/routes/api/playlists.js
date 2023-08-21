@@ -4,6 +4,7 @@ const { Op } = require("sequelize");
 const { requireAuth } = require("../../utils/auth");
 const { User } = require("../../db/models");
 const { Journal, Playlist, Song, PlaylistSong } = require("../../db/models");
+const user = require("../../db/models/user");
 
 const router = express.Router();
 
@@ -15,13 +16,13 @@ router.get("/session", requireAuth, async (req, res, next) => {
     include: [
       {
         model: Journal,
-        as: "Journal",
+        as: "journal",
         attributes: [],
         where: { userId: user.dataValues.id },
       },
       {
         model: Song,
-        as: "Songs",
+        as: "songs",
       },
     ],
   });
@@ -43,7 +44,7 @@ router.get("/:id", requireAuth, async (req, res, next) => {
     include: [
       {
         model: Song,
-        as: "Songs",
+        as: "songs",
       },
     ],
   });
@@ -61,14 +62,15 @@ router.get("/:id", requireAuth, async (req, res, next) => {
 router.post("/", requireAuth, async (req, res, next) => {
   const { user } = req;
 
-  const newPlaylist = await Journal.create({
+  const newPlaylist = await Playlist.create({
+    userId: user.dataValues.id,
     journalId: req.body.journalId,
     name: req.body.name,
-    spotify_url: req.body.spotify_url,
-    image_url: req.body.image_url,
-    instrumental: req.body.instrumental,
-    mood: req.body.mood,
-    energy: req.body.energy,
+    spotify_url: req.body.spotify_url || null,
+    image_url: req.body.image_url || null,
+    instrumental: req.body.instrumental || null,
+    mood: req.body.mood || null,
+    energy: req.body.energy || null,
   });
 
   res.json({ playlist: newPlaylist });
@@ -83,7 +85,7 @@ router.put("/:id", requireAuth, async (req, res, next) => {
     where: { userId: user.dataValues.id },
     include: {
       model: Playlist,
-      as: "Playlist",
+      as: "playlist",
       where: { id: playlistId },
     },
   });
@@ -100,7 +102,7 @@ router.put("/:id", requireAuth, async (req, res, next) => {
     });
   }
 
-  const playlist = journal.Playlist;
+  const playlist = journal.playlist;
   const updatedPlaylist = await playlist.update(req.body);
 
   res.json({ playlist: updatedPlaylist });
@@ -115,7 +117,7 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
     where: { userId: user.dataValues.id },
     include: {
       model: Playlist,
-      as: "Playlist",
+      as: "playlist",
       where: { id: playlistId },
     },
   });
@@ -128,11 +130,11 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
       });
     }
     return next({
-      errors: { journal: "Unauthorized Access", status: 401 },
+      errors: { playlist: "Unauthorized Access", status: 401 },
     });
   }
 
-  const playlist = journal.Playlist;
+  const playlist = journal.playlist;
   await playlist.destroy();
 
   res.json({ message: "Playlist deleted successfully" });
@@ -140,14 +142,31 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
 
 /* ADD SONG TO PLAYLIST */
 router.post("/:playlistId/add/:songId", async (req, res, next) => {
+  const { user } = req;
   const { playlistId, songId } = req.params;
 
   const playlist = await Playlist.findByPk(playlistId);
+
   const song = await Song.findByPk(songId);
 
-  if (!playlist) {
+  const journal = await Journal.findOne({
+    where: { userId: user.dataValues.id },
+    include: {
+      model: Playlist,
+      as: "playlist",
+      where: { id: playlistId },
+    },
+  });
+
+  if (!journal) {
+    const existingPlaylist = await Playlist.findByPk(playlistId);
+    if (!existingPlaylist) {
+      return next({
+        errors: { playlist: "Playlist could not be found", status: 404 },
+      });
+    }
     return next({
-      errors: { playlist: "Playlist not found", status: 404 },
+      errors: { playlist: "Unauthorized Access", status: 401 },
     });
   }
 

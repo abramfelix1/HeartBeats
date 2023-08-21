@@ -17,7 +17,7 @@ router.get("/session", requireAuth, async (req, res, next) => {
     include: [
       {
         model: Playlist,
-        as: "Playlist",
+        as: "playlist",
       },
     ],
   });
@@ -39,11 +39,11 @@ router.get("/:id", requireAuth, async (req, res, next) => {
     include: [
       {
         model: Playlist,
-        as: "Playlist",
+        as: "playlist",
         include: [
           {
             model: Song,
-            as: "Songs",
+            as: "songs",
           },
         ],
       },
@@ -67,7 +67,7 @@ router.post("/", requireAuth, async (req, res, next) => {
     userId: user.dataValues.id,
     name: req.body.name,
     content: req.body.content,
-    image_url: req.body.image_url,
+    image_url: req.body.image_url || null,
   });
 
   res.json({ journal: newJournal });

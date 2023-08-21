@@ -16,10 +16,10 @@ router.get("/session", requireAuth, async (req, res, next) => {
   });
 
   if (!userFeedback.length) {
-    return res.json({ feedback: [] });
+    return res.json({ userFeedbacks: [] });
   }
 
-  res.json({ userFeedback: userFeedback });
+  res.json({ userFeedbacks: userFeedback });
 });
 
 /* GET ALL FEEDBACK OF SONG */
@@ -34,25 +34,16 @@ router.get("/song/:songId", requireAuth, async (req, res, next) => {
     });
   }
 
-  const songFeedback = await UserFeedback.findAll({
+  const songFeedback = await UserFeedback.findOne({
     where: { songId },
     attributes: [
-      "id",
-      "userId",
-      "feedbackType",
-      [sequelize.fn("COUNT", sequelize.col("id")), "totalFeedbacks"],
+      [sequelize.fn("COUNT", sequelize.col("songId")), "totalFeedbacks"],
       [sequelize.fn("SUM", sequelize.col("like")), "totalLikes"],
-    ],
-    group: ["UserFeedback.id", "UserFeedback.feedbackType"],
-    include: [
-      {
-        model: Song,
-      },
     ],
   });
 
-  if (!songFeedback.length) {
-    return res.json({ songFeedback: [] });
+  if (!songFeedback) {
+    return res.json({ songFeedback: { totalFeedbacks: 0, totalLikes: 0 } });
   }
 
   res.json({ songFeedback: songFeedback });
@@ -71,14 +62,27 @@ router.post("/song/:id", requireAuth, async (req, res, next) => {
     });
   }
 
+  const existingFeedback = await UserFeedback.findOne({
+    where: { userId: user.dataValues.id, songId },
+  });
+
+  if (existingFeedback) {
+    return next({
+      errors: {
+        feedback: "Feedback already exists. Please update or delete feedback.",
+        status: 400,
+      },
+    });
+  }
+
   const newFeedback = await UserFeedback.create({
     userId: user.dataValues.id,
     songId: songId,
-    recommendAgain: req.body.recommendAgain,
-    like: req.body.like,
+    recommendAgain: req.body.recommendAgain || null,
+    like: req.body.like || 0,
   });
 
-  res.json({ songFeedback: newFeedback });
+  res.json({ songFeedbacks: newFeedback });
 });
 
 /* UPDATE FEEDBACK FOR A SONG */
@@ -105,7 +109,7 @@ router.put("/:id", requireAuth, async (req, res, next) => {
 
   const updatedFeedback = await feedback.update(req.body);
 
-  res.json({ songFeedback: updatedFeedback });
+  res.json({ songFeedbacks: updatedFeedback });
 });
 
 /* DELETE FEEDBACK FOR A SONG */
