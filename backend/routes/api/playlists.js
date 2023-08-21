@@ -133,7 +133,7 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
     });
   }
 
-  const playlist = journal.Playlist;
+  const playlist = journal.playlist;
   await playlist.destroy();
 
   res.json({ message: "Playlist deleted successfully" });
