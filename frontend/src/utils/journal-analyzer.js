@@ -1,5 +1,6 @@
 const Sentiment = require("sentiment");
 const sentiment = new Sentiment();
+const { lowEnergyWords } = require("./words");
 
 function sigmoid(z) {
   return 1 / (1 + Math.exp(-z));
@@ -45,6 +46,6 @@ const getEnergy = (text) => {
 };
 
 const text = "I feel very MOTIVATED!;,.?()&/";
-
+console.log(lowEnergyWords);
 getEnergy(text);
 getValence(text);
