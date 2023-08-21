@@ -61,14 +61,15 @@ router.get("/:id", requireAuth, async (req, res, next) => {
 router.post("/", requireAuth, async (req, res, next) => {
   const { user } = req;
 
-  const newPlaylist = await Journal.create({
+  const newPlaylist = await Playlist.create({
+    userId: user.dataValues.id,
     journalId: req.body.journalId,
     name: req.body.name,
-    spotify_url: req.body.spotify_url,
-    image_url: req.body.image_url,
-    instrumental: req.body.instrumental,
-    mood: req.body.mood,
-    energy: req.body.energy,
+    spotify_url: req.body.spotify_url || null,
+    image_url: req.body.image_url || null,
+    instrumental: req.body.instrumental || null,
+    mood: req.body.mood || null,
+    energy: req.body.energy || null,
   });
 
   res.json({ playlist: newPlaylist });
