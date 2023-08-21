@@ -4,6 +4,7 @@ const { Op } = require("sequelize");
 const { requireAuth } = require("../../utils/auth");
 const { User } = require("../../db/models");
 const { Journal, Playlist, Song } = require("../../db/models");
+const { validateJournal } = require("../../utils/validation");
 
 const router = express.Router();
 
@@ -60,7 +61,7 @@ router.get("/:id", requireAuth, async (req, res, next) => {
 });
 
 /* CREATE A JOURNAL */
-router.post("/", requireAuth, async (req, res, next) => {
+router.post("/", requireAuth, validateJournal, async (req, res, next) => {
   const { user } = req;
 
   const newJournal = await Journal.create({

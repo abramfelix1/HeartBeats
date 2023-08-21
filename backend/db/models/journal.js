@@ -17,9 +17,24 @@ module.exports = (sequelize, DataTypes) => {
   Journal.init(
     {
       userId: DataTypes.INTEGER,
-      name: DataTypes.STRING,
-      content: DataTypes.TEXT,
-      image_url: DataTypes.STRING,
+      name: {
+        type: DataTypes.STRING,
+        validate: {
+          len: [1, 60],
+        },
+      },
+      content: {
+        type: DataTypes.TEXT,
+        // validate: {
+        //   notEmpty: true,
+        // },
+      },
+      image_url: {
+        type: DataTypes.STRING,
+        validate: {
+          isUrl: true,
+        },
+      },
     },
     {
       sequelize,
