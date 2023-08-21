@@ -15,13 +15,13 @@ router.get("/session", requireAuth, async (req, res, next) => {
     include: [
       {
         model: Journal,
-        as: "Journal",
+        as: "journal",
         attributes: [],
         where: { userId: user.dataValues.id },
       },
       {
         model: Song,
-        as: "Songs",
+        as: "songs",
       },
     ],
   });
@@ -43,7 +43,7 @@ router.get("/:id", requireAuth, async (req, res, next) => {
     include: [
       {
         model: Song,
-        as: "Songs",
+        as: "songs",
       },
     ],
   });
@@ -83,7 +83,7 @@ router.put("/:id", requireAuth, async (req, res, next) => {
     where: { userId: user.dataValues.id },
     include: {
       model: Playlist,
-      as: "Playlist",
+      as: "playlist",
       where: { id: playlistId },
     },
   });
@@ -115,7 +115,7 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
     where: { userId: user.dataValues.id },
     include: {
       model: Playlist,
-      as: "Playlist",
+      as: "playlist",
       where: { id: playlistId },
     },
   });

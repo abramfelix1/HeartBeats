@@ -4,11 +4,11 @@ module.exports = (sequelize, DataTypes) => {
   class Journal extends Model {
     static associate(models) {
       Journal.belongsTo(models.User, {
-        as: "User",
+        as: "user",
         foreignKey: "userId",
       });
       Journal.hasOne(models.Playlist, {
-        as: "Playlist",
+        as: "playlist",
         foreignKey: "journalId",
         onDelete: "CASCADE",
       });

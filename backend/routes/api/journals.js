@@ -17,7 +17,7 @@ router.get("/session", requireAuth, async (req, res, next) => {
     include: [
       {
         model: Playlist,
-        as: "Playlist",
+        as: "playlist",
       },
     ],
   });
@@ -39,11 +39,11 @@ router.get("/:id", requireAuth, async (req, res, next) => {
     include: [
       {
         model: Playlist,
-        as: "Playlist",
+        as: "playlist",
         include: [
           {
             model: Song,
-            as: "Songs",
+            as: "songs",
           },
         ],
       },
