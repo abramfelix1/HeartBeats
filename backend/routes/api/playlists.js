@@ -4,6 +4,7 @@ const { Op } = require("sequelize");
 const { requireAuth } = require("../../utils/auth");
 const { User } = require("../../db/models");
 const { Journal, Playlist, Song, PlaylistSong } = require("../../db/models");
+const user = require("../../db/models/user");
 
 const router = express.Router();
 
@@ -129,7 +130,7 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
       });
     }
     return next({
-      errors: { journal: "Unauthorized Access", status: 401 },
+      errors: { playlist: "Unauthorized Access", status: 401 },
     });
   }
 
@@ -141,14 +142,31 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
 
 /* ADD SONG TO PLAYLIST */
 router.post("/:playlistId/add/:songId", async (req, res, next) => {
+  const { user } = req;
   const { playlistId, songId } = req.params;
 
   const playlist = await Playlist.findByPk(playlistId);
+
   const song = await Song.findByPk(songId);
 
-  if (!playlist) {
+  const journal = await Journal.findOne({
+    where: { userId: user.dataValues.id },
+    include: {
+      model: Playlist,
+      as: "playlist",
+      where: { id: playlistId },
+    },
+  });
+
+  if (!journal) {
+    const existingPlaylist = await Playlist.findByPk(playlistId);
+    if (!existingPlaylist) {
+      return next({
+        errors: { playlist: "Playlist could not be found", status: 404 },
+      });
+    }
     return next({
-      errors: { playlist: "Playlist not found", status: 404 },
+      errors: { playlist: "Unauthorized Access", status: 401 },
     });
   }
 
