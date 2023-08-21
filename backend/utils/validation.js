@@ -2,6 +2,18 @@
 const { validationResult } = require("express-validator");
 const { check, query } = require("express-validator");
 
+const validateWordCount = (value, { req }) => {
+  const wordCount = req.body.content.split(/\s+/).length;
+  return wordCount >= 3 && wordCount <= 500;
+};
+
+const validateImgUrl = (value, { req }) => {
+  if (!/\.(png|jpg|jpeg)$/.test(value)) {
+    return false;
+  }
+  return true;
+};
+
 // middleware for formatting errors from express-validator middleware
 // (to customize, see express-validator's documentation)
 const handleValidationErrors = (req, _res, next) => {
@@ -59,18 +71,6 @@ const validateSignup = [
     .withMessage("Password must be 6 characters or more."),
   handleValidationErrors,
 ];
-
-const validateWordCount = (value, { req }) => {
-  const wordCount = req.body.content.split(/\s+/).length;
-  return wordCount >= 3 && wordCount <= 500;
-};
-
-const validateImgUrl = (value, { req }) => {
-  if (!/\.(png|jpg|jpeg)$/.test(value)) {
-    return false;
-  }
-  return true;
-};
 
 const validateJournal = [
   check("name")

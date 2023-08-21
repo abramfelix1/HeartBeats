@@ -184,4 +184,58 @@ router.post("/:playlistId/add/:songId", async (req, res, next) => {
   res.json({ playlistSong: playlistSong });
 });
 
+/* DELETE SONG FROM PLAYLIST */
+router.delete("/:playlistId/remove/:songId", async (req, res, next) => {
+  const { user } = req;
+  const { playlistId, songId } = req.params;
+
+  const playlist = await Playlist.findByPk(playlistId);
+
+  const song = await Song.findByPk(songId);
+
+  const journal = await Journal.findOne({
+    where: { userId: user.dataValues.id },
+    include: {
+      model: Playlist,
+      as: "playlist",
+      where: { id: playlistId },
+    },
+  });
+
+  if (!journal) {
+    const existingPlaylist = await Playlist.findByPk(playlistId);
+    if (!existingPlaylist) {
+      return next({
+        errors: { playlist: "Playlist could not be found", status: 404 },
+      });
+    }
+    return next({
+      errors: { playlist: "Unauthorized Access", status: 401 },
+    });
+  }
+
+  if (!song) {
+    return next({
+      errors: { song: "Song not found", status: 404 },
+    });
+  }
+
+  const playlistSong = await PlaylistSong.findOne({
+    where: {
+      playlistId: playlist.id,
+      songId: song.id,
+    },
+  });
+
+  if (!playlistSong) {
+    return next({
+      errors: { playlistSong: "Song is not part of the playlist", status: 404 },
+    });
+  }
+
+  await playlistSong.destroy();
+
+  res.json({ message: "Song removed from playlist" });
+});
+
 module.exports = router;
