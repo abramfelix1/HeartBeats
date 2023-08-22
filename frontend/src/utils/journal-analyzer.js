@@ -1,6 +1,6 @@
 const Sentiment = require("sentiment");
 const sentiment = new Sentiment();
-const { lowEnergyWords } = require("./words");
+const { lowEnergyWords, negationWords } = require("./words");
 
 function sigmoid(z) {
   return 1 / (1 + Math.exp(-z));

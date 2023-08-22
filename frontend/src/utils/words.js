@@ -75,6 +75,28 @@ const lowEnergyWords = [
   "easygoing",
 ];
 
+const negationWords = [
+  "not",
+  "isn't",
+  "aren't",
+  "wasn't",
+  "weren't",
+  "haven't",
+  "hasn't",
+  "hadn't",
+  "don't",
+  "doesn't",
+  "didn't",
+  "cannot",
+  "can't",
+  "couldn't",
+  "shouldn't",
+  "won't",
+  "wouldn't",
+  "shan't",
+];
+
 module.exports = {
   lowEnergyWords,
+  negationWords,
 };
