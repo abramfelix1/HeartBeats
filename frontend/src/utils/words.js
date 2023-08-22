@@ -84,6 +84,7 @@ const negationWords = [
   "haven't",
   "hasn't",
   "hadn't",
+  "don't feel",
   "don't",
   "doesn't",
   "didn't",
@@ -96,7 +97,10 @@ const negationWords = [
   "shan't",
 ];
 
+const negationPhrases = ["don't feel", "dont feel"];
+
 module.exports = {
   lowEnergyWords,
   negationWords,
+  negationPhrases,
 };

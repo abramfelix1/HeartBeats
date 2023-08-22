@@ -1,6 +1,6 @@
 const Sentiment = require("sentiment");
 const sentiment = new Sentiment();
-const { lowEnergyWords, negationWords } = require("./words");
+const { lowEnergyWords, negationWords, negationPhrases } = require("./words");
 
 function sigmoid(z) {
   return 1 / (1 + Math.exp(-z));
@@ -10,6 +10,7 @@ const getValence = (text) => {
   const result = sentiment.analyze(text);
 
   const normalized = sigmoid(result.score);
+  // console.log(result);
   console.log("NORMALIZED VALENCE: ", normalized.toFixed(3));
   return normalized;
 };
@@ -34,9 +35,29 @@ const getEnergy = (text) => {
   }
 
   lowEnergyWords.forEach((word) => {
-    const wordCount = (text.match(new RegExp("\\b" + word + "\\b", "gi")) || [])
-      .length;
-    energyScore -= wordCount * 0.35;
+    // const wordCount = (text.match(new RegExp("\\b" + word + "\\b", "gi")) || [])
+    //   .length;
+    // energyScore -= wordCount * 0.35;
+    const regex = new RegExp("\\b" + word + "\\b", "gi");
+    let match;
+    while ((match = regex.exec(text)) !== null) {
+      const wordStartPosition = match.index;
+
+      const substringBeforeWord = text.substring(0, wordStartPosition).trim();
+
+      const lastWord = substringBeforeWord.split(/\s+/).pop();
+
+      const hasNegationPhrase = negationPhrases.some((phrase) =>
+        substringBeforeWord.endsWith(phrase)
+      );
+
+      if (
+        !hasNegationPhrase &&
+        !negationWords.includes(lastWord.toLowerCase())
+      ) {
+        energyScore -= 0.35;
+      }
+    }
   });
 
   const punctuationsCount = (text.match(/[;,.?()&/]/g) || []).length;
@@ -48,6 +69,6 @@ const getEnergy = (text) => {
   return normalizedEnergy;
 };
 
-const text = "I feel TIRED!! HAHA";
+const text = "I am TIRED HAHA!!";
 getEnergy(text);
 getValence(text);
