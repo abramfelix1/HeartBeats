@@ -36,6 +36,8 @@ const getEnergy = (text) => {
       positiveCapsCount++;
     }
   });
+  energyScore -= negativeCapsCount * 0.325;
+  energyScore += positiveCapsCount * 0.325;
 
   console.log("POSITIVE CAPS COUNT: ", positiveCapsCount);
   console.log("NEGATIVE CAPS COUNT: ", negativeCapsCount);
@@ -84,6 +86,6 @@ const getEnergy = (text) => {
   return normalizedEnergy;
 };
 
-const text = "Hi I am tired, really really tired";
+const text = "HI";
 getEnergy(text);
 getValence(text);
