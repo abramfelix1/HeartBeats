@@ -224,17 +224,31 @@ router.post("/recsongs", async (req, res) => {
   const accessToken = req.cookies.access_token;
   console.log("REQ BODY:", req.body);
   const {
-    minValence,
-    maxValence,
-    minEnergy,
-    maxEnergy,
+    // minValence,
+    // maxValence,
+    // minEnergy,
+    // maxEnergy,
+    valence,
+    energy,
     minInstrumentalness,
     maxInstrumentalness,
     genre,
   } = req.body;
+
+  //change this offset if not generating enough or too much duplicates
+  const rangeOffset = 0.1;
+  let minValence = valence - rangeOffset;
+  let maxValence = valence + rangeOffset;
+  let minEnergy = energy - rangeOffset;
+  let maxEnergy = energy + rangeOffset;
+  minValence = Math.max(minValence, 0);
+  maxValence = Math.min(maxValence, 1);
+  minEnergy = Math.max(minEnergy, 0);
+  maxEnergy = Math.min(maxEnergy, 1);
+
   try {
     const response = await fetch(
-      `https://api.spotify.com/v1/recommendations?seed_genres=${genre}&min_energy=${minEnergy}&max_energy=${maxEnergy}&min_instrumentalness=${minInstrumentalness}&max_instrumentalness=${maxInstrumentalness}&min_valence=${minValence}&max_valence=${maxValence}`, //use req body to generate values for queries later
+      `https://api.spotify.com/v1/recommendations?seed_genres=${genre}&min_energy=${minEnergy}&max_energy=${maxEnergy}&min_instrumentalness=${minInstrumentalness}&max_instrumentalness=${maxInstrumentalness}&min_valence=${minValence}&max_valence=${maxValence}`,
       {
         method: "GET",
         headers: { Authorization: "Bearer " + accessToken },
