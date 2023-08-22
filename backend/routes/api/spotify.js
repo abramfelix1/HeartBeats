@@ -250,7 +250,11 @@ router.post("/recsongs", async (req, res) => {
   let queryParams = [];
 
   if (genre) {
-    queryParams.push(`seed_genres=${genre}`);
+    let genreString = genre
+      .split(",")
+      .map((g) => g.trim())
+      .join("%2C");
+    queryParams.push(`seed_genres=${genreString}`);
   }
 
   queryParams.push(`min_energy=${minEnergy}`);
@@ -263,13 +267,10 @@ router.post("/recsongs", async (req, res) => {
   const url = baseUrl + queryParams.join("&");
 
   try {
-    const response = await fetch(
-      url,
-      {
-        method: "GET",
-        headers: { Authorization: "Bearer " + accessToken },
-      }
-    );
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { Authorization: "Bearer " + accessToken },
+    });
 
     const data = await response.json();
 
