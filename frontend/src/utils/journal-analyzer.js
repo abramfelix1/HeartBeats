@@ -50,7 +50,7 @@ const getEnergy = (text) => {
   //     energyScore += incrementMultipler;
   //   }
   // }
-  const incrementMultiplier = 0.0075;
+  const incrementMultiplier = 0.005;
   const increments = textLength / 2;
   energyScore += incrementMultiplier * increments;
 
