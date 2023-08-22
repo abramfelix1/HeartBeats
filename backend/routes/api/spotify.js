@@ -246,9 +246,25 @@ router.post("/recsongs", async (req, res) => {
   minEnergy = Math.max(minEnergy, 0);
   maxEnergy = Math.min(maxEnergy, 1);
 
+  let baseUrl = "https://api.spotify.com/v1/recommendations?";
+  let queryParams = [];
+
+  if (genre) {
+    queryParams.push(`seed_genres=${genre}`);
+  }
+
+  queryParams.push(`min_energy=${minEnergy}`);
+  queryParams.push(`max_energy=${maxEnergy}`);
+  queryParams.push(`min_instrumentalness=${minInstrumentalness}`);
+  queryParams.push(`max_instrumentalness=${maxInstrumentalness}`);
+  queryParams.push(`min_valence=${minValence}`);
+  queryParams.push(`max_valence=${maxValence}`);
+
+  const url = baseUrl + queryParams.join("&");
+
   try {
     const response = await fetch(
-      `https://api.spotify.com/v1/recommendations?seed_genres=${genre}&min_energy=${minEnergy}&max_energy=${maxEnergy}&min_instrumentalness=${minInstrumentalness}&max_instrumentalness=${maxInstrumentalness}&min_valence=${minValence}&max_valence=${maxValence}`,
+      url,
       {
         method: "GET",
         headers: { Authorization: "Bearer " + accessToken },
