@@ -6,7 +6,7 @@ import "./Navigation.css";
 import logo from "../../images/heartBeatLogo.png";
 import { AiOutlineUser, AiOutlineSetting, AiOutlineEdit } from "react-icons/ai";
 import { MdOutlineLogout } from "react-icons/md";
-import { PiMusicNotes } from "react-icons/pi";
+import { PiMusicNotes, PiUser } from "react-icons/pi";
 
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
@@ -16,11 +16,13 @@ function Navigation({ isLoaded }) {
       <NavLink exact to="/" class="inline-block">
         <img src={logo} alt="logo" class="w-[100px]" />
       </NavLink>
-      {isLoaded && <AiOutlineUser class="text-[35px]" />}
-      {isLoaded && <AiOutlineEdit class="text-[35px]" />}
-      {isLoaded && <PiMusicNotes class="text-[35px]" />}
-      {isLoaded && <AiOutlineSetting class="text-[35px]" />}
-      {isLoaded && <MdOutlineLogout class="text-[35px]" />}
+      <div>
+        {isLoaded && <AiOutlineUser class="text-[35px]" />}
+        {isLoaded && <AiOutlineEdit class="text-[35px]" />}
+        {isLoaded && <PiMusicNotes class="text-[35px]" />}
+        {isLoaded && <AiOutlineSetting class="text-[35px]" />}
+        {isLoaded && <MdOutlineLogout class="text-[35px]" />}
+      </div>
     </div>
   );
 }

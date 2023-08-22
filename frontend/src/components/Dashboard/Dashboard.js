@@ -11,7 +11,7 @@ export default function Dashboard() {
   //   }, [dispatch]);
 
   return (
-    <div class="bg-[#FCF7F8] w-screen h-screen flex justify-center items-center">
+    <div class="bg-[#FCF7F8] w-screen h-screen flex justify-center items-center  bg-gradient-to-r from-white via-sky-500 to-sky-500">
       {/* <Navigation isLoaded={isLoaded}></Navigation> */}
       <div>
         <p>TYPE SOMETHING HERE</p>
