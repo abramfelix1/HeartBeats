@@ -21,13 +21,28 @@ const getEnergy = (text) => {
   const exclamationCount = (text.match(/!/g) || []).length;
   energyScore += exclamationCount * 0.225;
 
-  const allCapsCount = (text.match(/\b[A-Z]{3,}\b/g) || []).length;
-  console.log("CAPS COUNT: ", allCapsCount);
-  energyScore += allCapsCount * 0.325;
+  // const allCapsCount = (text.match(/\b[A-Z]{3,}\b/g) || []).length;
+  // console.log("CAPS COUNT: ", allCapsCount);
+  // energyScore += allCapsCount * 0.325;
+
+  const allCapsWords = text.match(/\b[A-Z]{3,}\b/g) || [];
+  let positiveCapsCount = 0;
+  let negativeCapsCount = 0;
+
+  allCapsWords.forEach((word) => {
+    if (lowEnergyWords.includes(word.toLowerCase())) {
+      negativeCapsCount++;
+    } else {
+      positiveCapsCount++;
+    }
+  });
+
+  console.log("POSITIVE CAPS COUNT: ", positiveCapsCount);
+  console.log("NEGATIVE CAPS COUNT: ", negativeCapsCount);
 
   const textLength = text.split(" ").length;
   console.log("TEXT LENGTH: ", textLength);
-  const incrementMultipler = 0.015;
+  const incrementMultipler = 0.0125;
   for (let i = 2; i <= 500; i += 2) {
     if (textLength > i && textLength <= i + 2) {
       energyScore += incrementMultipler * (i / 2);
@@ -69,6 +84,6 @@ const getEnergy = (text) => {
   return normalizedEnergy;
 };
 
-const text = "I am TIRED HAHA!!";
+const text = "Hi I am tired, really really tired";
 getEnergy(text);
 getValence(text);
