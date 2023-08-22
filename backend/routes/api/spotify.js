@@ -224,22 +224,53 @@ router.post("/recsongs", async (req, res) => {
   const accessToken = req.cookies.access_token;
   console.log("REQ BODY:", req.body);
   const {
-    minValence,
-    maxValence,
-    minEnergy,
-    maxEnergy,
+    // minValence,
+    // maxValence,
+    // minEnergy,
+    // maxEnergy,
+    valence,
+    energy,
     minInstrumentalness,
     maxInstrumentalness,
     genre,
   } = req.body;
+
+  //change this offset if not generating enough or too much duplicates
+  const rangeOffset = 0.1;
+  let minValence = valence - rangeOffset;
+  let maxValence = valence + rangeOffset;
+  let minEnergy = energy - rangeOffset;
+  let maxEnergy = energy + rangeOffset;
+  minValence = Math.max(minValence, 0);
+  maxValence = Math.min(maxValence, 1);
+  minEnergy = Math.max(minEnergy, 0);
+  maxEnergy = Math.min(maxEnergy, 1);
+
+  let baseUrl = "https://api.spotify.com/v1/recommendations?";
+  let queryParams = [];
+
+  if (genre) {
+    let genreString = genre
+      .split(",")
+      .map((g) => g.trim())
+      .join("%2C");
+    queryParams.push(`seed_genres=${genreString}`);
+  }
+
+  queryParams.push(`min_energy=${minEnergy}`);
+  queryParams.push(`max_energy=${maxEnergy}`);
+  queryParams.push(`min_instrumentalness=${minInstrumentalness}`);
+  queryParams.push(`max_instrumentalness=${maxInstrumentalness}`);
+  queryParams.push(`min_valence=${minValence}`);
+  queryParams.push(`max_valence=${maxValence}`);
+
+  const url = baseUrl + queryParams.join("&");
+
   try {
-    const response = await fetch(
-      `https://api.spotify.com/v1/recommendations?seed_genres=${genre}&min_energy=${minEnergy}&max_energy=${maxEnergy}&min_instrumentalness=${minInstrumentalness}&max_instrumentalness=${maxInstrumentalness}&min_valence=${minValence}&max_valence=${maxValence}`, //use req body to generate values for queries later
-      {
-        method: "GET",
-        headers: { Authorization: "Bearer " + accessToken },
-      }
-    );
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { Authorization: "Bearer " + accessToken },
+    });
 
     const data = await response.json();
 
