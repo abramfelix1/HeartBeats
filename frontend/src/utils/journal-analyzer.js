@@ -44,12 +44,15 @@ const getEnergy = (text) => {
 
   const textLength = text.split(" ").length;
   console.log("TEXT LENGTH: ", textLength);
-  const incrementMultipler = 0.0125;
-  for (let i = 2; i <= 500; i += 2) {
-    if (textLength > i && textLength <= i + 2) {
-      energyScore += incrementMultipler * (i / 2);
-    }
-  }
+  // const incrementMultipler = 0.0125;
+  // for (let i = 2; i <= 500; i += 2) {
+  //   if (textLength >= i && textLength < i + 2) {
+  //     energyScore += incrementMultipler;
+  //   }
+  // }
+  const incrementMultiplier = 0.0075;
+  const increments = textLength / 2;
+  energyScore += incrementMultiplier * increments;
 
   lowEnergyWords.forEach((word) => {
     // const wordCount = (text.match(new RegExp("\\b" + word + "\\b", "gi")) || [])
@@ -86,6 +89,6 @@ const getEnergy = (text) => {
   return normalizedEnergy;
 };
 
-const text = "HI";
+const text = "";
 getEnergy(text);
 getValence(text);
