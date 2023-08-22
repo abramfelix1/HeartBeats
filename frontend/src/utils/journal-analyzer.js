@@ -26,15 +26,18 @@ const getEnergy = (text) => {
 
   const textLength = text.split(" ").length;
   console.log("TEXT LENGTH: ", textLength);
-  if (textLength > 50 && textLength < 149) {
-    energyScore += 0.125;
+  const incrementMultipler = 0.015;
+  for (let i = 2; i <= 500; i += 2) {
+    if (textLength > i && textLength <= i + 2) {
+      energyScore += incrementMultipler * (i / 2);
+    }
   }
-  if (textLength > 149 && textLength < 299) {
-    energyScore += 0.225;
-  }
-  if (textLength > 300) {
-    energyScore += 0.325;
-  }
+
+  lowEnergyWords.forEach((word) => {
+    const wordCount = (text.match(new RegExp("\\b" + word + "\\b", "gi")) || [])
+      .length;
+    energyScore -= wordCount * 0.35;
+  });
 
   const punctuationsCount = (text.match(/[;,.?()&/]/g) || []).length;
   console.log("PUNCTUATIONS COUNT: ", punctuationsCount);
@@ -45,7 +48,6 @@ const getEnergy = (text) => {
   return normalizedEnergy;
 };
 
-const text = "I feel very MOTIVATED!;,.?()&/";
-console.log(lowEnergyWords);
+const text = "I feel TIRED!! HAHA";
 getEnergy(text);
 getValence(text);
