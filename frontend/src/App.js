@@ -23,7 +23,7 @@ function App() {
           <Route exact path="/">
             <Dashboard />
           </Route>
-          <Route path="/">
+          <Route path="/test">
             <TestPage />
           </Route>
           <Route path="/login">
