@@ -12,11 +12,11 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
 
   return (
-    <div class="flex flex-col sticky mx-5 my-5 items-center">
+    <div class="flex flex-col mx-5 my-5 items-center">
       <NavLink exact to="/" class="inline-block">
         <img src={logo} alt="logo" class="w-[100px]" />
       </NavLink>
-      <div class="my-40">
+      <div class="sm:my-0 md:my-5 lg:my-20 opacity-100 text-yale-blue">
         <div class="flex flex-col items-center my-5 hover:cursor-pointer">
           {isLoaded && <AiOutlineUser class="text-[35px]" />}
           <p>Profile</p>
