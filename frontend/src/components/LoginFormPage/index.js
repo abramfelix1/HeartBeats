@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import logo from "../../images/heartBeatLogo.png";
 
 // import "./LoginForm.css";
 
@@ -28,9 +29,14 @@ function LoginFormPage() {
   return (
     <div class="bg-sky-500">
       <div class="flex justify-center items-center w-screen h-screen ">
-        <div class="flex bg-white w-[80%] h-[80%] rounded-3xl">
+        <div class="flex relative bg-white w-[80%] h-[80%] rounded-3xl">
           <div class="flex flex-col justify-center items-center pl-20 py-20 w-[40%]">
-            <h1 class="mb-20">Welcome Back!</h1>
+            <h1>Welcome Back!</h1>
+            <div class="h-[20px] my-4">
+              {errors.credential && (
+                <p className="error-message">{errors.credential}</p>
+              )}
+            </div>
             <form class="items-center space-y-6" onSubmit={handleSubmit}>
               <div>
                 <label htmlFor="credential">Username or Email</label>
@@ -78,6 +84,10 @@ function LoginFormPage() {
                 Continue with Spotify
               </button>
             </div>
+          </div>
+          <div class="flex flex-col justify-center items-center w-full">
+            <img src={logo} alt="logo" class="w-[200px]" />
+            <p>CONVERT THIS TO SVG LATER, FIND FONT FOR TITLE</p>
           </div>
         </div>
       </div>
