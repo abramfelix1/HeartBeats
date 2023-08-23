@@ -87,7 +87,10 @@ function LoginFormPage() {
           </div>
           <div class="flex flex-col justify-center items-center w-full">
             <img src={logo} alt="logo" class="w-[200px]" />
-            <p>CONVERT THIS TO SVG LATER, FIND FONT FOR TITLE</p>
+            <p>
+              CONVERT THIS TO SVG LATER, FIND FONT FOR TITLE,FILL WHITESPACE W/
+              BACKGROUND IMG(MAKE ONE LATER)
+            </p>
           </div>
         </div>
       </div>
