@@ -5,6 +5,7 @@ import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormPage from "../LoginFormPage";
 import SignupFormPage from "../SignupFormPage";
 import SpotifyLogin from "../Login/SpotifyLogin";
+import { CgProfile } from "react-icons/cg";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ function ProfileButton({ user }) {
   return (
     <>
       <button onClick={openMenu}>
-        <i className="fas fa-user-circle" />
+        <CgProfile class="text-[35px]" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
