@@ -60,8 +60,8 @@ function LoginFormPage() {
               >
                 Log In
               </button>
-              <div class="flex justify-center">
-                <p className="mr-2">Don't Have an account?</p>
+              <div class="flex gap-2 justify-center">
+                <p>Don't Have an account?</p>
                 <p>Sign Up</p>
               </div>
             </form>
@@ -69,6 +69,14 @@ function LoginFormPage() {
               <div class="w-[235px] border-t border-slate-300 mr-2"></div>
               <p>Or</p>
               <div class="w-[235px] border-t border-slate-300 ml-2"></div>
+            </div>
+            <div class="space-y-6">
+              <button class="bg-slate-500 w-[500px] h-[45px] rounded-lg">
+                Continue with Demo
+              </button>
+              <button class="bg-slate-500 w-[500px] h-[45px] rounded-lg">
+                Continue with Spotify
+              </button>
             </div>
           </div>
         </div>
