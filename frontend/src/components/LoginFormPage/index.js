@@ -31,21 +31,22 @@ function LoginFormPage() {
         <div class="flex bg-white w-[80%] h-[80%] rounded-3xl">
           <div class="flex flex-col justify-center items-center pl-20 py-20 w-[40%]">
             <h1 class="mb-20">Welcome Back!</h1>
-            <form onSubmit={handleSubmit}>
-              <div className="form-group">
+            <form class="items-center space-y-6" onSubmit={handleSubmit}>
+              <div>
                 <label htmlFor="credential">Username or Email</label>
                 <input
+                  class="w-[500px] h-[45px] rounded-lg"
                   type="text"
                   id="credential"
                   value={credential}
                   onChange={(e) => setCredential(e.target.value)}
                   required
-                  class="w-[500px]"
                 />
               </div>
-              <div className="form-group">
+              <div>
                 <label htmlFor="password">Password</label>
                 <input
+                  class="w-[500px] h-[45px] rounded-lg"
                   type="password"
                   id="password"
                   value={password}
@@ -53,17 +54,22 @@ function LoginFormPage() {
                   required
                 />
               </div>
-              {errors.credential && (
-                <p className="error-message">{errors.credential}</p>
-              )}
-              <button type="submit" class="w-[500px]">
+              <button
+                class="bg-slate-500 w-[500px] h-[45px] rounded-lg"
+                type="submit"
+              >
                 Log In
               </button>
-              <div class="flex">
+              <div class="flex justify-center">
                 <p className="mr-2">Don't Have an account?</p>
                 <p>Sign Up</p>
               </div>
             </form>
+            <div class="flex items-center my-4">
+              <div class="w-[235px] border-t border-slate-300 mr-2"></div>
+              <p>Or</p>
+              <div class="w-[235px] border-t border-slate-300 ml-2"></div>
+            </div>
           </div>
         </div>
       </div>

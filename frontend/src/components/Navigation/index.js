@@ -21,29 +21,31 @@ function Navigation({ isLoaded }) {
           {isLoaded && <AiOutlineUser class="text-[35px]" />}
           <p>Profile</p>
         </div>
-        <div class="flex flex-col items-center my-8 hover:cursor-pointer">
-          {isLoaded && <AiOutlineEdit class="text-[35px]" />}
-          <p>Journal</p>
-        </div>
-        <div class="flex flex-col items-center my-8 hover:cursor-pointer">
-          {isLoaded && <PiMusicNotes class="text-[35px]" />}
-          <p>Music</p>
-        </div>
-        <div class="flex flex-col items-center my-8 hover:cursor-pointer">
-          {isLoaded && <AiOutlineSetting class="text-[35px]" />}
-          <p>Settings</p>
-        </div>
-        {isLoaded ? (
-          <div class="flex flex-col items-center my-8 hover:cursor-pointer">
-            <MdOutlineLogout class="text-[35px]" />
-            <p>Logout</p>
+        <div class="space-y-8">
+          <div class="flex flex-col items-center hover:cursor-pointer">
+            {isLoaded && <AiOutlineEdit class="text-[35px]" />}
+            <p>Journal</p>
           </div>
-        ) : (
-          <div class="flex flex-col items-center my-8">
-            <MdOutlineLogin class="text-[35px]" />
-            <p>Login</p>
+          <div class="flex flex-col items-center hover:cursor-pointer">
+            {isLoaded && <PiMusicNotes class="text-[35px]" />}
+            <p>Music</p>
           </div>
-        )}
+          <div class="flex flex-col items-center hover:cursor-pointer">
+            {isLoaded && <AiOutlineSetting class="text-[35px]" />}
+            <p>Settings</p>
+          </div>
+          {isLoaded ? (
+            <div class="flex flex-col items-center hover:cursor-pointer">
+              <MdOutlineLogout class="text-[35px]" />
+              <p>Logout</p>
+            </div>
+          ) : (
+            <div class="flex flex-col items-center">
+              <MdOutlineLogin class="text-[35px]" />
+              <p>Login</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
