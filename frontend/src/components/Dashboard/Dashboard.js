@@ -11,10 +11,10 @@ export default function Dashboard() {
   }, [dispatch]);
 
   return (
-    <div class="bg-[#FCF7F8] w-screen h-screen flex bg-gradient-to-r from-white via-sky-400 via-30% to-sky-400 overflow-hidden">
+    <div class="bg-[#FCF7F8] w-screen h-screen flex bg-gradient-to-r from-white  via-sky-400 via-30% to-azure-blue overflow-hidden">
       <Navigation isLoaded={isLoaded}></Navigation>
       <div class="flex justify-center items-center w-full h-full">
-        <p>TYPE SOMETHING HERE</p>
+        <p class="text-white">Welcome</p>
       </div>
     </div>
   );

@@ -4,7 +4,7 @@ import * as sessionActions from "../../store/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormPage from "../LoginFormPage";
 import SignupFormPage from "../SignupFormPage";
-import SpotifyLogin from "../Login/SpotifyLogin";
+import SpotifyLogin from "../LoginFormPage/SpotifyLogin";
 import { CgProfile } from "react-icons/cg";
 
 function ProfileButton({ user }) {

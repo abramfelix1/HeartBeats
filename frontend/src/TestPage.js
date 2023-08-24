@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import SpotifyLogin from "./components/Login/SpotifyLogin";
+import SpotifyLogin from "./components/LoginFormPage/SpotifyLogin";
 import { useDispatch } from "react-redux";
 import { getSpotifyUser, getTestSong, getRecSongs } from "./store/spotify";
 import { checkLoggedIn } from "./store/session";

@@ -5,6 +5,11 @@ module.exports = {
       colors: {
         "yale-blue": "#1B4079",
         "air-force-blue": "#4D7C8A",
+        "dodger-blue": "#3590F3",
+        "azure-blue": "#508bc3",
+      },
+      backgroundImage: {
+        login: "url('./images/login-background4.png')",
       },
     },
   },
