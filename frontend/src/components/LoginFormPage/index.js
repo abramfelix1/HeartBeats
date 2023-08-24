@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { BiSolidUserCircle } from "react-icons/bi";
 import { spotifyLogin } from "../../store/session";
+import { getSpotifyUser } from "../../store/spotify";
+import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import logo from "../../images/heartBeatLogo.png";
 import spotifyLogo from "../../images/Spotify_Icon_RGB_Green.png";
 
@@ -38,16 +40,16 @@ function LoginFormPage() {
     });
   };
 
-  const spotifyClickHandler = () => {
-    dispatch(spotifyLogin());
+  const spotifyClickHandler = async () => {
+    await dispatch(spotifyLogin());
   };
 
   return (
-    <div class="bg-gradient-to-bl from-white via-azure-blue via-50% to-azure-blue relative ">
+    <div class="bg-gradient-to-bl from-white via-azure-blue via-50% to-azure-blue relative">
       <div className="bg-login bg-cover bg-no-repeat absolute inset-0"></div>
       <div class="flex justify-center items-center w-screen h-screen">
         <div class="flex relative bg-[#FFFFFC] w-[80%] h-[80%] rounded-3xl">
-          <div class="flex flex-col justify-center items-center pl-20 py-20 w-[40%]">
+          <div class="flex flex-col justify-center items-center pl-20 py-20 w-[100%]">
             <h1>Welcome Back!</h1>
             <div class="h-[20px] my-4">
               {errors.credential && (
@@ -81,14 +83,19 @@ function LoginFormPage() {
                 />
               </div>
               <button
-                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black"
+                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black hover:bg-slate-200"
                 type="submit"
               >
                 Log In
               </button>
               <div class="flex gap-2 justify-center">
                 <p>Don't Have an account?</p>
-                <p class="text-blue-500 hover:cursor-pointer">Sign Up</p>
+                <NavLink
+                  to="/signup"
+                  class="text-blue-500 hover:cursor-pointer"
+                >
+                  Sign Up
+                </NavLink>
               </div>
             </form>
             <div class="flex items-center my-4">
@@ -98,7 +105,7 @@ function LoginFormPage() {
             </div>
             <div class="flex flex-col justify-center items-center space-y-6">
               <button
-                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black"
+                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black hover:bg-slate-200"
                 onClick={demoClickHandler}
               >
                 <div class="flex flex-row gap-x-3 justify-center items-center relative">
@@ -107,7 +114,7 @@ function LoginFormPage() {
                 </div>
               </button>
               <button
-                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black"
+                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black hover:bg-slate-200"
                 onClick={spotifyClickHandler}
               >
                 <div class="flex flex-row gap-x-3 justify-center items-center relative">
