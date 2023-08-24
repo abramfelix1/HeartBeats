@@ -29,8 +29,9 @@ function LoginFormPage() {
   };
 
   return (
-    <div class="bg-[#00BFB2]">
-      <div class="flex justify-center items-center w-screen h-screen ">
+    <div class="bg-sky-500 relative ">
+      <div className="bg-login bg-cover bg-no-repeat absolute inset-0"></div>
+      <div class="flex justify-center items-center w-screen h-screen">
         <div class="flex relative bg-[#FFFFFC] w-[80%] h-[80%] rounded-3xl">
           <div class="flex flex-col justify-center items-center pl-20 py-20 w-[40%]">
             <h1>Welcome Back!</h1>
