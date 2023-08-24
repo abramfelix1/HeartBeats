@@ -44,7 +44,7 @@ function LoginFormPage() {
   };
 
   return (
-    <div class="bg-gradient-to-bl from-white via-azure-blue via-50% to-azure-blue relative ">
+    <div class="bg-gradient-to-bl from-white via-azure-blue via-50% to-azure-blue relative">
       <div className="bg-login bg-cover bg-no-repeat absolute inset-0"></div>
       <div class="flex justify-center items-center w-screen h-screen">
         <div class="flex relative bg-[#FFFFFC] w-[80%] h-[80%] rounded-3xl">

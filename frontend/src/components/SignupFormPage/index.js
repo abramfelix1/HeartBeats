@@ -1,7 +1,12 @@
 import React, { useState } from "react";
+import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
-import * as sessionActions from "../../store/session";
+import { BiSolidUserCircle } from "react-icons/bi";
+import { spotifyLogin } from "../../store/session";
+import { getSpotifyUser } from "../../store/spotify";
+import logo from "../../images/heartBeatLogo.png";
+import spotifyLogo from "../../images/Spotify_Icon_RGB_Green.png";
 
 import "./SignupForm.css";
 
@@ -38,88 +43,181 @@ function SignupFormPage() {
       });
     }
     return setErrors({
-      confirmPassword: "Confirm Password field must be the same as the Password field"
+      confirmPassword:
+        "Confirm Password field must be the same as the Password field",
     });
   };
 
+  const demoClickHandler = (e) => {
+    return dispatch(
+      sessionActions.login({ credential: "Demo-lition", password: "password" })
+    ).catch(async (res) => {
+      const data = await res.json();
+      if (data && data.errors) setErrors(data.errors);
+    });
+  };
+
+  const spotifyClickHandler = async () => {
+    await dispatch(spotifyLogin());
+  };
+
   return (
-    <div className="signup-container">
-      <h1>Sign Up</h1>
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <label htmlFor="email">Email</label>
-          <input
-            type="text"
-            id="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+    <div class="bg-gradient-to-bl from-white via-azure-blue via-50% to-azure-blue relative">
+      <div className="bg-login bg-cover bg-no-repeat absolute inset-0"></div>
+      <div class="flex justify-center items-center w-screen h-screen">
+        <div class="flex relative bg-[#FFFFFC] w-[80%] h-[80%] rounded-3xl">
+          <div class="flex flex-col justify-center items-center pl-20 py-20 w-[40%]">
+            <h1>Sign Up!</h1>
+            <div class="h-[20px] my-4">
+              {errors.credential && (
+                <p className="error-message">{errors.credential}</p>
+              )}
+              {errors.email && <p className="error-message">{errors.email}</p>}
+
+              {errors.username && (
+                <p className="error-message">{errors.username}</p>
+              )}
+              {errors.firstName && (
+                <p className="error-message">{errors.firstName}</p>
+              )}
+              {errors.lastName && (
+                <p className="error-message">{errors.lastName}</p>
+              )}
+              {errors.password && (
+                <p className="error-message">{errors.password}</p>
+              )}
+              {errors.confirmPassword && (
+                <p className="error-message">{errors.confirmPassword}</p>
+              )}
+            </div>
+            <form
+              class="flex flex-col gap-y-6 justify-center items-center"
+              onSubmit={handleSubmit}
+            >
+              <div class="flex flex-row gap-x-6 justify-center items center">
+                <div class="flex flex-col">
+                  <label htmlFor="email">Email</label>
+                  <input
+                    class="w-64 h-11 rounded-lg"
+                    type="text"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div class="flex flex-col">
+                  <label htmlFor="username">Username</label>
+                  <input
+                    class="w-64 h-11 rounded-lg"
+                    type="text"
+                    id="username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="flex flex-row gap-x-6 justify-center items center">
+                <div class="flex flex-col">
+                  <label htmlFor="firstName">First Name</label>
+                  <input
+                    class="w-64 h-11 rounded-lg"
+                    type="text"
+                    id="firstName"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div class="flex flex-col">
+                  <label htmlFor="lastName">Last Name</label>
+                  <input
+                    class="w-64 h-11 rounded-lg"
+                    type="text"
+                    id="lastName"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="flex flex-row gap-x-6 justify-center items center">
+                <div class="flex flex-col">
+                  <label htmlFor="password">Password</label>
+                  <input
+                    class="w-64 h-11 rounded-lg"
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                </div>
+                <div class="flex flex-col">
+                  <label htmlFor="confirmPassword">Confirm Password</label>
+                  <input
+                    class="w-64 h-11 rounded-lg"
+                    type="password"
+                    id="confirmPassword"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black"
+              >
+                Sign Up
+              </button>
+              <div class="flex gap-2 justify-center">
+                <p>Already have an account?</p>
+                <p class="text-blue-500 hover:cursor-pointer">Log In</p>
+              </div>
+            </form>
+            <div class="flex items-center my-4">
+              <div class="w-[180px] border-t border-slate-300 mr-2"></div>
+              <p>Or</p>
+              <div class="w-[180px] border-t border-slate-300 ml-2"></div>
+            </div>
+            <div class="flex flex-col justify-center items-center space-y-6">
+              <button
+                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black"
+                onClick={demoClickHandler}
+              >
+                <div class="flex flex-row gap-x-3 justify-center items-center relative">
+                  <BiSolidUserCircle class="text-[35px] text-gray-500 absolute left-5" />
+                  <p>Continue with Demo</p>
+                </div>
+              </button>
+              <button
+                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black"
+                onClick={spotifyClickHandler}
+              >
+                <div class="flex flex-row gap-x-3 justify-center items-center relative">
+                  <img
+                    src={spotifyLogo}
+                    alt="spotifyLogo"
+                    class="w-[30px] absolute left-5"
+                  />
+                  <p>Continue with Spotify</p>
+                </div>
+              </button>
+            </div>
+          </div>
+          <div class="flex flex-col justify-center items-center w-full">
+            <img src={logo} alt="logo" class="w-[200px]" />
+            <p>CONVERT THIS TO SVG LATER, PUTS GIFs</p>
+          </div>
         </div>
-        {errors.email && <p className="error-message">{errors.email}</p>}
-        <div className="form-group">
-          <label htmlFor="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        {errors.username && <p className="error-message">{errors.username}</p>}
-        <div className="form-group">
-          <label htmlFor="firstName">First Name</label>
-          <input
-            type="text"
-            id="firstName"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-          />
-        </div>
-        {errors.firstName && <p className="error-message">{errors.firstName}</p>}
-        <div className="form-group">
-          <label htmlFor="lastName">Last Name</label>
-          <input
-            type="text"
-            id="lastName"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
-        </div>
-        {errors.lastName && <p className="error-message">{errors.lastName}</p>}
-        <div className="form-group">
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        {errors.password && <p className="error-message">{errors.password}</p>}
-        <div className="form-group">
-          <label htmlFor="confirmPassword">Confirm Password</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
-        </div>
-        {errors.confirmPassword && (
-          <p className="error-message">{errors.confirmPassword}</p>
-        )}
-        <button type="submit" className="signup-button">
-          Sign Up
-        </button>
-      </form>
+      </div>
     </div>
   );
-};
+}
 
 export default SignupFormPage;
