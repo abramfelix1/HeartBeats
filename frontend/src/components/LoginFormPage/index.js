@@ -83,7 +83,7 @@ function LoginFormPage() {
                 />
               </div>
               <button
-                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black"
+                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black hover:bg-slate-200"
                 type="submit"
               >
                 Log In
@@ -105,7 +105,7 @@ function LoginFormPage() {
             </div>
             <div class="flex flex-col justify-center items-center space-y-6">
               <button
-                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black"
+                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black hover:bg-slate-200"
                 onClick={demoClickHandler}
               >
                 <div class="flex flex-row gap-x-3 justify-center items-center relative">
@@ -114,7 +114,7 @@ function LoginFormPage() {
                 </div>
               </button>
               <button
-                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black"
+                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black hover:bg-slate-200"
                 onClick={spotifyClickHandler}
               >
                 <div class="flex flex-row gap-x-3 justify-center items-center relative">

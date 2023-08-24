@@ -186,13 +186,16 @@ function SignupFormPage() {
 
               <button
                 type="submit"
-                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black"
+                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black hover:bg-slate-200"
               >
                 Sign Up
               </button>
               <div class="flex gap-2 justify-center">
                 <p>Already have an account?</p>
-                <NavLink to="/login" class="text-blue-500 hover:cursor-pointer">
+                <NavLink
+                  to="/login"
+                  class="text-blue-500 hover:cursor-pointer "
+                >
                   Log In
                 </NavLink>
               </div>
@@ -204,7 +207,7 @@ function SignupFormPage() {
             </div>
             <div class="flex flex-col justify-center items-center space-y-6">
               <button
-                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black"
+                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black hover:bg-slate-200"
                 onClick={demoClickHandler}
               >
                 <div class="flex flex-row gap-x-3 justify-center items-center relative">
@@ -213,7 +216,7 @@ function SignupFormPage() {
                 </div>
               </button>
               <button
-                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black"
+                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black hover:bg-slate-200"
                 onClick={spotifyClickHandler}
               >
                 <div class="flex flex-row gap-x-3 justify-center items-center relative">
