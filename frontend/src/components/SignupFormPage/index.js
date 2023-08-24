@@ -65,15 +65,11 @@ function SignupFormPage() {
     <div class="bg-gradient-to-bl from-white via-azure-blue via-50% to-azure-blue relative">
       <div className="bg-login bg-cover bg-no-repeat absolute inset-0"></div>
       <div class="flex justify-center items-center w-screen h-screen">
-        <div class="flex relative bg-[#FFFFFC] w-[80%] h-[80%] rounded-3xl">
-          <div class="flex flex-col justify-center items-center pl-20 py-20 w-[40%]">
+        <div class="flex relative bg-[#FFFFFC] min-w-[80%] h-[80%] rounded-3xl">
+          <div class="flex flex-col justify-center items-center pl-20 py-20 w-[100%]">
             <h1>Sign Up!</h1>
-            <div class="h-[20px] my-4">
-              {errors.credential && (
-                <p className="error-message">{errors.credential}</p>
-              )}
+            <div class="flex flex-col items- h-[175px] mb-4">
               {errors.email && <p className="error-message">{errors.email}</p>}
-
               {errors.username && (
                 <p className="error-message">{errors.username}</p>
               )}
@@ -96,6 +92,9 @@ function SignupFormPage() {
             >
               <div class="flex flex-row gap-x-6 justify-center items center">
                 <div class="flex flex-col">
+                  {/* {errors.email && (
+                    <p className="error-message">{errors.email}</p>
+                  )} */}
                   <label htmlFor="email">Email</label>
                   <input
                     class="w-64 h-11 rounded-lg"
@@ -107,6 +106,9 @@ function SignupFormPage() {
                   />
                 </div>
                 <div class="flex flex-col">
+                  {/* {errors.username && (
+                    <p className="error-message">{errors.username}</p>
+                  )} */}
                   <label htmlFor="username">Username</label>
                   <input
                     class="w-64 h-11 rounded-lg"
@@ -121,6 +123,9 @@ function SignupFormPage() {
 
               <div class="flex flex-row gap-x-6 justify-center items center">
                 <div class="flex flex-col">
+                  {/* {errors.firstName && (
+                    <p className="error-message">{errors.firstName}</p>
+                  )} */}
                   <label htmlFor="firstName">First Name</label>
                   <input
                     class="w-64 h-11 rounded-lg"
@@ -132,6 +137,9 @@ function SignupFormPage() {
                   />
                 </div>
                 <div class="flex flex-col">
+                  {/* {errors.lastName && (
+                    <p className="error-message">{errors.lastName}</p>
+                  )} */}
                   <label htmlFor="lastName">Last Name</label>
                   <input
                     class="w-64 h-11 rounded-lg"
@@ -146,6 +154,9 @@ function SignupFormPage() {
 
               <div class="flex flex-row gap-x-6 justify-center items center">
                 <div class="flex flex-col">
+                  {/* {errors.password && (
+                    <p className="error-message">{errors.password}</p>
+                  )} */}
                   <label htmlFor="password">Password</label>
                   <input
                     class="w-64 h-11 rounded-lg"
@@ -157,6 +168,9 @@ function SignupFormPage() {
                   />
                 </div>
                 <div class="flex flex-col">
+                  {/* {errors.confirmPassword && (
+                    <p className="error-message">{errors.confirmPassword}</p>
+                  )} */}
                   <label htmlFor="confirmPassword">Confirm Password</label>
                   <input
                     class="w-64 h-11 rounded-lg"

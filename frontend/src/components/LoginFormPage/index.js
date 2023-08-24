@@ -48,7 +48,7 @@ function LoginFormPage() {
       <div className="bg-login bg-cover bg-no-repeat absolute inset-0"></div>
       <div class="flex justify-center items-center w-screen h-screen">
         <div class="flex relative bg-[#FFFFFC] w-[80%] h-[80%] rounded-3xl">
-          <div class="flex flex-col justify-center items-center pl-20 py-20 w-[40%]">
+          <div class="flex flex-col justify-center items-center pl-20 py-20 w-[100%]">
             <h1>Welcome Back!</h1>
             <div class="h-[20px] my-4">
               {errors.credential && (
