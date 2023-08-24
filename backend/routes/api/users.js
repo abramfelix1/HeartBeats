@@ -10,16 +10,8 @@ const { User } = require("../../db/models");
 const router = express.Router();
 
 // Sign up
-router.post("", validateSignup, async (req, res) => {
+router.post("", validateSignup, async (req, res, next) => {
   const { email, password, username, firstName, lastName } = req.body;
-  const hashedPassword = bcrypt.hashSync(password);
-  const user = await User.create({
-    email,
-    firstName,
-    lastName,
-    username,
-    hashedPassword,
-  });
 
   // Check if Username or Email exists
   const usernameExists = await User.findOne({ where: { username } });
@@ -36,12 +28,22 @@ router.post("", validateSignup, async (req, res) => {
       status: 403,
     });
 
+  const hashedPassword = bcrypt.hashSync(password);
+
+  const user = await User.create({
+    email: email.toLowerCase(),
+    firstName,
+    lastName,
+    username: username.toLowerCase(),
+    hashedPassword,
+  });
+
   const safeUser = {
     id: user.id,
-    email: user.email.toLower(),
+    email: user.email,
     firstName: user.firstName,
     lastName: user.lastName,
-    username: user.username.toLower(),
+    username: user.username,
   };
 
   await setTokenCookie(res, safeUser);
