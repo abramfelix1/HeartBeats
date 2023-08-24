@@ -9,6 +9,7 @@ import logo from "../../images/heartBeatLogo.png";
 import spotifyLogo from "../../images/Spotify_Icon_RGB_Green.png";
 
 import "./SignupForm.css";
+import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 
 function SignupFormPage() {
   const dispatch = useDispatch();
@@ -191,7 +192,9 @@ function SignupFormPage() {
               </button>
               <div class="flex gap-2 justify-center">
                 <p>Already have an account?</p>
-                <p class="text-blue-500 hover:cursor-pointer">Log In</p>
+                <NavLink to="/login" class="text-blue-500 hover:cursor-pointer">
+                  Log In
+                </NavLink>
               </div>
             </form>
             <div class="flex items-center my-4">

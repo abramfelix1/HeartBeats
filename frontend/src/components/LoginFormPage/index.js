@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 import { BiSolidUserCircle } from "react-icons/bi";
 import { spotifyLogin } from "../../store/session";
 import { getSpotifyUser } from "../../store/spotify";
+import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import logo from "../../images/heartBeatLogo.png";
 import spotifyLogo from "../../images/Spotify_Icon_RGB_Green.png";
 
@@ -89,7 +90,12 @@ function LoginFormPage() {
               </button>
               <div class="flex gap-2 justify-center">
                 <p>Don't Have an account?</p>
-                <p class="text-blue-500 hover:cursor-pointer">Sign Up</p>
+                <NavLink
+                  to="/signup"
+                  class="text-blue-500 hover:cursor-pointer"
+                >
+                  Sign Up
+                </NavLink>
               </div>
             </form>
             <div class="flex items-center my-4">

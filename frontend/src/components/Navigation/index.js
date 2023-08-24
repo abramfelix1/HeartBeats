@@ -3,7 +3,6 @@ import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import { logout } from "../../store/session";
-import "./Navigation.css";
 import logo from "../../images/heartBeatLogo.png";
 import { AiOutlineUser, AiOutlineSetting, AiOutlineEdit } from "react-icons/ai";
 import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
@@ -49,10 +48,10 @@ function Navigation({ isLoaded }) {
               <p>Logout</p>
             </div>
           ) : (
-            <div class="flex flex-col items-center">
+            <NavLink to="login" class="flex flex-col items-center">
               <MdOutlineLogin class="text-[35px]" />
               <p>Login</p>
-            </div>
+            </NavLink>
           )}
         </div>
       </div>
