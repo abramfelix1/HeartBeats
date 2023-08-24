@@ -105,7 +105,7 @@ router.get("/callback", async (req, res) => {
 
       //Create new User with data if it doesn't exist
       if (response.ok) {
-        const { email, display_name } = data;
+        const { email, display_name,id } = data;
         const existingUser = await User.findOne({
           where: {
             [Op.or]: [{ username: display_name }, { email: email }],
@@ -117,11 +117,11 @@ router.get("/callback", async (req, res) => {
         } else {
           user = await User.create({
             email: email.toLowerCase(),
-            username: display_name.toLowerCase(),
+            username: display_name.toLowerCase()+accessToken.slice(0, 4),
             hashedPassword: accessToken.slice(0, 40),
             firstName: null,
             lastName: null,
-            spotify: true,
+            spotifyId: id,
           });
         }
         if (!req.session) {
@@ -134,7 +134,7 @@ router.get("/callback", async (req, res) => {
           username: user.username,
           firstName: user.firstName,
           lastName: user.lastName,
-          spotify: true,
+          spotifyId: user.spotifyId,
         };
         setTokenCookie(res, user);
       } else {

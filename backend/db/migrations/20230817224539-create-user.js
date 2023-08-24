@@ -31,8 +31,8 @@ module.exports = {
           type: Sequelize.STRING.BINARY,
           allowNull: false,
         },
-        spotify: {
-          type: Sequelize.BOOLEAN,
+        spotifyId: {
+          type: Sequelize.STRING,
           allowNull: true,
           defaultValue: null,
         },

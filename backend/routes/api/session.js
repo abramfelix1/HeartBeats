@@ -37,7 +37,7 @@ router.post("/", validateLogin, async (req, res, next) => {
     username: user.username,
     firstName: user.firstName,
     lastName: user.lastName,
-    spotifyId: user.spotify,
+    spotifyId: user.spotifyId,
   };
 
   await setTokenCookie(res, safeUser);
