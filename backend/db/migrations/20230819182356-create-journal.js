@@ -29,6 +29,7 @@ module.exports = {
         name: {
           type: Sequelize.STRING,
           allowNull: false,
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         content: {
           type: Sequelize.TEXT,
