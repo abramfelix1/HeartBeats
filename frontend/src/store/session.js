@@ -25,6 +25,7 @@ export const login = (user) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
+    console.log("LOGIN DaTA:", data);
     dispatch(setSessionUser(data.user));
     dispatch(spotifyToken());
     return response;

@@ -132,6 +132,9 @@ router.get("/callback", async (req, res) => {
           id: user.id,
           email: user.email,
           username: user.username,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          spotify: true,
         };
         setTokenCookie(res, user);
       } else {
