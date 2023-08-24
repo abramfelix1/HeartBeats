@@ -112,7 +112,7 @@ export const checkLoggedIn = () => async (dispatch) => {
 // Initial state
 const initialState = {
   user: null,
-  spotify: null,
+  spotifyInfo: null,
 };
 
 // Reducer
@@ -129,7 +129,7 @@ const sessionReducer = (state = initialState, action) => {
       newState.spotify = null;
       return newState;
     case spotifyActions.GET_SPOTIFY:
-      newState = { ...state, spotify: action.payload };
+      newState = { ...state, spotifyInfo: action.payload };
       return newState;
     default:
       return state;

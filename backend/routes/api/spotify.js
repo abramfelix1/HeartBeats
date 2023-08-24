@@ -120,7 +120,7 @@ router.get("/callback", async (req, res) => {
         } else {
           user = await User.create({
             email: email.toLowerCase(),
-            username: display_name.toLowerCase() + accessToken.slice(0, 4),
+            username: display_name.toLowerCase() + "_"+ accessToken.slice(0, 4),
             hashedPassword: accessToken.slice(0, 40),
             firstName: null,
             lastName: null,
