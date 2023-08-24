@@ -60,7 +60,7 @@ const validateSignup = [
     .withMessage("Please provide a valid email."),
   check("username")
     .exists({ checkFalsy: true })
-    .isAlphanumeric()
+    .matches(/^[a-zA-Z0-9_]*$/)
     .withMessage("Please provide a valid username")
     .isLength({ min: 4 })
     .withMessage("Please provide a username with at least 4 characters."),

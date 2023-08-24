@@ -46,7 +46,11 @@ module.exports = (sequelize, DataTypes) => {
           len: [8, 60],
         },
       },
-      spotify: { type: DataTypes.BOOLEAN, allowNull: true, defaultValue: null },
+      spotifyId: {
+        type: DataTypes.STRING,
+        allowNull: true,
+        defaultValue: null,
+      },
     },
     {
       sequelize,
