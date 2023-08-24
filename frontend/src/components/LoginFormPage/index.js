@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { BiSolidUserCircle } from "react-icons/bi";
 import { spotifyLogin } from "../../store/session";
+import { getSpotifyUser } from "../../store/spotify";
 import logo from "../../images/heartBeatLogo.png";
 import spotifyLogo from "../../images/Spotify_Icon_RGB_Green.png";
 
@@ -38,8 +39,8 @@ function LoginFormPage() {
     });
   };
 
-  const spotifyClickHandler = () => {
-    dispatch(spotifyLogin());
+  const spotifyClickHandler = async () => {
+    await dispatch(spotifyLogin());
   };
 
   return (

@@ -2,12 +2,15 @@ import React, { useEffect, useState } from "react";
 import Navigation from "../Navigation";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
+import { getSpotifyUser } from "../../store/spotify";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
+    dispatch(getSpotifyUser());
+    dispatch(sessionActions.checkLoggedIn());
   }, [dispatch]);
 
   return (
