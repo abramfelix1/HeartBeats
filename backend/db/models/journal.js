@@ -25,9 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       content: {
         type: DataTypes.TEXT,
-        // validate: {
-        //   notEmpty: true,
-        // },
+        defaultValue: "I am feeling...",
       },
       image_url: {
         type: DataTypes.STRING,

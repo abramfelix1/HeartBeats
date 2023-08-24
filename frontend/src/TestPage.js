@@ -142,6 +142,8 @@ export default function TestPage() {
           <img src={song.album.images[1].url} alt="album cover" />
         </div>
       )}
+
+      {/* SLIDERS SECTION */}
       <div>
         <p>GENERATE SONGS</p>
         <p>
@@ -263,8 +265,16 @@ export default function TestPage() {
             </div>
           ))}
       </div>
+
+      {/* JOURNALS SECTION */}
       <div>
         <p className="font-extrabold">JOURNALS</p>
+        <p className="font-semibold">CREATE</p>
+        {/* creating generates blank page, but sets title to date */}
+        {/* have it save every 15 sec when on it (update)*/}
+        <>
+          <input type="text" />]
+        </>
       </div>
     </div>
   );
