@@ -7,7 +7,7 @@ module.exports = {
         "air-force-blue": "#4D7C8A",
       },
       backgroundImage: {
-        login: "url('./images/login-background2.png')",
+        login: "url('./images/login-background4.png')",
       },
     },
   },
