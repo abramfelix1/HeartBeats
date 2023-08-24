@@ -88,6 +88,7 @@ router.get("/callback", async (req, res) => {
   });
 
   if (response.ok) {
+    const { user } = req;
     const data = await response.json();
     const accessToken = data.access_token;
     const refreshToken = data.refresh_token;
@@ -105,19 +106,21 @@ router.get("/callback", async (req, res) => {
 
       //Create new User with data if it doesn't exist
       if (response.ok) {
-        const { email, display_name,id } = data;
+        const { email, display_name, id } = data;
         const existingUser = await User.findOne({
           where: {
-            [Op.or]: [{ username: display_name }, { email: email }],
+            [Op.or]: [{ spotifyId: id }, { email: email }],
           },
         });
         let user;
         if (existingUser) {
           user = existingUser;
+        } else if (user) {
+          const updatedUser = user.update({ spotifyId: id });
         } else {
           user = await User.create({
             email: email.toLowerCase(),
-            username: display_name.toLowerCase()+accessToken.slice(0, 4),
+            username: display_name.toLowerCase() + accessToken.slice(0, 4),
             hashedPassword: accessToken.slice(0, 40),
             firstName: null,
             lastName: null,
