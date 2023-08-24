@@ -29,7 +29,7 @@ function LoginFormPage() {
   };
 
   return (
-    <div class="bg-sky-500 relative ">
+    <div class="bg-gradient-to-bl from-white via-[#508bc3] via-50% to-[#508bc3] relative ">
       <div className="bg-login bg-cover bg-no-repeat absolute inset-0"></div>
       <div class="flex justify-center items-center w-screen h-screen">
         <div class="flex relative bg-[#FFFFFC] w-[80%] h-[80%] rounded-3xl">
