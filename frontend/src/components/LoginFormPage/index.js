@@ -3,6 +3,7 @@ import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import { BiSolidUserCircle } from "react-icons/bi";
+import { spotifyLogin } from "../../store/session";
 import logo from "../../images/heartBeatLogo.png";
 import spotifyLogo from "../../images/Spotify_Icon_RGB_Green.png";
 
@@ -28,8 +29,21 @@ function LoginFormPage() {
     );
   };
 
+  const demoClickHandler = (e) => {
+    return dispatch(
+      sessionActions.login({ credential: "Demo-lition", password: "password" })
+    ).catch(async (res) => {
+      const data = await res.json();
+      if (data && data.errors) setErrors(data.errors);
+    });
+  };
+
+  const spotifyClickHandler = () => {
+    dispatch(spotifyLogin());
+  };
+
   return (
-    <div class="bg-gradient-to-bl from-white via-[#508bc3] via-50% to-[#508bc3] relative ">
+    <div class="bg-gradient-to-bl from-white via-azure-blue via-50% to-azure-blue relative ">
       <div className="bg-login bg-cover bg-no-repeat absolute inset-0"></div>
       <div class="flex justify-center items-center w-screen h-screen">
         <div class="flex relative bg-[#FFFFFC] w-[80%] h-[80%] rounded-3xl">
@@ -83,13 +97,19 @@ function LoginFormPage() {
               <div class="w-[180px] border-t border-slate-300 ml-2"></div>
             </div>
             <div class="flex flex-col justify-center items-center space-y-6">
-              <button class="bg-white w-96 h-11 rounded-lg border-[1px] border-black">
+              <button
+                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black"
+                onClick={demoClickHandler}
+              >
                 <div class="flex flex-row gap-x-3 justify-center items-center relative">
                   <BiSolidUserCircle class="text-[35px] text-gray-500 absolute left-5" />
                   <p>Continue with Demo</p>
                 </div>
               </button>
-              <button class="bg-white w-96 h-11 rounded-lg border-[1px] border-black">
+              <button
+                class="bg-white w-96 h-11 rounded-lg border-[1px] border-black"
+                onClick={spotifyClickHandler}
+              >
                 <div class="flex flex-row gap-x-3 justify-center items-center relative">
                   <img
                     src={spotifyLogo}
