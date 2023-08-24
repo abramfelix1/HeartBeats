@@ -1,7 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
+import { logout } from "../../store/session";
 import "./Navigation.css";
 import logo from "../../images/heartBeatLogo.png";
 import { AiOutlineUser, AiOutlineSetting, AiOutlineEdit } from "react-icons/ai";
@@ -9,7 +10,12 @@ import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
 import { PiMusicNotes, PiUser } from "react-icons/pi";
 
 function Navigation({ isLoaded }) {
+  const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
+
+  const logoutClickHandler = () => {
+    dispatch(logout());
+  };
 
   return (
     <div class="flex flex-col mx-5 my-5 items-center">
@@ -34,8 +40,11 @@ function Navigation({ isLoaded }) {
             {isLoaded && <AiOutlineSetting class="text-[35px]" />}
             <p>Settings</p>
           </div>
-          {isLoaded ? (
-            <div class="flex flex-col items-center hover:cursor-pointer">
+          {sessionUser ? (
+            <div
+              class="flex flex-col items-center hover:cursor-pointer"
+              onClick={logoutClickHandler}
+            >
               <MdOutlineLogout class="text-[35px]" />
               <p>Logout</p>
             </div>
