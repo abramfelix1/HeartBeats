@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import SpotifyLogin from "./components/LoginFormPage/SpotifyLogin";
 import { useDispatch } from "react-redux";
 import { getSpotifyUser, getTestSong, getRecSongs } from "./store/spotify";
+import { getAllJournals, createJournal } from "./store/journals";
 import { checkLoggedIn } from "./store/session";
 import { useSelector } from "react-redux";
 import { Howl } from "howler";
@@ -13,6 +14,7 @@ export default function TestPage() {
     const tracks = state.spotify.songs?.tracks;
     return tracks ? Object.values(tracks) : [];
   });
+  const journals = useSelector((state) => Object.values(state.journals));
 
   //Use these for getRecSongs thunk
   //Split genres with a %2C if sending in an array of generes
@@ -105,6 +107,17 @@ export default function TestPage() {
     dispatch(checkLoggedIn());
   }, [dispatch]);
 
+  //JOURNAL HANDLERS
+  const getAllJournalsHandler = () => {
+    console.log("CLICK GET ALL JOURNALS");
+    dispatch(getAllJournals());
+  };
+
+  const createJournalHandler = () => {
+    console.log("CLICK CREATE JOURNAL");
+    dispatch(createJournal());
+  };
+
   return (
     <div>
       <button
@@ -142,6 +155,8 @@ export default function TestPage() {
           <img src={song.album.images[1].url} alt="album cover" />
         </div>
       )}
+
+      {/* SLIDERS SECTION */}
       <div>
         <p>GENERATE SONGS</p>
         <p>
@@ -263,8 +278,22 @@ export default function TestPage() {
             </div>
           ))}
       </div>
-      <div>
+
+      {/* JOURNALS SECTION */}
+      <div class="flex flex-col items-start">
         <p className="font-extrabold">JOURNALS</p>
+        <button className="font-semibold" onClick={getAllJournalsHandler}>
+          GET ALL JOURNALS
+        </button>
+        <button className="font-semibold" onClick={createJournalHandler}>
+          CREATE
+        </button>
+        {/* creating generates blank page, but sets title to date */}
+        {/* have it save every 15 sec when on it (update)*/}
+        {/* if there is no content, dont save */}
+        {/* <>
+          <input type="text" />]
+        </> */}
       </div>
     </div>
   );
