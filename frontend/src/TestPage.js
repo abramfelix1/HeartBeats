@@ -8,7 +8,7 @@ import {
   updateJournal,
   deleteJournal,
 } from "./store/journals";
-import { getAllPlaylists } from "./store/playlists";
+import { getAllPlaylists, getPlaylist } from "./store/playlists";
 import { checkLoggedIn } from "./store/session";
 import { useSelector } from "react-redux";
 import { Howl } from "howler";
@@ -139,9 +139,15 @@ export default function TestPage() {
 
   // PLAYLIST HANDLERS
   const getAllPlaylistsHandler = () => {
-    console.log("CLICK GET ALL PLAYLISTS")
-    dispatch(getAllPlaylists())
-  }
+    console.log("CLICK GET ALL PLAYLISTS");
+    dispatch(getAllPlaylists());
+  };
+
+  const getPlaylistHandler = () => {
+    console.log("CLICK GET PLAYLIST");
+    const id = 1;
+    dispatch(getPlaylist(id));
+  };
 
   return (
     <div>
@@ -332,6 +338,9 @@ export default function TestPage() {
         <p className="font-extrabold">PLAYLISTS</p>
         <button className="font-semibold" onClick={getAllPlaylistsHandler}>
           GET ALL PLAYLISTS
+        </button>
+        <button className="font-semibold" onClick={getPlaylistHandler}>
+          GET PLAYLIST
         </button>
       </div>
     </div>

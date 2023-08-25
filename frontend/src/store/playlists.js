@@ -1,7 +1,7 @@
 import { csrfFetch } from "./csrf";
 
 const GET_ALL_PLAYLISTS = "playlists/GET_ALL_PLAYLISTS";
-const GET_PLAYLIST = "playlists/GET_ALL_PLAYLISTS";
+const GET_PLAYLIST = "playlists/GET_PLAYLISTS";
 const CREATE_PLAYLIST = "playlists/CREATE_PLAYLIST";
 const UPDATE_PLAYLIST = "playlists/UPDATE_PLAYLIST";
 const DELETE_PLAYLIST = "playlists/DELETE_PLAYLIST";
@@ -9,6 +9,12 @@ const DELETE_PLAYLIST = "playlists/DELETE_PLAYLIST";
 export const getAllPlaylistsAction = (payload) => {
   return {
     type: GET_ALL_PLAYLISTS,
+    payload,
+  };
+};
+export const getPlaylistAction = (payload) => {
+  return {
+    type: GET_PLAYLIST,
     payload,
   };
 };
@@ -21,6 +27,16 @@ export const getAllPlaylists = () => async (dispatch) => {
     const playlists = await res.json();
     dispatch(getAllPlaylistsAction(playlists));
     return playlists;
+  }
+};
+
+/* GET A PLAYLIST */
+export const getPlaylist = (id) => async (dispatch) => {
+  const res = await csrfFetch(`/api/playlists/${id}`);
+  if (res.ok) {
+    const playlist = await res.json();
+    dispatch(getPlaylistAction(playlist));
+    return playlist;
   }
 };
 
@@ -39,6 +55,10 @@ export default function playlistsReducer(state = initialState, action) {
         {}
       );
       return playlists;
+    }
+    case GET_PLAYLIST: {
+      console.log("PLAYLIST PAYLOAD:", action.payload);
+      return action.payload.playlist;
     }
     default:
       return state;
