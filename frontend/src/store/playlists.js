@@ -12,9 +12,17 @@ export const getAllPlaylistsAction = (payload) => {
     payload,
   };
 };
+
 export const getPlaylistAction = (payload) => {
   return {
     type: GET_PLAYLIST,
+    payload,
+  };
+};
+
+export const createPlaylistAction = (payload) => {
+  return {
+    type: CREATE_PLAYLIST,
     payload,
   };
 };
@@ -40,6 +48,24 @@ export const getPlaylist = (id) => async (dispatch) => {
   }
 };
 
+/* CREATE PLAYLIST */
+export const createPlaylist = (journalId) => async (dispatch) => {
+  const res = await csrfFetch(`/api/playlists`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      journalId: journalId,
+    }),
+  });
+  if (res.ok) {
+    const playlist = await res.json();
+    dispatch(createPlaylistAction(playlist));
+    return playlist;
+  }
+};
+
 const initialState = {};
 
 export default function playlistsReducer(state = initialState, action) {
@@ -57,7 +83,11 @@ export default function playlistsReducer(state = initialState, action) {
       return playlists;
     }
     case GET_PLAYLIST: {
-      console.log("PLAYLIST PAYLOAD:", action.payload);
+      console.log("GET PLAYLIST PAYLOAD:", action.payload);
+      return action.payload.playlist;
+    }
+    case CREATE_PLAYLIST: {
+      console.log("CREATE PLAYLIST PAYLOAD:", action.payload);
       return action.payload.playlist;
     }
     default:

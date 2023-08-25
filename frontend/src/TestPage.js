@@ -8,7 +8,11 @@ import {
   updateJournal,
   deleteJournal,
 } from "./store/journals";
-import { getAllPlaylists, getPlaylist } from "./store/playlists";
+import {
+  getAllPlaylists,
+  getPlaylist,
+  createPlaylist,
+} from "./store/playlists";
 import { checkLoggedIn } from "./store/session";
 import { useSelector } from "react-redux";
 import { Howl } from "howler";
@@ -147,6 +151,12 @@ export default function TestPage() {
     console.log("CLICK GET PLAYLIST");
     const id = 1;
     dispatch(getPlaylist(id));
+  };
+
+  const createPlaylistHandler = () => {
+    console.log("CLICK CREATE PLAYLIST");
+    const id = 17;
+    dispatch(createPlaylist(id));
   };
 
   return (
@@ -341,6 +351,9 @@ export default function TestPage() {
         </button>
         <button className="font-semibold" onClick={getPlaylistHandler}>
           GET PLAYLIST
+        </button>
+        <button className="font-semibold" onClick={createPlaylistHandler}>
+          CREATE PLAYLIST
         </button>
       </div>
     </div>

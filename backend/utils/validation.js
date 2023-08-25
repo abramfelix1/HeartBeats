@@ -73,14 +73,14 @@ const validateSignup = [
 ];
 
 const validateJournal = [
-  // check("name")
-  //   .exists({ checkFalsy: true })
-  //   .isLength({ min: 1, max: 60 })
-  //   .withMessage("Please provide a Name between 1-60 characters"),
-  // check("content")
-  //   .exists({ checkFalsy: true })
-  //   .custom(validateWordCount)
-  //   .withMessage("Word Count must be between 3-500"),
+  check("name")
+    .exists({ checkFalsy: true })
+    .isLength({ min: 1, max: 60 })
+    .withMessage("Please provide a Name between 1-60 characters"),
+  check("content")
+    .exists({ checkFalsy: true })
+    .custom(validateWordCount)
+    .withMessage("Word Count must be between 3-500"),
   check("image_url")
     .optional()
     .custom(validateImgUrl)

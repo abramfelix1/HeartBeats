@@ -61,7 +61,7 @@ router.get("/:id", requireAuth, async (req, res, next) => {
 });
 
 /* CREATE A JOURNAL */
-router.post("/", requireAuth, validateJournal, async (req, res, next) => {
+router.post("/", requireAuth,async (req, res, next) => {
   const { user } = req;
 
   const newJournal = await Journal.create({
@@ -86,7 +86,7 @@ router.post("/", requireAuth, validateJournal, async (req, res, next) => {
 });
 
 /* UPDATE JOURNAL BY ID */
-router.put("/:id", requireAuth, async (req, res, next) => {
+router.put("/:id", requireAuth, validateJournal,  async (req, res, next) => {
   const { user } = req;
   const journalId = req.params.id;
 

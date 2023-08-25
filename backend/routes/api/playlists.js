@@ -60,7 +60,7 @@ router.get("/:id", requireAuth, async (req, res, next) => {
 });
 
 /* CREATE A PLAYLIST */
-router.post("/", requireAuth, validatePlaylist, async (req, res, next) => {
+router.post("/", requireAuth, async (req, res, next) => {
   const { user } = req;
   const { journalId } = req.body;
 
@@ -86,7 +86,7 @@ router.post("/", requireAuth, validatePlaylist, async (req, res, next) => {
 });
 
 /* UPDATE PLAYLIST BY ID */
-router.put("/:id", requireAuth, async (req, res, next) => {
+router.put("/:id", requireAuth, validatePlaylist, async (req, res, next) => {
   const { user } = req;
   const playlistId = req.params.id;
 
