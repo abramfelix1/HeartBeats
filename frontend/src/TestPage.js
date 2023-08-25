@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import SpotifyLogin from "./components/LoginFormPage/SpotifyLogin";
 import { useDispatch } from "react-redux";
 import { getSpotifyUser, getTestSong, getRecSongs } from "./store/spotify";
-import { getAllJournals } from "./store/journals";
+import { getAllJournals, createJournal } from "./store/journals";
 import { checkLoggedIn } from "./store/session";
 import { useSelector } from "react-redux";
 import { Howl } from "howler";
@@ -107,9 +107,15 @@ export default function TestPage() {
     dispatch(checkLoggedIn());
   }, [dispatch]);
 
+  //JOURNAL HANDLERS
   const getAllJournalsHandler = () => {
     console.log("CLICK GET ALL JOURNALS");
     dispatch(getAllJournals());
+  };
+
+  const createJournalHandler = () => {
+    console.log("CLICK CREATE JOURNAL");
+    dispatch(createJournal());
   };
 
   return (
@@ -279,7 +285,9 @@ export default function TestPage() {
         <button className="font-semibold" onClick={getAllJournalsHandler}>
           GET ALL JOURNALS
         </button>
-        <button className="font-semibold">CREATE</button>
+        <button className="font-semibold" onClick={createJournalHandler}>
+          CREATE
+        </button>
         {/* creating generates blank page, but sets title to date */}
         {/* have it save every 15 sec when on it (update)*/}
         {/* if there is no content, dont save */}

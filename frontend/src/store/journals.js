@@ -11,6 +11,13 @@ export const getAllJournalsAction = (payload) => {
   };
 };
 
+export const createJournalAction = (payload) => {
+  return {
+    type: CREATE_JOURNAL,
+    payload,
+  };
+};
+
 /* GET ALL JOURNALS OF USER */
 export const getAllJournals = () => async (dispatch) => {
   const res = await fetch("/api/journals/session");
@@ -19,6 +26,16 @@ export const getAllJournals = () => async (dispatch) => {
     const journals = await res.json();
     dispatch(getAllJournalsAction(journals));
     return journals;
+  }
+};
+
+/* CREATE JOURNAL */
+export const createJournal = () => async (dispatch) => {
+  const res = await fetch("/api/journals");
+  if (res.ok) {
+    const journal = await res.json();
+    dispatch(createJournalAction(journal));
+    return journal;
   }
 };
 
@@ -34,6 +51,11 @@ export default function journalsReducer(state = initialState, action) {
         return journals;
       }, {});
       return journals;
+    }
+    case CREATE_JOURNAL: {
+      console.log("CREATE JOURNALS PAYLOAD", action.payload);
+      newState[action.payload.id] = { ...action.payload, playlist: null };
+      return newState;
     }
     default:
       return state;

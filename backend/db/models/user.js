@@ -49,7 +49,6 @@ module.exports = (sequelize, DataTypes) => {
       spotifyId: {
         type: DataTypes.STRING,
         allowNull: true,
-        defaultValue: null,
       },
     },
     {
