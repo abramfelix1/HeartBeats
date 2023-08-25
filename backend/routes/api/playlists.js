@@ -62,6 +62,14 @@ router.get("/:id", requireAuth, async (req, res, next) => {
 /* CREATE A PLAYLIST */
 router.post("/", requireAuth, validatePlaylist, async (req, res, next) => {
   const { user } = req;
+  const { journalId } = req.body;
+
+  const existingPlaylist = await Playlist.findOne({ where: { journalId } });
+  if (existingPlaylist) {
+    return next({
+      errors: { playlist: "Playlist already exists.", status: 404 },
+    });
+  }
 
   const newPlaylist = await Playlist.create({
     userId: user.dataValues.id,
