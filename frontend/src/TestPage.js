@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import SpotifyLogin from "./components/LoginFormPage/SpotifyLogin";
 import { useDispatch } from "react-redux";
 import { getSpotifyUser, getTestSong, getRecSongs } from "./store/spotify";
+import { getAllJournals } from "./store/journals";
 import { checkLoggedIn } from "./store/session";
 import { useSelector } from "react-redux";
 import { Howl } from "howler";
@@ -13,6 +14,7 @@ export default function TestPage() {
     const tracks = state.spotify.songs?.tracks;
     return tracks ? Object.values(tracks) : [];
   });
+  const journals = useSelector((state) => Object.values(state.journals));
 
   //Use these for getRecSongs thunk
   //Split genres with a %2C if sending in an array of generes
@@ -104,6 +106,11 @@ export default function TestPage() {
   useEffect(() => {
     dispatch(checkLoggedIn());
   }, [dispatch]);
+
+  const getAllJournalsHandler = () => {
+    console.log("CLICK GET ALL JOURNALS");
+    dispatch(getAllJournals());
+  };
 
   return (
     <div>
@@ -267,14 +274,18 @@ export default function TestPage() {
       </div>
 
       {/* JOURNALS SECTION */}
-      <div>
+      <div class="flex flex-col items-start">
         <p className="font-extrabold">JOURNALS</p>
-        <p className="font-semibold">CREATE</p>
+        <button className="font-semibold" onClick={getAllJournalsHandler}>
+          GET ALL JOURNALS
+        </button>
+        <button className="font-semibold">CREATE</button>
         {/* creating generates blank page, but sets title to date */}
         {/* have it save every 15 sec when on it (update)*/}
-        <>
+        {/* if there is no content, dont save */}
+        {/* <>
           <input type="text" />]
-        </>
+        </> */}
       </div>
     </div>
   );

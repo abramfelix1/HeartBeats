@@ -3,10 +3,12 @@ import thunk from "redux-thunk";
 
 import sessionReducer from "./session";
 import { spotifyReducer } from "./spotify";
+import journalsReducer from "./journals";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   spotify: spotifyReducer,
+  journals: journalsReducer,
 });
 
 let enhancer;
