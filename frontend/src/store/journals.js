@@ -27,6 +27,15 @@ export const updateJournalAction = (payload) => {
   };
 };
 
+export const deleteJournalAction = (id) => {
+  return {
+    type: DELETE_JOURNAL,
+    payload: {
+      id: id,
+    },
+  };
+};
+
 /* GET ALL JOURNALS OF USER */
 export const getAllJournals = () => async (dispatch) => {
   const res = await csrfFetch("/api/journals/session");
@@ -71,6 +80,21 @@ export const updateJournal = (id, payload) => async (dispatch) => {
   }
 };
 
+/* DELETE JOURNAL */
+export const deleteJournal = (id) => async (dispatch) => {
+  const res = await csrfFetch(`/api/journals/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (res.ok) {
+    const data = await res.json();
+    dispatch(deleteJournalAction(id));
+    return data;
+  }
+};
+
 const initialState = {};
 
 export default function journalsReducer(state = initialState, action) {
@@ -92,6 +116,11 @@ export default function journalsReducer(state = initialState, action) {
     case UPDATE_JOURNAL: {
       console.log("UPDATE JOURNALS PAYLOAD", action.payload);
       newState[action.payload.journal.id] = action.payload.journal;
+      return newState;
+    }
+    case DELETE_JOURNAL: {
+      console.log("DELETE JOURNALS PAYLOAD", action.payload);
+      delete newState[action.payload.id];
       return newState;
     }
     default:
