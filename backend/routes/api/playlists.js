@@ -29,7 +29,7 @@ router.get("/session", requireAuth, async (req, res, next) => {
   });
 
   if (!playlists.length) {
-    res.json({ Playlist: [] });
+    res.json({ playlists: [] });
   }
 
   res.json({ playlists: playlists });

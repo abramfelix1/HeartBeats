@@ -15,12 +15,12 @@ router.get("/session", requireAuth, async (req, res, next) => {
 
   const journals = await Journal.findAll({
     where,
-    include: [
-      {
-        model: Playlist,
-        as: "playlist",
-      },
-    ],
+    // include: [
+    //   {
+    //     model: Playlist,
+    //     as: "playlist",
+    //   },
+    // ],
   });
 
   if (!journals.length) {
@@ -79,7 +79,7 @@ router.post("/", requireAuth, validateJournal, async (req, res, next) => {
     image_url: newJournal.image_url,
     createdAt: newJournal.createdAt,
     updatedAt: newJournal.updatedAt,
-    playlist: null,
+    // playlist: null,
   };
 
   res.json({ journal: reorderedJournal });
