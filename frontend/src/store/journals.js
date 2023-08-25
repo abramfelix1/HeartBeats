@@ -1,3 +1,5 @@
+import { csrfFetch } from "./csrf";
+
 const GET_ALL_JOURNALS = "journals/GET_ALL_JOURNALS";
 const GET_JOURNAL = "journals/GET_ALL_JOURNALS";
 const CREATE_JOURNAL = "journals/CREATE_JOURNAL";
@@ -20,7 +22,7 @@ export const createJournalAction = (payload) => {
 
 /* GET ALL JOURNALS OF USER */
 export const getAllJournals = () => async (dispatch) => {
-  const res = await fetch("/api/journals/session");
+  const res = await csrfFetch("/api/journals/session");
 
   if (res.ok) {
     const journals = await res.json();
@@ -31,7 +33,12 @@ export const getAllJournals = () => async (dispatch) => {
 
 /* CREATE JOURNAL */
 export const createJournal = () => async (dispatch) => {
-  const res = await fetch("/api/journals");
+  const res = await csrfFetch("/api/journals", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
   if (res.ok) {
     const journal = await res.json();
     dispatch(createJournalAction(journal));
@@ -42,7 +49,7 @@ export const createJournal = () => async (dispatch) => {
 const initialState = {};
 
 export default function journalsReducer(state = initialState, action) {
-  let newState;
+  let newState = { ...state };
   switch (action.type) {
     case GET_ALL_JOURNALS: {
       console.log("ALL JOURNALS PAYLOAD:", action.payload);
@@ -53,8 +60,12 @@ export default function journalsReducer(state = initialState, action) {
       return journals;
     }
     case CREATE_JOURNAL: {
+      console.log("STATE:", newState);
       console.log("CREATE JOURNALS PAYLOAD", action.payload);
-      newState[action.payload.id] = { ...action.payload, playlist: null };
+      newState[action.payload.journal.id] = {
+        ...action.payload.journal,
+        playlist: null,
+      };
       return newState;
     }
     default:
