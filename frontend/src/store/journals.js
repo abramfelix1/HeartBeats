@@ -62,10 +62,7 @@ export default function journalsReducer(state = initialState, action) {
     case CREATE_JOURNAL: {
       console.log("STATE:", newState);
       console.log("CREATE JOURNALS PAYLOAD", action.payload);
-      newState[action.payload.journal.id] = {
-        ...action.payload.journal,
-        playlist: null,
-      };
+      newState[action.payload.journal.id] = action.payload.journal;
       return newState;
     }
     default:

@@ -71,7 +71,18 @@ router.post("/", requireAuth, validateJournal, async (req, res, next) => {
     image_url: req.body.image_url || null,
   });
 
-  res.json({ journal: newJournal });
+  const reorderedJournal = {
+    id: newJournal.id,
+    userId: newJournal.userId,
+    name: newJournal.name,
+    content: newJournal.content,
+    image_url: newJournal.image_url,
+    createdAt: newJournal.createdAt,
+    updatedAt: newJournal.updatedAt,
+    playlist: null,
+  };
+
+  res.json({ journal: reorderedJournal });
 });
 
 /* UPDATE JOURNAL BY ID */
