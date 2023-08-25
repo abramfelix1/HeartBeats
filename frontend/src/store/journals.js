@@ -20,6 +20,13 @@ export const createJournalAction = (payload) => {
   };
 };
 
+export const updateJournalAction = (payload) => {
+  return {
+    type: UPDATE_JOURNAL,
+    payload,
+  };
+};
+
 /* GET ALL JOURNALS OF USER */
 export const getAllJournals = () => async (dispatch) => {
   const res = await csrfFetch("/api/journals/session");
@@ -46,6 +53,24 @@ export const createJournal = () => async (dispatch) => {
   }
 };
 
+/* UPDATE JOURNAL */
+export const updateJournal = (id, payload) => async (dispatch) => {
+  const res = await csrfFetch(`/api/journals/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ...payload,
+    }),
+  });
+  if (res.ok) {
+    const journal = await res.json();
+    dispatch(updateJournalAction(journal));
+    return journal;
+  }
+};
+
 const initialState = {};
 
 export default function journalsReducer(state = initialState, action) {
@@ -60,8 +85,12 @@ export default function journalsReducer(state = initialState, action) {
       return journals;
     }
     case CREATE_JOURNAL: {
-      console.log("STATE:", newState);
       console.log("CREATE JOURNALS PAYLOAD", action.payload);
+      newState[action.payload.journal.id] = action.payload.journal;
+      return newState;
+    }
+    case UPDATE_JOURNAL: {
+      console.log("UPDATE JOURNALS PAYLOAD", action.payload);
       newState[action.payload.journal.id] = action.payload.journal;
       return newState;
     }
