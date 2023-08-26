@@ -12,6 +12,7 @@ import {
   getAllPlaylists,
   getPlaylist,
   createPlaylist,
+  updatePlaylist,
 } from "./store/playlists";
 import { checkLoggedIn } from "./store/session";
 import { useSelector } from "react-redux";
@@ -157,6 +158,12 @@ export default function TestPage() {
     console.log("CLICK CREATE PLAYLIST");
     const id = 17;
     dispatch(createPlaylist(id));
+  };
+
+  const updatePlaylistHandler = () => {
+    console.log("CLICK UPDATE PLAYLIST");
+    const id = 1;
+    dispatch(updatePlaylist(1, { name: "UPDATED NAME", mood: 1, energy: 1 }));
   };
 
   return (
@@ -354,6 +361,11 @@ export default function TestPage() {
         </button>
         <button className="font-semibold" onClick={createPlaylistHandler}>
           CREATE PLAYLIST
+        </button>
+        {/* UPDATING PLAYLIST CONSISTS OF CHANGING THE CONTEXT OF THE JOURNAL CONTENT TO MODIFY MOOD AND VALENCE, ADDING AND REMOVING SONGS ALSO APPLY TO UPDATING. CHANGING PLAYLIST NAME IS ALSO CONSIDERED TO BE UPDATING */}
+        {/* FIGURE OUT HOW TO CREATE SPOTIFY PLAYLIST AND LINK FOR SPOTIFY USERS */}
+        <button className="font-semibold" onClick={updatePlaylistHandler}>
+          UPDATE PLAYLIST (MOOD, VALENCE, NAME)
         </button>
       </div>
     </div>

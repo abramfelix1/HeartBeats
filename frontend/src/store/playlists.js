@@ -27,6 +27,13 @@ export const createPlaylistAction = (payload) => {
   };
 };
 
+export const updatePlaylistAction = (payload) => {
+  return {
+    type: UPDATE_PLAYLIST,
+    payload,
+  };
+};
+
 /* GET ALL PLAYLISTS OF USER */
 export const getAllPlaylists = () => async (dispatch) => {
   const res = await csrfFetch("/api/playlists/session");
@@ -66,6 +73,24 @@ export const createPlaylist = (journalId) => async (dispatch) => {
   }
 };
 
+/* UPDATE PLAYLIST */
+export const updatePlaylist = (id, payload) => async (dispatch) => {
+  const res = await csrfFetch(`/api/playlists/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ...payload,
+    }),
+  });
+  if (res.ok) {
+    const playlist = await res.json();
+    dispatch(updatePlaylistAction(playlist));
+    return playlist;
+  }
+};
+
 const initialState = {};
 
 export default function playlistsReducer(state = initialState, action) {
@@ -88,6 +113,10 @@ export default function playlistsReducer(state = initialState, action) {
     }
     case CREATE_PLAYLIST: {
       console.log("CREATE PLAYLIST PAYLOAD:", action.payload);
+      return action.payload.playlist;
+    }
+    case UPDATE_PLAYLIST: {
+      console.log("UPDATE PLAYLIST PAYLOAD:", action.payload);
       return action.payload.playlist;
     }
     default:
