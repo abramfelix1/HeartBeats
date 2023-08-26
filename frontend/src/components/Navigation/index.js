@@ -23,13 +23,13 @@ function Navigation({ isLoaded, navHovered, ...props }) {
 
   return (
     <div
-      className={
-        "flex flex-col px-5  items-center bg-[#FFFFFC] text-[#33658A relative"
-      }
+      className={`flex flex-col ml-2 my-2 items-center bg-[#FFFFFC] text-[#33658A relative rounded-3xl ${
+        isCollapsed ? "px-2" : "px-5"
+      }`}
       {...props}
     >
       <button
-        className="bg-black absolute h-full w-[1px] right-0"
+        className="bg-black absolute h-full w-[1px] right-0 opacity-0"
         onClick={collapseClickHandler}
       >
         {/* {isCollapsed ? "Expand" : "Collapse"} */}
@@ -42,7 +42,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             className={`${isCollapsed ? "w-[50px]" : "w-[75px]"}`}
           />
         </NavLink>
-        <div className="space-y-8 mt-8">
+        <div className="space-y-8 my-8">
           {sessionUser && (
             <div className="flex gap-x-2 justify-center items-center hover:cursor-pointer">
               <AiOutlineUser className="text-[35px]" />
@@ -73,7 +73,10 @@ function Navigation({ isLoaded, navHovered, ...props }) {
         {sessionUser ? (
           <div
             className="flex gap-x-2 justify-center items-center hover:cursor-pointer"
-            onClick={logoutClickHandler}
+            onClick={() => {
+              logoutClickHandler();
+              collapseClickHandler();
+            }}
           >
             <MdOutlineLogout className="text-[35px]" />
             {!isCollapsed && <p>Logout</p>}
