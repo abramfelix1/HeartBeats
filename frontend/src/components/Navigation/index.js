@@ -18,11 +18,11 @@ function Navigation({ isLoaded }) {
 
   return (
     <div className="flex flex-col mx-5 my-5 items-center">
-      <div className="flex-grow flex flex-col justify-start items-center">
-        <NavLink exact to="/" className="inline-block">
+      <div className="flex-grow flex flex-col">
+        <NavLink exact to="/" className="mb-5">
           <img src={logo} alt="logo" className="w-[100px]" />
         </NavLink>
-        <div className="sm:my-0 md:my-5 lg:my-20 opacity-100 text-yale-blue">
+        <div className="opacity-100 text-yale-blue">
           <div className="space-y-5">
             {sessionUser && (
               <div className="flex flex-col items-center my-5 hover:cursor-pointer">
@@ -42,16 +42,16 @@ function Navigation({ isLoaded }) {
                 <p>Music</p>
               </div>
             )}
-            {sessionUser && (
-              <div className="flex flex-col items-center hover:cursor-pointer">
-                {isLoaded && <AiOutlineSetting className="text-[35px]" />}
-                <p>Settings</p>
-              </div>
-            )}
           </div>
         </div>
       </div>
-      <div className="sm:my-0 md:my-5 lg:my-20 opacity-100 text-yale-blue">
+      <div className="opacity-100 text-yale-blue space-y-5">
+        {sessionUser && (
+          <div className="flex flex-col items-center hover:cursor-pointer">
+            {isLoaded && <AiOutlineSetting className="text-[35px]" />}
+            <p>Settings</p>
+          </div>
+        )}
         {sessionUser ? (
           <div
             className="flex flex-col items-center hover:cursor-pointer"
