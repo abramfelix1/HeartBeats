@@ -32,7 +32,7 @@ module.exports = {
         },
         spotifyId: {
           type: Sequelize.STRING,
-          allowNull: false,
+          allowNull: true,
         },
         spotify_url: {
           type: Sequelize.STRING,

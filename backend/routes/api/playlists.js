@@ -46,6 +46,9 @@ router.get("/:id", requireAuth, async (req, res, next) => {
       {
         model: Song,
         as: "songs",
+        through: {
+          attributes: [],
+        },
       },
     ],
   });
