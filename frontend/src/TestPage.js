@@ -13,6 +13,7 @@ import {
   getPlaylist,
   createPlaylist,
   updatePlaylist,
+  deletePlaylist,
 } from "./store/playlists";
 import { checkLoggedIn } from "./store/session";
 import { useSelector } from "react-redux";
@@ -150,7 +151,7 @@ export default function TestPage() {
 
   const getPlaylistHandler = () => {
     console.log("CLICK GET PLAYLIST");
-    const id = 1;
+    const id = 3;
     dispatch(getPlaylist(id));
   };
 
@@ -164,6 +165,12 @@ export default function TestPage() {
     console.log("CLICK UPDATE PLAYLIST");
     const id = 1;
     dispatch(updatePlaylist(1, { name: "UPDATED NAME", mood: 1, energy: 1 }));
+  };
+
+  const deletePlaylistHandler = () => {
+    console.log("CLICK DELETE PLAYLIST");
+    const id = 3;
+    dispatch(deletePlaylist(id));
   };
 
   return (
@@ -366,6 +373,9 @@ export default function TestPage() {
         {/* FIGURE OUT HOW TO CREATE SPOTIFY PLAYLIST AND LINK FOR SPOTIFY USERS */}
         <button className="font-semibold" onClick={updatePlaylistHandler}>
           UPDATE PLAYLIST (MOOD, VALENCE, NAME)
+        </button>
+        <button className="font-semibold" onClick={deletePlaylistHandler}>
+          DELETE PLAYLIST
         </button>
       </div>
     </div>

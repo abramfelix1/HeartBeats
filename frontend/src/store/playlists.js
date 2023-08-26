@@ -34,6 +34,15 @@ export const updatePlaylistAction = (payload) => {
   };
 };
 
+export const deletePlaylistAction = (id) => {
+  return {
+    type: DELETE_PLAYLIST,
+    payload: {
+      id: id,
+    },
+  };
+};
+
 /* GET ALL PLAYLISTS OF USER */
 export const getAllPlaylists = () => async (dispatch) => {
   const res = await csrfFetch("/api/playlists/session");
@@ -91,6 +100,21 @@ export const updatePlaylist = (id, payload) => async (dispatch) => {
   }
 };
 
+/* DELETE PLAYLIST */
+export const deletePlaylist = (id) => async (dispatch) => {
+  const res = await csrfFetch(`/api/playlists/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (res.ok) {
+    const playlist = await res.json();
+    dispatch(deletePlaylistAction(id));
+    return playlist;
+  }
+};
+
 const initialState = {};
 
 export default function playlistsReducer(state = initialState, action) {
@@ -109,15 +133,23 @@ export default function playlistsReducer(state = initialState, action) {
     }
     case GET_PLAYLIST: {
       console.log("GET PLAYLIST PAYLOAD:", action.payload);
-      return action.payload.playlist;
+      newState[action.payload.playlist.id] = action.payload.playlist;
+      return newState;
     }
     case CREATE_PLAYLIST: {
       console.log("CREATE PLAYLIST PAYLOAD:", action.payload);
-      return action.payload.playlist;
+      newState[action.payload.playlist.id] = action.payload.playlist;
+      return newState;
     }
     case UPDATE_PLAYLIST: {
       console.log("UPDATE PLAYLIST PAYLOAD:", action.payload);
-      return action.payload.playlist;
+      newState[action.payload.playlist.id] = action.payload.playlist;
+      return newState;
+    }
+    case DELETE_PLAYLIST: {
+      console.log("DELETE PLAYLIST PAYLOAD:", action.payload);
+      delete newState[action.payload.id];
+      return newState;
     }
     default:
       return state;
