@@ -14,10 +14,10 @@ export default function Dashboard() {
   }, [dispatch]);
 
   return (
-    <div class="bg-[#FCF7F8] w-screen h-screen flex bg-gradient-to-r from-white  via-sky-400 via-30% to-azure-blue overflow-hidden">
-      <Navigation isLoaded={isLoaded}></Navigation>
-      <div class="flex justify-center items-center w-full h-full">
-        <p class="text-white">Welcome</p>
+    <div className="bg-[#FCF7F8] w-screen h-screen flex bg-gradient-to-r from-white  via-sky-400 via-30% to-azure-blue overflow-hidden">
+      <Navigation isLoaded={isLoaded} />
+      <div className="flex justify-center items-center w-full h-full">
+        <p className="text-white">Welcome</p>
       </div>
     </div>
   );

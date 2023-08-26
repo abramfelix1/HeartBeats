@@ -44,7 +44,7 @@ function ProfileButton({ user }) {
   return (
     <>
       <button onClick={openMenu}>
-        <CgProfile class="text-[35px]" />
+        <CgProfile className="text-[35px]" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (

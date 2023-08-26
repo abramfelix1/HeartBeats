@@ -17,43 +17,55 @@ function Navigation({ isLoaded }) {
   };
 
   return (
-    <div class="flex flex-col mx-5 my-5 items-center">
-      <NavLink exact to="/" class="inline-block">
-        <img src={logo} alt="logo" class="w-[100px]" />
-      </NavLink>
-      <div class="sm:my-0 md:my-5 lg:my-20 opacity-100 text-yale-blue">
-        <div class="flex flex-col items-center my-5 hover:cursor-pointer">
-          {isLoaded && <AiOutlineUser class="text-[35px]" />}
-          <p>Profile</p>
+    <div className="flex flex-col mx-5 my-5 items-center">
+      <div className="flex-grow flex flex-col justify-start items-center">
+        <NavLink exact to="/" className="inline-block">
+          <img src={logo} alt="logo" className="w-[100px]" />
+        </NavLink>
+        <div className="sm:my-0 md:my-5 lg:my-20 opacity-100 text-yale-blue">
+          <div className="space-y-5">
+            {sessionUser && (
+              <div className="flex flex-col items-center my-5 hover:cursor-pointer">
+                <AiOutlineUser className="text-[35px]" />
+                <p>Profile</p>
+              </div>
+            )}
+            {sessionUser && (
+              <div className="flex flex-col items-center hover:cursor-pointer">
+                {isLoaded && <AiOutlineEdit className="text-[35px]" />}
+                <p>Journal</p>
+              </div>
+            )}
+            {sessionUser && (
+              <div className="flex flex-col items-center hover:cursor-pointer">
+                {isLoaded && <PiMusicNotes className="text-[35px]" />}
+                <p>Music</p>
+              </div>
+            )}
+            {sessionUser && (
+              <div className="flex flex-col items-center hover:cursor-pointer">
+                {isLoaded && <AiOutlineSetting className="text-[35px]" />}
+                <p>Settings</p>
+              </div>
+            )}
+          </div>
         </div>
-        <div class="space-y-8">
-          <div class="flex flex-col items-center hover:cursor-pointer">
-            {isLoaded && <AiOutlineEdit class="text-[35px]" />}
-            <p>Journal</p>
+      </div>
+      <div className="sm:my-0 md:my-5 lg:my-20 opacity-100 text-yale-blue">
+        {sessionUser ? (
+          <div
+            className="flex flex-col items-center hover:cursor-pointer"
+            onClick={logoutClickHandler}
+          >
+            <MdOutlineLogout className="text-[35px]" />
+            <p>Logout</p>
           </div>
-          <div class="flex flex-col items-center hover:cursor-pointer">
-            {isLoaded && <PiMusicNotes class="text-[35px]" />}
-            <p>Music</p>
-          </div>
-          <div class="flex flex-col items-center hover:cursor-pointer">
-            {isLoaded && <AiOutlineSetting class="text-[35px]" />}
-            <p>Settings</p>
-          </div>
-          {sessionUser ? (
-            <div
-              class="flex flex-col items-center hover:cursor-pointer"
-              onClick={logoutClickHandler}
-            >
-              <MdOutlineLogout class="text-[35px]" />
-              <p>Logout</p>
-            </div>
-          ) : (
-            <NavLink to="login" class="flex flex-col items-center">
-              <MdOutlineLogin class="text-[35px]" />
-              <p>Login</p>
-            </NavLink>
-          )}
-        </div>
+        ) : (
+          <NavLink to="login" className="flex flex-col items-center">
+            <MdOutlineLogin className="text-[35px]" />
+            <p>Login</p>
+          </NavLink>
+        )}
       </div>
     </div>
   );
