@@ -378,6 +378,19 @@ export default function TestPage() {
           DELETE PLAYLIST
         </button>
       </div>
+
+      {/* PLAYLIST SONGS SECTION */}
+      <div class="flex flex-col items-start">
+        <p className="font-extrabold">PLAYLIST SONGS</p>
+        {/* ADDING SONG TO PLAYLIST WILL CREATE A SONG INSTANCE AND MAKE A RELATION SHIP BETWEEN THE PLAYLIST AND SONG,
+        FIGURE OUT IF SONG SHOULD BE ITS OWN INSTANCE WHEN CREATED WITH A PLAYLIST.
+        BEFORE CREATING SONG, CHECK IF SONG WITH SPOTIFY ID EXISTS,
+        DONT DELETE SONG WHEN DELETING PLAYLIST
+         */}
+        <button className="font-semibold" onClick={getAllPlaylistsHandler}>
+          ADD SONG TO PLAYLIST (CREATE SONG)
+        </button>
+      </div>
     </div>
   );
 }

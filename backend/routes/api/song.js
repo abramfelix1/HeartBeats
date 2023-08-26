@@ -17,6 +17,7 @@ router.post("/", async (req, res, next) => {
     artists: req.body.artists,
     preview: req.body.preview,
     img_url: req.body.img_url,
+    spotifyId: req.body.spotifyId,
     spotify_url: req.body.spotify_url,
   });
 

@@ -30,6 +30,10 @@ module.exports = {
           allowNull: false,
           defaultValue: "My Playlist",
         },
+        spotifyId: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
         spotify_url: {
           type: Sequelize.STRING,
         },
