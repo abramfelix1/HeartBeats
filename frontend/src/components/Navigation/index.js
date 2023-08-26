@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
@@ -8,62 +8,83 @@ import { AiOutlineUser, AiOutlineSetting, AiOutlineEdit } from "react-icons/ai";
 import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
 import { PiMusicNotes, PiUser } from "react-icons/pi";
 
-function Navigation({ isLoaded }) {
+function Navigation({ isLoaded, navHovered, ...props }) {
   const dispatch = useDispatch();
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
 
   const logoutClickHandler = () => {
     dispatch(logout());
   };
 
+  const collapseClickHandler = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
-    <div className="flex flex-col mx-5 my-5 items-center">
-      <div className="flex-grow flex flex-col">
-        <NavLink exact to="/" className="mb-5">
-          <img src={logo} alt="logo" className="w-[100px]" />
+    <div
+      className={
+        "flex flex-col px-5  items-center bg-[#FFFFFC] text-[#33658A relative"
+      }
+      {...props}
+    >
+      <button
+        className="bg-black absolute h-full w-[1px] right-0"
+        onClick={collapseClickHandler}
+      >
+        {/* {isCollapsed ? "Expand" : "Collapse"} */}
+      </button>
+      <div className="flex flex-col flex-grow justify center items-center">
+        <NavLink exact to="/" className="py-5">
+          <img
+            src={logo}
+            alt="logo"
+            className={`${isCollapsed ? "w-[50px]" : "w-[75px]"}`}
+          />
         </NavLink>
-        <div className="opacity-100 text-yale-blue">
-          <div className="space-y-5">
-            {sessionUser && (
-              <div className="flex flex-col items-center my-5 hover:cursor-pointer">
-                <AiOutlineUser className="text-[35px]" />
-                <p>Profile</p>
-              </div>
-            )}
-            {sessionUser && (
-              <div className="flex flex-col items-center hover:cursor-pointer">
-                {isLoaded && <AiOutlineEdit className="text-[35px]" />}
-                <p>Journal</p>
-              </div>
-            )}
-            {sessionUser && (
-              <div className="flex flex-col items-center hover:cursor-pointer">
-                {isLoaded && <PiMusicNotes className="text-[35px]" />}
-                <p>Music</p>
-              </div>
-            )}
-          </div>
+        <div className="space-y-8 mt-8">
+          {sessionUser && (
+            <div className="flex gap-x-2 justify-center items-center hover:cursor-pointer">
+              <AiOutlineUser className="text-[35px]" />
+              {!isCollapsed && <p>Profile</p>}
+            </div>
+          )}
+          {sessionUser && (
+            <div className="flex gap-x-2 justify-center items-center  hover:cursor-pointer">
+              {isLoaded && <AiOutlineEdit className="text-[35px]" />}
+              {!isCollapsed && <p>Journal</p>}
+            </div>
+          )}
+          {sessionUser && (
+            <div className="flex gap-x-2 justify-center items-center  hover:cursor-pointer">
+              {isLoaded && <PiMusicNotes className="text-[35px]" />}
+              {!isCollapsed && <p>Music</p>}
+            </div>
+          )}
         </div>
       </div>
-      <div className="opacity-100 text-yale-blue space-y-5">
+      <div className="space-y-8 mb-5">
         {sessionUser && (
-          <div className="flex flex-col items-center hover:cursor-pointer">
+          <div className="flex gap-x-2 justify-center items-center  hover:cursor-pointer">
             {isLoaded && <AiOutlineSetting className="text-[35px]" />}
-            <p>Settings</p>
+            {!isCollapsed && <p>Settings</p>}
           </div>
         )}
         {sessionUser ? (
           <div
-            className="flex flex-col items-center hover:cursor-pointer"
+            className="flex gap-x-2 justify-center items-center hover:cursor-pointer"
             onClick={logoutClickHandler}
           >
             <MdOutlineLogout className="text-[35px]" />
-            <p>Logout</p>
+            {!isCollapsed && <p>Logout</p>}
           </div>
         ) : (
-          <NavLink to="login" className="flex flex-col items-center">
+          <NavLink
+            to="login"
+            className="flex gap-x-2 justify-center items-center"
+          >
             <MdOutlineLogin className="text-[35px]" />
-            <p>Login</p>
+            {!isCollapsed && <p>Login</p>}
           </NavLink>
         )}
       </div>
