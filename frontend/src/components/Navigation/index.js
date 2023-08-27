@@ -26,7 +26,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
       className={`flex flex-col ml-2 my-2 items-center text-[#33658A] relative rounded-3xl ${
         isCollapsed ? "px-2" : "px-5"
       }
-      ${sessionUser ? "bg-[#FFFFFC]" : ""}
+      ${sessionUser ? "bg-baby-powder" : ""}
       `}
       {...props}
     >
