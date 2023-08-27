@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navigation from "../Navigation";
+import JournalContainer from "../Pages/Journals.js/JournalContainer";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { getSpotifyUser } from "../../store/spotify";
@@ -27,9 +28,7 @@ export default function Dashboard() {
         onMouseEnter={() => setNavHovered(true)}
         onMouseLeave={() => setNavHovered(false)}
       />
-      <div className="flex justify-center items-center w-full h-full">
-        <p className="text-white">Welcome</p>
-      </div>
+      <JournalContainer />
     </div>
   );
 }
