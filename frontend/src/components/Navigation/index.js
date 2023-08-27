@@ -32,11 +32,9 @@ function Navigation({ isLoaded, navHovered, ...props }) {
       {...props}
     >
       <button
-        className="bg-black absolute h-full w-[1px] right-0 opacity-0"
+        className="bg-black absolute h-[85%] w-[5px] right-0  top-[7.5%] rounded-3xl opacity-0 hover:opacity-20"
         onClick={collapseClickHandler}
-      >
-        {/* {isCollapsed ? "Expand" : "Collapse"} */}
-      </button>
+      />
       <div className="flex flex-col flex-grow justify center items-center">
         <NavLink exact to="/" className="py-5">
           <img
