@@ -65,12 +65,6 @@ export default function JournalContainer() {
       <JournalNav />
       <div className="w-full p-10">
         <form onSubmit={submitHandler}>
-          <Tooltip
-            place="top"
-            type="dark"
-            effect="solid"
-            id="toolbar-tooltip"
-          />
           <ReactQuill
             modules={modules}
             ref={quillRef}
@@ -80,6 +74,12 @@ export default function JournalContainer() {
           <button type="submit">Submit</button>
         </form>
       </div>
+      <Tooltip
+            place="top"
+            type="dark"
+            effect="solid"
+            id="toolbar-tooltip"
+          />
     </div>
   );
 }

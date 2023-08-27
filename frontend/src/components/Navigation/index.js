@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Tooltip } from "react-tooltip";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
@@ -46,20 +47,32 @@ function Navigation({ isLoaded, navHovered, ...props }) {
         </NavLink>
         <div className="space-y-8 my-8">
           {sessionUser && (
-            <div className="flex gap-x-2 justify-center items-center hover:cursor-pointer">
+            <div
+              className="flex gap-x-2 justify-center items-center hover:cursor-pointer"
+              data-tooltip-id="nav-tooltip"
+              data-tooltip-content="Profile"
+            >
               <AiOutlineUser className="text-[35px]" />
               {!isCollapsed && <p>Profile</p>}
             </div>
           )}
           {sessionUser && (
-            <div className="flex gap-x-2 justify-center items-center  hover:cursor-pointer">
-              {isLoaded && <AiOutlineEdit className="text-[35px]" />}
+            <div
+              className="flex gap-x-2 justify-center items-center  hover:cursor-pointer"
+              data-tooltip-id="nav-tooltip"
+              data-tooltip-content="Journal"
+            >
+              <AiOutlineEdit className="text-[35px]" />
               {!isCollapsed && <p>Journal</p>}
             </div>
           )}
           {sessionUser && (
-            <div className="flex gap-x-2 justify-center items-center  hover:cursor-pointer">
-              {isLoaded && <PiMusicNotes className="text-[35px]" />}
+            <div
+              className="flex gap-x-2 justify-center items-center  hover:cursor-pointer"
+              data-tooltip-id="nav-tooltip"
+              data-tooltip-content="Music"
+            >
+              <PiMusicNotes className="text-[35px]" />
               {!isCollapsed && <p>Music</p>}
             </div>
           )}
@@ -67,7 +80,11 @@ function Navigation({ isLoaded, navHovered, ...props }) {
       </div>
       <div className="space-y-8 mb-5">
         {sessionUser && (
-          <div className="flex gap-x-2 justify-center items-center  hover:cursor-pointer">
+          <div
+            className="flex gap-x-2 justify-center items-center  hover:cursor-pointer"
+            data-tooltip-id="nav-tooltip"
+            data-tooltip-content="Settings"
+          >
             {isLoaded && <AiOutlineSetting className="text-[35px]" />}
             {!isCollapsed && <p>Settings</p>}
           </div>
@@ -79,20 +96,33 @@ function Navigation({ isLoaded, navHovered, ...props }) {
               logoutClickHandler();
               collapseClickHandler();
             }}
+            data-tooltip-id="nav-tooltip"
+            data-tooltip-content="Logout"
           >
             <MdOutlineLogout className="text-[35px]" />
             {!isCollapsed && <p>Logout</p>}
           </div>
         ) : (
           <NavLink
-            to="login"
+            to="/login"
             className="flex gap-x-2 justify-center items-center"
+            data-tooltip-id="nav-tooltip"
+            data-tooltip-content="Login"
           >
             <MdOutlineLogin className="text-[35px]" />
             {!isCollapsed && <p>Login</p>}
           </NavLink>
         )}
       </div>
+      {isCollapsed && (
+        <Tooltip
+          className="mx-1"
+          place="right"
+          type="dark"
+          effect="solid"
+          id="nav-tooltip"
+        />
+      )}
     </div>
   );
 }
