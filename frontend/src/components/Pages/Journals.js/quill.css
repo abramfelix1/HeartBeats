@@ -1,0 +1,20 @@
+.quill {
+  height: 100%;
+  width: 100%;
+}
+
+.ql-toolbar.ql-snow {
+  border-left: none;
+  border-right: none;
+}
+
+.ql-container.ql-snow {
+  border: none;
+  overflow-x: hidden;
+}
+
+.ql-editor {
+  white-space: normal;
+  height: 100%;
+  border-bottom-right-radius: 1.5rem;
+}
