@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllJournals } from "../../../store/journals";
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
+import { PiTrash } from "react-icons/pi";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
@@ -58,8 +59,8 @@ export default function JournalNav() {
   console.log("EXPANDED GROUPS: ", expandedGroups);
 
   return (
-    <div className="h-full w-64 bg-[#ececf5] rounded-l-3xl ">
-      <div className="flex flex-col gap-y-3 pl-3 pt-20">
+    <div className="h-full w-64 bg-[#ececf5] rounded-l-3xl relative ">
+      <div className="flex flex-col gap-y-3 px-3 pt-20 absolute">
         {Object.entries(groupedJournals).map(([date, journals]) => (
           <div key={date}>
             <h2
@@ -75,8 +76,14 @@ export default function JournalNav() {
             </h2>
             {expandedGroups.includes(date) &&
               journals.map((journal) => (
-                <div key={journal.id}>
-                  <p>{journal.name}</p>
+                <div
+                  className="flex flex-row gap-x-2 items-center"
+                  key={journal.id}
+                >
+                  <p className="whitespace-nowrap overflow-hidden text-ellipsis sm:w-[90px] md:w-[110px] lg:w-[130px] xl:w-[140px] 2xl:w-[150px]">
+                    {journal.name}
+                  </p>
+                  <PiTrash className="text-red-500" />
                 </div>
               ))}
           </div>
