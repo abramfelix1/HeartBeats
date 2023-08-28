@@ -335,7 +335,7 @@ export default function TestPage() {
       </div>
 
       {/* JOURNALS SECTION */}
-      <div class="flex flex-col items-start">
+      <div className="flex flex-col items-start">
         <p className="font-extrabold">JOURNALS</p>
         <button className="font-semibold" onClick={getAllJournalsHandler}>
           GET ALL JOURNALS
@@ -358,7 +358,7 @@ export default function TestPage() {
       </div>
 
       {/* PLAYLIST SECTION */}
-      <div class="flex flex-col items-start">
+      <div className="flex flex-col items-start">
         <p className="font-extrabold">PLAYLISTS</p>
         <button className="font-semibold" onClick={getAllPlaylistsHandler}>
           GET ALL PLAYLISTS
@@ -380,7 +380,7 @@ export default function TestPage() {
       </div>
 
       {/* PLAYLIST SONGS SECTION */}
-      <div class="flex flex-col items-start">
+      <div className="flex flex-col items-start">
         <p className="font-extrabold">PLAYLIST SONGS</p>
         {/* ADDING SONG TO PLAYLIST WILL CREATE A SONG INSTANCE AND MAKE A RELATION SHIP BETWEEN THE PLAYLIST AND SONG,
         FIGURE OUT IF SONG SHOULD BE ITS OWN INSTANCE WHEN CREATED WITH A PLAYLIST.
