@@ -83,11 +83,9 @@ export default function JournalNav() {
                 <div
                   className="flex flex-row gap-x-2 items-center"
                   key={journal.id}
+                  onClick={() => setJournal(journal)}
                 >
-                  <p
-                    className="whitespace-nowrap overflow-hidden text-ellipsis sm:w-[90px] md:w-[110px] lg:w-[130px] xl:w-[140px] 2xl:w-[150px] hover:cursor-pointer"
-                    onClick={() => setJournal(journal)}
-                  >
+                  <p className="whitespace-nowrap overflow-hidden text-ellipsis sm:w-[90px] md:w-[110px] lg:w-[130px] xl:w-[140px] 2xl:w-[150px] hover:cursor-pointer">
                     {journal.name}
                   </p>
                   <PiTrash
