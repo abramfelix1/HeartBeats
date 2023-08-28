@@ -5,7 +5,7 @@ import "./quill.css";
 import { Tooltip } from "react-tooltip";
 import JournalNav from "./JournalNav";
 
-export default function JournalContainer() {
+export default function JournalEditor() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const quillRef = useRef(null);
@@ -62,31 +62,28 @@ export default function JournalContainer() {
   }, []);
 
   return (
-    <div className="flex mx-2 my-2 w-[50%] bg-baby-powder rounded-3xl">
-      <JournalNav />
-      <div className="w-full relative">
-        <div
-          className="flex flex-col w-full h-full pb-16 absolute"
-          onSubmit={submitHandler}
-        >
-          <p className="py-5 text-center">NAME HERE</p>
-          <ReactQuill
-            modules={modules}
-            ref={quillRef}
-            value={body}
-            onChange={setBody}
-            className="sm:pb-52 md:pb-48 lg:pb-36, xl:pb-32"
-          />
-        </div>
-        <div className="flex flex-row h-full items-end">
-          <div className="flex flex-row w-full h-20 justify-around items-center">
-            <button>Save</button>
-            <button>Generate Songs</button>
-            <button>View Playlist</button>
-          </div>
+    <div className="w-full relative">
+      <Tooltip place="top" type="dark" effect="solid" id="toolbar-tooltip" />
+      <div
+        className="flex flex-col w-full h-full pb-16 absolute"
+        onSubmit={submitHandler}
+      >
+        <p className="py-5 text-center">NAME HERE</p>
+        <ReactQuill
+          modules={modules}
+          ref={quillRef}
+          value={body}
+          onChange={setBody}
+          className="sm:pb-52 md:pb-48 lg:pb-36, xl:pb-32"
+        />
+      </div>
+      <div className="flex flex-row h-full items-end">
+        <div className="flex flex-row w-full h-20 justify-around items-center">
+          <button>Save</button>
+          <button>Generate Songs</button>
+          <button>View Playlist</button>
         </div>
       </div>
-      <Tooltip place="top" type="dark" effect="solid" id="toolbar-tooltip" />
     </div>
   );
 }

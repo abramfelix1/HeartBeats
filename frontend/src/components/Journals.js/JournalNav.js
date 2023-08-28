@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllJournals } from "../../../store/journals";
+import { getAllJournals } from "../../store/journals";
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
 import { PiTrash } from "react-icons/pi";
 

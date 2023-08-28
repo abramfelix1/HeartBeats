@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Navigation from "../Navigation";
-import JournalContainer from "../Pages/Journals.js/JournalContainer";
+import JournalContainer from "../Journals.js/JournalContainer";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { getSpotifyUser } from "../../store/spotify";
