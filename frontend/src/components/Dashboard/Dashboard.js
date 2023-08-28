@@ -4,6 +4,7 @@ import JournalContainer from "../Journals.js/JournalContainer";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { getSpotifyUser } from "../../store/spotify";
+import Modal from "../../utils/Modal";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -21,14 +22,17 @@ export default function Dashboard() {
   }, [navHovered]);
 
   return (
-    <div className="w-screen h-screen flex bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#7CA8D2] from-0% to-azure-blue to-100%">
-      <Navigation
-        isLoaded={isLoaded}
-        navHovered={navHovered}
-        onMouseEnter={() => setNavHovered(true)}
-        onMouseLeave={() => setNavHovered(false)}
-      />
-      <JournalContainer />
-    </div>
+    <>
+      <Modal />
+      <div className="w-screen h-screen flex bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#7CA8D2] from-0% to-azure-blue to-100%">
+        <Navigation
+          isLoaded={isLoaded}
+          navHovered={navHovered}
+          onMouseEnter={() => setNavHovered(true)}
+          onMouseLeave={() => setNavHovered(false)}
+        />
+        <JournalContainer />
+      </div>
+    </>
   );
 }

@@ -4,9 +4,11 @@ import { getAllJournals } from "../../store/journals";
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
 import { PiTrash } from "react-icons/pi";
 import { JournalContext } from "../../context/journalContext";
+import { ModalContext } from "../../context/ModalContext";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
+  const { setType } = useContext(ModalContext);
   const { setJournal } = useContext(JournalContext);
   const journals = useSelector((state) => Object.values(state.journals));
 
@@ -88,7 +90,10 @@ export default function JournalNav() {
                   >
                     {journal.name}
                   </p>
-                  <PiTrash className="text-red-500 hover:cursor-pointer" />
+                  <PiTrash
+                    className="text-red-500 hover:cursor-pointer"
+                    onClick={() => setType("DELETE")}
+                  />
                 </div>
               ))}
           </div>

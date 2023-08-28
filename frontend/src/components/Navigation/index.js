@@ -2,12 +2,11 @@ import React, { useState } from "react";
 import { Tooltip } from "react-tooltip";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import ProfileButton from "./ProfileButton";
 import { logout } from "../../store/session";
 import logo from "../../images/heartBeatLogo.png";
 import { AiOutlineUser, AiOutlineSetting, AiOutlineEdit } from "react-icons/ai";
 import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
-import { PiMusicNotes, PiUser } from "react-icons/pi";
+import { PiMusicNotes } from "react-icons/pi";
 
 function Navigation({ isLoaded, navHovered, ...props }) {
   const dispatch = useDispatch();

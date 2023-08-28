@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { ModalContext } from "../../context/modalContext";
+import { ModalContext } from "../context/ModalContext";
 import "./modal.css";
 import DeleteConfirmation from "../components/ModalPages/DeleteConfirmation";
 

@@ -1,10 +1,14 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 
 // Create the ModalContext
-const ModalContext = createContext();
+export const ModalContext = createContext();
 
 export function ModalProvider({ children }) {
   const [type, setType] = useState(null);
+
+  useEffect(() => {
+    console.log("MODAL TYPE: ", type);
+  }, [type]);
 
   return (
     <ModalContext.Provider
