@@ -1,14 +1,22 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+} from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "./quill.css";
 import { Tooltip } from "react-tooltip";
 import JournalNav from "./JournalNav";
+import { JournalContext } from "../../context/journalContext";
 
 export default function JournalEditor() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const quillRef = useRef(null);
+  const { journal } = useContext(JournalContext);
   const modules = {
     toolbar: [
       [{ font: [] }],
@@ -64,26 +72,36 @@ export default function JournalEditor() {
   return (
     <div className="w-full relative">
       <Tooltip place="top" type="dark" effect="solid" id="toolbar-tooltip" />
-      <div
-        className="flex flex-col w-full h-full pb-16 absolute"
-        onSubmit={submitHandler}
-      >
-        <p className="py-5 text-center">NAME HERE</p>
-        <ReactQuill
-          modules={modules}
-          ref={quillRef}
-          value={body}
-          onChange={setBody}
-          className="sm:pb-52 md:pb-48 lg:pb-36, xl:pb-32"
-        />
-      </div>
-      <div className="flex flex-row h-full items-end">
-        <div className="flex flex-row w-full h-20 justify-around items-center">
-          <button>Save</button>
-          <button>Generate Songs</button>
-          <button>View Playlist</button>
+      {journal ? (
+        <>
+          <div
+            className="flex flex-col w-full h-full pb-16 absolute"
+            onSubmit={submitHandler}
+          >
+            <p className="py-5 text-center">NAME HERE</p>
+            <ReactQuill
+              modules={modules}
+              ref={quillRef}
+              value={body}
+              onChange={setBody}
+              className="sm:pb-52 md:pb-48 lg:pb-36, xl:pb-32"
+            />
+          </div>
+          <div className="flex flex-row h-full items-end">
+            <div className="flex flex-row w-full h-20 justify-around items-center">
+              <button>Save</button>
+              <button>Generate Songs</button>
+              <button>View Playlist</button>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="flex h-full justify-center items-center">
+          <button className="w-fit h-fit p-5 rounded-3xl bg-blue-400">
+            NEW JOURNAL
+          </button>
         </div>
-      </div>
+      )}
     </div>
   );
 }

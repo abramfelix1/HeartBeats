@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllJournals } from "../../store/journals";
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
 import { PiTrash } from "react-icons/pi";
+import { JournalContext } from "../../context/journalContext";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
+  const { setJournal } = useContext(JournalContext);
   const journals = useSelector((state) => Object.values(state.journals));
 
   const sortedJournals = [...journals].sort(
@@ -80,7 +82,10 @@ export default function JournalNav() {
                   className="flex flex-row gap-x-2 items-center"
                   key={journal.id}
                 >
-                  <p className="whitespace-nowrap overflow-hidden text-ellipsis sm:w-[90px] md:w-[110px] lg:w-[130px] xl:w-[140px] 2xl:w-[150px]">
+                  <p
+                    className="whitespace-nowrap overflow-hidden text-ellipsis sm:w-[90px] md:w-[110px] lg:w-[130px] xl:w-[140px] 2xl:w-[150px]"
+                    onClick={() => setJournal(journal)}
+                  >
                     {journal.name}
                   </p>
                   <PiTrash className="text-red-500" />
