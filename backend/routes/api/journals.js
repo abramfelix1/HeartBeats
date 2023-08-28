@@ -15,12 +15,12 @@ router.get("/session", requireAuth, async (req, res, next) => {
 
   const journals = await Journal.findAll({
     where,
-    include: [
-      {
-        model: Playlist,
-        as: "playlist",
-      },
-    ],
+    // include: [
+    //   {
+    //     model: Playlist,
+    //     as: "playlist",
+    //   },
+    // ],
   });
 
   if (!journals.length) {
@@ -61,7 +61,7 @@ router.get("/:id", requireAuth, async (req, res, next) => {
 });
 
 /* CREATE A JOURNAL */
-router.post("/", requireAuth, validateJournal, async (req, res, next) => {
+router.post("/", requireAuth,async (req, res, next) => {
   const { user } = req;
 
   const newJournal = await Journal.create({
@@ -71,11 +71,22 @@ router.post("/", requireAuth, validateJournal, async (req, res, next) => {
     image_url: req.body.image_url || null,
   });
 
-  res.json({ journal: newJournal });
+  const reorderedJournal = {
+    id: newJournal.id,
+    userId: newJournal.userId,
+    name: newJournal.name,
+    content: newJournal.content,
+    image_url: newJournal.image_url,
+    createdAt: newJournal.createdAt,
+    updatedAt: newJournal.updatedAt,
+    // playlist: null,
+  };
+
+  res.json({ journal: reorderedJournal });
 });
 
 /* UPDATE JOURNAL BY ID */
-router.put("/:id", requireAuth, async (req, res, next) => {
+router.put("/:id", requireAuth, validateJournal,  async (req, res, next) => {
   const { user } = req;
   const journalId = req.params.id;
 

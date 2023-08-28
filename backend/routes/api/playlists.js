@@ -29,7 +29,7 @@ router.get("/session", requireAuth, async (req, res, next) => {
   });
 
   if (!playlists.length) {
-    res.json({ Playlist: [] });
+    res.json({ playlists: [] });
   }
 
   res.json({ playlists: playlists });
@@ -46,6 +46,9 @@ router.get("/:id", requireAuth, async (req, res, next) => {
       {
         model: Song,
         as: "songs",
+        through: {
+          attributes: [],
+        },
       },
     ],
   });
@@ -60,8 +63,16 @@ router.get("/:id", requireAuth, async (req, res, next) => {
 });
 
 /* CREATE A PLAYLIST */
-router.post("/", requireAuth, validatePlaylist, async (req, res, next) => {
+router.post("/", requireAuth, async (req, res, next) => {
   const { user } = req;
+  const { journalId } = req.body;
+
+  const existingPlaylist = await Playlist.findOne({ where: { journalId } });
+  if (existingPlaylist) {
+    return next({
+      errors: { playlist: "Playlist already exists.", status: 404 },
+    });
+  }
 
   const newPlaylist = await Playlist.create({
     userId: user.dataValues.id,
@@ -78,7 +89,7 @@ router.post("/", requireAuth, validatePlaylist, async (req, res, next) => {
 });
 
 /* UPDATE PLAYLIST BY ID */
-router.put("/:id", requireAuth, async (req, res, next) => {
+router.put("/:id", requireAuth, validatePlaylist, async (req, res, next) => {
   const { user } = req;
   const playlistId = req.params.id;
 

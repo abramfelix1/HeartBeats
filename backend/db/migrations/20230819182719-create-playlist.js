@@ -28,6 +28,11 @@ module.exports = {
         name: {
           type: Sequelize.STRING,
           allowNull: false,
+          defaultValue: "My Playlist",
+        },
+        spotifyId: {
+          type: Sequelize.STRING,
+          allowNull: true,
         },
         spotify_url: {
           type: Sequelize.STRING,

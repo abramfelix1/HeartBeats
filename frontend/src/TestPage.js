@@ -2,7 +2,19 @@ import React, { useEffect, useRef, useState } from "react";
 import SpotifyLogin from "./components/LoginFormPage/SpotifyLogin";
 import { useDispatch } from "react-redux";
 import { getSpotifyUser, getTestSong, getRecSongs } from "./store/spotify";
-import { getAllJournals, createJournal } from "./store/journals";
+import {
+  getAllJournals,
+  createJournal,
+  updateJournal,
+  deleteJournal,
+} from "./store/journals";
+import {
+  getAllPlaylists,
+  getPlaylist,
+  createPlaylist,
+  updatePlaylist,
+  deletePlaylist,
+} from "./store/playlists";
 import { checkLoggedIn } from "./store/session";
 import { useSelector } from "react-redux";
 import { Howl } from "howler";
@@ -116,6 +128,49 @@ export default function TestPage() {
   const createJournalHandler = () => {
     console.log("CLICK CREATE JOURNAL");
     dispatch(createJournal());
+  };
+
+  const updateJournalHandler = () => {
+    console.log("CLICK UPDATE JOURNAL");
+    const id = 1;
+    const payload = { name: "UPDATED NAME", content: "UPDATED CONTENT" };
+    dispatch(updateJournal(id, payload));
+  };
+
+  const deleteJournalHandler = () => {
+    console.log("CLICK DELETE JOURNAL");
+    const id = 2;
+    dispatch(deleteJournal(id));
+  };
+
+  // PLAYLIST HANDLERS
+  const getAllPlaylistsHandler = () => {
+    console.log("CLICK GET ALL PLAYLISTS");
+    dispatch(getAllPlaylists());
+  };
+
+  const getPlaylistHandler = () => {
+    console.log("CLICK GET PLAYLIST");
+    const id = 3;
+    dispatch(getPlaylist(id));
+  };
+
+  const createPlaylistHandler = () => {
+    console.log("CLICK CREATE PLAYLIST");
+    const id = 17;
+    dispatch(createPlaylist(id));
+  };
+
+  const updatePlaylistHandler = () => {
+    console.log("CLICK UPDATE PLAYLIST");
+    const id = 1;
+    dispatch(updatePlaylist(1, { name: "UPDATED NAME", mood: 1, energy: 1 }));
+  };
+
+  const deletePlaylistHandler = () => {
+    console.log("CLICK DELETE PLAYLIST");
+    const id = 3;
+    dispatch(deletePlaylist(id));
   };
 
   return (
@@ -288,12 +343,53 @@ export default function TestPage() {
         <button className="font-semibold" onClick={createJournalHandler}>
           CREATE
         </button>
+        <button className="font-semibold" onClick={updateJournalHandler}>
+          UPDATE
+        </button>
+        <button className="font-semibold" onClick={deleteJournalHandler}>
+          DELETE
+        </button>
         {/* creating generates blank page, but sets title to date */}
         {/* have it save every 15 sec when on it (update)*/}
         {/* if there is no content, dont save */}
         {/* <>
           <input type="text" />]
         </> */}
+      </div>
+
+      {/* PLAYLIST SECTION */}
+      <div class="flex flex-col items-start">
+        <p className="font-extrabold">PLAYLISTS</p>
+        <button className="font-semibold" onClick={getAllPlaylistsHandler}>
+          GET ALL PLAYLISTS
+        </button>
+        <button className="font-semibold" onClick={getPlaylistHandler}>
+          GET PLAYLIST
+        </button>
+        <button className="font-semibold" onClick={createPlaylistHandler}>
+          CREATE PLAYLIST
+        </button>
+        {/* UPDATING PLAYLIST CONSISTS OF CHANGING THE CONTEXT OF THE JOURNAL CONTENT TO MODIFY MOOD AND VALENCE, ADDING AND REMOVING SONGS ALSO APPLY TO UPDATING. CHANGING PLAYLIST NAME IS ALSO CONSIDERED TO BE UPDATING */}
+        {/* FIGURE OUT HOW TO CREATE SPOTIFY PLAYLIST AND LINK FOR SPOTIFY USERS */}
+        <button className="font-semibold" onClick={updatePlaylistHandler}>
+          UPDATE PLAYLIST (MOOD, VALENCE, NAME)
+        </button>
+        <button className="font-semibold" onClick={deletePlaylistHandler}>
+          DELETE PLAYLIST
+        </button>
+      </div>
+
+      {/* PLAYLIST SONGS SECTION */}
+      <div class="flex flex-col items-start">
+        <p className="font-extrabold">PLAYLIST SONGS</p>
+        {/* ADDING SONG TO PLAYLIST WILL CREATE A SONG INSTANCE AND MAKE A RELATION SHIP BETWEEN THE PLAYLIST AND SONG,
+        FIGURE OUT IF SONG SHOULD BE ITS OWN INSTANCE WHEN CREATED WITH A PLAYLIST.
+        BEFORE CREATING SONG, CHECK IF SONG WITH SPOTIFY ID EXISTS,
+        DONT DELETE SONG WHEN DELETING PLAYLIST
+         */}
+        <button className="font-semibold" onClick={getAllPlaylistsHandler}>
+          ADD SONG TO PLAYLIST (CREATE SONG)
+        </button>
       </div>
     </div>
   );

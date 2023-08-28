@@ -121,7 +121,8 @@ const sessionReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_SESSION_USER:
       newState = Object.assign({}, state);
-      newState.user = action.payload;
+      const user = { spotifyId: null };
+      newState.user = { ...user, ...action.payload };
       return newState;
     case CLEAR_SESSION_USER:
       newState = Object.assign({}, state);

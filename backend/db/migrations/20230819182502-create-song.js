@@ -28,6 +28,10 @@ module.exports = {
         preview: {
           type: Sequelize.STRING,
         },
+        spotifyId: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
         img_url: {
           type: Sequelize.STRING,
           allowNull: false,
