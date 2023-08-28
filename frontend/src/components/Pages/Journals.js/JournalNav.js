@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllJournals } from "../../../store/journals";
+import { MdExpandMore, MdExpandLess } from "react-icons/md";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
@@ -43,17 +44,41 @@ export default function JournalNav() {
     dispatch(getAllJournals());
   }, []);
 
+  const [expandedGroups, setExpandedGroups] = useState(
+    Object.keys(groupedJournals)
+  );
+
+  const toggleGroup = (groupName) => {
+    setExpandedGroups((prevGroups) =>
+      prevGroups.includes(groupName)
+        ? prevGroups.filter((group) => group !== groupName)
+        : [...prevGroups, groupName]
+    );
+  };
+  console.log("EXPANDED GROUPS: ", expandedGroups);
+
   return (
     <div className="h-full w-64 bg-[#ececf5] rounded-l-3xl ">
-      <div className="flex flex-col gap-y-3 items-center pt-20">
-        {Object.entries(groupedJournals).map(([date, journalsOnDate]) => (
+      <div className="flex flex-col gap-y-3 pl-3 pt-20">
+        {Object.entries(groupedJournals).map(([date, journals]) => (
           <div key={date}>
-            <h2>{date}</h2>
-            {journalsOnDate.map((journal) => (
-              <div key={journal.id}>
-                <p>{journal.name}</p>
-              </div>
-            ))}
+            <h2
+              className="flex gap-x-2 items-center hover:cursor-pointer"
+              onClick={() => toggleGroup(date)}
+            >
+              {date}
+              {expandedGroups.includes(date) ? (
+                <MdExpandLess />
+              ) : (
+                <MdExpandMore />
+              )}
+            </h2>
+            {expandedGroups.includes(date) &&
+              journals.map((journal) => (
+                <div key={journal.id}>
+                  <p>{journal.name}</p>
+                </div>
+              ))}
           </div>
         ))}
       </div>
