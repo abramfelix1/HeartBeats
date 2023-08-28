@@ -88,7 +88,7 @@ export default function JournalNav() {
                   >
                     {journal.name}
                   </p>
-                  <PiTrash className="text-red-500" />
+                  <PiTrash className="text-red-500 hover:cursor-pointer" />
                 </div>
               ))}
           </div>
