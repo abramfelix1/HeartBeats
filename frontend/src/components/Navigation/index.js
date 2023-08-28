@@ -114,7 +114,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
       </div>
       {isCollapsed && (
         <Tooltip
-          className="mx-1"
+          className="mx-1 z-10"
           place="right"
           type="dark"
           effect="solid"

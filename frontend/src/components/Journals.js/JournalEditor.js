@@ -11,12 +11,21 @@ import "./quill.css";
 import { Tooltip } from "react-tooltip";
 import JournalNav from "./JournalNav";
 import { JournalContext } from "../../context/journalContext";
+import { useDispatch } from "react-redux";
+import { updateJournal } from "../../store/journals";
 
 export default function JournalEditor() {
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const dispatch = useDispatch();
   const quillRef = useRef(null);
   const { journal } = useContext(JournalContext);
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState(journal?.content || "");
+
+  useEffect(() => {
+    setBody(journal?.content || "");
+    setTitle(journal?.name || "");
+  }, [journal]);
+
   const modules = {
     toolbar: [
       [{ font: [] }],
@@ -34,9 +43,12 @@ export default function JournalEditor() {
     const quill = quillRef.current.getEditor();
     const content = quill.getText();
     const formattedContent = quill.getContents();
-    console.log(quill);
-    console.log(content);
-    console.log(formattedContent);
+    console.log("QUILL: ", quill);
+    console.log("CONTENT: ", content);
+    console.log("FORMATTED: ", formattedContent);
+    console.log("TITLE: ", title);
+    console.log("BODY: ", typeof body, body);
+    dispatch(updateJournal(journal.id, { name: title, content: body }));
   };
 
   useEffect(() => {
@@ -71,14 +83,21 @@ export default function JournalEditor() {
 
   return (
     <div className="w-full relative">
-      <Tooltip place="top" type="dark" effect="solid" id="toolbar-tooltip" />
+      <Tooltip
+        className="z-10"
+        place="top"
+        type="dark"
+        effect="solid"
+        id="toolbar-tooltip"
+      />
       {journal ? (
         <>
-          <div
-            className="flex flex-col w-full h-full pb-16 absolute"
-            onSubmit={submitHandler}
-          >
-            <p className="py-5 text-center">NAME HERE</p>
+          <div className="flex flex-col w-full h-full pb-16 absolute ">
+            <input
+              onChange={(e) => setTitle(e.target.value)}
+              value={title}
+              className="p-3 border-none rounded-tr-3xl focus:outline-none"
+            />
             <ReactQuill
               modules={modules}
               ref={quillRef}
@@ -89,7 +108,12 @@ export default function JournalEditor() {
           </div>
           <div className="flex flex-row h-full items-end">
             <div className="flex flex-row w-full h-20 justify-around items-center">
-              <button>Save</button>
+              <button
+                className="z-10  w-fit h-fit hover:cursor-pointer"
+                onClick={(e) => submitHandler(e)}
+              >
+                Save
+              </button>
               <button>Generate Songs</button>
               <button>View Playlist</button>
             </div>

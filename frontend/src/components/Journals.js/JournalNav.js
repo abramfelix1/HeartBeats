@@ -64,7 +64,7 @@ export default function JournalNav() {
     <div className="h-full w-64 bg-[#ececf5] rounded-l-3xl relative ">
       <div className="flex flex-col gap-y-3 px-3 pt-20 absolute">
         {Object.entries(groupedJournals).map(([date, journals]) => (
-          <div key={date}>
+          <div key={date} className="flex flex-col gap-y-1">
             <h2
               className="flex gap-x-2 items-center hover:cursor-pointer"
               onClick={() => toggleGroup(date)}
@@ -83,7 +83,7 @@ export default function JournalNav() {
                   key={journal.id}
                 >
                   <p
-                    className="whitespace-nowrap overflow-hidden text-ellipsis sm:w-[90px] md:w-[110px] lg:w-[130px] xl:w-[140px] 2xl:w-[150px]"
+                    className="whitespace-nowrap overflow-hidden text-ellipsis sm:w-[90px] md:w-[110px] lg:w-[130px] xl:w-[140px] 2xl:w-[150px] hover:cursor-pointer"
                     onClick={() => setJournal(journal)}
                   >
                     {journal.name}
