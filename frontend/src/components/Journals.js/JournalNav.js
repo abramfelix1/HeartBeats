@@ -5,6 +5,8 @@ import { MdExpandMore, MdExpandLess } from "react-icons/md";
 import { PiTrash } from "react-icons/pi";
 import { JournalContext } from "../../context/journalContext";
 import { ModalContext } from "../../context/ModalContext";
+import { IoCreateOutline } from "react-icons/io5";
+import { createJournal } from "../../store/journals";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
@@ -62,9 +64,25 @@ export default function JournalNav() {
   };
   console.log("EXPANDED GROUPS: ", expandedGroups);
 
+  const createJournalHandler = async () => {
+    console.log("CLICK CREATE JOURNAL");
+    const journal = await dispatch(createJournal());
+    console.log("NEW JOURNAL: ", journal);
+    setJournal(journal);
+  };
+
   return (
-    <div className="h-full w-64 bg-[#ececf5] rounded-l-3xl relative ">
-      <div className="flex flex-col gap-y-3 px-3 pt-20 absolute">
+    <div className="h-full w-64 bg-[#ececf5] rounded-l-3xl relative">
+      <div className="flex p-5 px-3 text-white justify-start">
+        <button
+          className="flex justify-center items-center gap-x-2 p-2 w-fit h-fit rounded-xl bg-blue-400 text-white font-semibold"
+          onClick={createJournalHandler}
+        >
+          <IoCreateOutline className="text-2xl" />
+          <p>NEW</p>
+        </button>
+      </div>
+      <div className="flex flex-col gap-y-3 px-3 overflow-y-scroll sm:h-[70%] md:h-[78%] lg:h-[85%] xl:h-[87%] 2xl:h-[89%] ">
         {Object.entries(groupedJournals).map(([date, journals]) => (
           <div key={date} className="flex flex-col gap-y-1">
             <h2

@@ -10,6 +10,7 @@ export default function DeleteConfirmation({ id }) {
   const { setType } = useContext(ModalContext);
 
   const deleteJournalHandler = () => {
+    setType(null);
     dispatch(deleteJournal(journal.id));
     setJournal(null);
   };

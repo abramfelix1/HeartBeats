@@ -24,6 +24,7 @@ export default function JournalEditor() {
   useEffect(() => {
     setBody(journal?.content || "");
     setTitle(journal?.name || "");
+    if (journal) console.log("EDITOR: ", journal);
   }, [journal]);
 
   const modules = {
@@ -120,7 +121,7 @@ export default function JournalEditor() {
         </div>
       )}
       <Tooltip
-        className="z-10"
+        className="z-[999]"
         place="top"
         type="dark"
         effect="solid"
