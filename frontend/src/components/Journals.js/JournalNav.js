@@ -68,11 +68,11 @@ export default function JournalNav() {
     console.log("CLICK CREATE JOURNAL");
     const journal = await dispatch(createJournal());
     console.log("NEW JOURNAL: ", journal);
-    setJournal(journal);
+    setJournal(journal.journal);
   };
 
   return (
-    <div className="h-full w-64 bg-[#ececf5] rounded-l-3xl relative">
+    <div className="h-full w-64 bg-[#ececf5] rounded-l-3xl relative pb-2 ">
       <div className="flex p-5 px-3 text-white justify-start">
         <button
           className="flex justify-center items-center gap-x-2 p-2 w-fit h-fit rounded-xl bg-blue-400 text-white font-semibold"
@@ -82,7 +82,7 @@ export default function JournalNav() {
           <p>NEW</p>
         </button>
       </div>
-      <div className="flex flex-col gap-y-3 px-3 overflow-y-scroll sm:h-[70%] md:h-[78%] lg:h-[85%] xl:h-[87%] 2xl:h-[89%] ">
+      <div className="flex flex-col gap-y-3 px-3 overflow-y-scroll sm:h-[70%] md:h-[78%] lg:h-[85%] xl:h-[87%] 2xl:h-[90%] ">
         {Object.entries(groupedJournals).map(([date, journals]) => (
           <div key={date} className="flex flex-col gap-y-1">
             <h2

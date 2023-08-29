@@ -22,9 +22,10 @@ export default function JournalEditor() {
   const [body, setBody] = useState(journal?.content || "");
 
   useEffect(() => {
-    setBody(journal?.content || "");
-    setTitle(journal?.name || "");
-    if (journal) console.log("EDITOR: ", journal);
+    if (journal) {
+      setBody(journal?.content || "asdf");
+      setTitle(journal?.name || "asdf");
+    }
   }, [journal]);
 
   const modules = {
@@ -80,7 +81,7 @@ export default function JournalEditor() {
         });
       }
     }
-  }, []);
+  }, [journal]);
 
   return (
     <div className="w-full relative">
@@ -112,6 +113,13 @@ export default function JournalEditor() {
               <button className="z-10  w-fit h-fit ">View Playlist</button>
             </div>
           </div>
+          <Tooltip
+            className="z-[999]"
+            place="top"
+            type="dark"
+            effect="solid"
+            id="toolbar-tooltip"
+          />
         </>
       ) : (
         <div className="flex h-full justify-center items-center">
@@ -120,13 +128,6 @@ export default function JournalEditor() {
           </button>
         </div>
       )}
-      <Tooltip
-        className="z-[999]"
-        place="top"
-        type="dark"
-        effect="solid"
-        id="toolbar-tooltip"
-      />
     </div>
   );
 }
