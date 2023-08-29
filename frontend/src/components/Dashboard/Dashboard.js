@@ -38,8 +38,11 @@ export default function Dashboard() {
           onMouseEnter={() => setNavHovered(true)}
           onMouseLeave={() => setNavHovered(false)}
         />
-        {journalOpen && <JournalContainer />}
-        <SongsContainer />
+        {journalOpen && (
+          <>
+            <JournalContainer /> <SongsContainer />
+          </>
+        )}
       </div>
     </>
   );

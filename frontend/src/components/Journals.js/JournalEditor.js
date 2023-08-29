@@ -91,7 +91,7 @@ export default function JournalEditor() {
             <input
               onChange={(e) => setTitle(e.target.value)}
               value={title}
-              className="p-3 border-none rounded-tr-3xl focus:outline-none"
+              className="p-3 border-none rounded-tr-3xl focus:outline-none font-semibold"
             />
             <ReactQuill
               modules={modules}
