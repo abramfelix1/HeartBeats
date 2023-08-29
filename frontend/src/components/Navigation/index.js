@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Tooltip } from "react-tooltip";
 import { NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import ProfileButton from "./ProfileButton";
 import { logout } from "../../store/session";
 import logo from "../../images/heartBeatLogo.png";
 import { AiOutlineUser, AiOutlineSetting, AiOutlineEdit } from "react-icons/ai";
 import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
-import { PiMusicNotes, PiUser } from "react-icons/pi";
+import { PiMusicNotes } from "react-icons/pi";
+import { JournalContext } from "../../context/journalContext";
 
 function Navigation({ isLoaded, navHovered, ...props }) {
   const dispatch = useDispatch();
+  const { toggleJournalPage } = useContext(JournalContext);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
 
@@ -59,6 +60,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
               className="flex gap-x-2 justify-center items-center  hover:cursor-pointer"
               data-tooltip-id="nav-tooltip"
               data-tooltip-content="Journal"
+              onClick={toggleJournalPage}
             >
               <AiOutlineEdit className="text-[35px]" />
               {!isCollapsed && <p>Journal</p>}
@@ -114,7 +116,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
       </div>
       {isCollapsed && (
         <Tooltip
-          className="mx-1"
+          className="mx-1 z-10"
           place="right"
           type="dark"
           effect="solid"
