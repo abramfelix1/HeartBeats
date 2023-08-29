@@ -8,6 +8,7 @@ import { AiOutlineUser, AiOutlineSetting, AiOutlineEdit } from "react-icons/ai";
 import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
 import { PiMusicNotes } from "react-icons/pi";
 import { JournalContext } from "../../context/journalContext";
+import { resetJournalsActions } from "../../store/journals";
 
 function Navigation({ isLoaded, navHovered, ...props }) {
   const dispatch = useDispatch();
@@ -17,6 +18,8 @@ function Navigation({ isLoaded, navHovered, ...props }) {
 
   const logoutClickHandler = () => {
     dispatch(logout());
+    dispatch(resetJournalsActions());
+    toggleJournalPage(false);
   };
 
   const collapseClickHandler = () => {
