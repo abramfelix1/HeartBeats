@@ -1,0 +1,20 @@
+.journal-list {
+  overflow-y: scroll;
+}
+
+/* width */
+.journal-list::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+.journal-list::-webkit-scrollbar-track {
+  background: rgb(0, 0, 0, 0);
+  border-radius: 15px;
+}
+
+/* Handle */
+.journal-list::-webkit-scrollbar-thumb {
+  border-radius: 15px;
+  background: rgb(0, 0, 0, 0.1);
+}

@@ -7,6 +7,7 @@ import { JournalContext } from "../../context/journalContext";
 import { ModalContext } from "../../context/ModalContext";
 import { IoCreateOutline } from "react-icons/io5";
 import { createJournal } from "../../store/journals";
+import "./journal.css";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
@@ -82,7 +83,7 @@ export default function JournalNav() {
           <p>NEW</p>
         </button>
       </div>
-      <div className="flex flex-col gap-y-3 px-3 overflow-y-scroll sm:h-[70%] md:h-[78%] lg:h-[85%] xl:h-[87%] 2xl:h-[90%] ">
+      <div className="journal-list flex flex-col gap-y-3 px-3 sm:h-[70%] md:h-[78%] lg:h-[85%] xl:h-[87%] 2xl:h-[90%] ">
         {Object.entries(groupedJournals).map(([date, journals]) => (
           <div key={date} className="flex flex-col gap-y-1">
             <h2
