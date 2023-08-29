@@ -83,13 +83,6 @@ export default function JournalEditor() {
 
   return (
     <div className="w-full relative">
-      <Tooltip
-        className="z-10"
-        place="top"
-        type="dark"
-        effect="solid"
-        id="toolbar-tooltip"
-      />
       {journal ? (
         <>
           <div className="flex flex-col w-full h-full pb-16 absolute ">
@@ -109,23 +102,30 @@ export default function JournalEditor() {
           <div className="flex flex-row h-full items-end">
             <div className="flex flex-row w-full h-20 justify-around items-center">
               <button
-                className="z-10  w-fit h-fit hover:cursor-pointer"
+                className="z-10  w-fit h-fit"
                 onClick={(e) => submitHandler(e)}
               >
                 Save
               </button>
-              <button>Generate Songs</button>
-              <button>View Playlist</button>
+              <button className="z-10  w-fit h-fit ">Generate Songs</button>
+              <button className="z-10  w-fit h-fit ">View Playlist</button>
             </div>
           </div>
         </>
       ) : (
         <div className="flex h-full justify-center items-center">
-          <button className="w-fit h-fit p-5 rounded-3xl bg-blue-400">
+          <button className="w-fit h-fit p-5 rounded-3xl bg-blue-400 text-white font-semibold">
             NEW JOURNAL
           </button>
         </div>
       )}
+      <Tooltip
+        className="z-10"
+        place="top"
+        type="dark"
+        effect="solid"
+        id="toolbar-tooltip"
+      />
     </div>
   );
 }
