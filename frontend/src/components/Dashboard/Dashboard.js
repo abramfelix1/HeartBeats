@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Navigation from "../Navigation";
 import JournalContainer from "../Journals.js/JournalContainer";
 import * as sessionActions from "../../store/session";
 import { useDispatch } from "react-redux";
 import { getSpotifyUser } from "../../store/spotify";
 import Modal from "../../utils/Modal";
+import { JournalContext } from "../../context/journalContext";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
+  const { journalOpen } = useContext(JournalContext);
   const [isLoaded, setIsLoaded] = useState(false);
   const [navHovered, setNavHovered] = useState(false);
 
@@ -21,6 +23,10 @@ export default function Dashboard() {
     console.log("NAV HOVERED: ", navHovered);
   }, [navHovered]);
 
+  useEffect(() => {
+    console.log("DASHBOARD: ", journalOpen);
+  }, [journalOpen]);
+
   return (
     <>
       <Modal />
@@ -31,7 +37,7 @@ export default function Dashboard() {
           onMouseEnter={() => setNavHovered(true)}
           onMouseLeave={() => setNavHovered(false)}
         />
-        <JournalContainer />
+        {journalOpen && <JournalContainer />}
       </div>
     </>
   );

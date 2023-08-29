@@ -89,12 +89,12 @@ export default function JournalNav() {
               className="flex gap-x-2 items-center hover:cursor-pointer"
               onClick={() => toggleGroup(date)}
             >
-              {date}
               {expandedGroups.includes(date) ? (
                 <MdExpandLess />
               ) : (
                 <MdExpandMore />
               )}
+              <p className="">{date}</p>
             </h2>
             {expandedGroups.includes(date) &&
               journals.map((journal) => (
