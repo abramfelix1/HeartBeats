@@ -12,14 +12,14 @@ import { resetJournalsActions } from "../../store/journals";
 
 function Navigation({ isLoaded, navHovered, ...props }) {
   const dispatch = useDispatch();
-  const { toggleJournalPage } = useContext(JournalContext);
+  const { toggleJournalPage, setJournalOpen } = useContext(JournalContext);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
 
   const logoutClickHandler = () => {
     dispatch(logout());
     dispatch(resetJournalsActions());
-    toggleJournalPage(false);
+    setJournalOpen(false);
   };
 
   const collapseClickHandler = () => {
@@ -31,7 +31,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
       className={`flex flex-col ml-2 my-2 mr-2 items-center text-[#33658A] relative rounded-3xl ${
         isCollapsed ? "px-2" : "px-5"
       }
-      ${sessionUser ? "bg-baby-powder" : ""}
+      ${sessionUser ? "bg-baby-powder" : "bg-baby-powder"}
       `}
       {...props}
     >

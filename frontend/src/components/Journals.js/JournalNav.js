@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import { useState, useEffect, useContext, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllJournals } from "../../store/journals";
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
@@ -11,68 +11,69 @@ import "./journal.css";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
-  const [searchInput, setSearchInput] = useState("");
-  const [filteredJournals, setFilteredJournals] = useState({});
   const { setType } = useContext(ModalContext);
   const { journal, setJournal } = useContext(JournalContext);
+
   const journals = useSelector((state) => Object.values(state.journals));
+  const [searchInput, setSearchInput] = useState("");
 
-  const sortedJournals = [...journals].sort(
-    (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-  );
+  const groupedJournals = useMemo(() => {
+    return journals
+      .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
+      .reduce((acc, journal) => {
+        const today = new Date();
+        const journalDate = new Date(journal.updatedAt);
+        let label;
 
-  const groupedJournals = sortedJournals.reduce((acc, journal) => {
-    const today = new Date();
-    const journalDate = new Date(journal.updatedAt);
-    let label;
+        if (
+          journalDate.getDate() === today.getDate() &&
+          journalDate.getMonth() === today.getMonth() &&
+          journalDate.getFullYear() === today.getFullYear()
+        ) {
+          label = "Today";
+        } else if (
+          journalDate.getDate() === today.getDate() - 1 &&
+          journalDate.getMonth() === today.getMonth() &&
+          journalDate.getFullYear() === today.getFullYear()
+        ) {
+          label = "Yesterday";
+        } else {
+          label = journalDate.toDateString();
+        }
 
-    if (
-      journalDate.getDate() === today.getDate() &&
-      journalDate.getMonth() === today.getMonth() &&
-      journalDate.getFullYear() === today.getFullYear()
-    ) {
-      label = "Today";
-    } else if (
-      journalDate.getDate() === today.getDate() - 1 &&
-      journalDate.getMonth() === today.getMonth() &&
-      journalDate.getFullYear() === today.getFullYear()
-    ) {
-      label = "Yesterday";
-    } else {
-      label = journalDate.toDateString();
-    }
+        if (!acc[label]) {
+          acc[label] = [];
+        }
 
-    if (!acc[label]) {
-      acc[label] = [];
-    }
+        acc[label].push(journal);
+        return acc;
+      }, {});
+  }, [journals]);
 
-    acc[label].push(journal);
-    return acc;
-  }, {});
+  const [filteredJournals, setFilteredJournals] = useState({});
 
   useEffect(() => {
     dispatch(getAllJournals());
   }, []);
 
   useEffect(() => {
-    if (searchInput === "") {
-      setFilteredJournals(groupedJournals);
-      return;
-    }
+    if (searchInput !== "") {
+      const filteredGroup = {};
 
-    const filteredGroup = {};
-
-    for (let date in groupedJournals) {
-      filteredGroup[date] = groupedJournals[date].filter((journal) =>
-        journal.name.toLowerCase().includes(searchInput.toLowerCase())
-      );
-      if (filteredGroup[date].length === 0) {
-        delete filteredGroup[date];
+      for (let date in groupedJournals) {
+        filteredGroup[date] = groupedJournals[date].filter((journal) =>
+          journal.name.toLowerCase().includes(searchInput.toLowerCase())
+        );
+        if (filteredGroup[date].length === 0) {
+          delete filteredGroup[date];
+        }
       }
+      setFilteredJournals(filteredGroup);
     }
+  }, [searchInput, groupedJournals]);
 
-    setFilteredJournals(filteredGroup);
-  }, [searchInput]);
+  const journalsToDisplay =
+    searchInput === "" ? groupedJournals : filteredJournals;
 
   const [expandedGroups, setExpandedGroups] = useState(
     Object.keys(groupedJournals)
@@ -85,12 +86,9 @@ export default function JournalNav() {
         : [...prevGroups, groupName]
     );
   };
-  console.log("EXPANDED GROUPS: ", expandedGroups);
 
   const createJournalHandler = async () => {
-    console.log("CLICK CREATE JOURNAL");
     const journal = await dispatch(createJournal());
-    console.log("NEW JOURNAL: ", journal);
     setJournal(journal.journal);
   };
 
@@ -106,7 +104,7 @@ export default function JournalNav() {
         />
       </div>
       <div className="journal-list flex flex-col gap-y-3 px-3 py-3 mb-1">
-        {Object.entries(filteredJournals).map(([date, journals]) => (
+        {Object.entries(journalsToDisplay).map(([date, journals]) => (
           <div key={date} className="flex flex-col gap-y-1">
             <h2
               className="flex gap-x-2 items-center hover:cursor-pointer"
