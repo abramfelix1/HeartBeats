@@ -13,6 +13,7 @@ export const ErrorProvider = ({ children }) => {
     <ErrorContext.Provider
       value={{
         errors,
+        setErrors,
       }}
     >
       {children}

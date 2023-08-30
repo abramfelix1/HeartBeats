@@ -11,6 +11,7 @@ import "./quill.css";
 import { Tooltip } from "react-tooltip";
 import JournalNav from "./JournalNav";
 import { JournalContext } from "../../context/journalContext";
+import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
 import { useDispatch } from "react-redux";
 import { createJournal, updateJournal } from "../../store/journals";
@@ -19,6 +20,7 @@ export default function JournalEditor() {
   const dispatch = useDispatch();
   const quillRef = useRef(null);
   const { journal, setJournal } = useContext(JournalContext);
+  const { setErrors } = useContext(ErrorContext);
   const { setType } = useContext(ModalContext);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState(journal?.content || "");
@@ -52,10 +54,16 @@ export default function JournalEditor() {
     console.log("FORMATTED: ", formattedContent);
     console.log("TITLE: ", title);
     console.log("BODY: ", typeof body, body);
+    if (title.length < 4) {
+      setErrors({ name: "Name must have at least 4 characters minimum" });
+      setType("ERROR");
+      return;
+    }
     dispatch(updateJournal(journal.id, { name: title, content: body })).catch(
       async (res) => {
         const data = await res.json();
         console.log(data.errors);
+        setErrors(data.errors);
         setType("ERROR");
       }
     );
