@@ -11,8 +11,10 @@ import "./journal.css";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
+  const [searchInput, setSearchInput] = useState("");
+  const [filteredJournals, setFilteredJournals] = useState({});
   const { setType } = useContext(ModalContext);
-  const { setJournal } = useContext(JournalContext);
+  const { journal, setJournal } = useContext(JournalContext);
   const journals = useSelector((state) => Object.values(state.journals));
 
   const sortedJournals = [...journals].sort(
@@ -52,6 +54,26 @@ export default function JournalNav() {
     dispatch(getAllJournals());
   }, []);
 
+  useEffect(() => {
+    if (searchInput === "") {
+      setFilteredJournals(groupedJournals);
+      return;
+    }
+
+    const newFiltered = {};
+
+    for (let date in groupedJournals) {
+      newFiltered[date] = groupedJournals[date].filter((journal) =>
+        journal.name.toLowerCase().includes(searchInput.toLowerCase())
+      );
+      if (newFiltered[date].length === 0) {
+        delete newFiltered[date];
+      }
+    }
+
+    setFilteredJournals(newFiltered);
+  }, [searchInput]);
+
   const [expandedGroups, setExpandedGroups] = useState(
     Object.keys(groupedJournals)
   );
@@ -74,17 +96,26 @@ export default function JournalNav() {
 
   return (
     <div className="h-full w-64 bg-[#ececf5] rounded-l-3xl relative pb-2 ">
-      <div className="flex p-5 px-3 text-white justify-start">
+      <div className="p-4">
+        <input
+          type="text"
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
+          placeholder="Search journals..."
+          className="p-2 w-full rounded"
+        />
+      </div>
+      {/* <div className="flex p-5 px-3 text-white justify-start">
         <button
-          className="flex justify-center items-center gap-x-2 p-2 w-fit h-fit rounded-xl bg-blue-400 text-white font-semibold"
+          className="flex justify-center items-center gap-x-2 py-2 px-5 w-fit h-fit rounded-xl bg-blue-400 text-white font-semibold"
           onClick={createJournalHandler}
         >
           <IoCreateOutline className="text-2xl" />
           <p>NEW</p>
         </button>
-      </div>
-      <div className="journal-list flex flex-col gap-y-3 px-3 sm:h-[70%] md:h-[78%] lg:h-[85%] xl:h-[87%] 2xl:h-[90%] ">
-        {Object.entries(groupedJournals).map(([date, journals]) => (
+      </div> */}
+      <div className="journal-list flex flex-col gap-y-3 px-3 py-3 mb-1">
+        {Object.entries(filteredJournals).map(([date, journals]) => (
           <div key={date} className="flex flex-col gap-y-1">
             <h2
               className="flex gap-x-2 items-center hover:cursor-pointer"
@@ -98,23 +129,34 @@ export default function JournalNav() {
               <p className="">{date}</p>
             </h2>
             {expandedGroups.includes(date) &&
-              journals.map((journal) => (
+              journals.map((journalEntry) => (
                 <div
-                  className="flex flex-row gap-x-2 items-center"
-                  key={journal.id}
-                  onClick={() => setJournal(journal)}
+                  className="flex flex-row gap-x-2 py-1 items-center text-sm"
+                  key={journalEntry.id}
+                  onClick={() => setJournal(journalEntry)}
                 >
                   <p className="whitespace-nowrap overflow-hidden text-ellipsis sm:w-[90px] md:w-[110px] lg:w-[130px] xl:w-[140px] 2xl:w-[150px] hover:cursor-pointer">
-                    {journal.name}
+                    {journalEntry.name}
                   </p>
-                  <PiTrash
-                    className="text-red-500 hover:cursor-pointer"
-                    onClick={() => setType("DELETE")}
-                  />
+                  {journal && journal.id === journalEntry.id && (
+                    <PiTrash
+                      className="text-red-500 hover:cursor-pointer"
+                      onClick={() => setType("DELETE")}
+                    />
+                  )}
                 </div>
               ))}
           </div>
         ))}
+      </div>
+      <div className="flex w-full justify-center px-3 text-white absolute bottom-0">
+        <button
+          className="flex justify-center items-center gap-x-2 my-2 py-2 px-5 w-fit h-fit rounded-xl bg-blue-400 text-white font-semibold"
+          onClick={createJournalHandler}
+        >
+          <IoCreateOutline className="text-2xl" />
+          <p>NEW</p>
+        </button>
       </div>
     </div>
   );

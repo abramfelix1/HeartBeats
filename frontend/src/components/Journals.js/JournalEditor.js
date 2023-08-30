@@ -12,12 +12,12 @@ import { Tooltip } from "react-tooltip";
 import JournalNav from "./JournalNav";
 import { JournalContext } from "../../context/journalContext";
 import { useDispatch } from "react-redux";
-import { updateJournal } from "../../store/journals";
+import { createJournal, updateJournal } from "../../store/journals";
 
 export default function JournalEditor() {
   const dispatch = useDispatch();
   const quillRef = useRef(null);
-  const { journal } = useContext(JournalContext);
+  const { journal, setJournal } = useContext(JournalContext);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState(journal?.content || "");
 
@@ -83,6 +83,13 @@ export default function JournalEditor() {
     }
   }, [journal]);
 
+  const createJournalHandler = async () => {
+    console.log("CLICK CREATE JOURNAL");
+    const journal = await dispatch(createJournal());
+    console.log("NEW JOURNAL: ", journal);
+    setJournal(journal.journal);
+  };
+
   return (
     <div className="w-full relative">
       {journal ? (
@@ -123,7 +130,10 @@ export default function JournalEditor() {
         </>
       ) : (
         <div className="flex h-full justify-center items-center">
-          <button className="w-fit h-fit p-5 rounded-3xl bg-blue-400 text-white font-semibold">
+          <button
+            className="w-fit h-fit p-5 rounded-3xl bg-blue-400 text-white font-semibold"
+            onClick={createJournalHandler}
+          >
             NEW JOURNAL
           </button>
         </div>
