@@ -36,7 +36,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
       {...props}
     >
       <button
-        className="bg-black absolute h-[85%] w-[5px] right-0  top-[7.5%] rounded-3xl opacity-0 hover:opacity-20"
+        className="bg-black absolute h-[85%] w-[5px] right-0  top-[7.5%] rounded-3xl opacity-0 user-select: none hover:opacity-20 "
         onClick={collapseClickHandler}
       />
       <div className="flex flex-col flex-grow justify center items-center">
@@ -55,7 +55,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
               data-tooltip-content="Profile"
             >
               <AiOutlineUser className="text-[35px]" />
-              {!isCollapsed && <p>Profile</p>}
+              {!isCollapsed && <p className="select-none">Profile</p>}
             </div>
           )}
           {sessionUser && (
@@ -66,7 +66,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
               onClick={toggleJournalPage}
             >
               <AiOutlineEdit className="text-[35px]" />
-              {!isCollapsed && <p>Journal</p>}
+              {!isCollapsed && <p className="select-none">Journal</p>}
             </div>
           )}
           {sessionUser && (
@@ -76,7 +76,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
               data-tooltip-content="Music"
             >
               <PiMusicNotes className="text-[35px]" />
-              {!isCollapsed && <p>Music</p>}
+              {!isCollapsed && <p className="select-none">Music</p>}
             </div>
           )}
         </div>
@@ -89,7 +89,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             data-tooltip-content="Settings"
           >
             {isLoaded && <AiOutlineSetting className="text-[35px]" />}
-            {!isCollapsed && <p>Settings</p>}
+            {!isCollapsed && <p className="select-none">Settings</p>}
           </div>
         )}
         {sessionUser ? (
@@ -103,7 +103,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             data-tooltip-content="Logout"
           >
             <MdOutlineLogout className="text-[35px]" />
-            {!isCollapsed && <p>Logout</p>}
+            {!isCollapsed && <p className="select-none">Logout</p>}
           </div>
         ) : (
           <NavLink
@@ -113,7 +113,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             data-tooltip-content="Login"
           >
             <MdOutlineLogin className="text-[35px]" />
-            {!isCollapsed && <p>Login</p>}
+            {!isCollapsed && <p className="select-none">Login</p>}
           </NavLink>
         )}
       </div>
