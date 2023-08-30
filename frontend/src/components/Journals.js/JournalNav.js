@@ -60,18 +60,18 @@ export default function JournalNav() {
       return;
     }
 
-    const newFiltered = {};
+    const filteredGroup = {};
 
     for (let date in groupedJournals) {
-      newFiltered[date] = groupedJournals[date].filter((journal) =>
+      filteredGroup[date] = groupedJournals[date].filter((journal) =>
         journal.name.toLowerCase().includes(searchInput.toLowerCase())
       );
-      if (newFiltered[date].length === 0) {
-        delete newFiltered[date];
+      if (filteredGroup[date].length === 0) {
+        delete filteredGroup[date];
       }
     }
 
-    setFilteredJournals(newFiltered);
+    setFilteredJournals(filteredGroup);
   }, [searchInput]);
 
   const [expandedGroups, setExpandedGroups] = useState(
@@ -96,7 +96,7 @@ export default function JournalNav() {
 
   return (
     <div className="h-full w-64 bg-[#ececf5] rounded-l-3xl relative pb-2 ">
-      <div className="p-4">
+      <div className="p-4 pb-3">
         <input
           type="text"
           value={searchInput}
@@ -105,15 +105,6 @@ export default function JournalNav() {
           className="p-2 w-full rounded"
         />
       </div>
-      {/* <div className="flex p-5 px-3 text-white justify-start">
-        <button
-          className="flex justify-center items-center gap-x-2 py-2 px-5 w-fit h-fit rounded-xl bg-blue-400 text-white font-semibold"
-          onClick={createJournalHandler}
-        >
-          <IoCreateOutline className="text-2xl" />
-          <p>NEW</p>
-        </button>
-      </div> */}
       <div className="journal-list flex flex-col gap-y-3 px-3 py-3 mb-1">
         {Object.entries(filteredJournals).map(([date, journals]) => (
           <div key={date} className="flex flex-col gap-y-1">
