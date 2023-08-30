@@ -15,6 +15,8 @@ import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
 import { useDispatch } from "react-redux";
 import { createJournal, updateJournal } from "../../store/journals";
+import { getRecSongs } from "../../store/spotify";
+import { getEnergy, getValence } from "../../utils/journal-analyzer";
 
 export default function JournalEditor() {
   const dispatch = useDispatch();
@@ -106,6 +108,18 @@ export default function JournalEditor() {
     setJournal(journal.journal);
   };
 
+  const recSongsHandler = (e) => {
+    console.log("REC SONGS HANDLER");
+    e.preventDefault();
+    const quill = quillRef.current.getEditor();
+    const content = quill.getText();
+    const formattedContent = quill.getContents();
+    console.log("CONTENT: ", content);
+    const energy = getEnergy(content);
+    const valence = getValence(content);
+    dispatch(getRecSongs({ valence: valence, energy: energy, genre: "pop" }));
+  };
+
   return (
     <div className="w-full relative">
       {journal ? (
@@ -132,8 +146,15 @@ export default function JournalEditor() {
               >
                 Save
               </button>
-              <button className="z-10  w-fit h-fit ">Generate Songs</button>
-              <button className="z-10  w-fit h-fit ">View Playlist</button>
+              <button
+                className="z-10  w-fit h-fit"
+                onClick={(e) => {
+                  recSongsHandler(e);
+                }}
+              >
+                Generate Songs
+              </button>
+              <button className="z-10  w-fit h-fit">View Playlist</button>
             </div>
           </div>
           <Tooltip

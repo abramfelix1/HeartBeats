@@ -2,20 +2,20 @@ const Sentiment = require("sentiment");
 const sentiment = new Sentiment();
 const { lowEnergyWords, negationWords, negationPhrases } = require("./words");
 
-function sigmoid(z) {
+function normalize(z) {
   return 1 / (1 + Math.exp(-z));
 }
 
-const getValence = (text) => {
+export const getValence = (text) => {
   const result = sentiment.analyze(text);
 
-  const normalized = sigmoid(result.score);
+  const normalized = normalize(result.score);
   // console.log(result);
   console.log("NORMALIZED VALENCE: ", normalized.toFixed(3));
   return normalized;
 };
 
-const getEnergy = (text) => {
+export const getEnergy = (text) => {
   let energyScore = 0;
 
   const exclamationCount = (text.match(/!/g) || []).length;
@@ -84,7 +84,7 @@ const getEnergy = (text) => {
   console.log("PUNCTUATIONS COUNT: ", punctuationsCount);
   energyScore += punctuationsCount * 0.05;
 
-  const normalizedEnergy = Math.round(sigmoid(energyScore) * 100) / 100;
+  const normalizedEnergy = Math.round(normalize(energyScore) * 100) / 100;
   console.log("NORMALIZED ENERGRY: ", normalizedEnergy.toFixed(3));
   return normalizedEnergy;
 };
