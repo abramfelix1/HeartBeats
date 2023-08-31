@@ -1,0 +1,23 @@
+/* .songs-list {
+  overflow-y: auto;
+  max-height: calc(100% - 125px);
+} */
+
+/* width */
+.songs-list::-webkit-scrollbar {
+  width: 1px;
+}
+
+/* Track */
+.songs-list::-webkit-scrollbar-track {
+  background: rgb(0, 0, 0, 0);
+  border-radius: 500px;
+}
+
+/* Handle */
+.songs-list::-webkit-scrollbar-thumb {
+  margin-left: 10px;
+  padding-left: 10px;
+  border-radius: 500px;
+  background: rgb(0, 0, 0, 0.1);
+}

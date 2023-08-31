@@ -8,6 +8,7 @@ import {
 import { Howl } from "howler";
 import spotifyLogo from "../../images/Spotify_Logo_RGB_Green.png";
 import spotifyIcon from "../../images/Spotify_Icon_RGB_Green.png";
+import "./songs.css";
 
 export default function SongRecs() {
   const dispatch = useDispatch();
@@ -18,22 +19,6 @@ export default function SongRecs() {
   const scrollContainerRef = useRef(null);
 
   const scrollAmount = 200;
-
-  const scrollLeft = () => {
-    const container = scrollContainerRef.current;
-    container.scroll({
-      left: container.scrollLeft - scrollAmount,
-      behavior: "smooth",
-    });
-  };
-
-  const scrollRight = () => {
-    const container = scrollContainerRef.current;
-    container.scroll({
-      left: container.scrollLeft + scrollAmount,
-      behavior: "smooth",
-    });
-  };
 
   const [remainingTime, setRemainingTime] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
@@ -104,29 +89,15 @@ export default function SongRecs() {
         <img src={spotifyLogo} alt="spotify logo" className="w-40" />
       </div> */}
 
-      {/* <button
-        onClick={scrollLeft}
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 z-10 rounded-full p-1 text-3xl text-white"
-      >
-        <AiFillLeftCircle />
-      </button>
-
-      <button
-        onClick={scrollRight}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 z-10  text-white text-3xl"
-      >
-        <AiFillRightCircle />
-      </button> */}
-
-      <div ref={scrollContainerRef} className="overflow-x-auto">
-        <div className="flex flex-row flex-nowrap w-max">
+      <div ref={scrollContainerRef} className="songs-list mx-3 overflow-x-auto">
+        <div className="flex flex-row gap-x-5 w-max">
           {songs &&
             songs.map((song, idx) => (
-              <div className="flex flex-col p-5 items-center">
+              <div className="flex flex-col py-5 items-center">
                 <img
                   src={song.album.images[1].url}
                   alt="album cover"
-                  className="w-80 h-80"
+                  className="w-50 h-50"
                 />
                 <a
                   href={song.external_urls.spotify}
