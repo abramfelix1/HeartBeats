@@ -82,20 +82,23 @@ export default function SongRecs() {
       <div className="flex flex-row flex-nowrap w-max justify-between px-4">
         {songs &&
           songs.map((song, idx) => (
-            <div className="flex flex-col basis-[calc(33.3333% - 8px)] justify-center ">
+            <div className="flex flex-col p-4">
               <img
                 src={song.album.images[1].url}
                 alt="album cover"
-                className="w-80"
+                className="w-80 h-80"
               />
-              <div>
+              <div className="py-2">
                 <p>{song.name}</p>
                 <a href={song.external_urls.spotify}>Open on Spotify</a>
                 <p>
-                  Artist: {song.artists[0].name}{" "}
-                  {song.artists.length > 1 ? "ft. " : ""}
-                  {song.artists.map((artist, idx) => (
-                    <span>{idx > 0 && artist.name}</span>
+                  {song.artists[0].name}
+                  {song.artists.length > 1 && " ft. "}
+                  {song.artists.slice(1).map((artist, idx, array) => (
+                    <span key={idx}>
+                      {artist.name}
+                      {array.length > 1 && idx !== array.length - 1 ? ", " : ""}
+                    </span>
                   ))}
                 </p>
                 <p>
