@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AiOutlinePlayCircle } from "react-icons/ai";
 import { Howl } from "howler";
 import spotifyLogo from "../../images/Spotify_Logo_RGB_Green.png";
+import spotifyIcon from "../../images/Spotify_Icon_RGB_Green.png";
 
 export default function SongRecs() {
   const dispatch = useDispatch();
@@ -76,9 +77,9 @@ export default function SongRecs() {
 
   return (
     <div className="flex flex-col w-full bg-baby-powder rounded-3xl overflow-x-auto">
-      <div className="p-4">
+      {/* <div className="p-4">
         <img src={spotifyLogo} alt="spotify logo" className="w-40" />
-      </div>
+      </div> */}
       <div className="flex flex-row flex-nowrap w-max justify-between px-4">
         {songs &&
           songs.map((song, idx) => (
@@ -88,10 +89,17 @@ export default function SongRecs() {
                 alt="album cover"
                 className="w-80 h-80"
               />
-              <div className="py-2">
-                <p>{song.name}</p>
-                <a href={song.external_urls.spotify}>Open on Spotify</a>
+              <div className="flex flex-col gap-y-1 py-2 font-semibold">
+                <a
+                  href={song.external_urls.spotify}
+                  className="flex flex-row gap-x-2 border-[1px] p-1 rounded-3xl justify-center hover:bg-slate-100 font-semibold"
+                >
+                  <img src={spotifyIcon} alt="spotify icon" className="w-7" />{" "}
+                  <p>Open Spotify</p>
+                </a>
+                <p className="text-lg">{song.name}</p>
                 <p>
+                  <span className="font-normal">by </span>
                   {song.artists[0].name}
                   {song.artists.length > 1 && " ft. "}
                   {song.artists.slice(1).map((artist, idx, array) => (
@@ -101,8 +109,8 @@ export default function SongRecs() {
                     </span>
                   ))}
                 </p>
-                <p>
-                  Preview:
+                <p>{song.album.name}</p>
+                {/* <p>
                   {song.preview_url ? (
                     <>
                       <button onClick={() => playSound(song.preview_url)}>
@@ -115,7 +123,7 @@ export default function SongRecs() {
                   ) : (
                     "No Preview"
                   )}
-                </p>
+                </p> */}
               </div>
             </div>
           ))}
