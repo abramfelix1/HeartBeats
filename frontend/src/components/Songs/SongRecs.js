@@ -1,6 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AiOutlinePlayCircle } from "react-icons/ai";
+import {
+  AiOutlinePlayCircle,
+  AiFillRightCircle,
+  AiFillLeftCircle,
+} from "react-icons/ai";
 import { Howl } from "howler";
 import spotifyLogo from "../../images/Spotify_Logo_RGB_Green.png";
 import spotifyIcon from "../../images/Spotify_Icon_RGB_Green.png";
@@ -11,6 +15,25 @@ export default function SongRecs() {
     const tracks = state.spotify.songs?.tracks;
     return tracks ? Object.values(tracks) : [];
   });
+  const scrollContainerRef = useRef(null);
+
+  const scrollAmount = 200;
+
+  const scrollLeft = () => {
+    const container = scrollContainerRef.current;
+    container.scroll({
+      left: container.scrollLeft - scrollAmount,
+      behavior: "smooth",
+    });
+  };
+
+  const scrollRight = () => {
+    const container = scrollContainerRef.current;
+    container.scroll({
+      left: container.scrollLeft + scrollAmount,
+      behavior: "smooth",
+    });
+  };
 
   const [remainingTime, setRemainingTime] = useState("");
   const [isPlaying, setIsPlaying] = useState(false);
@@ -76,57 +99,76 @@ export default function SongRecs() {
   };
 
   return (
-    <div className="flex flex-col w-full bg-baby-powder rounded-3xl overflow-x-auto">
+    <div className="flex flex-col w-full bg-baby-powder rounded-3xl relative">
       {/* <div className="p-4">
         <img src={spotifyLogo} alt="spotify logo" className="w-40" />
       </div> */}
-      <div className="flex flex-row flex-nowrap w-max justify-between px-4">
-        {songs &&
-          songs.map((song, idx) => (
-            <div className="flex flex-col p-4">
-              <img
-                src={song.album.images[1].url}
-                alt="album cover"
-                className="w-80 h-80"
-              />
-              <div className="flex flex-col gap-y-1 py-2 font-semibold">
+
+      {/* <button
+        onClick={scrollLeft}
+        className="absolute top-1/2 left-4 transform -translate-y-1/2 z-10 rounded-full p-1 text-3xl text-white"
+      >
+        <AiFillLeftCircle />
+      </button>
+
+      <button
+        onClick={scrollRight}
+        className="absolute top-1/2 right-4 transform -translate-y-1/2 z-10  text-white text-3xl"
+      >
+        <AiFillRightCircle />
+      </button> */}
+
+      <div ref={scrollContainerRef} className="overflow-x-auto">
+        <div className="flex flex-row flex-nowrap w-max">
+          {songs &&
+            songs.map((song, idx) => (
+              <div className="flex flex-col p-5 items-center">
+                <img
+                  src={song.album.images[1].url}
+                  alt="album cover"
+                  className="w-80 h-80"
+                />
                 <a
                   href={song.external_urls.spotify}
-                  className="flex flex-row gap-x-2 border-[1px] p-1 rounded-3xl justify-center hover:bg-slate-100 font-semibold"
+                  className="flex flex-row gap-x-2 border-[1px] p-1 rounded-3xl mt-2 justify-center hover:bg-slate-100 font-semibold w-full"
                 >
                   <img src={spotifyIcon} alt="spotify icon" className="w-7" />{" "}
                   <p>Open Spotify</p>
                 </a>
-                <p className="text-lg">{song.name}</p>
-                <p>
-                  <span className="font-normal">by </span>
-                  {song.artists[0].name}
-                  {song.artists.length > 1 && " ft. "}
-                  {song.artists.slice(1).map((artist, idx, array) => (
-                    <span key={idx}>
-                      {artist.name}
-                      {array.length > 1 && idx !== array.length - 1 ? ", " : ""}
-                    </span>
-                  ))}
-                </p>
-                <p>{song.album.name}</p>
-                {/* <p>
-                  {song.preview_url ? (
-                    <>
-                      <button onClick={() => playSound(song.preview_url)}>
-                        <div>
-                          <AiOutlinePlayCircle className="text-lg" />
-                        </div>
-                      </button>
-                      <p>Remaining Time: {remainingTime}</p>
-                    </>
-                  ) : (
-                    "No Preview"
-                  )}
-                </p> */}
+                <div className="flex flex-col gap-y-1 py-2 font-semibold justify-center items-center">
+                  <p className="text-lg">{song.name}</p>
+                  <p>
+                    <span className="font-normal">by </span>
+                    {song.artists[0].name}
+                    {song.artists.length > 1 && " ft. "}
+                    {song.artists.slice(1).map((artist, idx, array) => (
+                      <span key={idx}>
+                        {artist.name}
+                        {array.length > 1 && idx !== array.length - 1
+                          ? ", "
+                          : ""}
+                      </span>
+                    ))}
+                  </p>
+                  <p>{song.album.name}</p>
+                  <div className="flex flex-row">
+                    {song.preview_url ? (
+                      <>
+                        <button onClick={() => playSound(song.preview_url)}>
+                          <div>
+                            <AiOutlinePlayCircle className="text-xl" />
+                          </div>
+                        </button>
+                        <p>{remainingTime}</p>
+                      </>
+                    ) : (
+                      "No Preview"
+                    )}
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+        </div>
       </div>
     </div>
   );
