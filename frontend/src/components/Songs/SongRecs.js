@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { AiOutlinePlayCircle } from "react-icons/ai";
 import { Howl } from "howler";
+import spotifyLogo from "../../images/Spotify_Logo_RGB_Green.png";
 
 export default function SongRecs() {
   const dispatch = useDispatch();
@@ -73,17 +75,25 @@ export default function SongRecs() {
   };
 
   return (
-    <div className="flex flex-col h-[50%] bg-baby-powder rounded-3xl overflow-y-auto">
-      <div className="p-5">
+    <div className="flex flex-col w-full bg-baby-powder rounded-3xl overflow-x-auto">
+      <div className="p-4">
+        <img src={spotifyLogo} alt="spotify logo" className="w-40" />
+      </div>
+      <div className="flex flex-row flex-nowrap w-max justify-between px-4">
         {songs &&
           songs.map((song, idx) => (
-            <div className="flex flex-row">
-              <img src={song.album.images[1].url} alt="album cover" />
+            <div className="flex flex-col basis-[calc(33.3333% - 8px)] justify-center ">
+              <img
+                src={song.album.images[1].url}
+                alt="album cover"
+                className="w-80"
+              />
               <div>
-                <p>Song Name: {song.name}</p>
+                <p>{song.name}</p>
                 <a href={song.external_urls.spotify}>Open on Spotify</a>
                 <p>
-                  Artist: {song.artists[0].name} ft.{" "}
+                  Artist: {song.artists[0].name}{" "}
+                  {song.artists.length > 1 ? "ft. " : ""}
                   {song.artists.map((artist, idx) => (
                     <span>{idx > 0 && artist.name}</span>
                   ))}
@@ -93,7 +103,9 @@ export default function SongRecs() {
                   {song.preview_url ? (
                     <>
                       <button onClick={() => playSound(song.preview_url)}>
-                        Play
+                        <div>
+                          <AiOutlinePlayCircle className="text-lg" />
+                        </div>
                       </button>
                       <p>Remaining Time: {remainingTime}</p>
                     </>

@@ -117,7 +117,13 @@ export default function JournalEditor() {
     console.log("CONTENT: ", content);
     const energy = getEnergy(content);
     const valence = getValence(content);
-    dispatch(getRecSongs({ valence: valence, energy: energy, genre: "pop" }));
+    dispatch(
+      getRecSongs({
+        valence: valence,
+        energy: energy,
+        genre: "pop",
+      })
+    );
   };
 
   return (

@@ -243,7 +243,7 @@ router.post("/recsongs", async (req, res) => {
   } = req.body;
 
   //change this offset if not generating enough or too much duplicates
-  const rangeOffset = 0.1;
+  const rangeOffset = 0.152125;
   let minValence = valence - rangeOffset;
   let maxValence = valence + rangeOffset;
   let minEnergy = energy - rangeOffset;
