@@ -8,15 +8,18 @@ import { AiOutlineUser, AiOutlineSetting, AiOutlineEdit } from "react-icons/ai";
 import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
 import { PiMusicNotes } from "react-icons/pi";
 import { JournalContext } from "../../context/journalContext";
+import { resetJournalsActions } from "../../store/journals";
 
 function Navigation({ isLoaded, navHovered, ...props }) {
   const dispatch = useDispatch();
-  const { toggleJournalPage } = useContext(JournalContext);
+  const { toggleJournalPage, setJournalOpen } = useContext(JournalContext);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
 
   const logoutClickHandler = () => {
     dispatch(logout());
+    dispatch(resetJournalsActions());
+    setJournalOpen(false);
   };
 
   const collapseClickHandler = () => {
@@ -25,15 +28,15 @@ function Navigation({ isLoaded, navHovered, ...props }) {
 
   return (
     <div
-      className={`flex flex-col ml-2 my-2 items-center text-[#33658A] relative rounded-3xl ${
+      className={`flex flex-col ml-2 my-2 mr-2 items-center text-[#33658A] relative rounded-3xl ${
         isCollapsed ? "px-2" : "px-5"
       }
-      ${sessionUser ? "bg-baby-powder" : ""}
+      ${sessionUser ? "bg-baby-powder" : "bg-baby-powder"}
       `}
       {...props}
     >
       <button
-        className="bg-black absolute h-[85%] w-[5px] right-0  top-[7.5%] rounded-3xl opacity-0 hover:opacity-20"
+        className="bg-black absolute h-[85%] w-[5px] right-0  top-[7.5%] rounded-3xl opacity-0 user-select: none hover:opacity-0 "
         onClick={collapseClickHandler}
       />
       <div className="flex flex-col flex-grow justify center items-center">
@@ -52,7 +55,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
               data-tooltip-content="Profile"
             >
               <AiOutlineUser className="text-[35px]" />
-              {!isCollapsed && <p>Profile</p>}
+              {!isCollapsed && <p className="select-none">Profile</p>}
             </div>
           )}
           {sessionUser && (
@@ -63,7 +66,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
               onClick={toggleJournalPage}
             >
               <AiOutlineEdit className="text-[35px]" />
-              {!isCollapsed && <p>Journal</p>}
+              {!isCollapsed && <p className="select-none">Journal</p>}
             </div>
           )}
           {sessionUser && (
@@ -73,7 +76,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
               data-tooltip-content="Music"
             >
               <PiMusicNotes className="text-[35px]" />
-              {!isCollapsed && <p>Music</p>}
+              {!isCollapsed && <p className="select-none">Music</p>}
             </div>
           )}
         </div>
@@ -86,7 +89,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             data-tooltip-content="Settings"
           >
             {isLoaded && <AiOutlineSetting className="text-[35px]" />}
-            {!isCollapsed && <p>Settings</p>}
+            {!isCollapsed && <p className="select-none">Settings</p>}
           </div>
         )}
         {sessionUser ? (
@@ -100,7 +103,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             data-tooltip-content="Logout"
           >
             <MdOutlineLogout className="text-[35px]" />
-            {!isCollapsed && <p>Logout</p>}
+            {!isCollapsed && <p className="select-none">Logout</p>}
           </div>
         ) : (
           <NavLink
@@ -110,7 +113,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             data-tooltip-content="Login"
           >
             <MdOutlineLogin className="text-[35px]" />
-            {!isCollapsed && <p>Login</p>}
+            {!isCollapsed && <p className="select-none">Login</p>}
           </NavLink>
         )}
       </div>

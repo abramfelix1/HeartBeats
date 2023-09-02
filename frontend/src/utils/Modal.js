@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { ModalContext } from "../context/ModalContext";
 import "./modal.css";
 import DeleteConfirmation from "../components/ModalPages/DeleteConfirmation";
+import Errors from "../components/ModalPages/Errors";
 
 export default function Modal(props) {
   const { type, setType } = useContext(ModalContext);
@@ -30,6 +31,7 @@ export default function Modal(props) {
         <div className="modalContent">
           <div className="closeButtonWrapper"></div>
           {type === "DELETE" && <DeleteConfirmation />}
+          {type === "ERROR" && <Errors />}
         </div>
         <div className="modalBackdrop" onClick={handleContent} />
       </div>

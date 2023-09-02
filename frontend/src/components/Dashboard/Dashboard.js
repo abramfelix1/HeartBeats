@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { getSpotifyUser } from "../../store/spotify";
 import Modal from "../../utils/Modal";
 import { JournalContext } from "../../context/journalContext";
+import SongsContainer from "../Songs/SongsContainer";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -37,7 +38,11 @@ export default function Dashboard() {
           onMouseEnter={() => setNavHovered(true)}
           onMouseLeave={() => setNavHovered(false)}
         />
-        {journalOpen && <JournalContainer />}
+        {journalOpen && (
+          <>
+            <JournalContainer /> <SongsContainer />
+          </>
+        )}
       </div>
     </>
   );

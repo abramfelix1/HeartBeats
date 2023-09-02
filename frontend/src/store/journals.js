@@ -5,6 +5,7 @@ const GET_JOURNAL = "journals/GET_ALL_JOURNALS";
 const CREATE_JOURNAL = "journals/CREATE_JOURNAL";
 const UPDATE_JOURNAL = "journals/UPDATE_JOURNAL";
 const DELETE_JOURNAL = "journals/DELETE_JOURNAL";
+const RESET_JOURNALS = "journals/RESET_JOURNAL";
 
 export const getAllJournalsAction = (payload) => {
   return {
@@ -33,6 +34,12 @@ export const deleteJournalAction = (id) => {
     payload: {
       id: id,
     },
+  };
+};
+
+export const resetJournalsActions = () => {
+  return {
+    type: RESET_JOURNALS,
   };
 };
 
@@ -122,6 +129,10 @@ export default function journalsReducer(state = initialState, action) {
       console.log("DELETE JOURNALS PAYLOAD", action.payload);
       delete newState[action.payload.id];
       return newState;
+    }
+    case RESET_JOURNALS:{
+      console.log("RESET JOURNALS")
+      return initialState
     }
     default:
       return state;

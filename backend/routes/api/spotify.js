@@ -120,7 +120,8 @@ router.get("/callback", async (req, res) => {
         } else {
           user = await User.create({
             email: email.toLowerCase(),
-            username: display_name.toLowerCase() + "_"+ accessToken.slice(0, 4),
+            username:
+              display_name.toLowerCase() + "_" + accessToken.slice(0, 4),
             hashedPassword: accessToken.slice(0, 40),
             firstName: null,
             lastName: null,
@@ -242,7 +243,7 @@ router.post("/recsongs", async (req, res) => {
   } = req.body;
 
   //change this offset if not generating enough or too much duplicates
-  const rangeOffset = 0.1;
+  const rangeOffset = 0.152125;
   let minValence = valence - rangeOffset;
   let maxValence = valence + rangeOffset;
   let minEnergy = energy - rangeOffset;
@@ -265,12 +266,14 @@ router.post("/recsongs", async (req, res) => {
 
   queryParams.push(`min_energy=${minEnergy}`);
   queryParams.push(`max_energy=${maxEnergy}`);
-  queryParams.push(`min_instrumentalness=${minInstrumentalness}`);
-  queryParams.push(`max_instrumentalness=${maxInstrumentalness}`);
+  // queryParams.push(`min_instrumentalness=${minInstrumentalness}`);
+  // queryParams.push(`max_instrumentalness=${maxInstrumentalness}`);
   queryParams.push(`min_valence=${minValence}`);
   queryParams.push(`max_valence=${maxValence}`);
 
   const url = baseUrl + queryParams.join("&");
+
+  console.log("URL: ", url);
 
   try {
     const response = await fetch(url, {

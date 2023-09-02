@@ -20,6 +20,7 @@ export const JournalProvider = ({ children }) => {
       value={{
         journal,
         setJournal,
+        setJournalOpen,
         toggleJournalPage,
         journalOpen,
       }}

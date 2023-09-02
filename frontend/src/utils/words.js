@@ -1,4 +1,5 @@
 const lowEnergyWords = [
+  "depressed",
   "uninterested",
   "indifferent",
   "disinterested",

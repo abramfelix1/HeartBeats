@@ -10,6 +10,7 @@ import { restoreCSRF, csrfFetch } from "./store/csrf";
 import * as sessionActions from "./store/session";
 import { ModalProvider } from "./context/ModalContext";
 import { JournalProvider } from "./context/journalContext";
+import { ErrorProvider } from "./context/ErrorContext";
 
 const store = configureStore();
 
@@ -25,11 +26,13 @@ function Root() {
   return (
     <ReduxProvider store={store}>
       <BrowserRouter>
-        <JournalProvider>
-          <ModalProvider>
-            <App />
-          </ModalProvider>
-        </JournalProvider>
+        <ErrorProvider>
+          <JournalProvider>
+            <ModalProvider>
+              <App />
+            </ModalProvider>
+          </JournalProvider>
+        </ErrorProvider>
       </BrowserRouter>
     </ReduxProvider>
   );

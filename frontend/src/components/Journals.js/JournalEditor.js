@@ -11,13 +11,19 @@ import "./quill.css";
 import { Tooltip } from "react-tooltip";
 import JournalNav from "./JournalNav";
 import { JournalContext } from "../../context/journalContext";
+import { ErrorContext } from "../../context/ErrorContext";
+import { ModalContext } from "../../context/ModalContext";
 import { useDispatch } from "react-redux";
-import { updateJournal } from "../../store/journals";
+import { createJournal, updateJournal } from "../../store/journals";
+import { getRecSongs } from "../../store/spotify";
+import { getEnergy, getValence } from "../../utils/journal-analyzer";
 
 export default function JournalEditor() {
   const dispatch = useDispatch();
   const quillRef = useRef(null);
-  const { journal } = useContext(JournalContext);
+  const { journal, setJournal } = useContext(JournalContext);
+  const { setErrors } = useContext(ErrorContext);
+  const { setType } = useContext(ModalContext);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState(journal?.content || "");
 
@@ -50,7 +56,19 @@ export default function JournalEditor() {
     console.log("FORMATTED: ", formattedContent);
     console.log("TITLE: ", title);
     console.log("BODY: ", typeof body, body);
-    dispatch(updateJournal(journal.id, { name: title, content: body }));
+    if (title.length < 4) {
+      setErrors({ name: "Name must have at least 4 characters minimum" });
+      setType("ERROR");
+      return;
+    }
+    dispatch(updateJournal(journal.id, { name: title, content: body })).catch(
+      async (res) => {
+        const data = await res.json();
+        console.log(data.errors);
+        setErrors(data.errors);
+        setType("ERROR");
+      }
+    );
   };
 
   useEffect(() => {
@@ -83,6 +101,31 @@ export default function JournalEditor() {
     }
   }, [journal]);
 
+  const createJournalHandler = async () => {
+    console.log("CLICK CREATE JOURNAL");
+    const journal = await dispatch(createJournal());
+    console.log("NEW JOURNAL: ", journal);
+    setJournal(journal.journal);
+  };
+
+  const recSongsHandler = (e) => {
+    console.log("REC SONGS HANDLER");
+    e.preventDefault();
+    const quill = quillRef.current.getEditor();
+    const content = quill.getText();
+    const formattedContent = quill.getContents();
+    console.log("CONTENT: ", content);
+    const energy = getEnergy(content);
+    const valence = getValence(content);
+    dispatch(
+      getRecSongs({
+        valence: valence,
+        energy: energy,
+        genre: "pop",
+      })
+    );
+  };
+
   return (
     <div className="w-full relative">
       {journal ? (
@@ -91,7 +134,7 @@ export default function JournalEditor() {
             <input
               onChange={(e) => setTitle(e.target.value)}
               value={title}
-              className="p-3 border-none rounded-tr-3xl focus:outline-none"
+              className="p-3 border-none rounded-tr-3xl focus:outline-none font-semibold"
             />
             <ReactQuill
               modules={modules}
@@ -109,8 +152,15 @@ export default function JournalEditor() {
               >
                 Save
               </button>
-              <button className="z-10  w-fit h-fit ">Generate Songs</button>
-              <button className="z-10  w-fit h-fit ">View Playlist</button>
+              <button
+                className="z-10  w-fit h-fit"
+                onClick={(e) => {
+                  recSongsHandler(e);
+                }}
+              >
+                Generate Songs
+              </button>
+              <button className="z-10  w-fit h-fit">View Playlist</button>
             </div>
           </div>
           <Tooltip
@@ -123,7 +173,10 @@ export default function JournalEditor() {
         </>
       ) : (
         <div className="flex h-full justify-center items-center">
-          <button className="w-fit h-fit p-5 rounded-3xl bg-blue-400 text-white font-semibold">
+          <button
+            className="w-fit h-fit p-5 rounded-3xl bg-blue-400 text-white font-semibold"
+            onClick={createJournalHandler}
+          >
             NEW JOURNAL
           </button>
         </div>
