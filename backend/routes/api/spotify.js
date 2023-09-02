@@ -276,13 +276,10 @@ router.post("/recsongs", async (req, res) => {
   console.log("URL: ", url);
 
   try {
-    const response = await fetch(
-      "https://api.spotify.com/v1/recommendations?seed_tracks=65FftemJ1DbbZ45DUfHJXE%2C0a4MMyCrzT0En247IhqZbD&min_valence=.5&max_valence=1",
-      {
-        method: "GET",
-        headers: { Authorization: "Bearer " + accessToken },
-      }
-    );
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { Authorization: "Bearer " + accessToken },
+    });
 
     const data = await response.json();
 

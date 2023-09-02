@@ -134,7 +134,7 @@ export default function SongRecs() {
                     ))}
                   </p>
                   <p>{song.album.name}</p>
-                  <div className="flex flex-row">
+                  <div className="flex flex-row gap-x-2">
                     {song.preview_url ? (
                       <>
                         <button
