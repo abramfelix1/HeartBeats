@@ -18,6 +18,7 @@ export default function Playlist() {
 
   useEffect(() => {
     if (playlistId) {
+      console.log("PLAYLIST PLAYLIST ID:, ", playlistId);
       dispatch(getPlaylist(playlistId));
       console.log("PLAYLIST: ", playlist);
     } else {

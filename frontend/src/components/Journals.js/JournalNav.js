@@ -125,7 +125,10 @@ export default function JournalNav() {
                 <div
                   className="flex flex-row gap-x-2 py-1 items-center text-sm"
                   key={journalEntry.id}
-                  onClick={() => setJournal(journalEntry)}
+                  onClick={() => {
+                    setJournal(journalEntry);
+                    setPlaylistId(null);
+                  }}
                 >
                   <p className="whitespace-nowrap overflow-hidden text-ellipsis sm:w-[90px] md:w-[110px] lg:w-[130px] xl:w-[140px] 2xl:w-[150px] hover:cursor-pointer">
                     {journalEntry.name}
