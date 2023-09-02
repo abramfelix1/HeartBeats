@@ -20,11 +20,10 @@ export default function Playlist() {
     if (playlistId) {
       console.log("PLAYLIST PLAYLIST ID:, ", playlistId);
       dispatch(getPlaylist(playlistId));
-      console.log("PLAYLIST: ", playlist);
     } else {
       dispatch(resetPlaylistAction());
     }
-  }, [playlistId, journal]);
+  }, [playlistId]);
 
   return (
     playlist && (

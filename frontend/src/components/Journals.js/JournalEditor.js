@@ -33,16 +33,15 @@ export default function JournalEditor() {
   const { setType } = useContext(ModalContext);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState(journal?.content || "");
+  const journalEntry = useSelector((state) =>
+    journal?.id ? state.journals[journal.id] : null
+  );
 
   useEffect(() => {
     if (journal) {
       setBody(journal?.content || "asdf");
       setTitle(journal?.name || "asdf");
-      if (journal.playlist) {
-        setPlaylistId(journal.playlist.id);
-      } else {
-        setPlaylistId(null);
-      }
+      if (journal.playlist) setPlaylistId(journal.playlist.id);
     }
   }, [journal]);
 
@@ -185,7 +184,7 @@ export default function JournalEditor() {
               >
                 Generate Songs
               </button>
-              {!journal.playlist ? (
+              {!journalEntry.playlist ? (
                 <button
                   className="z-10  w-fit h-fit"
                   onClick={createPlaylistHandler}
