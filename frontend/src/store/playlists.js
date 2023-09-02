@@ -5,6 +5,7 @@ const GET_PLAYLIST = "playlists/GET_PLAYLISTS";
 const CREATE_PLAYLIST = "playlists/CREATE_PLAYLIST";
 const UPDATE_PLAYLIST = "playlists/UPDATE_PLAYLIST";
 const DELETE_PLAYLIST = "playlists/DELETE_PLAYLIST";
+const RESET_PLAYLIST = "playlist/RESET_PLAYLIST";
 
 export const getAllPlaylistsAction = (payload) => {
   return {
@@ -40,6 +41,12 @@ export const deletePlaylistAction = (id) => {
     payload: {
       id: id,
     },
+  };
+};
+
+export const resetPlaylistAction = () => {
+  return {
+    type: RESET_PLAYLIST,
   };
 };
 
@@ -151,6 +158,9 @@ export default function playlistsReducer(state = initialState, action) {
       console.log("DELETE PLAYLIST PAYLOAD:", action.payload);
       delete newState[action.payload.id];
       return newState;
+    }
+    case RESET_PLAYLIST: {
+      return initialState;
     }
     default:
       return state;

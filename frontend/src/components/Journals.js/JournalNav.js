@@ -8,11 +8,13 @@ import { ModalContext } from "../../context/ModalContext";
 import { IoCreateOutline } from "react-icons/io5";
 import { createJournal } from "../../store/journals";
 import "./journal.css";
+import { PlaylistContext } from "../../context/playlistContext";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
   const { setType } = useContext(ModalContext);
   const { journal, setJournal } = useContext(JournalContext);
+  const { setPlaylistId } = useContext(PlaylistContext);
 
   const journals = useSelector((state) => Object.values(state.journals));
   const [searchInput, setSearchInput] = useState("");
@@ -90,6 +92,7 @@ export default function JournalNav() {
   const createJournalHandler = async () => {
     const journal = await dispatch(createJournal());
     setJournal(journal.journal);
+    setPlaylistId(null);
   };
 
   return (

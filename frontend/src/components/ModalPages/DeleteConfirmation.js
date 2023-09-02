@@ -3,16 +3,19 @@ import { useDispatch } from "react-redux";
 import { JournalContext } from "../../context/journalContext";
 import { deleteJournal } from "../../store/journals";
 import { ModalContext } from "../../context/ModalContext";
+import { PlaylistContext } from "../../context/playlistContext";
 
 export default function DeleteConfirmation({ id }) {
   const dispatch = useDispatch();
   const { setJournal, journal } = useContext(JournalContext);
   const { setType } = useContext(ModalContext);
+  const { setPlaylistId } = useContext(PlaylistContext);
 
   const deleteJournalHandler = () => {
     setType(null);
     dispatch(deleteJournal(journal.id));
     setJournal(null);
+    setPlaylistId(null);
   };
 
   return (

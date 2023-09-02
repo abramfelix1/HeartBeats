@@ -14,27 +14,36 @@ import { JournalContext } from "../../context/journalContext";
 import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
 import { useDispatch, useSelector } from "react-redux";
-import { createJournal, updateJournal } from "../../store/journals";
+import {
+  addPlaylistAction,
+  createJournal,
+  updateJournal,
+} from "../../store/journals";
 import { getPlaylist, createPlaylist } from "../../store/playlists";
 import { getRecSongs } from "../../store/spotify";
 import { getEnergy, getValence } from "../../utils/journal-analyzer";
+import { PlaylistContext } from "../../context/playlistContext";
 
 export default function JournalEditor() {
   const dispatch = useDispatch();
   const quillRef = useRef(null);
   const { journal, setJournal } = useContext(JournalContext);
+  const { setPlaylistId } = useContext(PlaylistContext);
   const { setErrors } = useContext(ErrorContext);
   const { setType } = useContext(ModalContext);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState(journal?.content || "");
-  const playlist = useSelector((state) => state.playlist);
 
   useEffect(() => {
     if (journal) {
       setBody(journal?.content || "asdf");
       setTitle(journal?.name || "asdf");
+      if (journal.playlist) {
+        setPlaylistId(journal.playlist.id);
+      } else {
+        setPlaylistId(null);
+      }
     }
-    console.log("PLAYLIST:", journal?.playlist || "NO PLAYLIST");
   }, [journal]);
 
   const modules = {
@@ -109,16 +118,19 @@ export default function JournalEditor() {
     const journal = await dispatch(createJournal());
     console.log("NEW JOURNAL: ", journal);
     setJournal(journal.journal);
+    setPlaylistId(null);
   };
 
   const getPlaylistHandler = () => {
     console.log("CLICK GET PLAYLIST");
-    dispatch(getPlaylist(journal.id));
+    dispatch(getPlaylist(journal.playlist.id));
   };
 
-  const createPlaylistHandler = () => {
+  const createPlaylistHandler = async () => {
     console.log("CLICK CREATE PLAYLIST");
-    dispatch(createPlaylist(journal.id));
+    const playlist = await dispatch(createPlaylist(journal.id));
+    dispatch(addPlaylistAction(journal.id, playlist));
+    setPlaylistId(playlist.playlist.id);
   };
 
   const recSongsHandler = (e) => {
@@ -173,7 +185,7 @@ export default function JournalEditor() {
               >
                 Generate Songs
               </button>
-              {!playlist.length ? (
+              {!journal.playlist ? (
                 <button
                   className="z-10  w-fit h-fit"
                   onClick={createPlaylistHandler}

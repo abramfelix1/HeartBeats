@@ -6,6 +6,7 @@ const CREATE_JOURNAL = "journals/CREATE_JOURNAL";
 const UPDATE_JOURNAL = "journals/UPDATE_JOURNAL";
 const DELETE_JOURNAL = "journals/DELETE_JOURNAL";
 const RESET_JOURNALS = "journals/RESET_JOURNAL";
+const JOURNAL_ADD_PLAYLIST = "journal/ADD_PLAYLIST";
 
 export const getAllJournalsAction = (payload) => {
   return {
@@ -40,6 +41,17 @@ export const deleteJournalAction = (id) => {
 export const resetJournalsActions = () => {
   return {
     type: RESET_JOURNALS,
+  };
+};
+
+/* ADD PLAYLIST TO JOURNAL */
+export const addPlaylistAction = (id, playlist) => {
+  return {
+    type: JOURNAL_ADD_PLAYLIST,
+    payload: {
+      id,
+      playlist,
+    },
   };
 };
 
@@ -130,9 +142,17 @@ export default function journalsReducer(state = initialState, action) {
       delete newState[action.payload.id];
       return newState;
     }
-    case RESET_JOURNALS:{
-      console.log("RESET JOURNALS")
-      return initialState
+    case JOURNAL_ADD_PLAYLIST: {
+      console.log("ADD PLAYLIST TO JOURNAL PAYLOAD", action.payload);
+      newState[action.payload.id] = {
+        ...newState[action.payload.id],
+        ...action.payload.playlist,
+      };
+      return newState;
+    }
+    case RESET_JOURNALS: {
+      console.log("RESET JOURNALS");
+      return initialState;
     }
     default:
       return state;

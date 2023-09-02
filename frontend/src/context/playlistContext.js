@@ -3,26 +3,17 @@ import React, { createContext, useEffect, useState } from "react";
 export const PlaylistContext = createContext();
 
 export const PlaylistProvider = ({ children }) => {
-  const [playlist, setPlaylist] = useState(null);
-  const [playlistOpen, setPlaylistOpen] = useState(false);
+  const [playlistId, setPlaylistId] = useState(null);
 
   useEffect(() => {
-    console.log("PLAYLIST CONTEXT: ", playlist);
-  }, [playlist]);
-
-  const togglePlaylistPage = () => {
-    console.log("PLAYLIST OPEN: ", playlistOpen);
-    setPlaylistOpen(!playlistOpen);
-  };
+    console.log("PLAYLIST CONTEXT: ", playlistId);
+  }, [playlistId]);
 
   return (
     <PlaylistContext.Provider
       value={{
-        playlist,
-        setPlaylist,
-        setPlaylistOpen,
-        togglePlaylistPage,
-        playlistOpen,
+        playlistId,
+        setPlaylistId,
       }}
     >
       {children}
