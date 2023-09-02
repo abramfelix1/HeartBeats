@@ -10,6 +10,7 @@ import { restoreCSRF, csrfFetch } from "./store/csrf";
 import * as sessionActions from "./store/session";
 import { ModalProvider } from "./context/ModalContext";
 import { JournalProvider } from "./context/journalContext";
+import { PlaylistProvider } from "./context/playlistContext";
 import { ErrorProvider } from "./context/ErrorContext";
 
 const store = configureStore();
@@ -28,9 +29,11 @@ function Root() {
       <BrowserRouter>
         <ErrorProvider>
           <JournalProvider>
-            <ModalProvider>
-              <App />
-            </ModalProvider>
+            <PlaylistProvider>
+              <ModalProvider>
+                <App />
+              </ModalProvider>
+            </PlaylistProvider>
           </JournalProvider>
         </ErrorProvider>
       </BrowserRouter>

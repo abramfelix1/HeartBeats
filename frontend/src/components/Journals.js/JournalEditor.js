@@ -13,8 +13,9 @@ import JournalNav from "./JournalNav";
 import { JournalContext } from "../../context/journalContext";
 import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createJournal, updateJournal } from "../../store/journals";
+import { getPlaylist, createPlaylist } from "../../store/playlists";
 import { getRecSongs } from "../../store/spotify";
 import { getEnergy, getValence } from "../../utils/journal-analyzer";
 
@@ -26,12 +27,14 @@ export default function JournalEditor() {
   const { setType } = useContext(ModalContext);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState(journal?.content || "");
+  const playlist = useSelector((state) => state.playlist);
 
   useEffect(() => {
     if (journal) {
       setBody(journal?.content || "asdf");
       setTitle(journal?.name || "asdf");
     }
+    console.log("PLAYLIST:", journal?.playlist || "NO PLAYLIST");
   }, [journal]);
 
   const modules = {
@@ -108,6 +111,16 @@ export default function JournalEditor() {
     setJournal(journal.journal);
   };
 
+  const getPlaylistHandler = () => {
+    console.log("CLICK GET PLAYLIST");
+    dispatch(getPlaylist(journal.id));
+  };
+
+  const createPlaylistHandler = () => {
+    console.log("CLICK CREATE PLAYLIST");
+    dispatch(createPlaylist(journal.id));
+  };
+
   const recSongsHandler = (e) => {
     console.log("REC SONGS HANDLER");
     e.preventDefault();
@@ -160,7 +173,21 @@ export default function JournalEditor() {
               >
                 Generate Songs
               </button>
-              <button className="z-10  w-fit h-fit">View Playlist</button>
+              {!playlist.length ? (
+                <button
+                  className="z-10  w-fit h-fit"
+                  onClick={createPlaylistHandler}
+                >
+                  Create Playlist
+                </button>
+              ) : (
+                <button
+                  className="z-10  w-fit h-fit"
+                  onClick={getPlaylistHandler}
+                >
+                  View Playlist
+                </button>
+              )}
             </div>
           </div>
           <Tooltip

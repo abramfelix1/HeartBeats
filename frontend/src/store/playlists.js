@@ -133,8 +133,9 @@ export default function playlistsReducer(state = initialState, action) {
     }
     case GET_PLAYLIST: {
       console.log("GET PLAYLIST PAYLOAD:", action.payload);
-      newState[action.payload.playlist.id] = action.payload.playlist;
-      return newState;
+      // newState[action.payload.playlist.id] = action.payload.playlist;
+      // return newState;
+      return action.payload;
     }
     case CREATE_PLAYLIST: {
       console.log("CREATE PLAYLIST PAYLOAD:", action.payload);
