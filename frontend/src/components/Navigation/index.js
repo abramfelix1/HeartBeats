@@ -36,7 +36,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
       {...props}
     >
       <button
-        className="bg-black absolute h-[85%] w-[5px] right-0  top-[7.5%] rounded-3xl opacity-0 user-select: none hover:opacity-20 "
+        className="bg-black absolute h-[85%] w-[5px] right-0  top-[7.5%] rounded-3xl opacity-0 user-select: none hover:opacity-0 "
         onClick={collapseClickHandler}
       />
       <div className="flex flex-col flex-grow justify center items-center">

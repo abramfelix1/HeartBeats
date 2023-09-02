@@ -1,10 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  AiOutlinePlayCircle,
-  AiFillRightCircle,
-  AiFillLeftCircle,
-} from "react-icons/ai";
+import { BsStopCircle, BsPlayCircle } from "react-icons/bs";
 import { Howl } from "howler";
 import spotifyLogo from "../../images/Spotify_Logo_RGB_Green.png";
 import spotifyIcon from "../../images/Spotify_Icon_RGB_Green.png";
@@ -18,11 +14,11 @@ export default function SongRecs() {
   });
   const scrollContainerRef = useRef(null);
 
-  const scrollAmount = 200;
-
   const [remainingTime, setRemainingTime] = useState("");
+  const [currentPlaying, setCurrentPlaying] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [url, setUrl] = useState(null);
+  const intervalRef = useRef(null);
   const soundRef = useRef(null);
 
   const updateRemainingTime = (timeInSeconds) => {
@@ -31,26 +27,45 @@ export default function SongRecs() {
     setRemainingTime(`${minutes}:${seconds < 10 ? "0" : ""}${seconds}`);
   };
 
-  const startCountdown = (sound) => {
-    const interval = setInterval(() => {
-      if (isPlaying && sound) {
-        const elapsed = sound.seek() || 0;
-        const remaining = sound.duration() - elapsed;
-        updateRemainingTime(remaining);
+  const clearCountdown = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
 
-        if (remaining <= 0) {
-          clearInterval(interval);
-          setUrl(null);
-        }
-      } else {
-        clearInterval(interval);
+  const startCountdown = (sound) => {
+    clearCountdown();
+
+    intervalRef.current = setInterval(() => {
+      const elapsed = sound.seek() || 0;
+      const remaining = sound.duration() - elapsed;
+      updateRemainingTime(remaining);
+
+      if (remaining <= 0) {
+        clearCountdown();
+        setUrl(null);
       }
     }, 1000);
-    return interval;
+  };
+
+  const playSound = (songUrl, idx) => {
+    setUrl(songUrl);
+    setCurrentPlaying(idx);
+    setIsPlaying(true);
+  };
+
+  const stopSound = () => {
+    if (soundRef.current) {
+      soundRef.current.stop();
+    }
+    setIsPlaying(false);
+    setCurrentPlaying(null);
+    setRemainingTime("");
+    setUrl(null);
   };
 
   useEffect(() => {
-    console.log(url);
     if (url) {
       if (soundRef.current) {
         soundRef.current.unload();
@@ -63,11 +78,11 @@ export default function SongRecs() {
           updateRemainingTime(sound.duration());
         },
         onplay: function () {
-          setIsPlaying(true);
           startCountdown(sound);
         },
         onend: function () {
           setIsPlaying(false);
+          setCurrentPlaying(null);
         },
       });
       soundRef.current = sound;
@@ -75,13 +90,10 @@ export default function SongRecs() {
 
       return () => {
         sound.unload();
+        clearCountdown();
       };
     }
   }, [url]);
-
-  const playSound = (songUrl) => {
-    setUrl(songUrl);
-  };
 
   return (
     <div className="flex flex-col w-full bg-baby-powder rounded-3xl relative">
@@ -97,7 +109,7 @@ export default function SongRecs() {
                 <img
                   src={song.album.images[1].url}
                   alt="album cover"
-                  className="w-50 h-50"
+                  className="w-44 h-44"
                 />
                 <a
                   href={song.external_urls.spotify}
@@ -125,12 +137,26 @@ export default function SongRecs() {
                   <div className="flex flex-row">
                     {song.preview_url ? (
                       <>
-                        <button onClick={() => playSound(song.preview_url)}>
+                        <button
+                          onClick={() => {
+                            if (isPlaying && currentPlaying === idx) {
+                              stopSound();
+                            } else {
+                              playSound(song.preview_url, idx);
+                            }
+                          }}
+                        >
                           <div>
-                            <AiOutlinePlayCircle className="text-xl" />
+                            {isPlaying && currentPlaying === idx ? (
+                              <BsStopCircle className="text-xl" /> // stop icon
+                            ) : (
+                              <BsPlayCircle className="text-xl" />
+                            )}
                           </div>
                         </button>
-                        <p>{remainingTime}</p>
+                        {isPlaying && currentPlaying === idx && (
+                          <p>{remainingTime}</p>
+                        )}
                       </>
                     ) : (
                       "No Preview"
