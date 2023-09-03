@@ -72,14 +72,14 @@ export default function JournalEditor() {
       setType("ERROR");
       return;
     }
-    dispatch(
-      updateJournal(journalEntry.id, { name: title, content: body })
-    ).catch(async (res) => {
-      const data = await res.json();
-      console.log(data.errors);
-      setErrors(data.errors);
-      setType("ERROR");
-    });
+    dispatch(updateJournal(journalId, { name: title, content: body })).catch(
+      async (res) => {
+        const data = await res.json();
+        console.log(data.errors);
+        setErrors(data.errors);
+        setType("ERROR");
+      }
+    );
   };
 
   useEffect(() => {

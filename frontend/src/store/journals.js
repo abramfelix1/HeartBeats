@@ -134,7 +134,10 @@ export default function journalsReducer(state = initialState, action) {
     }
     case UPDATE_JOURNAL: {
       console.log("UPDATE JOURNALS PAYLOAD", action.payload);
-      newState[action.payload.journal.id] = action.payload.journal;
+      newState[action.payload.journal.id] = {
+        ...newState[action.payload.journal.id],
+        ...action.payload.journal,
+      };
       return newState;
     }
     case DELETE_JOURNAL: {
