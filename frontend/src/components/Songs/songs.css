@@ -21,6 +21,24 @@
   background: rgb(0, 0, 0, 0.1);
 }
 
+/* width */
+.playlist::-webkit-scrollbar {
+  width: 10px;
+  /* background: transparent; */
+}
+
+/* Track */
+.playlist::-webkit-scrollbar-track {
+  background: rgb(0, 0, 0, 0);
+  border-radius: 500px;
+}
+
+/* Handle */
+.playlist::-webkit-scrollbar-thumb {
+  border-radius: 500px;
+  background: rgb(0, 0, 0, 0.1);
+}
+
 /* @media (min-width: 1920px) {
   .song-img {
     height: 14rem;
