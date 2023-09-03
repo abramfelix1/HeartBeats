@@ -23,6 +23,7 @@ router.post("/", async (req, res, next) => {
     userId: user.dataValues.id,
     name: req.body.name,
     artists: req.body.artists,
+    album: req.body.album,
     preview: req.body.preview,
     img_url: req.body.img_url,
     spotifyId: req.body.spotifyId,

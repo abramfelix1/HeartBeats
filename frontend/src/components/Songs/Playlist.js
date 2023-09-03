@@ -28,7 +28,8 @@ export default function Playlist() {
   return (
     playlist && (
       <div className="flex flex-col mb-2 h-full bg-baby-powder rounded-3xl">
-        <div>
+        <div className="flex justify-center w-full">
+          <p>{playlist.name}</p>
           <p>{playlist.id}</p>
         </div>
       </div>
