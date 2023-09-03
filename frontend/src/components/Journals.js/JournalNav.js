@@ -13,7 +13,7 @@ import { PlaylistContext } from "../../context/playlistContext";
 export default function JournalNav() {
   const dispatch = useDispatch();
   const { setType } = useContext(ModalContext);
-  const { journal, setJournal } = useContext(JournalContext);
+  const { journalId, setJournalId } = useContext(JournalContext);
   const { setPlaylistId } = useContext(PlaylistContext);
 
   const journals = useSelector((state) => Object.values(state.journals));
@@ -91,7 +91,7 @@ export default function JournalNav() {
 
   const createJournalHandler = async () => {
     const journal = await dispatch(createJournal());
-    setJournal(journal.journal);
+    setJournalId(journal.journal.id);
     setPlaylistId(null);
   };
 
@@ -126,14 +126,14 @@ export default function JournalNav() {
                   className="flex flex-row gap-x-2 py-1 items-center text-sm"
                   key={journalEntry.id}
                   onClick={() => {
-                    setJournal(journalEntry);
+                    setJournalId(journalEntry.id);
                     setPlaylistId(null);
                   }}
                 >
                   <p className="whitespace-nowrap overflow-hidden text-ellipsis sm:w-[90px] md:w-[110px] lg:w-[130px] xl:w-[140px] 2xl:w-[150px] hover:cursor-pointer">
                     {journalEntry.name}
                   </p>
-                  {journal && journal.id === journalEntry.id && (
+                  {journalId === journalEntry.id && (
                     <PiTrash
                       className="text-red-500 hover:cursor-pointer"
                       onClick={() => setType("DELETE")}

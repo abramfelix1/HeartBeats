@@ -27,23 +27,23 @@ import { PlaylistContext } from "../../context/playlistContext";
 export default function JournalEditor() {
   const dispatch = useDispatch();
   const quillRef = useRef(null);
-  const { journal, setJournal } = useContext(JournalContext);
+  const { journalId, setJournalId } = useContext(JournalContext);
   const { setPlaylistId } = useContext(PlaylistContext);
   const { setErrors } = useContext(ErrorContext);
   const { setType } = useContext(ModalContext);
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState(journal?.content || "");
   const journalEntry = useSelector((state) =>
-    journal?.id ? state.journals[journal.id] : null
+    journalId ? state.journals[journalId] : null
   );
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState(journalEntry?.content || "");
 
   useEffect(() => {
-    if (journal) {
-      setBody(journal?.content || "asdf");
-      setTitle(journal?.name || "asdf");
-      if (journal.playlist) setPlaylistId(journal.playlist.id);
+    if (journalEntry) {
+      setBody(journalEntry?.content || "asdf");
+      setTitle(journalEntry?.name || "asdf");
+      if (journalEntry?.playlist) setPlaylistId(journalEntry.playlist.id);
     }
-  }, [journal]);
+  }, [journalId]);
 
   const modules = {
     toolbar: [
@@ -72,14 +72,14 @@ export default function JournalEditor() {
       setType("ERROR");
       return;
     }
-    dispatch(updateJournal(journal.id, { name: title, content: body })).catch(
-      async (res) => {
-        const data = await res.json();
-        console.log(data.errors);
-        setErrors(data.errors);
-        setType("ERROR");
-      }
-    );
+    dispatch(
+      updateJournal(journalEntry.id, { name: title, content: body })
+    ).catch(async (res) => {
+      const data = await res.json();
+      console.log(data.errors);
+      setErrors(data.errors);
+      setType("ERROR");
+    });
   };
 
   useEffect(() => {
@@ -110,25 +110,25 @@ export default function JournalEditor() {
         });
       }
     }
-  }, [journal]);
+  }, [journalEntry]);
 
   const createJournalHandler = async () => {
     console.log("CLICK CREATE JOURNAL");
     const journal = await dispatch(createJournal());
     console.log("NEW JOURNAL: ", journal);
-    setJournal(journal.journal);
+    setJournalId(journal.journal.id);
     setPlaylistId(null);
   };
 
   const getPlaylistHandler = () => {
     console.log("CLICK GET PLAYLIST");
-    dispatch(getPlaylist(journal.playlist.id));
+    dispatch(getPlaylist(journalEntry.playlist.id));
   };
 
   const createPlaylistHandler = async () => {
     console.log("CLICK CREATE PLAYLIST");
-    const playlist = await dispatch(createPlaylist(journal.id));
-    dispatch(addPlaylistAction(journal.id, playlist));
+    const playlist = await dispatch(createPlaylist(journalEntry.id));
+    dispatch(addPlaylistAction(journalEntry.id, playlist));
     setPlaylistId(playlist.playlist.id);
   };
 
@@ -152,7 +152,7 @@ export default function JournalEditor() {
 
   return (
     <div className="w-full relative">
-      {journal ? (
+      {journalEntry ? (
         <>
           <div className="flex flex-col w-full h-full pb-16 absolute ">
             <input

@@ -3,12 +3,12 @@ import React, { createContext, useEffect, useState } from "react";
 export const JournalContext = createContext();
 
 export const JournalProvider = ({ children }) => {
-  const [journal, setJournal] = useState(null);
+  const [journalId, setJournalId] = useState(null);
   const [journalOpen, setJournalOpen] = useState(false);
 
   useEffect(() => {
-    console.log("JOURNAL CONTEXT: ", journal);
-  }, [journal]);
+    console.log("JOURNAL CONTEXT: ", journalId);
+  }, [journalId]);
 
   const toggleJournalPage = () => {
     console.log("JOURNAL OPEN: ", journalOpen);
@@ -18,8 +18,8 @@ export const JournalProvider = ({ children }) => {
   return (
     <JournalContext.Provider
       value={{
-        journal,
-        setJournal,
+        journalId,
+        setJournalId,
         setJournalOpen,
         toggleJournalPage,
         journalOpen,
