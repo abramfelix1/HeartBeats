@@ -96,7 +96,7 @@ export default function SongRecs() {
   }, [url]);
 
   return (
-    <div className="flex flex-col flex-grow w-full max-h-[50%] mb-2 bg-baby-powder rounded-3xl relative">
+    <div className="flex flex-col flex-grow w-full max-h-[50%] mb-2 bg-baby-powder rounded-3xl relative ">
       {/* <div className="p-4">
         <img src={spotifyLogo} alt="spotify logo" className="w-40" />
       </div> */}
