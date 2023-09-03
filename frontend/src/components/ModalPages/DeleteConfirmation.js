@@ -33,13 +33,13 @@ export default function DeleteConfirmation({ id }) {
         </p>
         <div className="flex flex-row gap-x-5 justify-end">
           <button
-            className="w-fit h-fit p-2 rounded-xl border-[1px] border-black hover:bg-slate-200 "
+            className="w-fit h-fit p-2 rounded-xl border-[1px] border-black hover:bg-slate-200  font-semibold"
             onClick={() => setType(null)}
           >
             Cancel
           </button>
           <button
-            className="w-fit h-fit p-2 rounded-xl border-[1px] border-black hover:bg-slate-200"
+            className="w-fit h-fit p-2 rounded-xl border-[1px] border-black hover:bg-slate-200 font-semibold"
             onClick={deleteJournalHandler}
           >
             Delete

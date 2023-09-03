@@ -15,6 +15,7 @@ export default function Playlist() {
   const { playlistId } = useContext(PlaylistContext);
   const { journal } = useContext(JournalContext);
   const playlist = useSelector((state) => state.playlist.playlist);
+  const playlistSongs = playlist?.songs ? Object.values(playlist.songs) : [];
 
   useEffect(() => {
     if (playlistId) {
@@ -27,10 +28,17 @@ export default function Playlist() {
 
   return (
     playlist && (
-      <div className="flex flex-col mb-2 h-full bg-baby-powder rounded-3xl">
-        <div className="flex justify-center w-full">
+      <div className="flex flex-col flex-grow w-full my-2 max-h-[50%] bg-baby-powder rounded-3xl">
+        <div className="flex flex-col justify-center overflow-y-auto">
           <p>{playlist.name}</p>
           <p>{playlist.id}</p>
+          {playlistSongs &&
+            playlistSongs.map((song) => (
+              <div>
+                <></>
+                {song.name}
+              </div>
+            ))}
         </div>
       </div>
     )

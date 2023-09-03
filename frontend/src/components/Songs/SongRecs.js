@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BsStopCircle, BsPlayCircle } from "react-icons/bs";
+import { BsStopCircle, BsPlayCircle, BsQuestionCircle } from "react-icons/bs";
 import { Howl } from "howler";
 import spotifyLogo from "../../images/Spotify_Logo_RGB_Green.png";
 import spotifyIcon from "../../images/Spotify_Icon_RGB_Green.png";
@@ -96,20 +96,28 @@ export default function SongRecs() {
   }, [url]);
 
   return (
-    <div className="flex flex-col w-full bg-baby-powder rounded-3xl relative">
+    <div className="flex flex-col flex-grow w-full max-h-[50%] mb-2 bg-baby-powder rounded-3xl relative">
       {/* <div className="p-4">
         <img src={spotifyLogo} alt="spotify logo" className="w-40" />
       </div> */}
-
-      <div ref={scrollContainerRef} className="songs-list mx-3 overflow-x-auto">
-        <div className="flex flex-row gap-x-5 w-max">
+      <div className="flex flex-row pt-3 px-3 justify-between items-center">
+        <button className="w-fit h-fit p-1 font-medium hover:scale-x-105">
+          Generate Songs
+        </button>
+        <BsQuestionCircle className="text-xl" />
+      </div>
+      <div
+        ref={scrollContainerRef}
+        className="songs-list mx-3 h-full overflow-x-auto"
+      >
+        <div className="flex flex-row gap-x-5 w-max h-1">
           {songs &&
             songs.map((song, idx) => (
-              <div className="flex flex-col py-5 items-center">
+              <div className="flex flex-col pt-4 items-center ">
                 <img
                   src={song.album.images[1].url}
                   alt="album cover"
-                  className="w-44 h-44"
+                  className="song-img h-56"
                 />
                 <a
                   href={song.external_urls.spotify}

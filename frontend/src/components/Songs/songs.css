@@ -5,7 +5,8 @@
 
 /* width */
 .songs-list::-webkit-scrollbar {
-  width: 1px;
+  width: 0px;
+  background: transparent;
 }
 
 /* Track */
@@ -16,8 +17,30 @@
 
 /* Handle */
 .songs-list::-webkit-scrollbar-thumb {
-  margin-left: 10px;
-  padding-left: 10px;
   border-radius: 500px;
   background: rgb(0, 0, 0, 0.1);
 }
+
+/* @media (min-width: 1920px) {
+  .song-img {
+    height: 14rem;
+  }
+}
+
+@media (min-width: 1745.45px) and (max-width: 1920px) {
+  .song-img {
+    height: 12rem;
+  }
+}
+
+@media (min-width: 1536px) and (max-width: 1745.45px) {
+  .song-img {
+    height: 8rem;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1536px) {
+  .song-img {
+    height: 8rem;
+  }
+} */
