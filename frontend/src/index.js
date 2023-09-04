@@ -12,6 +12,7 @@ import { ModalProvider } from "./context/ModalContext";
 import { JournalProvider } from "./context/journalContext";
 import { PlaylistProvider } from "./context/playlistContext";
 import { ErrorProvider } from "./context/ErrorContext";
+import { ThemeProvider } from "./context/themeContext";
 
 const store = configureStore();
 
@@ -27,15 +28,17 @@ function Root() {
   return (
     <ReduxProvider store={store}>
       <BrowserRouter>
-        <ErrorProvider>
-          <JournalProvider>
-            <PlaylistProvider>
-              <ModalProvider>
-                <App />
-              </ModalProvider>
-            </PlaylistProvider>
-          </JournalProvider>
-        </ErrorProvider>
+        <ThemeProvider>
+          <ErrorProvider>
+            <JournalProvider>
+              <PlaylistProvider>
+                <ModalProvider>
+                  <App />
+                </ModalProvider>
+              </PlaylistProvider>
+            </JournalProvider>
+          </ErrorProvider>
+        </ThemeProvider>
       </BrowserRouter>
     </ReduxProvider>
   );
