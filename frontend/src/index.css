@@ -5,6 +5,8 @@
 
 @layer base {
   :root {
+    --color-text-1: 0deg 0% 100%;
+    --color-text-2: 0deg 0% 0%;
     --color-primary-100: 211deg 88% 67%;
     --color-primary-200: 212deg 88% 71%;
     --color-primary-300: 213deg 89% 76%;
@@ -19,9 +21,9 @@
     --color-surface-mixed-600: 218deg 6% 61%;
   }
   :root[data-theme="dark"] {
-    --color-primary-100: 211deg 88% 67%;
-    --color-primary-200: 212deg 88% 71%;
-    --color-primary-300: 213deg 89% 76%;
+    /* --color-primary-100: 211deg 88% 67%; */
+    --color-primary-100: 212deg 88% 71%;
+    /* --color-primary-100: 213deg 89% 76%; */
     --color-primary-400: 214deg 89% 79%;
     --color-primary-500: 215deg 88% 83%;
     --color-primary-600: 216deg 88% 87%;

@@ -33,7 +33,7 @@ export default function Dashboard() {
   return (
     <>
       <Modal />
-      <div className="bg-bkg-body w-screen h-screen flex ">
+      <div className="bg-bkg-body text-txt-1 w-screen h-screen flex ">
         <Navigation
           isLoaded={isLoaded}
           navHovered={navHovered}

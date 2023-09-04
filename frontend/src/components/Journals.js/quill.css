@@ -19,3 +19,20 @@
   border-top-right-radius: 1.5rem;
   border-bottom-right-radius: 1.5rem;
 }
+
+/* width */
+.ql-editor::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.ql-editor::-webkit-scrollbar-track {
+  background: rgb(0, 0, 0, 0);
+  border-radius: 15px;
+}
+
+/* Handle */
+.ql-editor::-webkit-scrollbar-thumb {
+  border-radius: 15px;
+  background: hsl(217deg 7% 43%);
+}

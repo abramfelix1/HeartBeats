@@ -7,7 +7,7 @@ export default function JournalContainer() {
   const { journalOpen } = useContext(JournalContext);
 
   return (
-    <div className="flex flex-grow mr-2 my-2 bg-baby-powder rounded-3xl">
+    <div className="flex flex-grow mr-2 my-2 rounded-[100px]">
       <JournalNav />
       <JournalEditor />
     </div>

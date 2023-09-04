@@ -151,21 +151,21 @@ export default function JournalEditor() {
   };
 
   return (
-    <div className="w-full relative">
+    <div className="bg-bkg-card w-full relative rounded-r-3xl">
       {journalEntry ? (
         <>
           <div className="flex flex-col w-full h-full pb-16 absolute ">
             <input
               onChange={(e) => setTitle(e.target.value)}
               value={title}
-              className="p-3 border-none rounded-tr-3xl focus:outline-none font-semibold"
+              className="bg-bkg-card p-3 border-none rounded-tr-3xl focus:outline-none font-semibold"
             />
             <ReactQuill
               modules={modules}
               ref={quillRef}
               value={body}
               onChange={setBody}
-              className="sm:pb-52 md:pb-48 lg:pb-36, xl:pb-32"
+              className="bg-white text-black overflow-hidden"
             />
           </div>
           <div className="flex flex-row h-full items-end">
@@ -210,9 +210,9 @@ export default function JournalEditor() {
           />
         </>
       ) : (
-        <div className="flex h-full justify-center items-center">
+        <div className="bg-bkg-card flex h-full justify-center items-center rounded-r-3xl">
           <button
-            className="w-fit h-fit p-5 rounded-3xl bg-blue-400 text-white font-semibold"
+            className="bg-bkg-primary text-txt-2 w-fit h-fit p-5 rounded-3xl  font-semibold hover:bg-bkg-primary-hover"
             onClick={createJournalHandler}
           >
             NEW JOURNAL

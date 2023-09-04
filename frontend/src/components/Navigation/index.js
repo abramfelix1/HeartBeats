@@ -37,14 +37,14 @@ function Navigation({ isLoaded, navHovered, ...props }) {
 
   return (
     <div
-      className={`bg-bkg-nav flex flex-col ml-2 my-2 mr-2 items-center text-white relative rounded-3xl ${
+      className={`bg-bkg-nav flex flex-col ml-2 my-2 mr-2 items-center relative rounded-3xl ${
         isCollapsed ? "px-3" : "px-3"
       }
       `}
       {...props}
     >
       <button
-        className="bg-black absolute h-[85%] w-[5px] right-0  top-[7.5%] rounded-3xl opacity-0 user-select: none hover:opacity-0 "
+        className="bg-bkg-nav absolute h-[85%] w-[5px] right-0  top-[7.5%] rounded-3xl opacity-0 user-select: none hover:opacity-0 "
         onClick={collapseClickHandler}
       />
       <div className="flex flex-col flex-grow justify center items-center">
