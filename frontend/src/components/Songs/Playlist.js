@@ -11,6 +11,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { JournalContext } from "../../context/journalContext";
 import { PlaylistContext } from "../../context/playlistContext";
 import { IoAddCircleOutline, IoRemoveCircleOutline } from "react-icons/io5";
+import { ErrorContext } from "../../context/ErrorContext";
+import { ModalContext } from "../../context/ModalContext";
 
 export default function Playlist() {
   const dispatch = useDispatch();
@@ -19,12 +21,18 @@ export default function Playlist() {
   const playlist = useSelector((state) => state.playlist[playlistId]);
   const playlistSongs = playlist?.songs ? Object.values(playlist.songs) : [];
   const [title, setTitle] = useState("");
-  const debouncedUpdate = useRef(
-    debounce((playlistId, title) => {
-      console.log("ARGS: ", playlistId, title);
-      dispatch(updatePlaylist(playlistId, { name: title }));
-    }, 500)
-  ).current;
+  const { setErrors } = useContext(ErrorContext);
+  const { setType } = useContext(ModalContext);
+
+  const handleBlur = () => {
+    dispatch(updatePlaylist(playlistId, { name: title })).catch(async (res) => {
+      const data = await res.json();
+      console.log(data.errors);
+      setErrors(data.errors);
+      setType("ERROR");
+      setTitle(playlist.name);
+    });
+  };
 
   useEffect(() => {
     console.log("PLAYLIST: ", playlist);
@@ -42,8 +50,9 @@ export default function Playlist() {
           <input
             onChange={(e) => {
               setTitle(e.target.value);
-              debouncedUpdate(playlistId, e.target.value);
+              // debouncedUpdate(playlistId, e.target.value);
             }}
+            onBlur={handleBlur}
             value={title}
             className="p-3 border-none rounded-3xl focus:outline-none font-semibold w-full"
           />
