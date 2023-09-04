@@ -45,7 +45,7 @@ export default function Playlist() {
 
   return (
     playlist && (
-      <div className="flex flex-col flex-grow w-full mb-2 max-h-[50%] bg-baby-powder rounded-3xl">
+      <div className="bg-bkg-card flex flex-col flex-grow w-full mb-2 max-h-[50%] rounded-3xl">
         <div className="flex flex-row justify-center">
           <input
             onChange={(e) => {
@@ -54,40 +54,43 @@ export default function Playlist() {
             }}
             onBlur={handleBlur}
             value={title}
-            className="p-3 border-none rounded-3xl focus:outline-none font-semibold w-full"
+            className="bg-bkg-card p-3 border-none rounded-3xl focus:outline-none font-semibold w-full"
           />
         </div>
-        <div className="flex flex-row items-center header-row border-b-[1px] border-b-[#cccccc]">
-          <div className="mx-2 text-center">#</div>
-          <div className="flex flex-1 items-start">
-            <div className="ml-2">Title</div>
-          </div>
-          <div className="flex-1">Album</div>
+        <div className="grid grid-cols-[16px,4fr,2fr,minmax(120px,1fr)] gap-x-4 items-center px-4 border-b-[1px] border-b-[#cccccc]">
+          <div className="text-center">#</div>
+          <div className="ml-2">Title</div>
+          <div className="">Album</div>
+          <div></div>
         </div>
-        <div className="playlist flex flex-col my-3 overflow-y-auto gap-y-2">
+        <div className="playlist overflow-y-auto gap-y-2 grid">
           {playlistSongs &&
             playlistSongs.map((song, index) => (
-              <div className="flex flex-row" key={song.id} data-id={song.id}>
-                <div className="mx-3 text-center">{index + 1}</div>
-                <div className="flex flex-1 items-start">
+              <div
+                className="grid grid-cols-[16px,4fr,2fr,minmax(120px,1fr)] gap-4 items-center px-4 border rounded h-14 border-transparent relative"
+                key={song.id}
+                data-id={song.id}
+              >
+                <div className="text-center">{index + 1}</div>
+                <div className="flex items-start w-full">
                   <img
                     src={
                       "https://i.scdn.co/image/ab67616d00001e02a1214ad1ca57685349932cea"
                     }
                     alt="Album Cover"
-                    className="w-20 h-20 mr-3"
+                    className="w-10 h-10 mr-3"
                   />
-                  <div className="flex flex-col gap-y-1">
-                    <div>
+                  <div className="flex flex-col gap-y-1 pr-2">
+                    <div className="truncate ">
                       Be Who You Are (Real Magic) (feat. JID, NewJeans & Camilo)
                     </div>
-                    <div className="">
+                    <div className="truncate ">
                       Jon Batiste ft. JID, NewJeans, Camilo
                     </div>
                   </div>
                 </div>
-                <div className="flex-1 ml-10">Be Who You Are (Real Magic)</div>
-                <button className="flex mr-5 ">
+                <div className="">Be Who You Are (Real Magic)</div>
+                <button className="flex justify-end mr-5">
                   <IoRemoveCircleOutline className="text-xl" />
                 </button>
               </div>

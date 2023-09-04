@@ -6,6 +6,7 @@
 /* width */
 .songs-list::-webkit-scrollbar {
   width: 0px;
+  height: 10px;
   background: transparent;
 }
 
@@ -18,12 +19,13 @@
 /* Handle */
 .songs-list::-webkit-scrollbar-thumb {
   border-radius: 500px;
-  background: rgb(0, 0, 0, 0.1);
+  background: hsl(217deg 7% 43%);
 }
 
 /* width */
 .playlist::-webkit-scrollbar {
-  width: 10px;
+  width: 5px;
+  /* height: 5px; */
   /* background: transparent; */
 }
 
@@ -36,7 +38,7 @@
 /* Handle */
 .playlist::-webkit-scrollbar-thumb {
   border-radius: 500px;
-  background: rgb(0, 0, 0, 0.1);
+  background: hsl(217deg 7% 43%);
 }
 
 /* @media (min-width: 1920px) {
