@@ -151,7 +151,10 @@ export default function playlistsReducer(state = initialState, action) {
     }
     case UPDATE_PLAYLIST: {
       console.log("UPDATE PLAYLIST PAYLOAD:", action.payload);
-      newState[action.payload.playlist.id] = action.payload.playlist;
+      newState[action.payload.playlist.id] = {
+        ...newState[action.payload.playlist.id],
+        ...action.payload.playlist,
+      };
       return newState;
     }
     case DELETE_PLAYLIST: {
