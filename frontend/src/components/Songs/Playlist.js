@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   getPlaylist,
   createPlaylist,
@@ -17,11 +17,13 @@ export default function Playlist() {
   const { journal } = useContext(JournalContext);
   const playlist = useSelector((state) => state.playlist.playlist);
   const playlistSongs = playlist?.songs ? Object.values(playlist.songs) : [];
+  const [title, setTitle] = useState("");
 
   useEffect(() => {
     if (playlistId) {
       console.log("PLAYLIST PLAYLIST ID:, ", playlistId);
       dispatch(getPlaylist(playlistId));
+      setTitle(playlist?.name || "asdf");
     } else {
       dispatch(resetPlaylistAction());
     }
@@ -30,11 +32,14 @@ export default function Playlist() {
   return (
     playlist && (
       <div className="flex flex-col flex-grow w-full my-2 max-h-[50%] bg-baby-powder rounded-3xl">
-        <div className="py-4">
-          <p>{playlist.name}</p>
-          <p>{playlist.id}</p>
+        <div className="flex flex-row justify-center">
+          <input
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
+            className="p-3 border-none rounded-3xl focus:outline-none font-semibold w-full"
+          />
         </div>
-        <div className="flex flex-row items-center header-row">
+        <div className="flex flex-row items-center header-row border-b-[1px] border-b-[#cccccc]">
           <div className="mx-2 text-center">#</div>
           <div className="flex flex-1 items-start">
             <div className="ml-2">Title</div>
@@ -64,9 +69,9 @@ export default function Playlist() {
                   </div>
                 </div>
                 <div className="flex-1 ml-10">Be Who You Are (Real Magic)</div>
-                <div className="flex mr-5 ">
+                <button className="flex mr-5 ">
                   <IoRemoveCircleOutline className="text-xl" />
-                </div>
+                </button>
               </div>
             ))}
         </div>

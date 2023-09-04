@@ -9,10 +9,13 @@ import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
 import { PiMusicNotes } from "react-icons/pi";
 import { JournalContext } from "../../context/journalContext";
 import { resetJournalsActions } from "../../store/journals";
+import { PlaylistContext } from "../../context/playlistContext";
 
 function Navigation({ isLoaded, navHovered, ...props }) {
   const dispatch = useDispatch();
-  const { toggleJournalPage, setJournalOpen } = useContext(JournalContext);
+  const { toggleJournalPage, setJournalOpen, setJournalId } =
+    useContext(JournalContext);
+  const { setPlaylistId } = useContext(PlaylistContext);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
 
@@ -20,6 +23,8 @@ function Navigation({ isLoaded, navHovered, ...props }) {
     dispatch(logout());
     dispatch(resetJournalsActions());
     setJournalOpen(false);
+    setJournalId(null);
+    setPlaylistId(null);
   };
 
   const collapseClickHandler = () => {
