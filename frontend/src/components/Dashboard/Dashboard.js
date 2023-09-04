@@ -31,7 +31,7 @@ export default function Dashboard() {
   return (
     <>
       <Modal />
-      <div className="w-screen h-screen flex bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#7CA8D2] from-0% to-azure-blue to-100%">
+      <div className="w-screen h-screen flex bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#7CA8D2] from-0% to-azure-blue to-100% bg-whoite">
         <Navigation
           isLoaded={isLoaded}
           navHovered={navHovered}

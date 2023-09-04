@@ -10,7 +10,7 @@ export default function SongRecs() {
   const dispatch = useDispatch();
   const songs = useSelector((state) => {
     const tracks = state.spotify.songs?.tracks;
-    return tracks ? Object.values(tracks) : [];
+    return tracks ? Object.values(tracks) : null;
   });
   const scrollContainerRef = useRef(null);
 
@@ -96,85 +96,87 @@ export default function SongRecs() {
   }, [url]);
 
   return (
-    <div className="flex flex-col flex-grow w-full max-h-[50%] mb-2 bg-baby-powder rounded-3xl relative ">
-      {/* <div className="p-4">
+    songs && (
+      <div className="flex flex-col flex-grow w-full max-h-[50%] mb-2 bg-baby-powder rounded-3xl relative ">
+        {/* <div className="p-4">
         <img src={spotifyLogo} alt="spotify logo" className="w-40" />
       </div> */}
-      <div className="flex flex-row pt-3 px-3 justify-between items-center">
-        <button className="w-fit h-fit p-1 font-medium hover:scale-x-105">
-          Generate Songs
-        </button>
-        <BsQuestionCircle className="text-xl" />
-      </div>
-      <div
-        ref={scrollContainerRef}
-        className="songs-list mx-3 h-full overflow-x-auto"
-      >
-        <div className="flex flex-row gap-x-5 w-max h-1">
-          {songs &&
-            songs.map((song, idx) => (
-              <div className="flex flex-col pt-4 items-center ">
-                <img
-                  src={song.album.images[1].url}
-                  alt="album cover"
-                  className="song-img h-56"
-                />
-                <a
-                  href={song.external_urls.spotify}
-                  className="flex flex-row gap-x-2 border-[1px] p-1 rounded-3xl mt-2 justify-center hover:bg-slate-100 font-semibold w-full"
-                >
-                  <img src={spotifyIcon} alt="spotify icon" className="w-7" />{" "}
-                  <p>Open Spotify</p>
-                </a>
-                <div className="flex flex-col gap-y-1 py-2 font-semibold justify-center items-center">
-                  <p className="text-lg">{song.name}</p>
-                  <p>
-                    <span className="font-normal">by </span>
-                    {song.artists[0].name}
-                    {song.artists.length > 1 && " ft. "}
-                    {song.artists.slice(1).map((artist, idx, array) => (
-                      <span key={idx}>
-                        {artist.name}
-                        {array.length > 1 && idx !== array.length - 1
-                          ? ", "
-                          : ""}
-                      </span>
-                    ))}
-                  </p>
-                  <p>{song.album.name}</p>
-                  <div className="flex flex-row gap-x-2">
-                    {song.preview_url ? (
-                      <>
-                        <button
-                          onClick={() => {
-                            if (isPlaying && currentPlaying === idx) {
-                              stopSound();
-                            } else {
-                              playSound(song.preview_url, idx);
-                            }
-                          }}
-                        >
-                          <div>
-                            {isPlaying && currentPlaying === idx ? (
-                              <BsStopCircle className="text-xl" /> // stop icon
-                            ) : (
-                              <BsPlayCircle className="text-xl" />
-                            )}
-                          </div>
-                        </button>
-                        {isPlaying && currentPlaying === idx && (
-                          <p>{remainingTime}</p>
-                        )}
-                      </>
-                    ) : (
-                      "No Preview"
-                    )}
+        <div className="flex flex-row pt-3 px-3 justify-between items-center">
+          <button className="w-fit h-fit p-1 font-medium hover:scale-x-105">
+            Generate Songs
+          </button>
+          <BsQuestionCircle className="text-xl" />
+        </div>
+        <div
+          ref={scrollContainerRef}
+          className="songs-list mx-3 h-full overflow-x-auto"
+        >
+          <div className="flex flex-row gap-x-5 w-max h-1">
+            {songs &&
+              songs.map((song, idx) => (
+                <div className="flex flex-col pt-4 items-center ">
+                  <img
+                    src={song.album.images[1].url}
+                    alt="album cover"
+                    className="song-img h-56"
+                  />
+                  <a
+                    href={song.external_urls.spotify}
+                    className="flex flex-row gap-x-2 border-[1px] p-1 rounded-3xl mt-2 justify-center hover:bg-slate-100 font-semibold w-full"
+                  >
+                    <img src={spotifyIcon} alt="spotify icon" className="w-7" />{" "}
+                    <p>Open Spotify</p>
+                  </a>
+                  <div className="flex flex-col gap-y-1 py-2 font-semibold justify-center items-center">
+                    <p className="text-lg">{song.name}</p>
+                    <p>
+                      <span className="font-normal">by </span>
+                      {song.artists[0].name}
+                      {song.artists.length > 1 && " ft. "}
+                      {song.artists.slice(1).map((artist, idx, array) => (
+                        <span key={idx}>
+                          {artist.name}
+                          {array.length > 1 && idx !== array.length - 1
+                            ? ", "
+                            : ""}
+                        </span>
+                      ))}
+                    </p>
+                    <p>{song.album.name}</p>
+                    <div className="flex flex-row gap-x-2">
+                      {song.preview_url ? (
+                        <>
+                          <button
+                            onClick={() => {
+                              if (isPlaying && currentPlaying === idx) {
+                                stopSound();
+                              } else {
+                                playSound(song.preview_url, idx);
+                              }
+                            }}
+                          >
+                            <div>
+                              {isPlaying && currentPlaying === idx ? (
+                                <BsStopCircle className="text-xl" /> // stop icon
+                              ) : (
+                                <BsPlayCircle className="text-xl" />
+                              )}
+                            </div>
+                          </button>
+                          {isPlaying && currentPlaying === idx && (
+                            <p>{remainingTime}</p>
+                          )}
+                        </>
+                      ) : (
+                        "No Preview"
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+          </div>
         </div>
       </div>
-    </div>
+    )
   );
 }

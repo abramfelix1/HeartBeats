@@ -45,7 +45,7 @@ export default function Playlist() {
 
   return (
     playlist && (
-      <div className="flex flex-col flex-grow w-full my-2 max-h-[50%] bg-baby-powder rounded-3xl">
+      <div className="flex flex-col flex-grow w-full mb-2 max-h-[50%] bg-baby-powder rounded-3xl">
         <div className="flex flex-row justify-center">
           <input
             onChange={(e) => {
