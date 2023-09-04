@@ -28,10 +28,12 @@ export default function Dashboard() {
     console.log("DASHBOARD: ", journalOpen);
   }, [journalOpen]);
 
+  // bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#7CA8D2] from-0% to-azure-blue to-100% bg-whoite
+
   return (
     <>
       <Modal />
-      <div className="w-screen h-screen flex bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#7CA8D2] from-0% to-azure-blue to-100% bg-whoite">
+      <div className="bg-bkg-body w-screen h-screen flex ">
         <Navigation
           isLoaded={isLoaded}
           navHovered={navHovered}

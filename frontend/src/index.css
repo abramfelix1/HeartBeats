@@ -32,6 +32,8 @@
     --color-surface-mixed-500: 219deg 6% 52%;
     --color-surface-mixed-600: 218deg 6% 61%;
   }
+  :root[data-theme="light"] {
+  }
   @media (prefers-color-scheme: dark) {
     :root {
       --color-primary-100: 211deg 88% 67%;
@@ -48,4 +50,8 @@
       --color-surface-mixed-600: 218deg 6% 61%;
     }
   }
+}
+
+.mode-checkbox:checked + .mode-label .mode-ball {
+  transform: translateX(34px);
 }

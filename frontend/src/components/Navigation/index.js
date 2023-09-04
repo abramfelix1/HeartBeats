@@ -6,10 +6,13 @@ import { logout } from "../../store/session";
 import logo from "../../images/heartBeatLogo.png";
 import { AiOutlineUser, AiOutlineSetting, AiOutlineEdit } from "react-icons/ai";
 import { MdOutlineLogout, MdOutlineLogin } from "react-icons/md";
+import { FaRegMoon } from "react-icons/fa";
+import { BsFillBrightnessHighFill } from "react-icons/bs";
 import { PiMusicNotes } from "react-icons/pi";
 import { JournalContext } from "../../context/journalContext";
 import { resetJournalsActions } from "../../store/journals";
 import { PlaylistContext } from "../../context/playlistContext";
+import { ThemeContext } from "../../context/themeContext";
 
 function Navigation({ isLoaded, navHovered, ...props }) {
   const dispatch = useDispatch();
@@ -18,6 +21,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
   const { setPlaylistId } = useContext(PlaylistContext);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
+  const { theme, toggleDark } = useContext(ThemeContext);
 
   const logoutClickHandler = () => {
     dispatch(logout());
@@ -33,10 +37,9 @@ function Navigation({ isLoaded, navHovered, ...props }) {
 
   return (
     <div
-      className={`flex flex-col ml-2 my-2 mr-2 items-center text-[#33658A] relative rounded-3xl ${
+      className={`bg-bkg-nav flex flex-col ml-2 my-2 mr-2 items-center text-white relative rounded-3xl ${
         isCollapsed ? "px-3" : "px-3"
       }
-      ${sessionUser ? "bg-baby-powder" : "bg-baby-powder"}
       `}
       {...props}
     >
@@ -87,6 +90,35 @@ function Navigation({ isLoaded, navHovered, ...props }) {
         </div>
       </div>
       <div className="space-y-8 mb-5">
+        {sessionUser && (
+          <div
+            className="flex gap-x-2 justify-center items-center  hover:cursor-pointer"
+            data-tooltip-id="nav-tooltip"
+            data-tooltip-content="Set Theme"
+          >
+            {isLoaded && (
+              <>
+                {" "}
+                <input
+                  type="checkbox"
+                  id="check"
+                  className="mode-checkbox opacity-0 absolute"
+                  onChange={toggleDark}
+                  checked={theme === "dark"}
+                />
+                <label
+                  for="check"
+                  className="mode-label relative flex justify-between items-center p-[5px] h-[26px] w-[60px] bg-bkg-card rounded-2xl cursor-pointer"
+                >
+                  <FaRegMoon className=" text-bkg-text" />
+                  <BsFillBrightnessHighFill className=" text-bkg-text" />
+                  <div className="mode-ball absolute bg-white top-[2px] left-[2px] w-[22px] h-[22px] rounded-full translate-x-0 transition-transform duration-150 ease-linear"></div>
+                </label>
+              </>
+            )}
+            {!isCollapsed && <p className="select-none">Theme</p>}
+          </div>
+        )}
         {sessionUser && (
           <div
             className="flex gap-x-2 justify-center items-center  hover:cursor-pointer"
