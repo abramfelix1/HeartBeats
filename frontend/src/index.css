@@ -2,3 +2,50 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary-100: 211deg 88% 67%;
+    --color-primary-200: 212deg 88% 71%;
+    --color-primary-300: 213deg 89% 76%;
+    --color-primary-400: 214deg 89% 79%;
+    --color-primary-500: 215deg 88% 83%;
+    --color-primary-600: 216deg 88% 87%;
+    --color-surface-mixed-100: 215deg 24% 18%;
+    --color-surface-mixed-200: 216deg 15% 26%;
+    --color-surface-mixed-300: 217deg 10% 34%;
+    --color-surface-mixed-400: 217deg 7% 43%;
+    --color-surface-mixed-500: 219deg 6% 52%;
+    --color-surface-mixed-600: 218deg 6% 61%;
+  }
+  :root[data-theme="dark"] {
+    --color-primary-100: 211deg 88% 67%;
+    --color-primary-200: 212deg 88% 71%;
+    --color-primary-300: 213deg 89% 76%;
+    --color-primary-400: 214deg 89% 79%;
+    --color-primary-500: 215deg 88% 83%;
+    --color-primary-600: 216deg 88% 87%;
+    --color-surface-mixed-100: 215deg 24% 18%;
+    --color-surface-mixed-200: 216deg 15% 26%;
+    --color-surface-mixed-300: 217deg 10% 34%;
+    --color-surface-mixed-400: 217deg 7% 43%;
+    --color-surface-mixed-500: 219deg 6% 52%;
+    --color-surface-mixed-600: 218deg 6% 61%;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-primary-100: 211deg 88% 67%;
+      --color-primary-200: 212deg 88% 71%;
+      --color-primary-300: 213deg 89% 76%;
+      --color-primary-400: 214deg 89% 79%;
+      --color-primary-500: 215deg 88% 83%;
+      --color-primary-600: 216deg 88% 87%;
+      --color-surface-mixed-100: 215deg 24% 18%;
+      --color-surface-mixed-200: 216deg 15% 26%;
+      --color-surface-mixed-300: 217deg 10% 34%;
+      --color-surface-mixed-400: 217deg 7% 43%;
+      --color-surface-mixed-500: 219deg 6% 52%;
+      --color-surface-mixed-600: 218deg 6% 61%;
+    }
+  }
+}
