@@ -9,6 +9,7 @@ import { IoCreateOutline } from "react-icons/io5";
 import { createJournal } from "../../store/journals";
 import "./journal.css";
 import { PlaylistContext } from "../../context/playlistContext";
+import { getAllPlaylists } from "../../store/playlists";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
@@ -56,6 +57,7 @@ export default function JournalNav() {
 
   useEffect(() => {
     dispatch(getAllJournals());
+    dispatch(getAllPlaylists());
   }, []);
 
   useEffect(() => {
@@ -127,7 +129,7 @@ export default function JournalNav() {
                   key={journalEntry.id}
                   onClick={() => {
                     setJournalId(journalEntry.id);
-                    if (journalId !== journalEntry.id) setPlaylistId(null);
+                    // if (journalId !== journalEntry.id) setPlaylistId(null);
                   }}
                 >
                   <p className="whitespace-nowrap overflow-hidden text-ellipsis sm:w-[90px] md:w-[110px] lg:w-[130px] xl:w-[140px] 2xl:w-[150px] hover:cursor-pointer">

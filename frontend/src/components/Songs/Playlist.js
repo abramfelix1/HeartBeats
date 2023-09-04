@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
   getPlaylist,
   createPlaylist,
@@ -6,6 +6,7 @@ import {
   deletePlaylist,
   resetPlaylistAction,
 } from "../../store/playlists";
+import { debounce } from "../../utils/helpers";
 import { useDispatch, useSelector } from "react-redux";
 import { JournalContext } from "../../context/journalContext";
 import { PlaylistContext } from "../../context/playlistContext";
@@ -15,14 +16,19 @@ export default function Playlist() {
   const dispatch = useDispatch();
   const { playlistId } = useContext(PlaylistContext);
   const { journal } = useContext(JournalContext);
-  const playlist = useSelector((state) => state.playlist.playlist);
+  const playlist = useSelector((state) => state.playlist[playlistId]);
   const playlistSongs = playlist?.songs ? Object.values(playlist.songs) : [];
   const [title, setTitle] = useState("");
+  const debouncedUpdate = useRef(
+    debounce((playlistId, title) => {
+      console.log("ARGS: ", playlistId, title);
+      dispatch(updatePlaylist(playlistId, { name: title }));
+    }, 500)
+  ).current;
 
   useEffect(() => {
+    console.log("PLAYLIST: ", playlist);
     if (playlistId) {
-      console.log("PLAYLIST PLAYLIST ID:, ", playlistId);
-      dispatch(getPlaylist(playlistId));
       setTitle(playlist?.name || "asdf");
     } else {
       dispatch(resetPlaylistAction());
@@ -34,7 +40,10 @@ export default function Playlist() {
       <div className="flex flex-col flex-grow w-full my-2 max-h-[50%] bg-baby-powder rounded-3xl">
         <div className="flex flex-row justify-center">
           <input
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => {
+              setTitle(e.target.value);
+              debouncedUpdate(playlistId, e.target.value);
+            }}
             value={title}
             className="p-3 border-none rounded-3xl focus:outline-none font-semibold w-full"
           />

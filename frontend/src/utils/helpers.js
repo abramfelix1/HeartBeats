@@ -3,6 +3,7 @@ export const debounce = (func, time) => {
   return function (...args) {
     const later = () => {
       clearTimeout(timeout);
+      console.log("ARGS: ", args);
       func(...args);
     };
     clearTimeout(timeout);
