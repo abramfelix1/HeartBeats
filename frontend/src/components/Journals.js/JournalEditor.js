@@ -19,7 +19,11 @@ import {
   createJournal,
   updateJournal,
 } from "../../store/journals";
-import { getPlaylist, createPlaylist } from "../../store/playlists";
+import {
+  getPlaylist,
+  createPlaylist,
+  deletePlaylist,
+} from "../../store/playlists";
 import { getRecSongs, resetRecSongsAction } from "../../store/spotify";
 import { getEnergy, getValence } from "../../utils/journal-analyzer";
 import { PlaylistContext } from "../../context/playlistContext";
@@ -28,7 +32,7 @@ export default function JournalEditor() {
   const dispatch = useDispatch();
   const quillRef = useRef(null);
   const { journalId, setJournalId } = useContext(JournalContext);
-  const { setPlaylistId } = useContext(PlaylistContext);
+  const { playlistId, setPlaylistId } = useContext(PlaylistContext);
   const { setErrors } = useContext(ErrorContext);
   const { setType } = useContext(ModalContext);
   const journalEntry = useSelector((state) =>
@@ -155,6 +159,11 @@ export default function JournalEditor() {
     );
   };
 
+  const deletePlaylistHandler = () => {
+    dispatch(deletePlaylist(playlistId));
+    setPlaylistId(null)
+  };
+
   return (
     <div className="bg-bkg-card w-full relative rounded-r-3xl">
       {journalEntry ? (
@@ -189,7 +198,7 @@ export default function JournalEditor() {
               >
                 Generate Songs
               </button>
-              {!journalEntry.playlist ? (
+              {!playlistId ? (
                 <button
                   className="z-10  w-fit h-fit"
                   onClick={createPlaylistHandler}
@@ -199,9 +208,9 @@ export default function JournalEditor() {
               ) : (
                 <button
                   className="z-10  w-fit h-fit"
-                  onClick={getPlaylistHandler}
+                  onClick={deletePlaylistHandler}
                 >
-                  View Playlist
+                  Delete Playlist
                 </button>
               )}
             </div>
