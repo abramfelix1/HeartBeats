@@ -5,6 +5,7 @@ import {
   updatePlaylist,
   deletePlaylist,
   resetPlaylistAction,
+  removeSongFromPlaylist,
 } from "../../store/playlists";
 import { debounce } from "../../utils/helpers";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,6 +41,10 @@ export default function Playlist() {
       setTitle(playlist?.name || "asdf");
     }
   }, [playlistId]);
+
+  const removeSongHandler = (songId) => {
+    dispatch(removeSongFromPlaylist(playlistId, songId));
+  };
 
   return (
     playlist && (
@@ -86,7 +91,12 @@ export default function Playlist() {
                   {song.album}
                 </div>
                 <button className="flex justify-end mr-5">
-                  <IoRemoveCircleOutline className="text-bkg-text text-lg hover:text-txt-hover hover:scale-105" />
+                  <IoRemoveCircleOutline
+                    className="text-bkg-text text-lg hover:text-txt-hover hover:scale-105"
+                    onClick={() => {
+                      removeSongHandler(song.id);
+                    }}
+                  />
                 </button>
               </div>
             ))}
