@@ -38,8 +38,6 @@ export default function Playlist() {
     console.log("PLAYLIST: ", playlist);
     if (playlistId) {
       setTitle(playlist?.name || "asdf");
-    } else {
-      dispatch(resetPlaylistAction());
     }
   }, [playlistId]);
 

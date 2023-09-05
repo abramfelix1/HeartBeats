@@ -20,7 +20,7 @@ import {
   updateJournal,
 } from "../../store/journals";
 import { getPlaylist, createPlaylist } from "../../store/playlists";
-import { getRecSongs } from "../../store/spotify";
+import { getRecSongs, resetRecSongsAction } from "../../store/spotify";
 import { getEnergy, getValence } from "../../utils/journal-analyzer";
 import { PlaylistContext } from "../../context/playlistContext";
 
@@ -43,6 +43,7 @@ export default function JournalEditor() {
       setTitle(journalEntry?.name || "asdf");
       if (journalEntry?.playlist) setPlaylistId(journalEntry.playlist.id);
     }
+    dispatch(resetRecSongsAction());
   }, [journalId]);
 
   const modules = {

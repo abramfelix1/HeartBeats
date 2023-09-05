@@ -20,33 +20,22 @@
     --color-surface-mixed-500: 219deg 6% 52%;
     --color-surface-mixed-600: 218deg 6% 61%;
   }
-  :root[data-theme=""] {
+  :root[data-theme="dark"] {
     /* --color-primary-100: 211deg 88% 67%; */
     /* --color-primary-100: 212deg 88% 71%; */
     /* --color-primary-100: 213deg 89% 76%; */
     /* --color-primary-100: 214deg 89% 79%; */
     /* --color-primary-100: 215deg 88% 83%; */
     --color-primary-100: 216deg 88% 87%;
+    --color-text-1: 0deg 0% 100%;
+    --color-text-2: 0deg 0% 0%;
+    --color-hover: 0deg 0% 100%;
     --color-surface-mixed-100: 215deg 24% 18%;
     --color-surface-mixed-200: 216deg 15% 26%;
     --color-surface-mixed-300: 217deg 10% 34%;
     --color-surface-mixed-400: 217deg 7% 43%;
     --color-surface-mixed-500: 219deg 6% 52%;
     --color-surface-mixed-600: 218deg 6% 61%;
-  }
-  :root[data-theme="light"] {
-    /* --color-primary-100: 211deg 88% 67%; */
-    /* --color-primary-100: 212deg 88% 71%; */
-    /* --color-primary-100: 213deg 89% 76%; */
-    /* --color-primary-100: 214deg 89% 79%; */
-    /* --color-primary-100: 215deg 88% 83%; */
-    --color-primary-100: 216deg 88% 87%;
-    --color-surface-mixed-100: 212deg 43% 27%;
-    --color-surface-mixed-200: 214deg 29% 35%;
-    --color-surface-mixed-300: 215deg 21% 43%;
-    --color-surface-mixed-400: 215deg 15% 50%;
-    --color-surface-mixed-500: 216deg 15% 58%;
-    --color-surface-mixed-600: 217deg 15% 61%;
   }
   :root[data-theme="light"] {
     /* --color-primary-100: 211deg 88% 67%; */
@@ -96,6 +85,25 @@
       --color-surface-mixed-400: 217deg 7% 43%;
       --color-surface-mixed-500: 219deg 6% 52%;
       --color-surface-mixed-600: 218deg 6% 61%;
+    }
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      /* --color-primary-100: 211deg 88% 67%; */
+      /* --color-primary-100: 212deg 88% 71%; */
+      /* --color-primary-100: 213deg 89% 76%; */
+      /* --color-primary-100: 214deg 89% 79%; */
+      /* --color-primary-100: 215deg 88% 83%; */
+      --color-primary-100: 216deg 88% 87%;
+      --color-text-1: 0deg 0% 0%;
+      --color-text-2: 0deg 0% 0%;
+      --color-hover-2: 0deg 0% 0%;
+      --color-surface-mixed-100: 186deg 100% 92%;
+      --color-surface-mixed-200: 198deg 100% 92%;
+      --color-surface-mixed-300: 209deg 100% 92%;
+      --color-surface-mixed-400: 221deg 100% 92%;
+      --color-surface-mixed-500: 233deg 100% 92%;
+      --color-surface-mixed-600: 210deg 8% 15%;
     }
   }
 }
