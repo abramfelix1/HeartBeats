@@ -163,6 +163,7 @@ export default function JournalEditor() {
 
   const deletePlaylistHandler = () => {
     dispatch(deletePlaylist(playlistId));
+    dispatch(resetRecSongsAction());
     setPlaylistId(null);
   };
 
