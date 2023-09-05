@@ -126,7 +126,9 @@ export default function JournalNav() {
             {expandedGroups.includes(date) &&
               journals.map((journalEntry) => (
                 <div
-                  className="flex flex-row gap-x-2 py-1 items-center text-sm"
+                  className={`flex flex-row gap-x-2 py-1 items-center text-sm ${
+                    journalId !== journalEntry.id ? "text-bkg-text" : ""
+                  }`}
                   key={journalEntry.id}
                   onClick={() => {
                     setJournalId(journalEntry.id);

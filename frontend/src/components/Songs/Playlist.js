@@ -45,7 +45,7 @@ export default function Playlist() {
 
   return (
     playlist && (
-      <div className="bg-bkg-card flex flex-col flex-grow w-full mb-2 max-h-[50%] rounded-3xl">
+      <div className="bg-bkg-card flex flex-col flex-grow w-full mb-2 max-h-[50%] rounded-3xl cursor-default">
         <div className="flex flex-row justify-center">
           <input
             onChange={(e) => {
@@ -57,7 +57,7 @@ export default function Playlist() {
             className="bg-bkg-card p-3 border-none rounded-3xl focus:outline-none font-semibold w-full"
           />
         </div>
-        <div className="text-bkg-text text-sm grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 h-14 pb-1 mb-3 border-b-[1px] border-b-[#cccccc] relative">
+        <div className="text-bkg-text text-sm grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 h-14 pb-1 mb-3 border-b-[1px] border-b-bkg-nav relative">
           <div className="text-center">#</div>
           <div className="">Title</div>
           <div className="">Album</div>

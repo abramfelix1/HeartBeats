@@ -97,15 +97,15 @@ export default function SongRecs() {
 
   return (
     songs && (
-      <div className="bg-bkg-card flex flex-col flex-grow w-full max-h-[50%] mb-2  rounded-3xl relative ">
+      <div className="bg-bkg-card flex flex-col flex-grow w-full max-h-[50%] mb-2  rounded-3xl relative  cursor-default">
         {/* <div className="p-4">
         <img src={spotifyLogo} alt="spotify logo" className="w-40" />
       </div> */}
         <div className="flex flex-row pt-3 px-3 justify-between items-center">
-          <button className="w-fit h-fit p-1 font-medium hover:scale-x-105">
+          <button className="text-bkg-text hover:scale-x-105 hover:text-white w-fit h-fit p-1 font-semibold ">
             Generate Songs
           </button>
-          <BsQuestionCircle className="text-xl" />
+          <BsQuestionCircle className="text-bkg-text font-semibold text-2xl hover:scale-x-105 hover:text-white hover:cursor-pointer" />
         </div>
         <div
           ref={scrollContainerRef}
@@ -114,7 +114,7 @@ export default function SongRecs() {
           <div className="flex flex-row gap-x-5 w-max h-1">
             {songs &&
               songs.map((song, idx) => (
-                <div className="flex flex-col pt-4 items-center ">
+                <div className="flex flex-col pt-4 items-center">
                   <img
                     src={song.album.images[1].url}
                     alt="album cover"
@@ -122,15 +122,15 @@ export default function SongRecs() {
                   />
                   <a
                     href={song.external_urls.spotify}
-                    className="flex flex-row gap-x-2 border-[1px] p-1 rounded-3xl mt-2 justify-center hover:bg-slate-100 font-semibold w-full"
+                    className="flex flex-row gap-x-2 border-[1px] border-bkg-nav p-1 rounded-3xl mt-2 justify-center hover:border-white font-semibold w-full"
                   >
                     <img src={spotifyIcon} alt="spotify icon" className="w-7" />{" "}
                     <p>Open Spotify</p>
                   </a>
                   <div className="flex flex-col gap-y-1 py-2 font-semibold justify-center items-center">
                     <p className="text-lg">{song.name}</p>
-                    <p>
-                      <span className="font-normal">by </span>
+                    <p className="text-bkg-text">
+                      <span></span>
                       {song.artists[0].name}
                       {song.artists.length > 1 && " ft. "}
                       {song.artists.slice(1).map((artist, idx, array) => (
@@ -142,7 +142,7 @@ export default function SongRecs() {
                         </span>
                       ))}
                     </p>
-                    <p>{song.album.name}</p>
+                    <p className="text-bkg-text">{song.album.name}</p>
                     <div className="flex flex-row gap-x-2">
                       {song.preview_url ? (
                         <>
@@ -157,9 +157,9 @@ export default function SongRecs() {
                           >
                             <div>
                               {isPlaying && currentPlaying === idx ? (
-                                <BsStopCircle className="text-xl" /> // stop icon
+                                <BsStopCircle className="text-bkg-text text-2xl hover:text-white" />
                               ) : (
-                                <BsPlayCircle className="text-xl" />
+                                <BsPlayCircle className=" text-bkg-text text-2xl hover:text-white" />
                               )}
                             </div>
                           </button>
@@ -168,7 +168,7 @@ export default function SongRecs() {
                           )}
                         </>
                       ) : (
-                        "No Preview"
+                        <p className="text-bkg-text">"No Preview"</p>
                       )}
                     </div>
                   </div>

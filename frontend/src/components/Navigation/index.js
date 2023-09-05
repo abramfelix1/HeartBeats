@@ -38,7 +38,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
   return (
     <div
       className={`bg-bkg-nav flex flex-col ml-2 my-2 mr-2 items-center relative rounded-3xl ${
-        isCollapsed ? "px-3" : "px-3"
+        isCollapsed ? "px-1" : "px-1"
       }
       `}
       {...props}
