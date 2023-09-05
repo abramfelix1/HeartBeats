@@ -20,7 +20,7 @@
     --color-surface-mixed-500: 219deg 6% 52%;
     --color-surface-mixed-600: 218deg 6% 61%;
   }
-  :root[data-theme="ASDF"] {
+  :root[data-theme=""] {
     /* --color-primary-100: 211deg 88% 67%; */
     /* --color-primary-100: 212deg 88% 71%; */
     /* --color-primary-100: 213deg 89% 76%; */
@@ -46,7 +46,24 @@
     --color-surface-mixed-300: 215deg 21% 43%;
     --color-surface-mixed-400: 215deg 15% 50%;
     --color-surface-mixed-500: 216deg 15% 58%;
-    --color-surface-mixed-600: 217deg 15% 66%;
+    --color-surface-mixed-600: 217deg 15% 61%;
+  }
+  :root[data-theme="light"] {
+    /* --color-primary-100: 211deg 88% 67%; */
+    /* --color-primary-100: 212deg 88% 71%; */
+    /* --color-primary-100: 213deg 89% 76%; */
+    /* --color-primary-100: 214deg 89% 79%; */
+    /* --color-primary-100: 215deg 88% 83%; */
+    --color-primary-100: 216deg 88% 87%;
+    --color-text-1: 0deg 0% 0%;
+    --color-text-2: 0deg 0% 0%;
+    --color-hover-2: 0deg 0% 0%;
+    --color-surface-mixed-100: 186deg 100% 92%;
+    --color-surface-mixed-200: 198deg 100% 92%;
+    --color-surface-mixed-300: 209deg 100% 92%;
+    --color-surface-mixed-400: 221deg 100% 92%;
+    --color-surface-mixed-500: 233deg 100% 92%;
+    --color-surface-mixed-600: 210deg 8% 15%;
   }
   :root[data-theme="dark"] {
     /* --color-primary-100: 211deg 88% 67%; */
@@ -55,14 +72,15 @@
     /* --color-primary-100: 214deg 89% 79%; */
     /* --color-primary-100: 215deg 88% 83%; */
     --color-primary-100: 216deg 88% 87%;
+    --color-text-1: 0deg 0% 100%;
+    --color-text-2: 0deg 0% 0%;
+    --color-hover: 0deg 0% 100%;
     --color-surface-mixed-100: 0deg 0% 7%;
     --color-surface-mixed-200: 0deg 0% 16%;
     --color-surface-mixed-300: 0deg 0% 25%;
     --color-surface-mixed-400: 0deg 0% 34%;
     --color-surface-mixed-500: 0deg 0% 44%;
     --color-surface-mixed-600: 218deg 6% 61%;
-  }
-  :root[data-theme="light"] {
   }
   @media (prefers-color-scheme: dark) {
     :root {

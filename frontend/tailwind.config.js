@@ -18,6 +18,7 @@ module.exports = {
         "bkg-text": "hsl(var(--color-surface-mixed-600) / <alpha-value>)",
         "txt-1": "hsl(var(--color-text-1) / <alpha-value>)",
         "txt-2": "hsl(var(--color-text-2) / <alpha-value>)",
+        "txt-hover": "hsl(var(--color-hover) / <alpha-value>)",
       },
       boxShadow: {
         nav: "0 35px 60px -15px rgba(0, 0, 0, 0.3)",

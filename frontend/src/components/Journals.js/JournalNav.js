@@ -106,7 +106,7 @@ export default function JournalNav() {
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
           placeholder={"Search journals..."}
-          className="bg-bkg-button pl-8 p-2 w-full rounded-full  border-2 border-transparent outline-none focus:border-white caret-white"
+          className="bg-bkg-button pl-8 p-2 w-full rounded-full  border-2 border-transparent outline-none focus:border-text-txt-hover caret-text-txt-hover"
         />
       </div>
       <div className="journal-list flex flex-col gap-y-3 px-3 py-3 mb-1">
@@ -127,7 +127,9 @@ export default function JournalNav() {
               journals.map((journalEntry) => (
                 <div
                   className={`flex flex-row gap-x-2 py-1 items-center text-sm ${
-                    journalId !== journalEntry.id ? "text-bkg-text" : ""
+                    journalId !== journalEntry.id
+                      ? "text-bkg-text"
+                      : "text-txt-hover"
                   }`}
                   key={journalEntry.id}
                   onClick={() => {
@@ -140,7 +142,7 @@ export default function JournalNav() {
                   </p>
                   {journalId === journalEntry.id && (
                     <PiTrash
-                      className="hover:cursor-pointer"
+                      className="text-txt-hover hover:cursor-pointer"
                       onClick={() => setType("DELETE")}
                     />
                   )}

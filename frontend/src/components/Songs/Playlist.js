@@ -92,7 +92,7 @@ export default function Playlist() {
                   Be Who You Are (Real Magic) (feat. JID, NewJeans & Camilo)
                 </div>
                 <button className="flex justify-end mr-5">
-                  <IoRemoveCircleOutline className="text-lg " />
+                  <IoRemoveCircleOutline className="text-bkg-text text-lg hover:text-txt-hover hover:scale-105" />
                 </button>
               </div>
             ))}

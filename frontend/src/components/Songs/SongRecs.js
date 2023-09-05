@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BsStopCircle, BsPlayCircle, BsQuestionCircle } from "react-icons/bs";
+import { IoAddCircleOutline } from "react-icons/io5";
 import { Howl } from "howler";
 import spotifyLogo from "../../images/Spotify_Logo_RGB_Green.png";
 import spotifyIcon from "../../images/Spotify_Icon_RGB_Green.png";
@@ -102,34 +103,34 @@ export default function SongRecs() {
         <img src={spotifyLogo} alt="spotify logo" className="w-40" />
       </div> */}
         <div className="flex flex-row pt-3 px-3 justify-between items-center">
-          <button className="text-bkg-text hover:scale-x-105 hover:text-white w-fit h-fit p-1 font-semibold ">
+          <button className="text-bkg-text hover:scale-x-105 hover:text-txt-hover w-fit h-fit p-1 font-semibold ">
             Generate Songs
           </button>
-          <BsQuestionCircle className="text-bkg-text font-semibold text-2xl hover:scale-x-105 hover:text-white hover:cursor-pointer" />
+          <BsQuestionCircle className="text-bkg-text font-semibold text-2xl hover:scale-x-105 hover:text-txt-hover hover:cursor-pointer" />
         </div>
         <div
           ref={scrollContainerRef}
-          className="songs-list mx-3 h-full overflow-x-auto"
+          className="songs-list mx-4 h-full overflow-x-auto"
         >
-          <div className="flex flex-row gap-x-5 w-max h-1">
+          <div className="flex flex-row gap-x-8 w-max h-1">
             {songs &&
               songs.map((song, idx) => (
-                <div className="flex flex-col pt-4 items-center">
+                <div className="flex flex-col pt-4 max-w-[208px]">
                   <img
                     src={song.album.images[1].url}
                     alt="album cover"
-                    className="song-img h-56"
+                    className="song-img h-52"
                   />
                   <a
                     href={song.external_urls.spotify}
-                    className="flex flex-row gap-x-2 border-[1px] border-bkg-nav p-1 rounded-3xl mt-2 justify-center hover:border-white font-semibold w-full"
+                    className="flex flex-row gap-x-2 border-[1px] border-bkg-nav p-1 rounded-3xl mt-2 justify-center hover:border-txt-hover font-semibold w-full"
                   >
                     <img src={spotifyIcon} alt="spotify icon" className="w-7" />{" "}
                     <p>Open Spotify</p>
                   </a>
-                  <div className="flex flex-col gap-y-1 py-2 font-semibold justify-center items-center">
-                    <p className="text-lg">{song.name}</p>
-                    <p className="text-bkg-text">
+                  <div className="flex flex-col gap-y-1 py-2 font-semibold">
+                    <p className="text-lg truncate">{song.name}</p>
+                    <p className="text-bkg-text truncate">
                       <span></span>
                       {song.artists[0].name}
                       {song.artists.length > 1 && " ft. "}
@@ -142,8 +143,8 @@ export default function SongRecs() {
                         </span>
                       ))}
                     </p>
-                    <p className="text-bkg-text">{song.album.name}</p>
-                    <div className="flex flex-row gap-x-2">
+                    <p className="text-bkg-text truncate">{song.album.name}</p>
+                    <div className="flex flex-row gap-x-2 justify-between">
                       {song.preview_url ? (
                         <>
                           <button
@@ -157,9 +158,9 @@ export default function SongRecs() {
                           >
                             <div>
                               {isPlaying && currentPlaying === idx ? (
-                                <BsStopCircle className="text-bkg-text text-2xl hover:text-white" />
+                                <BsStopCircle className="text-bkg-text text-xl hover:text-txt-hover" />
                               ) : (
-                                <BsPlayCircle className=" text-bkg-text text-2xl hover:text-white" />
+                                <BsPlayCircle className=" text-bkg-text text-xl hover:text-txt-hover" />
                               )}
                             </div>
                           </button>
@@ -170,6 +171,7 @@ export default function SongRecs() {
                       ) : (
                         <p className="text-bkg-text">"No Preview"</p>
                       )}
+                      <IoAddCircleOutline className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105 hover:cursor-pointer" />
                     </div>
                   </div>
                 </div>

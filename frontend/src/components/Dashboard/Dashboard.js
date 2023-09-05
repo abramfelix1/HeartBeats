@@ -42,7 +42,8 @@ export default function Dashboard() {
         />
         {journalOpen && (
           <>
-            <JournalContainer /> <SongsContainer />
+            <JournalContainer />
+            <SongsContainer />
           </>
         )}
       </div>
