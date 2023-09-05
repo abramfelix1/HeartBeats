@@ -17,7 +17,8 @@ import { ModalContext } from "../../context/ModalContext";
 
 export default function Playlist() {
   const dispatch = useDispatch();
-  const { playlistId } = useContext(PlaylistContext);
+  const { playlistId, isSongRecsShown, setIsSongRecsShown } =
+    useContext(PlaylistContext);
   const { journal } = useContext(JournalContext);
   const playlist = useSelector((state) => state.playlist[playlistId]);
   const playlistSongs = playlist?.songs ? Object.values(playlist.songs) : [];
@@ -48,7 +49,10 @@ export default function Playlist() {
 
   return (
     playlist && (
-      <div className="bg-bkg-card flex flex-col flex-grow w-full mb-2 max-h-[50%] rounded-3xl cursor-default">
+      <div
+        className={`bg-bkg-card flex flex-col flex-grow basis-[10%] w-full mb-2  rounded-3xl cursor-default overflow-y-auto
+      `}
+      >
         <div className="flex flex-row justify-center">
           <input
             onChange={(e) => {

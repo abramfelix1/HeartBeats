@@ -111,7 +111,7 @@ export default function SongRecs() {
 
   return (
     songs && (
-      <div className="bg-bkg-card flex flex-col flex-grow w-full max-h-[50%] mb-2  rounded-3xl relative  cursor-default">
+      <div className="bg-bkg-card flex flex-col flex-grow w-full max-h-[50%] mb-2 rounded-3xl relative  cursor-default">
         {/* <div className="p-4">
         <img src={spotifyLogo} alt="spotify logo" className="w-40" />
       </div> */}

@@ -32,7 +32,8 @@ export default function JournalEditor() {
   const dispatch = useDispatch();
   const quillRef = useRef(null);
   const { journalId, setJournalId } = useContext(JournalContext);
-  const { playlistId, setPlaylistId } = useContext(PlaylistContext);
+  const { playlistId, setPlaylistId, isSongRecsShown, setIsSongRecsShown } =
+    useContext(PlaylistContext);
   const { setErrors } = useContext(ErrorContext);
   const { setType } = useContext(ModalContext);
   const journalEntry = useSelector((state) =>
@@ -52,6 +53,7 @@ export default function JournalEditor() {
       }
     }
     dispatch(resetRecSongsAction());
+    setIsSongRecsShown(false);
   }, [journalId]);
 
   const modules = {
@@ -161,7 +163,7 @@ export default function JournalEditor() {
 
   const deletePlaylistHandler = () => {
     dispatch(deletePlaylist(playlistId));
-    setPlaylistId(null)
+    setPlaylistId(null);
   };
 
   return (
@@ -192,8 +194,10 @@ export default function JournalEditor() {
               </button>
               <button
                 className="z-10  w-fit h-fit"
-                onClick={(e) => {
-                  recSongsHandler(e);
+                onClick={async (e) => {
+                  await recSongsHandler(e);
+                  setIsSongRecsShown(true);
+                  console.log("ASDFASDFASDFSDAFASDFASD");
                 }}
               >
                 Generate Songs
