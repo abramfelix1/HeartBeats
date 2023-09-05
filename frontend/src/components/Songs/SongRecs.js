@@ -74,7 +74,7 @@ export default function SongRecs() {
       const sound = new Howl({
         src: [url],
         html5: true,
-        volume: 0.25,
+        volume: 0.15,
         onload: function () {
           updateRemainingTime(sound.duration());
         },
@@ -119,7 +119,7 @@ export default function SongRecs() {
                   <img
                     src={song.album.images[1].url}
                     alt="album cover"
-                    className="song-img h-52"
+                    className="h-52"
                   />
                   <a
                     href={song.external_urls.spotify}
@@ -169,7 +169,7 @@ export default function SongRecs() {
                           )}
                         </>
                       ) : (
-                        <p className="text-bkg-text">"No Preview"</p>
+                        <p className="text-bkg-text">No Preview</p>
                       )}
                       <IoAddCircleOutline className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105 hover:cursor-pointer" />
                     </div>
