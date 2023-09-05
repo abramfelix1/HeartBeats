@@ -136,7 +136,7 @@ export const deletePlaylist = (id) => async (dispatch) => {
 
 /* CREATE SONG */
 export const createSong = (payload) => async (dispatch) => {
-  await csrfFetch(`/api/songs`, {
+  const res = await csrfFetch(`/api/songs`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -145,6 +145,12 @@ export const createSong = (payload) => async (dispatch) => {
       ...payload,
     }),
   });
+  if (res.ok) {
+    const data = await res.json();
+    console.log("SONG DATA: ", data);
+    console.log("SONG ID: ", data.id);
+    return data.song.id;
+  }
 };
 
 /* ADD SONG TO PLAYLIST */

@@ -71,9 +71,7 @@ export default function Playlist() {
                 <div className="text-center">{index + 1}</div>
                 <div className="flex items-center w-full min-w-0">
                   <img
-                    src={
-                      "https://i.scdn.co/image/ab67616d00001e02a1214ad1ca57685349932cea"
-                    }
+                    src={song.img_url}
                     alt="Album Cover"
                     className="w-10 h-10 mr-3"
                   />

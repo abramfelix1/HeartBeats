@@ -7,7 +7,7 @@ import spotifyLogo from "../../images/Spotify_Logo_RGB_Green.png";
 import spotifyIcon from "../../images/Spotify_Icon_RGB_Green.png";
 import "./songs.css";
 import { PlaylistContext } from "../../context/playlistContext";
-import { createSong } from "../../store/playlists";
+import { addSongToPlaylist, createSong } from "../../store/playlists";
 
 export default function SongRecs() {
   const dispatch = useDispatch();
@@ -101,7 +101,11 @@ export default function SongRecs() {
 
   const addSongHandler = async (payload) => {
     if (playlistId) {
-      await dispatch(createSong(payload));
+      const songId = await dispatch(createSong(payload));
+      console.log(songId);
+      if (songId) {
+        await dispatch(addSongToPlaylist(playlistId, songId));
+      }
     }
   };
 
@@ -190,6 +194,7 @@ export default function SongRecs() {
                             img_url: song.album.images[1].url,
                             spotifyId: song.id,
                             spotify_url: song.external_urls.spotify,
+                            preview: song?.preview_url || null,
                           });
                         }}
                       />
