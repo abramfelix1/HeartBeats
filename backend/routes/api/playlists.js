@@ -157,9 +157,12 @@ router.post("/:playlistId/add/:songId", async (req, res, next) => {
   const { user } = req;
   const { playlistId, songId } = req.params;
 
-  const playlist = await Playlist.findByPk(playlistId);
-
   const song = await Song.findByPk(songId);
+  if (!song) {
+    return next({
+      errors: { song: "Song not found", status: 404 },
+    });
+  }
 
   const journal = await Journal.findOne({
     where: { userId: user.dataValues.id },
@@ -182,18 +185,21 @@ router.post("/:playlistId/add/:songId", async (req, res, next) => {
     });
   }
 
-  if (!song) {
-    return next({
-      errors: { song: "Song not found", status: 404 },
-    });
-  }
-
-  const playlistSong = await PlaylistSong.create({
-    playlistId: playlist.id,
+  await PlaylistSong.create({
+    playlistId: playlistId,
     songId: song.id,
   });
 
-  res.json({ playlistSong: playlistSong });
+  const updatedPlaylist = await Playlist.findByPk(playlistId, {
+    include: [
+      {
+        model: Song,
+        as: "songs",
+      },
+    ],
+  });
+
+  res.json({ playlist: updatedPlaylist });
 });
 
 /* DELETE SONG FROM PLAYLIST */
@@ -201,9 +207,12 @@ router.delete("/:playlistId/remove/:songId", async (req, res, next) => {
   const { user } = req;
   const { playlistId, songId } = req.params;
 
-  const playlist = await Playlist.findByPk(playlistId);
-
   const song = await Song.findByPk(songId);
+  if (!song) {
+    return next({
+      errors: { song: "Song not found", status: 404 },
+    });
+  }
 
   const journal = await Journal.findOne({
     where: { userId: user.dataValues.id },
@@ -226,15 +235,9 @@ router.delete("/:playlistId/remove/:songId", async (req, res, next) => {
     });
   }
 
-  if (!song) {
-    return next({
-      errors: { song: "Song not found", status: 404 },
-    });
-  }
-
   const playlistSong = await PlaylistSong.findOne({
     where: {
-      playlistId: playlist.id,
+      playlistId: playlistId,
       songId: song.id,
     },
   });
@@ -247,7 +250,16 @@ router.delete("/:playlistId/remove/:songId", async (req, res, next) => {
 
   await playlistSong.destroy();
 
-  res.json({ message: "Song removed from playlist" });
+  const updatedPlaylist = await Playlist.findByPk(playlistId, {
+    include: [
+      {
+        model: Song,
+        as: "songs",
+      },
+    ],
+  });
+
+  res.json({ playlist: updatedPlaylist });
 });
 
 module.exports = router;

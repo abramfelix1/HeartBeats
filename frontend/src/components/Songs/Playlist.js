@@ -78,16 +78,14 @@ export default function Playlist() {
                     className="w-10 h-10 mr-3"
                   />
                   <div className="flex flex-col gap-y-[0.5px] pr-2 w-full truncate">
-                    <div className="truncate ">
-                      Be Who You Are (Real Magic) (feat. JID, NewJeans & Camilo)
-                    </div>
+                    <div className="truncate ">{song.name}</div>
                     <div className="text-bkg-text text-sm truncate">
-                      Jon Batiste ft. JID, NewJeans, Camilo
+                      {song.artists}
                     </div>
                   </div>
                 </div>
                 <div className="text-bkg-text text-sm truncate">
-                  Be Who You Are (Real Magic) (feat. JID, NewJeans & Camilo)
+                  {song.album}
                 </div>
                 <button className="flex justify-end mr-5">
                   <IoRemoveCircleOutline className="text-bkg-text text-lg hover:text-txt-hover hover:scale-105" />

@@ -26,7 +26,7 @@ router.post("/", async (req, res, next) => {
     });
   }
 
-  res.json({ song: newSong });
+  res.json({ song: song });
 });
 
 module.exports = router;
