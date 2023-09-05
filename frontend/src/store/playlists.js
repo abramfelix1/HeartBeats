@@ -6,6 +6,8 @@ const CREATE_PLAYLIST = "playlists/CREATE_PLAYLIST";
 const UPDATE_PLAYLIST = "playlists/UPDATE_PLAYLIST";
 const DELETE_PLAYLIST = "playlists/DELETE_PLAYLIST";
 const RESET_PLAYLIST = "playlist/RESET_PLAYLIST";
+const ADD_SONG_TO_PLAYLIST = "playlist/ADD_SONG_TO_PLAYLIST";
+const REMOVE_SONG_FROM_PLAYLIST = "playlist/REMOVE_SONG_FROM_PLAYLIST";
 
 export const getAllPlaylistsAction = (payload) => {
   return {
@@ -43,6 +45,16 @@ export const deletePlaylistAction = (id) => {
     },
   };
 };
+
+export const addSongToPlaylistAction = (playlist) => ({
+  type: ADD_SONG_TO_PLAYLIST,
+  payload: playlist,
+});
+
+export const removeSongFromPlaylistAction = (playlist) => ({
+  type: REMOVE_SONG_FROM_PLAYLIST,
+  payload: playlist,
+});
 
 export const resetPlaylistAction = () => {
   return {
@@ -122,6 +134,52 @@ export const deletePlaylist = (id) => async (dispatch) => {
   }
 };
 
+/* CREATE SONG */
+export const createSong = (payload) => async (dispatch) => {
+  await csrfFetch(`/api/songs`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ...payload,
+    }),
+  });
+};
+
+/* ADD SONG TO PLAYLIST */
+export const addSongToPlaylist =
+  (playlistId, songId, payload) => async (dispatch) => {
+    const res = await csrfFetch(`/api/playlists/${playlistId}/add/${songId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...payload,
+      }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      dispatch(addSongToPlaylistAction(data.playlist));
+    }
+  };
+
+/* REMOVE SONG FROM PLAYLIST */
+export const removeSongFromPlaylist =
+  (playlistId, songId) => async (dispatch) => {
+    const res = await csrfFetch(
+      `/api/playlists/${playlistId}/remove/${songId}`,
+      {
+        method: "DELETE",
+      }
+    );
+    if (res.ok) {
+      const data = await res.json();
+      dispatch(removeSongFromPlaylistAction(data.playlist));
+    }
+  };
+
 const initialState = {};
 
 export default function playlistsReducer(state = initialState, action) {
@@ -160,6 +218,16 @@ export default function playlistsReducer(state = initialState, action) {
     case DELETE_PLAYLIST: {
       console.log("DELETE PLAYLIST PAYLOAD:", action.payload);
       delete newState[action.payload.id];
+      return newState;
+    }
+    case ADD_SONG_TO_PLAYLIST: {
+      console.log("ADD SONG TO PLAYLIST PAYLOAD:", action.payload);
+      newState[action.payload.id] = action.payload;
+      return newState;
+    }
+    case REMOVE_SONG_FROM_PLAYLIST: {
+      console.log("REMOVE SONG FROM PLAYLIST PAYLOAD:", action.payload);
+      newState[action.payload.id] = action.payload;
       return newState;
     }
     case RESET_PLAYLIST: {

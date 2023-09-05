@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BsStopCircle, BsPlayCircle, BsQuestionCircle } from "react-icons/bs";
 import { IoAddCircleOutline } from "react-icons/io5";
@@ -6,9 +6,12 @@ import { Howl } from "howler";
 import spotifyLogo from "../../images/Spotify_Logo_RGB_Green.png";
 import spotifyIcon from "../../images/Spotify_Icon_RGB_Green.png";
 import "./songs.css";
+import { PlaylistContext } from "../../context/playlistContext";
+import { createSong } from "../../store/playlists";
 
 export default function SongRecs() {
   const dispatch = useDispatch();
+  const { playlistId } = useContext(PlaylistContext);
   const songs = useSelector((state) => {
     const tracks = state.spotify.songs?.tracks;
     return tracks ? Object.values(tracks) : null;
@@ -96,6 +99,12 @@ export default function SongRecs() {
     }
   }, [url]);
 
+  const addSongHandler = async (payload) => {
+    if (playlistId) {
+      await dispatch(createSong(payload));
+    }
+  };
+
   return (
     songs && (
       <div className="bg-bkg-card flex flex-col flex-grow w-full max-h-[50%] mb-2  rounded-3xl relative  cursor-default">
@@ -171,7 +180,19 @@ export default function SongRecs() {
                       ) : (
                         <p className="text-bkg-text">No Preview</p>
                       )}
-                      <IoAddCircleOutline className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105 hover:cursor-pointer" />
+                      <IoAddCircleOutline
+                        className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105 hover:cursor-pointer"
+                        onClick={() => {
+                          addSongHandler({
+                            name: song.name,
+                            artists: song.artists[0].name,
+                            album: song.album.name,
+                            img_url: song.album.images[1].url,
+                            spotifyId: song.id,
+                            spotify_url: song.external_urls.spotify,
+                          });
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
