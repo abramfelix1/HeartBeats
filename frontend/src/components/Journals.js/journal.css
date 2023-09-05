@@ -5,7 +5,7 @@
 
 /* width */
 .journal-list::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
 
 /* Track */
@@ -17,5 +17,5 @@
 /* Handle */
 .journal-list::-webkit-scrollbar-thumb {
   border-radius: 15px;
-  background: rgb(0, 0, 0, 0.1);
+  background: hsl(217deg 7% 43%);
 }

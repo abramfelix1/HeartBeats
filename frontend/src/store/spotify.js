@@ -2,6 +2,7 @@ import { csrfFetch } from "./csrf";
 export const GET_SPOTIFY = "spotify/GET_SPOTIFY";
 export const GET_SONG = "spotify/GET_SONG";
 export const GET_REC_SONGS = "spotify/GET_REC_SONGS";
+export const RESET_REC_SONGS = "spotify/RESET_REC_SONGS";
 
 export const getSpotifyUserAction = (payload) => {
   return {
@@ -21,6 +22,12 @@ export const getRecSongsAction = (payload) => {
   return {
     type: GET_REC_SONGS,
     payload,
+  };
+};
+
+export const resetRecSongsAction = () => {
+  return {
+    type: RESET_REC_SONGS,
   };
 };
 
@@ -93,6 +100,9 @@ export const spotifyReducer = (state = initialState, action) => {
     case GET_REC_SONGS: {
       newState.songs = action.payload;
       return newState;
+    }
+    case RESET_REC_SONGS: {
+      return initialState;
     }
     default:
       return newState;

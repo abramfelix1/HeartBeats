@@ -12,24 +12,21 @@ router.post("/", async (req, res, next) => {
   const { user } = req;
   const { spotifyId } = req.body;
 
-  const existingSong = await Song.findOne({ where: { spotifyId } });
-  if (existingSong) {
-    return next({
-      errors: { song: "Song already exists.", status: 404 },
+  let song = await Song.findOne({ where: { spotifyId } });
+
+  if (!song) {
+    song = await Song.create({
+      name: req.body.name,
+      artists: req.body.artists,
+      album: req.body.album,
+      preview: req.body.preview,
+      img_url: req.body.img_url,
+      spotifyId: req.body.spotifyId,
+      spotify_url: req.body.spotify_url,
     });
   }
 
-  const newSong = await Song.create({
-    userId: user.dataValues.id,
-    name: req.body.name,
-    artists: req.body.artists,
-    preview: req.body.preview,
-    img_url: req.body.img_url,
-    spotifyId: req.body.spotifyId,
-    spotify_url: req.body.spotify_url,
-  });
-
-  res.json({ song: newSong });
+  res.json({ song: song });
 });
 
 module.exports = router;

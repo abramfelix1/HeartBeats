@@ -25,6 +25,10 @@ module.exports = {
           type: Sequelize.STRING,
           allowNull: false,
         },
+        album: {
+          type: Sequelize.STRING,
+          allowNull: false,
+        },
         preview: {
           type: Sequelize.STRING,
         },

@@ -13,26 +13,48 @@ import JournalNav from "./JournalNav";
 import { JournalContext } from "../../context/journalContext";
 import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
-import { useDispatch } from "react-redux";
-import { createJournal, updateJournal } from "../../store/journals";
-import { getRecSongs } from "../../store/spotify";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addPlaylistAction,
+  createJournal,
+  updateJournal,
+} from "../../store/journals";
+import {
+  getPlaylist,
+  createPlaylist,
+  deletePlaylist,
+} from "../../store/playlists";
+import { getRecSongs, resetRecSongsAction } from "../../store/spotify";
 import { getEnergy, getValence } from "../../utils/journal-analyzer";
+import { PlaylistContext } from "../../context/playlistContext";
 
 export default function JournalEditor() {
   const dispatch = useDispatch();
   const quillRef = useRef(null);
-  const { journal, setJournal } = useContext(JournalContext);
+  const { journalId, setJournalId } = useContext(JournalContext);
+  const { playlistId, setPlaylistId, isSongRecsShown, setIsSongRecsShown } =
+    useContext(PlaylistContext);
   const { setErrors } = useContext(ErrorContext);
   const { setType } = useContext(ModalContext);
+  const journalEntry = useSelector((state) =>
+    journalId ? state.journals[journalId] : null
+  );
   const [title, setTitle] = useState("");
-  const [body, setBody] = useState(journal?.content || "");
+  const [body, setBody] = useState(journalEntry?.content || "");
 
   useEffect(() => {
-    if (journal) {
-      setBody(journal?.content || "asdf");
-      setTitle(journal?.name || "asdf");
+    if (journalEntry) {
+      setBody(journalEntry?.content || "asdf");
+      setTitle(journalEntry?.name || "asdf");
+      if (journalEntry?.playlist) {
+        setPlaylistId(journalEntry.playlist.id);
+      } else {
+        setPlaylistId(null);
+      }
     }
-  }, [journal]);
+    dispatch(resetRecSongsAction());
+    setIsSongRecsShown(false);
+  }, [journalId]);
 
   const modules = {
     toolbar: [
@@ -61,7 +83,7 @@ export default function JournalEditor() {
       setType("ERROR");
       return;
     }
-    dispatch(updateJournal(journal.id, { name: title, content: body })).catch(
+    dispatch(updateJournal(journalId, { name: title, content: body })).catch(
       async (res) => {
         const data = await res.json();
         console.log(data.errors);
@@ -99,13 +121,26 @@ export default function JournalEditor() {
         });
       }
     }
-  }, [journal]);
+  }, [journalEntry]);
 
   const createJournalHandler = async () => {
     console.log("CLICK CREATE JOURNAL");
     const journal = await dispatch(createJournal());
     console.log("NEW JOURNAL: ", journal);
-    setJournal(journal.journal);
+    setJournalId(journal.journal.id);
+    setPlaylistId(null);
+  };
+
+  const getPlaylistHandler = () => {
+    console.log("CLICK GET PLAYLIST");
+    dispatch(getPlaylist(journalEntry.playlist.id));
+  };
+
+  const createPlaylistHandler = async () => {
+    console.log("CLICK CREATE PLAYLIST");
+    const playlist = await dispatch(createPlaylist(journalEntry.id));
+    dispatch(addPlaylistAction(journalEntry.id, playlist));
+    setPlaylistId(playlist.playlist.id);
   };
 
   const recSongsHandler = (e) => {
@@ -126,22 +161,28 @@ export default function JournalEditor() {
     );
   };
 
+  const deletePlaylistHandler = () => {
+    dispatch(deletePlaylist(playlistId));
+    dispatch(resetRecSongsAction());
+    setPlaylistId(null);
+  };
+
   return (
-    <div className="w-full relative">
-      {journal ? (
+    <div className="bg-bkg-card w-full relative rounded-r-3xl">
+      {journalEntry ? (
         <>
           <div className="flex flex-col w-full h-full pb-16 absolute ">
             <input
               onChange={(e) => setTitle(e.target.value)}
               value={title}
-              className="p-3 border-none rounded-tr-3xl focus:outline-none font-semibold"
+              className="bg-bkg-card p-3 border-none rounded-tr-3xl focus:outline-none font-semibold"
             />
             <ReactQuill
               modules={modules}
               ref={quillRef}
               value={body}
               onChange={setBody}
-              className="sm:pb-52 md:pb-48 lg:pb-36, xl:pb-32"
+              className="bg-white text-black overflow-hidden"
             />
           </div>
           <div className="flex flex-row h-full items-end">
@@ -154,13 +195,29 @@ export default function JournalEditor() {
               </button>
               <button
                 className="z-10  w-fit h-fit"
-                onClick={(e) => {
-                  recSongsHandler(e);
+                onClick={async (e) => {
+                  await recSongsHandler(e);
+                  setIsSongRecsShown(true);
+                  console.log("ASDFASDFASDFSDAFASDFASD");
                 }}
               >
                 Generate Songs
               </button>
-              <button className="z-10  w-fit h-fit">View Playlist</button>
+              {!playlistId ? (
+                <button
+                  className="z-10  w-fit h-fit"
+                  onClick={createPlaylistHandler}
+                >
+                  Create Playlist
+                </button>
+              ) : (
+                <button
+                  className="z-10  w-fit h-fit"
+                  onClick={deletePlaylistHandler}
+                >
+                  Delete Playlist
+                </button>
+              )}
             </div>
           </div>
           <Tooltip
@@ -172,9 +229,9 @@ export default function JournalEditor() {
           />
         </>
       ) : (
-        <div className="flex h-full justify-center items-center">
+        <div className="bg-bkg-card flex h-full justify-center items-center rounded-r-3xl">
           <button
-            className="w-fit h-fit p-5 rounded-3xl bg-blue-400 text-white font-semibold"
+            className="bg-bkg-primary text-txt-2 w-fit h-fit p-5 rounded-3xl  font-semibold hover:bg-bkg-primary-hover"
             onClick={createJournalHandler}
           >
             NEW JOURNAL

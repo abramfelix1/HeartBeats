@@ -243,7 +243,7 @@ router.post("/recsongs", async (req, res) => {
   } = req.body;
 
   //change this offset if not generating enough or too much duplicates
-  const rangeOffset = 0.152125;
+  const rangeOffset = 0.252125;
   let minValence = valence - rangeOffset;
   let maxValence = valence + rangeOffset;
   let minEnergy = energy - rangeOffset;
@@ -276,10 +276,13 @@ router.post("/recsongs", async (req, res) => {
   console.log("URL: ", url);
 
   try {
-    const response = await fetch(url, {
-      method: "GET",
-      headers: { Authorization: "Bearer " + accessToken },
-    });
+    const response = await fetch(
+      `https://api.spotify.com/v1/recommendations?seed_tracks=3NZJlJemX3mzjf56MqC5ML%2C3MldzywZOH4Uci6bq9noyJ&min_valence=${minValence}&max_valence=${maxValence}`,
+      {
+        method: "GET",
+        headers: { Authorization: "Bearer " + accessToken },
+      }
+    );
 
     const data = await response.json();
 

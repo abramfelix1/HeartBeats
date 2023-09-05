@@ -8,11 +8,15 @@ import { ModalContext } from "../../context/ModalContext";
 import { IoCreateOutline } from "react-icons/io5";
 import { createJournal } from "../../store/journals";
 import "./journal.css";
+import { PlaylistContext } from "../../context/playlistContext";
+import { getAllPlaylists } from "../../store/playlists";
+import { AiOutlineSearch } from "react-icons/ai";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
   const { setType } = useContext(ModalContext);
-  const { journal, setJournal } = useContext(JournalContext);
+  const { journalId, setJournalId } = useContext(JournalContext);
+  const { setPlaylistId } = useContext(PlaylistContext);
 
   const journals = useSelector((state) => Object.values(state.journals));
   const [searchInput, setSearchInput] = useState("");
@@ -54,6 +58,7 @@ export default function JournalNav() {
 
   useEffect(() => {
     dispatch(getAllJournals());
+    dispatch(getAllPlaylists());
   }, []);
 
   useEffect(() => {
@@ -89,18 +94,19 @@ export default function JournalNav() {
 
   const createJournalHandler = async () => {
     const journal = await dispatch(createJournal());
-    setJournal(journal.journal);
+    setJournalId(journal.journal.id);
+    setPlaylistId(null);
   };
 
   return (
-    <div className="h-full w-64 bg-[#ececf5] rounded-l-3xl relative pb-2 ">
-      <div className="p-4 pb-3">
+    <div className="bg-bkg-card h-full w-64 rounded-l-3xl relative pb-2 border-r-[1px] border-r-bkg-nav">
+      <div className="p-4 pb-3 relative flex items-center">
+        <AiOutlineSearch className="text-xl absolute left-6" />
         <input
-          type="text"
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
-          placeholder="Search journals..."
-          className="p-2 w-full rounded"
+          placeholder={"Search journals..."}
+          className="bg-bkg-button pl-8 p-2 w-full rounded-full  border-2 border-transparent outline-none focus:border-text-txt-hover caret-text-txt-hover"
         />
       </div>
       <div className="journal-list flex flex-col gap-y-3 px-3 py-3 mb-1">
@@ -120,16 +126,23 @@ export default function JournalNav() {
             {expandedGroups.includes(date) &&
               journals.map((journalEntry) => (
                 <div
-                  className="flex flex-row gap-x-2 py-1 items-center text-sm"
+                  className={`flex flex-row gap-x-2 py-1 items-center text-sm ${
+                    journalId !== journalEntry.id
+                      ? "text-bkg-text"
+                      : "text-txt-hover"
+                  }`}
                   key={journalEntry.id}
-                  onClick={() => setJournal(journalEntry)}
+                  onClick={() => {
+                    setJournalId(journalEntry.id);
+                    // if (journalId !== journalEntry.id) setPlaylistId(null);
+                  }}
                 >
                   <p className="whitespace-nowrap overflow-hidden text-ellipsis sm:w-[90px] md:w-[110px] lg:w-[130px] xl:w-[140px] 2xl:w-[150px] hover:cursor-pointer">
                     {journalEntry.name}
                   </p>
-                  {journal && journal.id === journalEntry.id && (
+                  {journalId === journalEntry.id && (
                     <PiTrash
-                      className="text-red-500 hover:cursor-pointer"
+                      className="text-txt-hover hover:cursor-pointer"
                       onClick={() => setType("DELETE")}
                     />
                   )}
@@ -140,7 +153,7 @@ export default function JournalNav() {
       </div>
       <div className="flex w-full justify-center px-3 text-white absolute bottom-0">
         <button
-          className="flex justify-center items-center gap-x-2 my-2 py-2 px-5 w-fit h-fit rounded-xl bg-blue-400 text-white font-semibold"
+          className="bg-bkg-primary text-txt-2 flex justify-center items-center gap-x-2 my-4 py-2 px-5 w-fit h-fit rounded-xl  text-text font-semibold hover:bg-bkg-primary-hover"
           onClick={createJournalHandler}
         >
           <IoCreateOutline className="text-2xl" />
