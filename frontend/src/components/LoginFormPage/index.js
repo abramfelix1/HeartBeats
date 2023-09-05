@@ -45,10 +45,10 @@ function LoginFormPage() {
   };
 
   return (
-    <div className="bg-gradient-to-bl from-white via-azure-blue via-50% to-azure-blue relative">
+    <div className="text-txt-1 bg-gradient-to-bl from-white via-azure-blue via-50% to-azure-blue relative">
       <div className="bg-login bg-cover bg-no-repeat absolute inset-0"></div>
       <div className="flex justify-center items-center w-screen h-screen">
-        <div className="flex relative bg-[#FFFFFC] w-[80%] h-[80%] rounded-3xl">
+        <div className="flex relative bg-bkg-card w-[80%] h-[80%] rounded-3xl">
           <div className="flex flex-col justify-center items-center pl-20 py-20 w-[100%]">
             <h1>Welcome Back!</h1>
             <div className="h-[20px] my-4">
@@ -63,7 +63,7 @@ function LoginFormPage() {
               <div className="flex flex-col">
                 <label htmlFor="credential">Username or Email</label>
                 <input
-                  className="w-96 h-11 rounded-lg"
+                  className="bg-bkg-button focus:border-text-txt-hover border-transparent outline-none caret-text-txt-hover w-96 h-11 rounded-lg"
                   type="text"
                   id="credential"
                   value={credential}
@@ -74,7 +74,7 @@ function LoginFormPage() {
               <div className="flex flex-col">
                 <label htmlFor="password">Password</label>
                 <input
-                  className="w-96 h-11 rounded-lg"
+                  className="bg-bkg-button focus:border-text-txt-hover border-transparent outline-none caret-text-txt-hover w-96 h-11 rounded-lg"
                   type="password"
                   id="password"
                   value={password}
@@ -83,7 +83,7 @@ function LoginFormPage() {
                 />
               </div>
               <button
-                className="bg-white w-96 h-11 rounded-lg border-[1px] border-black hover:bg-slate-200"
+                className="bg-bkg-button hover:border-txt-hover w-96 h-11 rounded-lg border-[1px] border-bkg-nav "
                 type="submit"
               >
                 Log In
@@ -105,16 +105,16 @@ function LoginFormPage() {
             </div>
             <div className="flex flex-col justify-center items-center space-y-6">
               <button
-                className="bg-white w-96 h-11 rounded-lg border-[1px] border-black hover:bg-slate-200"
+                className="bg-bkg-button hover:border-txt-hover  w-96 h-11 rounded-lg border-[1px] border-bkg-nav"
                 onClick={demoClickHandler}
               >
                 <div className="flex flex-row gap-x-3 justify-center items-center relative">
-                  <BiSolidUserCircle className="text-[35px] text-gray-500 absolute left-5" />
+                  <BiSolidUserCircle className="text-[35px] text-txt-1 absolute left-5" />
                   <p>Continue with Demo</p>
                 </div>
               </button>
               <button
-                className="bg-white w-96 h-11 rounded-lg border-[1px] border-black hover:bg-slate-200"
+                className="bg-bkg-button hover:border-txt-hover  w-96 h-11 rounded-lg border-[1px] border-bkg-nav"
                 onClick={spotifyClickHandler}
               >
                 <div className="flex flex-row gap-x-3 justify-center items-center relative">

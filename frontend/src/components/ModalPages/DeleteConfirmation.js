@@ -22,7 +22,7 @@ export default function DeleteConfirmation({ id }) {
   };
 
   return (
-    <div className="min-w-[24rem] max-w-fit h-fit p-8 bg-bkg-modal rounded-3xl">
+    <div className="min-w-[24rem] max-w-fit h-fit p-8 bg-baby-powder rounded-3xl">
       <div className="flex flex-col gap-y-5">
         <p className="text-xl font-semibold">Confirm Delete</p>
         <div className="w-full border-[1px] border-black opacity-5"></div>
