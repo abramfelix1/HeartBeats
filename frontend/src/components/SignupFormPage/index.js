@@ -63,10 +63,10 @@ function SignupFormPage() {
   };
 
   return (
-    <div className="bg-gradient-to-bl from-white via-azure-blue via-50% to-azure-blue relative">
+    <div className="text-txt-1 bg-gradient-to-bl from-white via-azure-blue via-50% to-azure-blue relative">
       <div className="bg-login bg-cover bg-no-repeat absolute inset-0"></div>
       <div className="flex justify-center items-center w-screen h-screen">
-        <div className="flex relative bg-[#FFFFFC] min-w-[80%] h-[80%] rounded-3xl">
+        <div className="flex relative bg-bkg-card min-w-[80%] h-[80%] rounded-3xl">
           <div className="flex flex-col justify-center items-center pl-20 py-20 w-[100%]">
             <h1>Sign Up!</h1>
             <div className="flex flex-col items- h-[175px] mb-4">
@@ -98,7 +98,7 @@ function SignupFormPage() {
                   )} */}
                   <label htmlFor="email">Email</label>
                   <input
-                    className="w-64 h-11 rounded-lg"
+                    className="bg-bkg-button focus:border-text-txt-hover border-transparent outline-none caret-text-txt-hover  w-64 h-11 rounded-lg"
                     type="text"
                     id="email"
                     value={email}
@@ -112,7 +112,7 @@ function SignupFormPage() {
                   )} */}
                   <label htmlFor="username">Username</label>
                   <input
-                    className="w-64 h-11 rounded-lg"
+                    className="bg-bkg-button focus:border-text-txt-hover border-transparent outline-none caret-text-txt-hover  w-64 h-11 rounded-lg"
                     type="text"
                     id="username"
                     value={username}
@@ -129,7 +129,7 @@ function SignupFormPage() {
                   )} */}
                   <label htmlFor="firstName">First Name</label>
                   <input
-                    className="w-64 h-11 rounded-lg"
+                    className="bg-bkg-button focus:border-text-txt-hover border-transparent outline-none caret-text-txt-hover  w-64 h-11 rounded-lg"
                     type="text"
                     id="firstName"
                     value={firstName}
@@ -143,7 +143,7 @@ function SignupFormPage() {
                   )} */}
                   <label htmlFor="lastName">Last Name</label>
                   <input
-                    className="w-64 h-11 rounded-lg"
+                    className="bg-bkg-button focus:border-text-txt-hover border-transparent outline-none caret-text-txt-hover  w-64 h-11 rounded-lg"
                     type="text"
                     id="lastName"
                     value={lastName}
@@ -160,7 +160,7 @@ function SignupFormPage() {
                   )} */}
                   <label htmlFor="password">Password</label>
                   <input
-                    className="w-64 h-11 rounded-lg"
+                    className="bg-bkg-button focus:border-text-txt-hover border-transparent outline-none caret-text-txt-hover  w-64 h-11 rounded-lg"
                     type="password"
                     id="password"
                     value={password}
@@ -174,7 +174,7 @@ function SignupFormPage() {
                   )} */}
                   <label htmlFor="confirmPassword">Confirm Password</label>
                   <input
-                    className="w-64 h-11 rounded-lg"
+                    className="bg-bkg-button focus:border-text-txt-hover border-transparent outline-none caret-text-txt-hover  w-64 h-11 rounded-lg"
                     type="password"
                     id="confirmPassword"
                     value={confirmPassword}
@@ -186,7 +186,7 @@ function SignupFormPage() {
 
               <button
                 type="submit"
-                className="bg-white w-96 h-11 rounded-lg border-[1px] border-black hover:bg-slate-200"
+                className="bg-bkg-button hover:border-txt-hover border-bkg-nav w-96 h-11 rounded-lg border-[1px]"
               >
                 Sign Up
               </button>
@@ -201,22 +201,22 @@ function SignupFormPage() {
               </div>
             </form>
             <div className="flex items-center my-4">
-              <div className="w-[180px] border-t border-slate-300 mr-2"></div>
+              <div className="w-[180px] border-t border-bkg-nav mr-2"></div>
               <p>Or</p>
-              <div className="w-[180px] border-t border-slate-300 ml-2"></div>
+              <div className="w-[180px] border-t border-bkg-nav ml-2"></div>
             </div>
             <div className="flex flex-col justify-center items-center space-y-6">
               <button
-                className="bg-white w-96 h-11 rounded-lg border-[1px] border-black hover:bg-slate-200"
+                className="bg-bkg-button hover:border-txt-hover border-bkg-nav w-96 h-11 rounded-lg border-[1px]"
                 onClick={demoClickHandler}
               >
                 <div className="flex flex-row gap-x-3 justify-center items-center relative">
-                  <BiSolidUserCircle className="text-[35px] text-gray-500 absolute left-5" />
+                  <BiSolidUserCircle className="text-[35px]  text-txt-1 absolute left-5" />
                   <p>Continue with Demo</p>
                 </div>
               </button>
               <button
-                className="bg-white w-96 h-11 rounded-lg border-[1px] border-black hover:bg-slate-200"
+                className="bg-bkg-button hover:border-txt-hover border-bkg-nav w-96 h-11 rounded-lg border-[1px]"
                 onClick={spotifyClickHandler}
               >
                 <div className="flex flex-row gap-x-3 justify-center items-center relative">

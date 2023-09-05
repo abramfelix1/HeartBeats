@@ -83,7 +83,7 @@ function LoginFormPage() {
                 />
               </div>
               <button
-                className="bg-bkg-button hover:border-txt-hover w-96 h-11 rounded-lg border-[1px] border-bkg-nav "
+                className="bg-bkg-button hover:border-txt-hover border-bkg-nav  w-96 h-11 rounded-lg border-[1px] "
                 type="submit"
               >
                 Log In
@@ -99,9 +99,9 @@ function LoginFormPage() {
               </div>
             </form>
             <div className="flex items-center my-4">
-              <div className="w-[180px] border-t border-slate-300 mr-2"></div>
+              <div className="w-[180px] border-t border-bkg-nav mr-2"></div>
               <p>Or</p>
-              <div className="w-[180px] border-t border-slate-300 ml-2"></div>
+              <div className="w-[180px] border-t border-bkg-nav ml-2"></div>
             </div>
             <div className="flex flex-col justify-center items-center space-y-6">
               <button

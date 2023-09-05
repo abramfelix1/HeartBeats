@@ -112,7 +112,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
                 >
                   <FaRegMoon className=" text-bkg-text" />
                   <BsFillBrightnessHighFill className=" text-bkg-text" />
-                  <div className="mode-ball absolute bg-white top-[2px] left-[2px] w-[22px] h-[22px] rounded-full translate-x-0 transition-transform duration-150 ease-linear"></div>
+                  <div className="mode-ball absolute bg-bkg-text top-[2px] left-[2px] w-[22px] h-[22px] rounded-full translate-x-0 transition-transform duration-150 ease-linear"></div>
                 </label>
               </>
             )}
