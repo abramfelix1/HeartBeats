@@ -41,7 +41,11 @@ export default function JournalEditor() {
     if (journalEntry) {
       setBody(journalEntry?.content || "asdf");
       setTitle(journalEntry?.name || "asdf");
-      if (journalEntry?.playlist) setPlaylistId(journalEntry.playlist.id);
+      if (journalEntry?.playlist) {
+        setPlaylistId(journalEntry.playlist.id);
+      } else {
+        setPlaylistId(null);
+      }
     }
     dispatch(resetRecSongsAction());
   }, [journalId]);
