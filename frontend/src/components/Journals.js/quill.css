@@ -56,6 +56,8 @@
 .quill-item .ql-editor {
   overflow: hidden;
   padding: 0;
+  pointer-events: none;
+  user-select: none;
 }
 /* .quill-item .ql-container {
   transform: scale(0.6);

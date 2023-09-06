@@ -13,6 +13,9 @@ import { getAllPlaylists } from "../../store/playlists";
 import { AiOutlineSearch } from "react-icons/ai";
 import { ReactComponent as CloseIcon } from "../../images/icons/outline/close.svg";
 import { ReactComponent as TrashIcon } from "../../images/icons/outline/trash.svg";
+import { ReactComponent as ComposeIcon } from "../../images/icons/outline/compose.svg";
+import { ReactComponent as PlaylistIcon } from "../../images/icons/outline/playlist.svg";
+import { ReactComponent as PlaylistAddIcon } from "../../images/icons/outline/add-playlist.svg";
 import JournalNavItem from "./JournalNavItem";
 
 export default function JournalNav() {
@@ -29,88 +32,33 @@ export default function JournalNav() {
     setJournalOpen(false);
   };
 
-  // Allows ESC key to close modal
-  useEffect(() => {
-    const handleEsc = (event) => {
-      if (event.keyCode === 27) closeHandler();
-    };
-    window.addEventListener("keydown", handleEsc);
-
-    return () => {
-      window.removeEventListener("keydown", handleEsc);
-    };
-  }, []);
-
-  const groupedJournals = useMemo(() => {
-    return journals
-      .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt))
-      .reduce((acc, journal) => {
-        const today = new Date();
-        const journalDate = new Date(journal.updatedAt);
-        let label;
-
-        if (
-          journalDate.getDate() === today.getDate() &&
-          journalDate.getMonth() === today.getMonth() &&
-          journalDate.getFullYear() === today.getFullYear()
-        ) {
-          label = "Today";
-        } else if (
-          journalDate.getDate() === today.getDate() - 1 &&
-          journalDate.getMonth() === today.getMonth() &&
-          journalDate.getFullYear() === today.getFullYear()
-        ) {
-          label = "Yesterday";
-        } else {
-          label = journalDate.toDateString();
-        }
-
-        if (!acc[label]) {
-          acc[label] = [];
-        }
-
-        acc[label].push(journal);
-        return acc;
-      }, {});
-  }, [journals]);
-
-  const [filteredJournals, setFilteredJournals] = useState({});
-
   useEffect(() => {
     dispatch(getAllJournals());
     dispatch(getAllPlaylists());
   }, []);
 
+  const sortedJournals = useMemo(() => {
+    return journals.sort(
+      (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+    );
+  }, [journals]);
+
+  const [filteredJournals, setFilteredJournals] = useState([]);
+
   useEffect(() => {
     if (searchInput !== "") {
-      const filteredGroup = {};
+      const filteredGroup = sortedJournals.filter((journal) =>
+        journal.name.toLowerCase().includes(searchInput.toLowerCase())
+      );
 
-      for (let date in groupedJournals) {
-        filteredGroup[date] = groupedJournals[date].filter((journal) =>
-          journal.name.toLowerCase().includes(searchInput.toLowerCase())
-        );
-        if (filteredGroup[date].length === 0) {
-          delete filteredGroup[date];
-        }
-      }
       setFilteredJournals(filteredGroup);
+    } else {
+      setFilteredJournals([]);
     }
-  }, [searchInput, groupedJournals]);
+  }, [searchInput, sortedJournals]);
 
   const journalsToDisplay =
-    searchInput === "" ? groupedJournals : filteredJournals;
-
-  const [expandedGroups, setExpandedGroups] = useState(
-    Object.keys(groupedJournals)
-  );
-
-  const toggleGroup = (groupName) => {
-    setExpandedGroups((prevGroups) =>
-      prevGroups.includes(groupName)
-        ? prevGroups.filter((group) => group !== groupName)
-        : [...prevGroups, groupName]
-    );
-  };
+    searchInput === "" ? sortedJournals : filteredJournals;
 
   const createJournalHandler = async () => {
     const journal = await dispatch(createJournal());
@@ -119,36 +67,40 @@ export default function JournalNav() {
   };
 
   return (
-    <div className="flex flex-grow justify-end w-[600px]">
-      <div className="bg-bkg-card relative p-4">
-        <div className="flex flex-row justify-between text-txt-1 text-2xl font-semibold">
-          <>Journals</>
-          <CloseIcon
-            className="fill-txt-1 w-8 h-fit hover:cursor-pointer"
-            onClick={closeHandler}
-          />
+    <div className="flex justify-end max-w-[700px] min-w-[700px] hover:cursor-default">
+      <div className="flex flex-col bg-bkg-card relative py-4 rounded-l-3xl">
+        <div className="px-4">
+          <div className="flex flex-row justify-between text-txt-1 text-2xl font-semibold">
+            <>Journals</>
+            <CloseIcon
+              className="fill-txt-1 w-8 h-fit hover:cursor-pointer"
+              onClick={closeHandler}
+            />
+          </div>
+          <div className="p-4 relative flex items-center">
+            <AiOutlineSearch className="text-xl absolute left-6" />
+            <input
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              placeholder={"Search journals..."}
+              className="bg-bkg-button pl-8 p-2 w-full rounded-full  border-2 border-transparent outline-none focus:border-text-txt-hover caret-text-txt-hover"
+            />
+          </div>
+          <div className="text-bkg-text text-sm grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 py-1 border-b-[1px] border-b-bkg-nav relative">
+            <div className="text-center">#</div>
+            <div className="">Title</div>
+            <div className="">Created At</div>
+          </div>
         </div>
-        <div className="p-4 relative flex items-center">
-          <AiOutlineSearch className="text-xl absolute left-6" />
-          <input
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            placeholder={"Search journals..."}
-            className="bg-bkg-button pl-8 p-2 w-full rounded-full  border-2 border-transparent outline-none focus:border-text-txt-hover caret-text-txt-hover"
-          />
-        </div>
-        <div className="text-bkg-text text-sm grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 py-1 border-b-[1px] border-b-bkg-nav relative">
-          <div className="text-center">#</div>
-          <div className="">Title</div>
-          <div className="">Created At</div>
-        </div>
-        <div className="playlist overflow-y-auto gap-y-2 grid journal-list">
-          {journals &&
-            journals.map((journalEntry, index) => (
+        <div className="journal-list px-4 max-w-[700px] min-w-[700px] h-full">
+          {journalsToDisplay.length ? (
+            journalsToDisplay.map((journalEntry, index) => (
               <div
-                className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 py-2 border rounded border-transparent relative"
+                className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 py-2 border rounded border-transparent relative hover:bg-bkg-nav"
                 key={journalEntry.id}
-                // data-id={song.id}
+                onClick={() => {
+                  setJournalId(journalEntry.id);
+                }}
               >
                 <div className="text-center">{index + 1}</div>
                 <div className="flex items-center w-full min-w-0">
@@ -160,12 +112,20 @@ export default function JournalNav() {
                 <div className="text-bkg-text text-sm truncate">
                   {journalEntry.createdAt}
                 </div>{" "}
-                <TrashIcon
-                  className="w-5 h-fit ml-3 m-0 text-txt-hover hover:cursor-pointer"
-                  onClick={() => setType("DELETE")}
-                />
+                <div className="flex flex-row gap-x-2 items-center">
+                  <ComposeIcon className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer" />
+                  <TrashIcon
+                    className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer"
+                    onClick={() => setType("DELETE")}
+                  />
+                </div>
               </div>
-            ))}
+            ))
+          ) : (
+            <div className="flex h-full items-center justify-center text-xl">
+              NO MATCHING JOURNALS FOUND
+            </div>
+          )}
         </div>
         {/* <div className="flex justify-center px-3 text-white absolute bottom-0">
           <button
