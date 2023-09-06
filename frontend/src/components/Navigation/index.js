@@ -13,7 +13,12 @@ import { JournalContext } from "../../context/journalContext";
 import { resetJournalsActions } from "../../store/journals";
 import { PlaylistContext } from "../../context/playlistContext";
 import { ThemeContext } from "../../context/themeContext";
-import journalIcon from "../../images/journal.svg";
+// import journalIcon from "../../images/journal.svg";
+// import playlistIcon from "../../images/playlist-folder.svg";
+// import settingsIcon from "../../images/cog.svg";
+// import logInIcon from "../../images/log-in.svg";
+// import logOutIcon from "../../images/log-out.svg";
+import { ReactComponent as JournalIcon } from "../../images/icons/outline/journal.svg";
 
 function Navigation({ isLoaded, navHovered, ...props }) {
   const dispatch = useDispatch();
@@ -57,7 +62,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
           />
         </NavLink>
         <div className="space-y-8 my-8">
-          {sessionUser && (
+          {/* {sessionUser && (
             <div
               className="flex gap-x-2 justify-center items-center hover:cursor-pointer"
               data-tooltip-id="nav-tooltip"
@@ -66,7 +71,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
               <AiOutlineUser className="text-[35px]" />
               {!isCollapsed && <p className="select-none">Profile</p>}
             </div>
-          )}
+          )} */}
           {sessionUser && (
             <div
               className="flex gap-x-2 justify-center items-center  hover:cursor-pointer"
@@ -74,7 +79,8 @@ function Navigation({ isLoaded, navHovered, ...props }) {
               data-tooltip-content="Journal"
               onClick={toggleJournalPage}
             >
-              <AiOutlineEdit className="text-[35px]" />
+              <JournalIcon className="fill" />
+              {/* <img src={journalIcon} alt="Journal Icon" /> */}
               {!isCollapsed && <p className="select-none">Journal</p>}
             </div>
           )}
@@ -84,7 +90,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
               data-tooltip-id="nav-tooltip"
               data-tooltip-content="Music"
             >
-              <PiMusicNotes className="text-[35px]" />
+              {/* <img src={playlistIcon} alt="Journal Icon" /> */}
               {!isCollapsed && <p className="select-none">Music</p>}
             </div>
           )}
@@ -126,7 +132,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             data-tooltip-id="nav-tooltip"
             data-tooltip-content="Settings"
           >
-            {isLoaded && <AiOutlineSetting className="text-[35px]" />}
+            {/* <img src={settingsIcon} alt="Settings Icon" />{" "} */}
             {!isCollapsed && <p className="select-none">Settings</p>}
           </div>
         )}
@@ -140,7 +146,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             data-tooltip-id="nav-tooltip"
             data-tooltip-content="Logout"
           >
-            <MdOutlineLogout className="text-[35px]" />
+            {/* <img src={logOutIcon} alt="Log Out Icon" /> */}
             {!isCollapsed && <p className="select-none">Logout</p>}
           </div>
         ) : (
@@ -150,7 +156,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             data-tooltip-id="nav-tooltip"
             data-tooltip-content="Login"
           >
-            <MdOutlineLogin className="text-[35px]" />
+            {/* <img src={logInIcon} alt="Log In Icon" /> */}
             {!isCollapsed && <p className="select-none">Login</p>}
           </NavLink>
         )}
