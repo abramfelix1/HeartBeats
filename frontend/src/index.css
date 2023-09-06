@@ -56,7 +56,7 @@
     --color-comp-1: 275deg 95% 92%;
     --color-comp-2: 4deg 95% 92%;
     --color-comp-3: 95deg 95% 92%;
-    --color-comp-button-1: 40deg 95%, 92%;
+    --color-comp-button-1: 40deg 95% 92%;
   }
   :root[data-theme="dark"] {
     /* --color-primary-100: 211deg 88% 67%; */
@@ -74,6 +74,7 @@
     --color-surface-mixed-400: 0deg 0% 34%;
     --color-surface-mixed-500: 0deg 0% 44%;
     --color-surface-mixed-600: 218deg 6% 61%;
+    --color-comp-button-1: 40deg 95% 92%;
   }
   @media (prefers-color-scheme: dark) {
     :root {
@@ -89,6 +90,7 @@
       --color-surface-mixed-400: 217deg 7% 43%;
       --color-surface-mixed-500: 219deg 6% 52%;
       --color-surface-mixed-600: 218deg 6% 61%;
+      --color-comp-button-1: 40deg 95%, 92%;
     }
   }
   @media (prefers-color-scheme: light) {
@@ -113,5 +115,5 @@
 }
 
 .mode-checkbox:checked + .mode-label .mode-ball {
-  transform: translateX(34px);
+  transform: translateX(23px);
 }
