@@ -24,7 +24,6 @@ export default function JournalNav() {
   const { toggleJournalPage, setJournalOpen, journalId, setJournalId } =
     useContext(JournalContext);
   const { setPlaylistId } = useContext(PlaylistContext);
-
   const journals = useSelector((state) => Object.values(state.journals));
   const [searchInput, setSearchInput] = useState("");
 
@@ -44,21 +43,6 @@ export default function JournalNav() {
   }, [journals]);
 
   const [filteredJournals, setFilteredJournals] = useState([]);
-
-  useEffect(() => {
-    if (searchInput !== "") {
-      const filteredGroup = sortedJournals.filter((journal) =>
-        journal.name.toLowerCase().includes(searchInput.toLowerCase())
-      );
-
-      setFilteredJournals(filteredGroup);
-    } else {
-      setFilteredJournals([]);
-    }
-  }, [searchInput, sortedJournals]);
-
-  const journalsToDisplay =
-    searchInput === "" ? sortedJournals : filteredJournals;
 
   const createJournalHandler = async () => {
     const journal = await dispatch(createJournal());
@@ -80,8 +64,9 @@ export default function JournalNav() {
           <div className="p-4 relative flex items-center">
             <AiOutlineSearch className="text-xl absolute left-6" />
             <input
-              value={searchInput}
-              onChange={(e) => setSearchInput(e.target.value)}
+              onChange={(e) => {
+                setSearchInput(e.target.value);
+              }}
               placeholder={"Search journals..."}
               className="bg-bkg-button pl-8 p-2 w-full rounded-full  border-2 border-transparent outline-none focus:border-text-txt-hover caret-text-txt-hover"
             />
@@ -93,34 +78,38 @@ export default function JournalNav() {
           </div>
         </div>
         <div className="journal-list px-4 max-w-[700px] min-w-[700px] h-full">
-          {journalsToDisplay.length ? (
-            journalsToDisplay.map((journalEntry, index) => (
-              <div
-                className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 py-2 border rounded border-transparent relative hover:bg-bkg-nav"
-                key={journalEntry.id}
-                onClick={() => {
-                  setJournalId(journalEntry.id);
-                }}
-              >
-                <div className="text-center">{index + 1}</div>
-                <div className="flex items-center w-full min-w-0">
-                  <JournalNavItem content={journalEntry.content} />
-                  <div className="flex items-center gap-y-[0.5px] px-2 w-full truncate">
-                    <div className="truncate ">{journalEntry.name}</div>
+          {sortedJournals ? (
+            sortedJournals
+              .filter((journal) =>
+                journal.name.toLowerCase().includes(searchInput.toLowerCase())
+              )
+              .map((journalEntry, index) => (
+                <div
+                  className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 py-2 border rounded border-transparent relative hover:bg-bkg-nav"
+                  key={journalEntry.id}
+                  onClick={() => {
+                    setJournalId(journalEntry.id);
+                  }}
+                >
+                  <div className="text-center">{index + 1}</div>
+                  <div className="flex items-center w-full min-w-0">
+                    <JournalNavItem content={journalEntry.content} />
+                    <div className="flex items-center gap-y-[0.5px] px-2 w-full truncate">
+                      <div className="truncate ">{journalEntry.name}</div>
+                    </div>
+                  </div>
+                  <div className="text-bkg-text text-sm truncate">
+                    {journalEntry.createdAt}
+                  </div>{" "}
+                  <div className="flex flex-row gap-x-2 items-center">
+                    <ComposeIcon className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer" />
+                    <TrashIcon
+                      className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer"
+                      onClick={() => setType("DELETE")}
+                    />
                   </div>
                 </div>
-                <div className="text-bkg-text text-sm truncate">
-                  {journalEntry.createdAt}
-                </div>{" "}
-                <div className="flex flex-row gap-x-2 items-center">
-                  <ComposeIcon className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer" />
-                  <TrashIcon
-                    className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer"
-                    onClick={() => setType("DELETE")}
-                  />
-                </div>
-              </div>
-            ))
+              ))
           ) : (
             <div className="flex h-full items-center justify-center text-xl">
               NO MATCHING JOURNALS FOUND
