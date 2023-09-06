@@ -11,15 +11,35 @@ import "./journal.css";
 import { PlaylistContext } from "../../context/playlistContext";
 import { getAllPlaylists } from "../../store/playlists";
 import { AiOutlineSearch } from "react-icons/ai";
+import { ReactComponent as CloseIcon } from "../../images/icons/outline/close.svg";
+import { ReactComponent as TrashIcon } from "../../images/icons/outline/trash.svg";
+import JournalNavItem from "./JournalNavItem";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
   const { setType } = useContext(ModalContext);
-  const { journalId, setJournalId } = useContext(JournalContext);
+  const { toggleJournalPage, setJournalOpen, journalId, setJournalId } =
+    useContext(JournalContext);
   const { setPlaylistId } = useContext(PlaylistContext);
 
   const journals = useSelector((state) => Object.values(state.journals));
   const [searchInput, setSearchInput] = useState("");
+
+  const closeHandler = () => {
+    setJournalOpen(false);
+  };
+
+  // Allows ESC key to close modal
+  useEffect(() => {
+    const handleEsc = (event) => {
+      if (event.keyCode === 27) closeHandler();
+    };
+    window.addEventListener("keydown", handleEsc);
+
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, []);
 
   const groupedJournals = useMemo(() => {
     return journals
@@ -99,66 +119,76 @@ export default function JournalNav() {
   };
 
   return (
-    <div className="bg-bkg-card h-full w-64 rounded-l-3xl relative pb-2 border-r-[1px] border-r-bkg-nav">
-      <div className="p-4 pb-3 relative flex items-center">
-        <AiOutlineSearch className="text-xl absolute left-6" />
-        <input
-          value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
-          placeholder={"Search journals..."}
-          className="bg-bkg-button pl-8 p-2 w-full rounded-full  border-2 border-transparent outline-none focus:border-text-txt-hover caret-text-txt-hover"
-        />
-      </div>
-      <div className="journal-list flex flex-col gap-y-3 px-3 py-3 mb-1">
-        {Object.entries(journalsToDisplay).map(([date, journals]) => (
-          <div key={date} className="flex flex-col gap-y-1">
-            <h2
-              className="flex gap-x-2 items-center hover:cursor-pointer"
-              onClick={() => toggleGroup(date)}
-            >
-              {expandedGroups.includes(date) ? (
-                <MdExpandLess />
-              ) : (
-                <MdExpandMore />
-              )}
-              <p className="">{date}</p>
-            </h2>
-            {expandedGroups.includes(date) &&
-              journals.map((journalEntry) => (
-                <div
-                  className={`flex flex-row gap-x-2 py-1 items-center text-sm ${
-                    journalId !== journalEntry.id
-                      ? "text-bkg-text"
-                      : "text-txt-hover"
-                  }`}
-                  key={journalEntry.id}
-                  onClick={() => {
-                    setJournalId(journalEntry.id);
-                    // if (journalId !== journalEntry.id) setPlaylistId(null);
-                  }}
-                >
-                  <p className="whitespace-nowrap overflow-hidden text-ellipsis sm:w-[90px] md:w-[110px] lg:w-[130px] xl:w-[140px] 2xl:w-[150px] hover:cursor-pointer">
-                    {journalEntry.name}
-                  </p>
-                  {journalId === journalEntry.id && (
-                    <PiTrash
-                      className="text-txt-hover hover:cursor-pointer"
-                      onClick={() => setType("DELETE")}
-                    />
-                  )}
-                </div>
-              ))}
-          </div>
-        ))}
-      </div>
-      <div className="flex w-full justify-center px-3 text-white absolute bottom-0">
-        <button
-          className="bg-bkg-primary text-txt-2 flex justify-center items-center gap-x-2 my-4 py-2 px-5 w-fit h-fit rounded-xl  text-text font-semibold hover:bg-bkg-primary-hover"
-          onClick={createJournalHandler}
-        >
-          <IoCreateOutline className="text-2xl" />
-          <p>NEW</p>
-        </button>
+    <div className="flex justify-end w-full">
+      <div className="bg-bkg-card relative p-4 w-96">
+        <div className="flex flex-row justify-between text-txt-1 text-2xl font-semibold">
+          <>Journals</>
+          <CloseIcon
+            className="fill-txt-1 w-8 h-fit hover:cursor-pointer"
+            onClick={closeHandler}
+          />
+        </div>
+        <div className="p-4 relative flex items-center">
+          <AiOutlineSearch className="text-xl absolute left-6" />
+          <input
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            placeholder={"Search journals..."}
+            className="bg-bkg-button pl-8 p-2 w-full rounded-full  border-2 border-transparent outline-none focus:border-text-txt-hover caret-text-txt-hover"
+          />
+        </div>
+        <div className="journal-list flex flex-col gap-y-3 px-3 py-3 mb-1">
+          {Object.entries(journalsToDisplay).map(([date, journals]) => (
+            <div key={date} className="flex flex-col gap-y-1">
+              <h2
+                className="flex gap-x-2 items-center hover:cursor-pointer"
+                onClick={() => toggleGroup(date)}
+              >
+                {expandedGroups.includes(date) ? (
+                  <MdExpandLess />
+                ) : (
+                  <MdExpandMore />
+                )}
+                <p className="font-semibold">{date}</p>
+              </h2>
+              {expandedGroups.includes(date) &&
+                journals.map((journalEntry) => (
+                  <div
+                    className={`flex flex-row gap-10 justify-between py-1 items-center  ${
+                      journalId !== journalEntry.id
+                        ? "text-bkg-text"
+                        : "text-txt-hover"
+                    }`}
+                    key={journalEntry.id}
+                    onClick={() => {
+                      setJournalId(journalEntry.id);
+                      // if (journalId !== journalEntry.id) setPlaylistId(null);
+                    }}
+                  >
+                    <JournalNavItem content={journalEntry.content} />
+                    <p className="truncate hover:cursor-pointer text-sm w-96">
+                      {journalEntry.name}
+                    </p>
+                    {journalId === journalEntry.id && (
+                      <TrashIcon
+                        className="w-5 h-fit ml-3 m-0 text-txt-hover hover:cursor-pointer"
+                        onClick={() => setType("DELETE")}
+                      />
+                    )}
+                  </div>
+                ))}
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-center px-3 text-white absolute bottom-0">
+          <button
+            className="bg-bkg-primary text-txt-2 flex justify-center items-center gap-x-2 my-4 py-2 px-5 w-fit h-fit rounded-xl  text-text font-semibold hover:bg-bkg-primary-hover"
+            onClick={createJournalHandler}
+          >
+            <IoCreateOutline className="text-2xl" />
+            <p>NEW</p>
+          </button>
+        </div>
       </div>
     </div>
   );

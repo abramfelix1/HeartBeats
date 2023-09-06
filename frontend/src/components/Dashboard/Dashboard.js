@@ -33,19 +33,14 @@ export default function Dashboard() {
   return (
     <>
       <Modal />
-      <div className="bg-bkg-body text-txt-1 w-screen h-screen flex ">
+      <div className="bg-bkg-body text-txt-1 w-screen h-screen flex flex-col relative">
         <Navigation
           isLoaded={isLoaded}
           navHovered={navHovered}
           onMouseEnter={() => setNavHovered(true)}
           onMouseLeave={() => setNavHovered(false)}
         />
-        {journalOpen && (
-          <>
-            <JournalContainer />
-            <SongsContainer />
-          </>
-        )}
+        {journalOpen && <JournalContainer />}
       </div>
     </>
   );

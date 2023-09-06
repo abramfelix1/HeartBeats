@@ -43,8 +43,8 @@ function Navigation({ isLoaded, navHovered, ...props }) {
   };
 
   return (
-    <div className=" flex w-full justify-end m-10">
-      <div className="bg-bkg-nav flex flex-col items center gap-3 h-fit w-fit p-2 rounded-lg">
+    <div className=" flex w-full justify-end">
+      <div className="bg-bkg-comp2 flex flex-row items center gap-3 h-fit w-fit p-2 rounded-lg m-4">
         {sessionUser && (
           <div
             className=" flex gap-x-2 justify-center items-center  hover:cursor-pointer"
@@ -130,7 +130,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
       </div>
       <Tooltip
         className="mx-1 z-10"
-        place="left"
+        place="bottom"
         type="dark"
         effect="solid"
         id="nav-tooltip"
