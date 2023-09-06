@@ -9,7 +9,7 @@ export default function JournalContainer() {
   return (
     <div className="flex right-0 h-full rounded-[100px] absolute">
       <JournalNav />
-      <JournalEditor />
+      {/* <JournalEditor /> */}
     </div>
   );
 }

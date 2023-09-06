@@ -64,7 +64,7 @@ export default function Playlist() {
             className="bg-bkg-card p-3 border-none rounded-3xl focus:outline-none font-semibold w-full"
           />
         </div>
-        <div className="text-bkg-text text-sm grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 h-14 pb-1 mb-3 border-b-[1px] border-b-bkg-nav relative">
+        <div className="text-bkg-text text-sm grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 py-1 border-b-[1px] border-b-bkg-nav relative">
           <div className="text-center">#</div>
           <div className="">Title</div>
           <div className="">Album</div>
@@ -75,7 +75,7 @@ export default function Playlist() {
               <div
                 className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 border rounded h-14 border-transparent relative"
                 key={song.id}
-                data-id={song.id}
+                // data-id={song.id}
               >
                 <div className="text-center">{index + 1}</div>
                 <div className="flex items-center w-full min-w-0">
