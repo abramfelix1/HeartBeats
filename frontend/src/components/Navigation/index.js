@@ -13,6 +13,7 @@ import { JournalContext } from "../../context/journalContext";
 import { resetJournalsActions } from "../../store/journals";
 import { PlaylistContext } from "../../context/playlistContext";
 import { ThemeContext } from "../../context/themeContext";
+import journalIcon from "../../images/journal.svg";
 
 function Navigation({ isLoaded, navHovered, ...props }) {
   const dispatch = useDispatch();
