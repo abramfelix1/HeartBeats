@@ -53,6 +53,10 @@
     --color-surface-mixed-400: 221deg 100% 92%;
     --color-surface-mixed-500: 233deg 100% 92%;
     --color-surface-mixed-600: 210deg 8% 15%;
+    --color-comp-1: 275deg 95% 92%;
+    --color-comp-2: 4deg 95% 92%;
+    --color-comp-3: 95deg 95% 92%;
+    --color-comp-button-1: 40deg 95%, 92%;
   }
   :root[data-theme="dark"] {
     /* --color-primary-100: 211deg 88% 67%; */

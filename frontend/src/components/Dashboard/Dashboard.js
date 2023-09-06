@@ -20,9 +20,9 @@ export default function Dashboard() {
     dispatch(sessionActions.checkLoggedIn());
   }, [dispatch]);
 
-  useEffect(() => {
-    console.log("NAV HOVERED: ", navHovered);
-  }, [navHovered]);
+  // useEffect(() => {
+  //   console.log("NAV HOVERED: ", navHovered);
+  // }, [navHovered]);
 
   useEffect(() => {
     console.log("DASHBOARD: ", journalOpen);

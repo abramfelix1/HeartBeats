@@ -19,6 +19,10 @@ module.exports = {
         "txt-1": "hsl(var(--color-text-1) / <alpha-value>)",
         "txt-2": "hsl(var(--color-text-2) / <alpha-value>)",
         "txt-hover": "hsl(var(--color-hover) / <alpha-value>)",
+        "bkg-comp1": "hsl(var(--color-comp-1) / <alpha-value>)",
+        "bkg-comp2": "hsl(var(--color-comp-2) / <alpha-value>)",
+        "bkg-comp3": "hsl(var(--color-comp-3) / <alpha-value>)",
+        "bkg-comp-button1": "hsl(var(--color-comp-button-1) / <alpha-value>)",
       },
       boxShadow: {
         nav: "0 35px 60px -15px rgba(0, 0, 0, 0.3)",
