@@ -31,7 +31,8 @@ import { PlaylistContext } from "../../context/playlistContext";
 export default function JournalEditor() {
   const dispatch = useDispatch();
   const quillRef = useRef(null);
-  const { journalId, setJournalId } = useContext(JournalContext);
+  const { journalId, setJournalId, editorOpen, setEditorOpen } =
+    useContext(JournalContext);
   const { playlistId, setPlaylistId, isSongRecsShown, setIsSongRecsShown } =
     useContext(PlaylistContext);
   const { setErrors } = useContext(ErrorContext);
@@ -41,6 +42,17 @@ export default function JournalEditor() {
   );
   const [title, setTitle] = useState("");
   const [body, setBody] = useState(journalEntry?.content || "");
+
+  useEffect(() => {
+    const handleEsc = (event) => {
+      if (event.keyCode === 27) setEditorOpen(false);
+    };
+    window.addEventListener("keydown", handleEsc);
+
+    return () => {
+      window.removeEventListener("keydown", handleEsc);
+    };
+  }, []);
 
   useEffect(() => {
     if (journalEntry) {
@@ -168,14 +180,14 @@ export default function JournalEditor() {
   };
 
   return (
-    <div className="bg-bkg-card w-full relative rounded-r-3xl">
+    <div className=" bg-bkg-card flex-col justify-center rounded-3xl relative w-96 shadow-xl m-20 z-[3]">
       {journalEntry ? (
         <>
-          <div className="flex flex-col w-full h-full pb-16 absolute ">
+          <div className="flex flex-col w-full h-full">
             <input
               onChange={(e) => setTitle(e.target.value)}
               value={title}
-              className="bg-bkg-card p-3 border-none rounded-tr-3xl focus:outline-none font-semibold"
+              className="bg-bkg-card p-3 border-none rounded-3xl focus:outline-none font-semibold"
             />
             <ReactQuill
               modules={modules}
@@ -184,42 +196,24 @@ export default function JournalEditor() {
               onChange={setBody}
               className="bg-white text-black overflow-hidden"
             />
-          </div>
-          <div className="flex flex-row h-full items-end">
-            <div className="flex flex-row w-full h-20 justify-around items-center">
-              <button
-                className="z-10  w-fit h-fit"
-                onClick={(e) => submitHandler(e)}
-              >
-                Save
-              </button>
-              <button
-                className="z-10  w-fit h-fit"
-                onClick={async (e) => {
-                  await recSongsHandler(e);
-                  setIsSongRecsShown(true);
-                  console.log("ASDFASDFASDFSDAFASDFASD");
-                }}
-              >
-                Generate Songs
-              </button>
-              {!playlistId ? (
+            <div className="">
+              <div className="flex flex-row w-full h-full p-5 bg-blue-200 justify-around items-center rounded-b-3xl">
                 <button
-                  className="z-10  w-fit h-fit"
-                  onClick={createPlaylistHandler}
+                  className="text-bkg-text hover:scale-105 hover:txt-hover w-fit h-fit p-1 font-semibold "
+                  onClick={(e) => setEditorOpen(false)}
                 >
-                  Create Playlist
+                  Cancel
                 </button>
-              ) : (
                 <button
-                  className="z-10  w-fit h-fit"
-                  onClick={deletePlaylistHandler}
+                  className="text-bkg-text hover:scale-105 hover:txt-hover w-fit h-fit p-1 font-semibold"
+                  onClick={(e) => submitHandler(e)}
                 >
-                  Delete Playlist
+                  Save
                 </button>
-              )}
+              </div>
             </div>
           </div>
+
           <Tooltip
             className="z-[999]"
             place="top"
@@ -229,7 +223,7 @@ export default function JournalEditor() {
           />
         </>
       ) : (
-        <div className="bg-bkg-card flex h-full justify-center items-center rounded-r-3xl">
+        <div className="bg-bkg-card flex h-full justify-center items-center rounded-3xl">
           <button
             className="bg-bkg-primary text-txt-2 w-fit h-fit p-5 rounded-3xl  font-semibold hover:bg-bkg-primary-hover"
             onClick={createJournalHandler}

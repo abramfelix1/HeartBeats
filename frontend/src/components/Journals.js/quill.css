@@ -41,13 +41,13 @@
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center; /* Center the content horizontally */
-  align-items: center; /* Center the content vertically */
+  justify-content: center;
+  align-items: center;
   background-color: white;
   overflow: hidden;
 }
 
-.quill-item.ql-container {
+.quill-item .ql-container {
   /* transform: scale(0.2); */
   overflow: hidden;
   width: 100%;
@@ -59,6 +59,7 @@
   pointer-events: none;
   user-select: none;
 }
+
 /* .quill-item .ql-container {
   transform: scale(0.6);
   width: 100%;

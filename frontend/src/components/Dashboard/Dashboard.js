@@ -7,10 +7,11 @@ import { getSpotifyUser } from "../../store/spotify";
 import Modal from "../../utils/Modal";
 import { JournalContext } from "../../context/journalContext";
 import SongsContainer from "../Songs/SongsContainer";
+import JournalEditor from "../Journals.js/JournalEditor";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
-  const { journalOpen } = useContext(JournalContext);
+  const { journalOpen, editorOpen, setEditorOpen } = useContext(JournalContext);
   const [isLoaded, setIsLoaded] = useState(false);
   const [navHovered, setNavHovered] = useState(false);
 
@@ -41,6 +42,11 @@ export default function Dashboard() {
           onMouseLeave={() => setNavHovered(false)}
         />
         {journalOpen && <JournalContainer />}
+        {editorOpen && (
+          <div className="flex h-full w-full justify-center">
+            <JournalEditor />
+          </div>
+        )}
       </div>
     </>
   );

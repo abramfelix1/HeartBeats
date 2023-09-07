@@ -43,7 +43,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
   };
 
   return (
-    <div className=" flex w-full justify-end">
+    <div className=" flex w-full justify-end absolute z-[1]">
       <div className="bg-bkg-comp2 flex flex-row items center gap-3 h-fit w-fit p-2 rounded-lg m-4">
         {sessionUser && (
           <div

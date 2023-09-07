@@ -22,8 +22,14 @@ import JournalNavItem from "./JournalNavItem";
 export default function JournalNav() {
   const dispatch = useDispatch();
   const { setType } = useContext(ModalContext);
-  const { toggleJournalPage, setJournalOpen, journalId, setJournalId } =
-    useContext(JournalContext);
+  const {
+    toggleJournalPage,
+    setJournalOpen,
+    journalId,
+    setJournalId,
+    editorOpen,
+    setEditorOpen,
+  } = useContext(JournalContext);
   const { setPlaylistId } = useContext(PlaylistContext);
   const journals = useSelector((state) => Object.values(state.journals));
   const [searchInput, setSearchInput] = useState("");
@@ -68,7 +74,7 @@ export default function JournalNav() {
   }
 
   return (
-    <div className="flex justify-start hover:cursor-default">
+    <div className="flex hover:cursor-default">
       <div className="flex flex-col bg-bkg-card relative py-4 rounded-l-3xl">
         <div className="px-4">
           <div className="flex flex-row justify-between text-txt-1 text-2xl font-semibold">
@@ -128,12 +134,16 @@ export default function JournalNav() {
                   </div>{" "}
                   <div className="flex flex-row gap-x-2 items-center">
                     <ComposeIcon
-                      className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer"
+                      className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
                       data-tooltip-id="journal-tooltip"
                       data-tooltip-content="Edit Journal"
+                      onClick={(e) => {
+                        setJournalId(journalEntry.id);
+                        setEditorOpen(true);
+                      }}
                     />
                     <TrashIcon
-                      className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer"
+                      className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
                       onClick={() => setType("DELETE")}
                       data-tooltip-id="journal-tooltip"
                       data-tooltip-content="Delete Journal"
