@@ -18,19 +18,16 @@ import { ReactComponent as ComposeIcon } from "../../images/icons/outline/compos
 import { ReactComponent as PlaylistIcon } from "../../images/icons/outline/playlist.svg";
 import { ReactComponent as PlaylistAddIcon } from "../../images/icons/outline/add-playlist.svg";
 import JournalNavItem from "./JournalNavItem";
+import { getRecSongs } from "../../store/spotify";
+import { getEnergy, getValence } from "../../utils/journal-analyzer";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
   const { setType } = useContext(ModalContext);
-  const {
-    toggleJournalPage,
-    setJournalOpen,
-    journalId,
-    setJournalId,
-    editorOpen,
-    setEditorOpen,
-  } = useContext(JournalContext);
-  const { setPlaylistId } = useContext(PlaylistContext);
+  const { setJournalOpen, setJournalId, setEditorOpen } =
+    useContext(JournalContext);
+  const { setPlaylistId, isSongRecsShown, setIsSongRecsShown } =
+    useContext(PlaylistContext);
   const journals = useSelector((state) => Object.values(state.journals));
   const [searchInput, setSearchInput] = useState("");
 
@@ -55,6 +52,17 @@ export default function JournalNav() {
     const journal = await dispatch(createJournal());
     setJournalId(journal.journal.id);
     setPlaylistId(null);
+  };
+
+  const recSongsHandler = (valence, energy) => {
+    console.log("REC SONGS HANDLER");
+    dispatch(
+      getRecSongs({
+        valence: valence,
+        energy: energy,
+        genre: "pop",
+      })
+    );
   };
 
   function convertTime(journalDate) {
@@ -120,6 +128,8 @@ export default function JournalNav() {
                   key={journalEntry.id}
                   onClick={() => {
                     setJournalId(journalEntry.id);
+                    setIsSongRecsShown(true);
+                    recSongsHandler(journalEntry.mood, journalEntry.energy);
                   }}
                 >
                   <div className="text-center">{index + 1}</div>

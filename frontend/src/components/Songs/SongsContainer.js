@@ -4,8 +4,7 @@ import SongRecs from "./SongRecs";
 
 export default function SongsContainer() {
   return (
-    <div className="songs-container flex flex-col w-[50%] mr-2 mt-2">
-      <Playlist />
+    <div className="songs-container h-full flex items-center overflow-scroll">
       <SongRecs />
     </div>
   );

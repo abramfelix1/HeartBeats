@@ -111,21 +111,12 @@ export default function SongRecs() {
 
   return (
     songs && (
-      <div className="bg-bkg-card flex flex-col flex-grow w-full max-h-[50%] mb-2 rounded-3xl relative  cursor-default">
-        {/* <div className="p-4">
-        <img src={spotifyLogo} alt="spotify logo" className="w-40" />
-      </div> */}
-        <div className="flex flex-row pt-3 px-3 justify-between items-center">
-          <button className="text-bkg-text hover:scale-x-105 hover:text-txt-hover w-fit h-fit p-1 font-semibold ">
-            Generate Songs
-          </button>
-          <BsQuestionCircle className="text-bkg-text font-semibold text-2xl hover:scale-x-105 hover:text-txt-hover hover:cursor-pointer" />
-        </div>
+      <div className="flex rounded-3xl relative  cursor-default">
         <div
           ref={scrollContainerRef}
-          className="songs-list mx-4 h-full overflow-x-auto"
+          className="songs-list mx-4 overflow-x-auto"
         >
-          <div className="flex flex-row gap-x-8 w-max h-1">
+          <div className="flex flex-row gap-x-8 w-max">
             {songs &&
               songs.map((song, idx) => (
                 <div className="flex flex-col pt-4 max-w-[208px]">

@@ -18,6 +18,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { ReactComponent as CloseIcon } from "../../images/icons/outline/close.svg";
 import { ReactComponent as TrashIcon } from "../../images/icons/outline/trash.svg";
 import { ReactComponent as PlayIcon } from "../../images/icons/outline/play.svg";
+import PlaylistNavItem from "./PlaylistNavItem";
 
 export default function PlaylistNav() {
   const dispatch = useDispatch();
@@ -42,7 +43,7 @@ export default function PlaylistNav() {
     console.log("PLAYLIST HOVER ID: ", hoverId);
   }, [hoverId]);
 
-  const sortedJournals = useMemo(() => {
+  const sortedPlaylists = useMemo(() => {
     return playlists.sort(
       (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
     );
@@ -116,10 +117,10 @@ export default function PlaylistNav() {
           </div>
         </div>
         <div className="journal-list px-4 max-w-[700px] min-w-[700px] h-full ">
-          {sortedJournals ? (
-            sortedJournals
-              .filter((journal) =>
-                journal.name.toLowerCase().includes(searchInput.toLowerCase())
+          {sortedPlaylists ? (
+            sortedPlaylists
+              .filter((playlist) =>
+                playlist.name.toLowerCase().includes(searchInput.toLowerCase())
               )
               .map((playlist, index) => (
                 <div
@@ -142,7 +143,7 @@ export default function PlaylistNav() {
                     <div className="text-center">{index + 1}</div>
                   )}
                   <div className="flex items-center w-full min-w-0">
-                    {/* <JournalNavItem content={playlist.content} /> */}
+                    <PlaylistNavItem songs={playlist.songs} />
                     <div className="flex items-center gap-y-[0.5px] px-2 w-full truncate">
                       <div className="truncate ">{playlist.name}</div>
                     </div>
