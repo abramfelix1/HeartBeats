@@ -27,7 +27,8 @@ module.exports = (sequelize, DataTypes) => {
           let minutes = ("0" + date.getUTCMinutes()).slice(-2);
           let seconds = ("0" + date.getUTCSeconds()).slice(-2);
 
-          return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+          // return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+          return "Untitled";
         },
       },
       content: {
@@ -40,9 +41,8 @@ module.exports = (sequelize, DataTypes) => {
           isUrl: true,
         },
       },
-      instrumental: DataTypes.INTEGER,
-      mood: DataTypes.INTEGER,
-      energy: DataTypes.INTEGER,
+      mood: DataTypes.DECIMAL(10, 6),
+      energy: DataTypes.DECIMAL(10, 6),
     },
     {
       sequelize,

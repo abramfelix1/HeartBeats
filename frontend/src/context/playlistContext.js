@@ -4,6 +4,7 @@ export const PlaylistContext = createContext();
 
 export const PlaylistProvider = ({ children }) => {
   const [playlistId, setPlaylistId] = useState(null);
+  const [playlistOpen, setPlaylistOpen] = useState(false);
   const [isSongRecsShown, setIsSongRecsShown] = useState(false);
 
   useEffect(() => {
@@ -21,6 +22,8 @@ export const PlaylistProvider = ({ children }) => {
         setPlaylistId,
         isSongRecsShown,
         setIsSongRecsShown,
+        playlistOpen,
+        setPlaylistOpen,
       }}
     >
       {children}

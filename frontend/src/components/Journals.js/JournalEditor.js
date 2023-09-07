@@ -95,14 +95,21 @@ export default function JournalEditor() {
       setType("ERROR");
       return;
     }
-    dispatch(updateJournal(journalId, { name: title, content: body })).catch(
-      async (res) => {
-        const data = await res.json();
-        console.log(data.errors);
-        setErrors(data.errors);
-        setType("ERROR");
-      }
-    );
+    const energy = getEnergy(content);
+    const valence = getValence(content);
+    dispatch(
+      updateJournal(journalId, {
+        name: title,
+        content: body,
+        energy: Number(energy),
+        mood: Number(valence),
+      })
+    ).catch(async (res) => {
+      const data = await res.json();
+      console.log(data.errors);
+      setErrors(data.errors);
+      setType("ERROR");
+    });
   };
 
   useEffect(() => {
@@ -202,7 +209,7 @@ export default function JournalEditor() {
                   className="text-bkg-text hover:scale-105 hover:txt-hover w-fit h-fit p-1 font-semibold "
                   onClick={(e) => setEditorOpen(false)}
                 >
-                  Cancel
+                  Close
                 </button>
                 <button
                   className="text-bkg-text hover:scale-105 hover:txt-hover w-fit h-fit p-1 font-semibold"

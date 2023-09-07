@@ -40,10 +40,10 @@ module.exports = {
           type: Sequelize.STRING,
         },
         mood: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.DECIMAL(10, 6),
         },
         energy: {
-          type: Sequelize.INTEGER,
+          type: Sequelize.DECIMAL(10, 6),
         },
         createdAt: {
           allowNull: false,
