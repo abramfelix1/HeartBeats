@@ -45,11 +45,11 @@ export default function SongRecs() {
                   <img
                     src={song.album.images[1].url}
                     alt="album cover"
-                    className="h-52"
+                    className="h-52 select-none"
                   />
                   <a
                     href={song.external_urls.spotify}
-                    className="flex flex-row gap-x-2 border-[1px] border-bkg-nav p-1 rounded-3xl mt-2 justify-center hover:border-txt-hover font-semibold w-full"
+                    className="flex flex-row gap-x-2 border-[1px] border-bkg-nav p-1 rounded-3xl mt-2 justify-center hover:border-txt-hover font-semibold w-full select-none"
                   >
                     <img src={spotifyIcon} alt="spotify icon" className="w-7" />{" "}
                     <p>Open Spotify</p>

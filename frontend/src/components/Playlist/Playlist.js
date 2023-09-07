@@ -17,6 +17,7 @@ import { ModalContext } from "../../context/ModalContext";
 import { ReactComponent as CloseIcon } from "../../images/icons/outline/close.svg";
 import { ReactComponent as PlayIcon } from "../../images/icons/outline/play.svg";
 import { ReactComponent as StopIcon } from "../../images/icons/outline/stop.svg";
+import { ReactComponent as ArrowIcon } from "../../images/icons/outline/arrow.svg";
 import { HowlerContext } from "../../context/howlerContext";
 
 export default function Playlist() {
@@ -77,8 +78,8 @@ export default function Playlist() {
               value={title}
               className="bg-bkg-card border-none focus:outline-none  w-[80%]"
             />
-            <CloseIcon
-              className="fill-txt-1 w-8 h-fit hover:cursor-pointer hover:scale-110"
+            <ArrowIcon
+              className="fill-txt-1 w-10 h-fit hover:cursor-pointer hover:scale-110"
               onClick={closeHandler}
             />
           </div>
