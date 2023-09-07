@@ -70,13 +70,18 @@ export const getAllJournals = () => async (dispatch) => {
 };
 
 /* CREATE JOURNAL */
-export const createJournal = () => async (dispatch) => {
+export const createJournal = (payload) => async (dispatch) => {
+  console.log("CREATE JOURNAL THUNK PAYLOAD: ", payload);
   const res = await csrfFetch("/api/journals", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
+    body: JSON.stringify({
+      ...payload,
+    }),
   });
+
   if (res.ok) {
     const journal = await res.json();
     dispatch(createJournalAction(journal));

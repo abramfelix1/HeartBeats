@@ -40,17 +40,18 @@ export default function JournalEditor() {
   } = useContext(JournalContext);
   const { playlistId, setPlaylistId, isSongRecsShown, setIsSongRecsShown } =
     useContext(PlaylistContext);
-  const { setErrors } = useContext(ErrorContext);
-  const { setType } = useContext(ModalContext);
+  const { errors, setErrors } = useContext(ErrorContext);
+  const { type, setType } = useContext(ModalContext);
   const journalEntry = useSelector((state) =>
     journalId ? state.journals[journalId] : null
   );
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("Untitled");
   const [body, setBody] = useState(journalEntry?.content || "");
   const editorRef = useRef(null);
 
   useEffect(() => {
     const handleEsc = (event) => {
+      if (errors || type === "ERROR") return;
       if (event.keyCode === 27) setEditorOpen(false);
     };
     window.addEventListener("keydown", handleEsc);
@@ -58,10 +59,11 @@ export default function JournalEditor() {
     return () => {
       window.removeEventListener("keydown", handleEsc);
     };
-  }, []);
+  }, [type, errors]);
 
   useEffect(() => {
     function handleOutsideClick(event) {
+      if (type === "ERROR") return;
       if (editorRef.current && !editorRef.current.contains(event.target)) {
         setEditorOpen(false);
       }
@@ -70,12 +72,12 @@ export default function JournalEditor() {
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-  }, [setEditorOpen]);
+  }, [type, errors]);
 
   useEffect(() => {
     if (journalEntry) {
-      setBody(journalEntry?.content || "asdf");
-      setTitle(journalEntry?.name || "asdf");
+      setBody(journalEntry?.content || "");
+      setTitle(journalEntry?.name || "");
       if (journalEntry?.playlist) {
         setPlaylistId(journalEntry.playlist.id);
       } else {
@@ -115,7 +117,7 @@ export default function JournalEditor() {
     setJournalContent(content);
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
     const quill = quillRef.current.getEditor();
     const content = quill.getText();
@@ -132,21 +134,50 @@ export default function JournalEditor() {
     }
     const energy = getEnergy(content);
     const valence = getValence(content);
-    dispatch(
-      updateJournal(journalId, {
-        name: title,
-        content: body,
-        energy: Number(energy),
-        mood: Number(valence),
-      })
-    ).catch(async (res) => {
-      const data = await res.json();
-      console.log(data.errors);
-      setErrors(data.errors);
-      setType("ERROR");
-    });
-    recSongsHandler();
-    setEditorOpen(false);
+    let journal;
+    let hasError;
+    if (journalId) {
+      await dispatch(
+        updateJournal(journalId, {
+          name: title,
+          content: body,
+          energy: Number(energy),
+          mood: Number(valence),
+        })
+      ).catch(async (res) => {
+        const data = await res.json();
+        console.log(data.errors);
+        setErrors(data.errors);
+        setType("ERROR");
+        hasError = true;
+        return;
+      });
+      if (!hasError) {
+        recSongsHandler();
+        setEditorOpen(false);
+      }
+    } else {
+      journal = await dispatch(
+        createJournal({
+          name: title,
+          content: body,
+          energy: Number(energy),
+          mood: Number(valence),
+        })
+      ).catch(async (res) => {
+        const data = await res.json();
+        console.log(data.errors);
+        setErrors(data.errors);
+        setType("ERROR");
+        hasError = true;
+        return;
+      });
+      if (!hasError) {
+        recSongsHandler();
+        setEditorOpen(false);
+        setJournalId(journal.journal.id);
+      }
+    }
   };
 
   useEffect(() => {
@@ -179,29 +210,11 @@ export default function JournalEditor() {
     }
   }, [journalEntry]);
 
-  const createJournalHandler = async () => {
+  const openEditorHandler = async () => {
     console.log("CLICK CREATE JOURNAL");
     const journal = await dispatch(createJournal());
     console.log("NEW JOURNAL: ", journal);
     setJournalId(journal.journal.id);
-    setPlaylistId(null);
-  };
-
-  const getPlaylistHandler = () => {
-    console.log("CLICK GET PLAYLIST");
-    dispatch(getPlaylist(journalEntry.playlist.id));
-  };
-
-  const createPlaylistHandler = async () => {
-    console.log("CLICK CREATE PLAYLIST");
-    const playlist = await dispatch(createPlaylist(journalEntry.id));
-    dispatch(addPlaylistAction(journalEntry.id, playlist));
-    setPlaylistId(playlist.playlist.id);
-  };
-
-  const deletePlaylistHandler = () => {
-    dispatch(deletePlaylist(playlistId));
-    dispatch(resetRecSongsAction());
     setPlaylistId(null);
   };
 
@@ -210,57 +223,56 @@ export default function JournalEditor() {
       ref={editorRef}
       className="bg-bkg-card flex-col justify-center rounded-3xl relative w-96 shadow-xl m-20 z-[3]"
     >
-      {journalEntry ? (
-        <>
-          <div className="flex flex-col w-full h-full">
-            <input
-              onChange={(e) => setTitle(e.target.value)}
-              value={title}
-              className="bg-bkg-card p-3 border-none rounded-3xl focus:outline-none font-semibold"
-            />
-            <ReactQuill
-              modules={modules}
-              ref={quillRef}
-              value={body}
-              onChange={setBody}
-              className="bg-white text-black overflow-hidden"
-            />
-            <div className="">
-              <div className="flex flex-row w-full h-full p-5 bg-blue-200 justify-around items-center rounded-b-3xl">
-                <button
-                  className="text-bkg-text hover:scale-105 hover:txt-hover w-fit h-fit p-1 font-semibold "
-                  onClick={(e) => setEditorOpen(false)}
-                >
-                  Close
-                </button>
-                <button
-                  className="text-bkg-text hover:scale-105 hover:txt-hover w-fit h-fit p-1 font-semibold"
-                  onClick={(e) => submitHandler(e)}
-                >
-                  Save
-                </button>
-              </div>
+      <>
+        <div className="flex flex-col w-full h-full">
+          <input
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
+            className="bg-bkg-card p-3 border-none rounded-3xl focus:outline-none font-semibold"
+          />
+          <ReactQuill
+            modules={modules}
+            ref={quillRef}
+            value={body}
+            onChange={setBody}
+            className="bg-white text-black overflow-hidden"
+          />
+          <div className="">
+            <div className="flex flex-row w-full h-full p-5 bg-bkg-card justify-around items-center rounded-b-3xl">
+              <button
+                className="text-bkg-text hover:scale-105 hover:txt-hover w-fit h-fit p-1 font-semibold "
+                onClick={(e) => setEditorOpen(false)}
+              >
+                Close
+              </button>
+              <button
+                className="text-bkg-text hover:scale-105 hover:txt-hover w-fit h-fit p-1 font-semibold"
+                onClick={(e) => submitHandler(e)}
+              >
+                Save
+              </button>
             </div>
           </div>
+        </div>
 
-          <Tooltip
-            className="z-[999]"
-            place="top"
-            type="dark"
-            effect="solid"
-            id="toolbar-tooltip"
-          />
-        </>
-      ) : (
+        <Tooltip
+          className="z-[999]"
+          place="top"
+          type="dark"
+          effect="solid"
+          id="toolbar-tooltip"
+        />
+      </>
+      {/* ) : (
         <div className="bg-bkg-card flex h-full justify-center items-center rounded-3xl">
           <button
             className="bg-bkg-primary-hover text-txt-2 w-fit h-fit p-5 rounded-3xl  font-semibold hover:scale-105"
-            onClick={createJournalHandler}
+            onClick={openEditorHandler}
           >
             NEW JOURNAL
           </button>
         </div>
-      )}
+      )} */}
     </div>
   );
 }

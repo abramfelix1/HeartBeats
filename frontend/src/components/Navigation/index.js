@@ -20,6 +20,7 @@ import { ReactComponent as LogInIcon } from "../../images/icons/outline/login.sv
 import { ReactComponent as LogOutIcon } from "../../images/icons/outline/logout.svg";
 import { ReactComponent as SunIcon } from "../../images/icons/outline/sun.svg";
 import { ReactComponent as MoonIcon } from "../../images/icons/outline/moon.svg";
+import { resetRecSongsAction } from "../../store/spotify";
 
 function Navigation({ isLoaded, navHovered, ...props }) {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
   const logoutClickHandler = () => {
     dispatch(logout());
     dispatch(resetJournalsActions());
+    dispatch(resetRecSongsAction());
     setJournalOpen(false);
     setJournalId(null);
     setPlaylistId(null);

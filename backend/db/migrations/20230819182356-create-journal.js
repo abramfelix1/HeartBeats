@@ -34,7 +34,7 @@ module.exports = {
         content: {
           type: Sequelize.TEXT,
           allowNull: false,
-          defaultValue: "I am feeling...",
+          // defaultValue: "I am feeling...",
         },
         image_url: {
           type: Sequelize.STRING,

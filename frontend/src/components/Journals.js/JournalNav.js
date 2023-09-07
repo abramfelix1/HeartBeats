@@ -46,10 +46,11 @@ export default function JournalNav() {
   }, [journals]);
 
   const createJournalHandler = async () => {
-    const journal = await dispatch(createJournal());
-    setJournalId(journal.journal.id);
+    // const journal = await dispatch(createJournal());
+    // setJournalId(journal.journal.id);
+    // dispatch(resetRecSongsAction());
     setEditorOpen(true);
-    dispatch(resetRecSongsAction());
+    setJournalId(null);
     setJournalContent(null);
   };
 
@@ -154,6 +155,7 @@ export default function JournalNav() {
                         data-tooltip-id="journal-tooltip"
                         data-tooltip-content="Edit Journal"
                         onClick={(e) => {
+                          e.stopPropagation();
                           setJournalId(journalEntry.id);
                           setEditorOpen(true);
                         }}

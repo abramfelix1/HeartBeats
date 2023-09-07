@@ -33,7 +33,8 @@ module.exports = (sequelize, DataTypes) => {
       },
       content: {
         type: DataTypes.TEXT,
-        defaultValue: "I am feeling...",
+        // allowNull: false,
+        // defaultValue: "I am feeling...",
       },
       image_url: {
         type: DataTypes.STRING,

@@ -42,9 +42,9 @@ router.get("/:id", requireAuth, async (req, res, next) => {
 });
 
 /* CREATE A JOURNAL */
-router.post("/", requireAuth, async (req, res, next) => {
+router.post("/", requireAuth, validateJournal, async (req, res, next) => {
   const { user } = req;
-
+  console.log("JOURNAL CREATE REQ BODY: ", req.body);
   const newJournal = await Journal.create({
     userId: user.dataValues.id,
     name: req.body.name,
