@@ -18,9 +18,9 @@ import PlaylistNav from "../Playlist/PlaylistNav";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
-  const { journalId, setJournalId, journalOpen, editorOpen, setEditorOpen } =
+  const { journalId, journalOpen, editorOpen, journalContent } =
     useContext(JournalContext);
-  const { playlistOpen, showPlaylist, isSongRecsShown, setIsSongRecsShown } =
+  const { playlistOpen, showPlaylist, isSongRecsShown } =
     useContext(PlaylistContext);
   const [isLoaded, setIsLoaded] = useState(false);
   const [navHovered, setNavHovered] = useState(false);
@@ -54,9 +54,14 @@ export default function Dashboard() {
           onMouseEnter={() => setNavHovered(true)}
           onMouseLeave={() => setNavHovered(false)}
         />
-        {journalEntry && (
-          <div className="">
-            <p className="absolute">{convertTime(journalEntry.updatedAt)}</p>
+        {journalEntry && journalContent && (
+          <div className="flex flex-col left-0 top-0 absolute m-4 gap-y-2 w-[30%] h-[25%]">
+            <p className="flex text-3xl font-semibold whitespace-nowrap">
+              {convertTime(journalEntry.updatedAt)} - {journalEntry.name}
+            </p>
+            <p className="text-2xl font-semibold truncate">
+              "{journalContent}"
+            </p>
           </div>
         )}
         {isSongRecsShown && (

@@ -6,7 +6,7 @@ export const PlaylistProvider = ({ children }) => {
   const [playlistId, setPlaylistId] = useState(null);
   const [playlistOpen, setPlaylistOpen] = useState(false);
   const [showPlaylist, setShowPlaylist] = useState(false);
-  const [isSongRecsShown, setIsSongRecsShown] = useState(false);
+  const [isSongRecsShown, setIsSongRecsShown] = useState(true);
 
   useEffect(() => {
     console.log("PLAYLIST CONTEXT: ", playlistId);

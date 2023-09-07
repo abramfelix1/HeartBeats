@@ -6,6 +6,7 @@ export const JournalProvider = ({ children }) => {
   const [journalId, setJournalId] = useState(null);
   const [journalOpen, setJournalOpen] = useState(false);
   const [editorOpen, setEditorOpen] = useState(false);
+  const [journalContent, setJournalContent] = useState(null);
 
   useEffect(() => {
     console.log("JOURNAL CONTEXT: ", journalId);
@@ -26,6 +27,8 @@ export const JournalProvider = ({ children }) => {
         journalOpen,
         editorOpen,
         setEditorOpen,
+        journalContent,
+        setJournalContent,
       }}
     >
       {children}
