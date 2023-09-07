@@ -8,10 +8,13 @@ import Modal from "../../utils/Modal";
 import { JournalContext } from "../../context/journalContext";
 import SongsContainer from "../Songs/SongsContainer";
 import JournalEditor from "../Journals.js/JournalEditor";
+import { PlaylistContext } from "../../context/playlistContext";
+import PlaylistContainer from "../Playlist/PlaylistContainer";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
   const { journalOpen, editorOpen, setEditorOpen } = useContext(JournalContext);
+  const { playlistOpen } = useContext(PlaylistContext);
   const [isLoaded, setIsLoaded] = useState(false);
   const [navHovered, setNavHovered] = useState(false);
 
@@ -41,6 +44,7 @@ export default function Dashboard() {
           onMouseEnter={() => setNavHovered(true)}
           onMouseLeave={() => setNavHovered(false)}
         />
+        {playlistOpen && <PlaylistContainer />}
         {journalOpen && <JournalContainer />}
         {editorOpen && (
           <div className="flex h-full w-full justify-center">

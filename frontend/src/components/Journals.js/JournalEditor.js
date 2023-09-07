@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useContext,
 } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import "./quill.css";
@@ -13,7 +14,6 @@ import JournalNav from "./JournalNav";
 import { JournalContext } from "../../context/journalContext";
 import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
-import { useDispatch, useSelector } from "react-redux";
 import {
   addPlaylistAction,
   createJournal,

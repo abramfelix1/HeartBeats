@@ -17,11 +17,11 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER,
         },
-        journalId: {
+        userId: {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
-            model: "Journals",
+            model: "Users",
           },
           onDelete: "CASCADE",
         },

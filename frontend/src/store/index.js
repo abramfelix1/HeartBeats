@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
   session: sessionReducer,
   spotify: spotifyReducer,
   journals: journalsReducer,
-  playlist: playlistsReducer,
+  playlists: playlistsReducer,
 });
 
 let enhancer;

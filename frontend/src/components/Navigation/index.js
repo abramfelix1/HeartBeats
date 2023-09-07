@@ -25,7 +25,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
   const dispatch = useDispatch();
   const { toggleJournalPage, setJournalOpen, setJournalId } =
     useContext(JournalContext);
-  const { setPlaylistId } = useContext(PlaylistContext);
+  const { setPlaylistId, togglePlaylist } = useContext(PlaylistContext);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const sessionUser = useSelector((state) => state.session.user);
   const { theme, toggleDark } = useContext(ThemeContext);
@@ -60,6 +60,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             className="flex gap-x-2 justify-center items-center  hover:cursor-pointer"
             data-tooltip-id="nav-tooltip"
             data-tooltip-content="Playlists"
+            onClick={togglePlaylist}
           >
             <PlaylistIcon className="w-12 fill-txt-1" />
           </div>

@@ -15,6 +15,11 @@ export const PlaylistProvider = ({ children }) => {
     console.log("SONGREC CONTEXT: ", isSongRecsShown);
   }, [isSongRecsShown]);
 
+  const togglePlaylist = () => {
+    console.log("PLAYLIST OPEN: ", playlistOpen);
+    setPlaylistOpen(!playlistOpen);
+  };
+
   return (
     <PlaylistContext.Provider
       value={{
@@ -24,6 +29,7 @@ export const PlaylistProvider = ({ children }) => {
         setIsSongRecsShown,
         playlistOpen,
         setPlaylistOpen,
+        togglePlaylist,
       }}
     >
       {children}
