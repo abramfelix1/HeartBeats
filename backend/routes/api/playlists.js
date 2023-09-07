@@ -15,12 +15,12 @@ router.get("/session", requireAuth, async (req, res, next) => {
 
   const playlists = await Playlist.findAll({
     include: [
-      {
-        model: Journal,
-        as: "journal",
-        attributes: [],
-        where: { userId: user.dataValues.id },
-      },
+      // {
+      //   model: Journal,
+      //   as: "journal",
+      //   attributes: [],
+      //   where: { userId: user.dataValues.id },
+      // },
       {
         model: Song,
         as: "songs",
@@ -67,22 +67,22 @@ router.post("/", requireAuth, async (req, res, next) => {
   const { user } = req;
   const { journalId } = req.body;
 
-  const existingPlaylist = await Playlist.findOne({ where: { journalId } });
-  if (existingPlaylist) {
-    return next({
-      errors: { playlist: "Playlist already exists.", status: 404 },
-    });
-  }
+  // const existingPlaylist = await Playlist.findOne({ where: { journalId } });
+  // if (existingPlaylist) {
+  //   return next({
+  //     errors: { playlist: "Playlist already exists.", status: 404 },
+  //   });
+  // }
 
   const newPlaylist = await Playlist.create({
     userId: user.dataValues.id,
-    journalId: req.body.journalId,
+    // journalId: req.body.journalId,
     name: req.body.name,
     spotify_url: req.body.spotify_url || null,
     image_url: req.body.image_url || null,
-    instrumental: req.body.instrumental || null,
-    mood: req.body.mood || null,
-    energy: req.body.energy || null,
+    // instrumental: req.body.instrumental || null,
+    // mood: req.body.mood || null,
+    // energy: req.body.energy || null,
   });
 
   res.json({ playlist: newPlaylist });
@@ -90,71 +90,50 @@ router.post("/", requireAuth, async (req, res, next) => {
 
 /* UPDATE PLAYLIST BY ID */
 router.put("/:id", requireAuth, validatePlaylist, async (req, res, next) => {
-  const { user } = req;
+  const userId = req.user.dataValues.id;
   const playlistId = req.params.id;
 
-  const journal = await Journal.findOne({
-    where: { userId: user.dataValues.id },
-    include: {
-      model: Playlist,
-      as: "playlist",
-      where: { id: playlistId },
+  const existingPlaylist = await Playlist.findOne({
+    where: {
+      userId: userId,
+      id: playlistId,
     },
   });
 
-  if (!journal) {
-    const existingPlaylist = await Playlist.findByPk(playlistId);
-    if (!existingPlaylist) {
-      return next({
-        errors: { playlist: "Playlist could not be found", status: 404 },
-      });
-    }
+  if (!existingPlaylist) {
     return next({
-      errors: { journal: "Unauthorized Access", status: 401 },
+      errors: { playlist: "Playlist could not be found", status: 404 },
     });
   }
 
-  const playlist = journal.playlist;
-  const updatedPlaylist = await playlist.update(req.body);
-
+  const updatedPlaylist = await existingPlaylist.update(req.body);
   res.json({ playlist: updatedPlaylist });
 });
 
 /* DELETE PLAYLIST BY ID */
 router.delete("/:id", requireAuth, async (req, res, next) => {
-  const { user } = req;
+  const userId = req.user.dataValues.id;
   const playlistId = req.params.id;
 
-  const journal = await Journal.findOne({
-    where: { userId: user.dataValues.id },
-    include: {
-      model: Playlist,
-      as: "playlist",
-      where: { id: playlistId },
+  const existingPlaylist = await Playlist.findOne({
+    where: {
+      userId: userId,
+      id: playlistId,
     },
   });
 
-  if (!journal) {
-    const existingPlaylist = await Playlist.findByPk(playlistId);
-    if (!existingPlaylist) {
-      return next({
-        errors: { playlist: "Playlist could not be found", status: 404 },
-      });
-    }
+  if (!existingPlaylist) {
     return next({
-      errors: { playlist: "Unauthorized Access", status: 401 },
+      errors: { playlist: "Playlist could not be found", status: 404 },
     });
   }
 
-  const playlist = journal.playlist;
-  await playlist.destroy();
-
+  await existingPlaylist.destroy();
   res.json({ message: "Playlist deleted successfully" });
 });
 
 /* ADD SONG TO PLAYLIST */
 router.post("/:playlistId/add/:songId", async (req, res, next) => {
-  const { user } = req;
   const { playlistId, songId } = req.params;
 
   const song = await Song.findByPk(songId);
@@ -164,24 +143,10 @@ router.post("/:playlistId/add/:songId", async (req, res, next) => {
     });
   }
 
-  const journal = await Journal.findOne({
-    where: { userId: user.dataValues.id },
-    include: {
-      model: Playlist,
-      as: "playlist",
-      where: { id: playlistId },
-    },
-  });
-
-  if (!journal) {
-    const existingPlaylist = await Playlist.findByPk(playlistId);
-    if (!existingPlaylist) {
-      return next({
-        errors: { playlist: "Playlist could not be found", status: 404 },
-      });
-    }
+  const existingPlaylist = await Playlist.findByPk(playlistId);
+  if (!existingPlaylist) {
     return next({
-      errors: { playlist: "Unauthorized Access", status: 401 },
+      errors: { playlist: "Playlist could not be found", status: 404 },
     });
   }
 
@@ -204,7 +169,6 @@ router.post("/:playlistId/add/:songId", async (req, res, next) => {
 
 /* DELETE SONG FROM PLAYLIST */
 router.delete("/:playlistId/remove/:songId", async (req, res, next) => {
-  const { user } = req;
   const { playlistId, songId } = req.params;
 
   const song = await Song.findByPk(songId);
@@ -214,24 +178,10 @@ router.delete("/:playlistId/remove/:songId", async (req, res, next) => {
     });
   }
 
-  const journal = await Journal.findOne({
-    where: { userId: user.dataValues.id },
-    include: {
-      model: Playlist,
-      as: "playlist",
-      where: { id: playlistId },
-    },
-  });
-
-  if (!journal) {
-    const existingPlaylist = await Playlist.findByPk(playlistId);
-    if (!existingPlaylist) {
-      return next({
-        errors: { playlist: "Playlist could not be found", status: 404 },
-      });
-    }
+  const existingPlaylist = await Playlist.findByPk(playlistId);
+  if (!existingPlaylist) {
     return next({
-      errors: { playlist: "Unauthorized Access", status: 401 },
+      errors: { playlist: "Playlist could not be found", status: 404 },
     });
   }
 

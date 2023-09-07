@@ -77,7 +77,6 @@ function Navigation({ isLoaded, navHovered, ...props }) {
                   type="checkbox"
                   id="check"
                   className="mode-checkbox opacity-0 absolute "
-                  classNameArrow="noArrow"
                   onChange={toggleDark}
                   checked={theme === "dark"}
                 />

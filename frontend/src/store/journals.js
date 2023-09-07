@@ -62,7 +62,11 @@ export const getAllJournals = () => async (dispatch) => {
   if (res.ok) {
     const journals = await res.json();
     dispatch(getAllJournalsAction(journals));
+    console.log("ASDFASDFASDFASDFASDF");
     return journals;
+  } else {
+    const error = await res.json();
+    error.log(error);
   }
 };
 

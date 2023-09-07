@@ -9,10 +9,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "playlistId",
         onDelete: "CASCADE",
       });
+      Playlist.belongsTo(models.Journal, {
+        as: "user",
+        foreignKey: "userId",
+      });
     }
   }
   Playlist.init(
     {
+      userId: DataTypes.INTEGER,
       name: { type: DataTypes.STRING, defaultValue: "My Playlist" },
       spotify_url: DataTypes.STRING,
       image_url: DataTypes.STRING,

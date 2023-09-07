@@ -40,7 +40,7 @@ export default function JournalNav() {
 
   useEffect(() => {
     dispatch(getAllJournals());
-    dispatch(getAllPlaylists());
+    // dispatch(getAllPlaylists());
   }, []);
 
   const sortedJournals = useMemo(() => {
