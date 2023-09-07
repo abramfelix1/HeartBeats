@@ -231,7 +231,7 @@ export default function JournalEditor() {
       ) : (
         <div className="bg-bkg-card flex h-full justify-center items-center rounded-3xl">
           <button
-            className="bg-bkg-primary text-txt-2 w-fit h-fit p-5 rounded-3xl  font-semibold hover:bg-bkg-primary-hover"
+            className="bg-bkg-primary-hover text-txt-2 w-fit h-fit p-5 rounded-3xl  font-semibold hover:scale-105"
             onClick={createJournalHandler}
           >
             NEW JOURNAL

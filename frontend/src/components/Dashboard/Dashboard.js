@@ -15,10 +15,11 @@ import SongRecs from "../Songs/SongRecs";
 import { convertTime } from "../../utils/helper";
 import JournalNav from "../Journals.js/JournalNav";
 import PlaylistNav from "../Playlist/PlaylistNav";
+import { ReactComponent as ComposeIcon } from "../../images/icons/outline/compose2.svg";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
-  const { journalId, journalOpen, editorOpen, journalContent } =
+  const { journalId, journalOpen, editorOpen, setEditorOpen, journalContent } =
     useContext(JournalContext);
   const { playlistOpen, showPlaylist, isSongRecsShown } =
     useContext(PlaylistContext);
@@ -54,14 +55,23 @@ export default function Dashboard() {
           onMouseEnter={() => setNavHovered(true)}
           onMouseLeave={() => setNavHovered(false)}
         />
-        {journalEntry && journalContent && (
+        {journalContent ? (
           <div className="flex flex-col left-0 top-0 absolute m-4 gap-y-2 w-[30%] h-[25%]">
             <p className="flex text-3xl font-semibold whitespace-nowrap">
               {convertTime(journalEntry.updatedAt)} - {journalEntry.name}
             </p>
             <p className="text-2xl font-semibold truncate">
-              "{journalContent}"
+              "{` ${journalContent}`}"
             </p>
+          </div>
+        ) : (
+          <div className="flex flex-col absolute w-full h-full items-center justify-center overflow-hidden gap-y-2">
+            <p className="text-2xl font-semibold">Find songs write away!</p>
+            <ComposeIcon
+              onClick={(e) => {
+                setEditorOpen(true);
+              }}
+            />
           </div>
         )}
         {isSongRecsShown && (

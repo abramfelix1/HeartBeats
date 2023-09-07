@@ -72,8 +72,8 @@ export default function JournalNav() {
       );
     } else {
       dispatch(resetRecSongsAction());
-      setJournalContent("WRITE HOW YOU ARE FEELING!");
-      setJournalId(null);
+      // setJournalId(null);
+      setJournalContent(null);
     }
   };
   // 2xl:min-w-[700px] xl:min-w-[550px] lg:min-w-[400px] md:min-w-[350px]
@@ -129,8 +129,8 @@ export default function JournalNav() {
                     onClick={() => {
                       setJournalId(journalEntry.id);
                       setIsSongRecsShown(true);
-                      recSongsHandler(journalEntry.mood, journalEntry.energy);
                       getJournalContents(index);
+                      recSongsHandler(journalEntry.mood, journalEntry.energy);
                     }}
                   >
                     <div className="text-center">{index + 1}</div>
