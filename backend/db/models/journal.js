@@ -8,11 +8,6 @@ module.exports = (sequelize, DataTypes) => {
         as: "user",
         foreignKey: "userId",
       });
-      Journal.hasOne(models.Playlist, {
-        as: "playlist",
-        foreignKey: "journalId",
-        onDelete: "CASCADE",
-      });
     }
   }
   Journal.init(
@@ -45,6 +40,9 @@ module.exports = (sequelize, DataTypes) => {
           isUrl: true,
         },
       },
+      instrumental: DataTypes.INTEGER,
+      mood: DataTypes.INTEGER,
+      energy: DataTypes.INTEGER,
     },
     {
       sequelize,

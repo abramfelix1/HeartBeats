@@ -40,15 +40,6 @@ module.exports = {
         image_url: {
           type: Sequelize.STRING,
         },
-        instrumental: {
-          type: Sequelize.INTEGER,
-        },
-        mood: {
-          type: Sequelize.INTEGER,
-        },
-        energy: {
-          type: Sequelize.INTEGER,
-        },
         createdAt: {
           allowNull: false,
           type: Sequelize.DATE,
