@@ -73,12 +73,12 @@ export default function Playlist() {
               onClick={closeHandler}
             />
           </div>
-          <div className="text-bkg-text text-sm grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 py-1 border-b-[1px] border-b-bkg-nav relative">
+          <div className="text-bkg-text text-sm grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 py-4 border-b-[1px] border-b-bkg-nav relative">
             <div className="text-center">#</div>
             <div className="">Title</div>
             <div className="">Album</div>
           </div>
-          <div className="playlist overflow-y-auto gap-y-2 grid mb-4">
+          <div className="playlist overflow-y-auto gap-y-2 grid p-4">
             {playlistSongs &&
               playlistSongs.map((song, index) => (
                 <div
