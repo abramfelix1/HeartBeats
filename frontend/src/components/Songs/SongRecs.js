@@ -8,96 +8,18 @@ import spotifyIcon from "../../images/Spotify_Icon_RGB_Green.png";
 import "./songs.css";
 import { PlaylistContext } from "../../context/playlistContext";
 import { addSongToPlaylist, createSong } from "../../store/playlists";
+import { HowlerContext } from "../../context/howlerContext";
 
 export default function SongRecs() {
   const dispatch = useDispatch();
   const { playlistId } = useContext(PlaylistContext);
+  const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
+    useContext(HowlerContext);
   const songs = useSelector((state) => {
     const tracks = state.spotify.songs?.tracks;
     return tracks ? Object.values(tracks) : null;
   });
   const scrollContainerRef = useRef(null);
-
-  const [remainingTime, setRemainingTime] = useState("");
-  const [currentPlaying, setCurrentPlaying] = useState(null);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [url, setUrl] = useState(null);
-  const intervalRef = useRef(null);
-  const soundRef = useRef(null);
-
-  const updateRemainingTime = (timeInSeconds) => {
-    const minutes = Math.floor(timeInSeconds / 60);
-    const seconds = Math.floor(timeInSeconds % 60);
-    setRemainingTime(`${minutes}:${seconds < 10 ? "0" : ""}${seconds}`);
-  };
-
-  const clearCountdown = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-  };
-
-  const startCountdown = (sound) => {
-    clearCountdown();
-
-    intervalRef.current = setInterval(() => {
-      const elapsed = sound.seek() || 0;
-      const remaining = sound.duration() - elapsed;
-      updateRemainingTime(remaining);
-
-      if (remaining <= 0) {
-        clearCountdown();
-        setUrl(null);
-      }
-    }, 1000);
-  };
-
-  const playSound = (songUrl, idx) => {
-    setUrl(songUrl);
-    setCurrentPlaying(idx);
-    setIsPlaying(true);
-  };
-
-  const stopSound = () => {
-    if (soundRef.current) {
-      soundRef.current.stop();
-    }
-    setIsPlaying(false);
-    setCurrentPlaying(null);
-    setRemainingTime("");
-    setUrl(null);
-  };
-
-  useEffect(() => {
-    if (url) {
-      if (soundRef.current) {
-        soundRef.current.unload();
-      }
-      const sound = new Howl({
-        src: [url],
-        html5: true,
-        volume: 0.15,
-        onload: function () {
-          updateRemainingTime(sound.duration());
-        },
-        onplay: function () {
-          startCountdown(sound);
-        },
-        onend: function () {
-          setIsPlaying(false);
-          setCurrentPlaying(null);
-        },
-      });
-      soundRef.current = sound;
-      sound.play();
-
-      return () => {
-        sound.unload();
-        clearCountdown();
-      };
-    }
-  }, [url]);
 
   const addSongHandler = async (payload) => {
     if (playlistId) {

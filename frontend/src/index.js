@@ -13,6 +13,7 @@ import { JournalProvider } from "./context/journalContext";
 import { PlaylistProvider } from "./context/playlistContext";
 import { ErrorProvider } from "./context/ErrorContext";
 import { ThemeProvider } from "./context/themeContext";
+import { HowlerProvider } from "./context/howlerContext";
 
 const store = configureStore();
 
@@ -30,13 +31,15 @@ function Root() {
       <BrowserRouter>
         <ThemeProvider>
           <ErrorProvider>
-            <JournalProvider>
-              <PlaylistProvider>
-                <ModalProvider>
-                  <App />
-                </ModalProvider>
-              </PlaylistProvider>
-            </JournalProvider>
+            <HowlerProvider>
+              <JournalProvider>
+                <PlaylistProvider>
+                  <ModalProvider>
+                    <App />
+                  </ModalProvider>
+                </PlaylistProvider>
+              </JournalProvider>
+            </HowlerProvider>
           </ErrorProvider>
         </ThemeProvider>
       </BrowserRouter>

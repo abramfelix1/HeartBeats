@@ -15,6 +15,7 @@ import { IoAddCircleOutline, IoRemoveCircleOutline } from "react-icons/io5";
 import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
 import { ReactComponent as CloseIcon } from "../../images/icons/outline/close.svg";
+import { ReactComponent as PlayIcon } from "../../images/icons/outline/play.svg";
 
 export default function Playlist() {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ export default function Playlist() {
   const [title, setTitle] = useState("");
   const { setErrors } = useContext(ErrorContext);
   const { setType } = useContext(ModalContext);
+  const [hoverId, setHoverId] = useState("null");
 
   const closeHandler = () => {
     setShowPlaylist(false);
@@ -86,8 +88,18 @@ export default function Playlist() {
                   className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center border rounded h-14 border-transparent relative"
                   key={song.id}
                   // data-id={song.id}
+                  onMouseEnter={(e) => setHoverId(song.id)}
+                  onMouseLeave={(e) => setHoverId(null)}
                 >
-                  <div className="text-center">{index + 1}</div>
+                  {hoverId === song.id && song?.preview ? (
+                    <PlayIcon
+                      className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none"
+                      data-tooltip-id="playlist-tooltip"
+                      data-tooltip-content="Preview"
+                    />
+                  ) : (
+                    <div className="text-center">{index + 1}</div>
+                  )}
                   <div className="flex items-center w-full min-w-0">
                     <img
                       src={song.img_url}
