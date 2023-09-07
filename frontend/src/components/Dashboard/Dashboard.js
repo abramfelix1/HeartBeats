@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import Navigation from "../Navigation";
 import JournalContainer from "../Journals.js/JournalContainer";
 import * as sessionActions from "../../store/session";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getSpotifyUser } from "../../store/spotify";
 import Modal from "../../utils/Modal";
 import { JournalContext } from "../../context/journalContext";
@@ -12,14 +12,19 @@ import { PlaylistContext } from "../../context/playlistContext";
 import PlaylistContainer from "../Playlist/PlaylistContainer";
 import Playlist from "../Playlist/Playlist";
 import SongRecs from "../Songs/SongRecs";
+import { convertTime } from "../../utils/helper";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
-  const { journalOpen, editorOpen, setEditorOpen } = useContext(JournalContext);
+  const { journalId, setJournalId, journalOpen, editorOpen, setEditorOpen } =
+    useContext(JournalContext);
   const { playlistOpen, showPlaylist, isSongRecsShown, setIsSongRecsShown } =
     useContext(PlaylistContext);
   const [isLoaded, setIsLoaded] = useState(false);
   const [navHovered, setNavHovered] = useState(false);
+  const journalEntry = useSelector((state) =>
+    journalId ? state.journals[journalId] : null
+  );
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
@@ -47,6 +52,11 @@ export default function Dashboard() {
           onMouseEnter={() => setNavHovered(true)}
           onMouseLeave={() => setNavHovered(false)}
         />
+        {journalEntry && (
+          <div className="">
+            <p className="AA">{convertTime(journalEntry.updatedAt)}</p>
+          </div>
+        )}
         {playlistOpen && <PlaylistContainer />}
         {journalOpen && <JournalContainer />}
         {editorOpen && (

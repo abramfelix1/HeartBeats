@@ -19,6 +19,7 @@ import { ReactComponent as CloseIcon } from "../../images/icons/outline/close.sv
 import { ReactComponent as TrashIcon } from "../../images/icons/outline/trash.svg";
 import { ReactComponent as PlayIcon } from "../../images/icons/outline/play.svg";
 import PlaylistNavItem from "./PlaylistNavItem";
+import { convertTime } from "../../utils/helper";
 
 export default function PlaylistNav() {
   const dispatch = useDispatch();
@@ -64,22 +65,6 @@ export default function PlaylistNav() {
     dispatch(deletePlaylist(playlistId));
     setPlaylistId(null);
   };
-
-  function convertTime(journalDate) {
-    const date = new Date(journalDate);
-
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
-
-    const hour = date.getHours() % 12 || 12;
-    const minute = date.getMinutes().toString().padStart(2, "0");
-    const ampm = date.getHours() >= 12 ? "PM" : "AM";
-
-    const time = `${year}-${month}-${day} ${hour}:${minute} ${ampm}`;
-
-    return time;
-  }
 
   return (
     <div className="flex hover:cursor-default">

@@ -20,6 +20,7 @@ import { ReactComponent as PlaylistAddIcon } from "../../images/icons/outline/ad
 import JournalNavItem from "./JournalNavItem";
 import { getRecSongs } from "../../store/spotify";
 import { getEnergy, getValence } from "../../utils/journal-analyzer";
+import { convertTime } from "../../utils/helper";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
@@ -64,22 +65,6 @@ export default function JournalNav() {
       })
     );
   };
-
-  function convertTime(journalDate) {
-    const date = new Date(journalDate);
-
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, "0");
-    const day = date.getDate().toString().padStart(2, "0");
-
-    const hour = date.getHours() % 12 || 12;
-    const minute = date.getMinutes().toString().padStart(2, "0");
-    const ampm = date.getHours() >= 12 ? "PM" : "AM";
-
-    const time = `${year}-${month}-${day} ${hour}:${minute} ${ampm}`;
-
-    return time;
-  }
 
   return (
     <div className="flex hover:cursor-default">
