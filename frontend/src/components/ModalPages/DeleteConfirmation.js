@@ -21,7 +21,7 @@ export default function DeleteConfirmation({ id }) {
 
   const deleteJournalHandler = () => {
     setType(null);
-    dispatch(deleteJournal(journalId));
+    dispatch(deleteJournal(deleteId));
     setJournalId(null);
     setPlaylistId(null);
     setDeleteId(null);
@@ -29,7 +29,7 @@ export default function DeleteConfirmation({ id }) {
 
   const deletePlaylistHandler = () => {
     setType(null);
-    dispatch(deletePlaylist(playlistId));
+    dispatch(deletePlaylist(deleteId));
     setPlaylistId(null);
     setDeleteContext(null);
   };

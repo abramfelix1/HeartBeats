@@ -21,7 +21,7 @@ import { HowlerContext } from "../../context/howlerContext";
 
 export default function Playlist() {
   const dispatch = useDispatch();
-  const { playlistId, setPlaylistOpen, setShowPlaylist } =
+  const { playlistId, setPlaylistId, setPlaylistOpen, setShowPlaylist } =
     useContext(PlaylistContext);
   const { journal } = useContext(JournalContext);
   const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
@@ -36,6 +36,7 @@ export default function Playlist() {
   const closeHandler = () => {
     setShowPlaylist(false);
     setPlaylistOpen(true);
+    setPlaylistId(null);
   };
 
   const handleBlur = () => {
@@ -131,7 +132,7 @@ export default function Playlist() {
                     <img
                       src={song.img_url}
                       alt="Album Cover"
-                      className="w-10 h-10 mr-3"
+                      className="w-12 h-12 mr-3"
                     />
                     <div className="flex flex-col gap-y-[0.5px] pr-2 w-full truncate">
                       <div className="truncate ">{song.name}</div>

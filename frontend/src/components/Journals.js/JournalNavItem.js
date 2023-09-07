@@ -7,9 +7,9 @@ import { ThemeContext } from "../../context/themeContext";
 export default function JournalNavItem({ content, quillRef }) {
   const { theme } = useContext(ThemeContext);
   return (
-    <div className="min-w-[40px] min-h-[40px] bg-black relative hover:cursor-default">
+    <div className="min-w-[48px] min-h-[48px] bg-black relative hover:cursor-default">
       <div
-        className={`flex justify-center items-center w-96 h-96 scale-[0.11] absolute left-[-172px] top-[-172px] z-10 ${
+        className={`flex justify-center items-center w-96 h-96 scale-[0.13] absolute left-[-168px] top-[-168px] z-10 ${
           theme === "dark" && "bg-slate-300"
         }`}
         onClick={(e) => {

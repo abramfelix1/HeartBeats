@@ -152,7 +152,6 @@ export default function JournalNav() {
                         data-tooltip-id="journal-tooltip"
                         data-tooltip-content="Edit Journal"
                         onClick={(e) => {
-                          e.stopPropagation();
                           setJournalId(journalEntry.id);
                           setEditorOpen(true);
                         }}

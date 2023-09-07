@@ -23,11 +23,11 @@ export default function PlaylistNavItem({ songs }) {
     }
   };
 
-  return songs.length ? (
+  return songs?.length ? (
     <div
       className={`grid ${getNumColumns(
         songs.length
-      )} max-w-[40px] max-h-[40px]`}
+      )} max-w-[48px] max-h-[48px]`}
     >
       {songs.slice(0, getNumSongs(songs)).map((song, index) => (
         <div key={index} className="bg-black relative hover:cursor-default">
@@ -40,6 +40,6 @@ export default function PlaylistNavItem({ songs }) {
       ))}
     </div>
   ) : (
-    <div className="max-w-[40px] max-h-[40px]">Hi</div>
+    <div className="max-w-[48px] max-h-[48px]">Hi</div>
   );
 }

@@ -31,8 +31,13 @@ import { PlaylistContext } from "../../context/playlistContext";
 export default function JournalEditor() {
   const dispatch = useDispatch();
   const quillRef = useRef(null);
-  const { journalId, setJournalId, editorOpen, setEditorOpen } =
-    useContext(JournalContext);
+  const {
+    journalId,
+    setJournalId,
+    editorOpen,
+    setEditorOpen,
+    setJournalContent,
+  } = useContext(JournalContext);
   const { playlistId, setPlaylistId, isSongRecsShown, setIsSongRecsShown } =
     useContext(PlaylistContext);
   const { setErrors } = useContext(ErrorContext);
@@ -92,6 +97,24 @@ export default function JournalEditor() {
     ],
   };
 
+  const recSongsHandler = (e) => {
+    console.log("REC SONGS HANDLER");
+    const quill = quillRef.current.getEditor();
+    const content = quill.getText();
+    const formattedContent = quill.getContents();
+    console.log("CONTENT: ", content);
+    const energy = getEnergy(content);
+    const valence = getValence(content);
+    dispatch(
+      getRecSongs({
+        valence: valence,
+        energy: energy,
+        genre: "pop",
+      })
+    );
+    setJournalContent(content);
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     const quill = quillRef.current.getEditor();
@@ -122,6 +145,8 @@ export default function JournalEditor() {
       setErrors(data.errors);
       setType("ERROR");
     });
+    recSongsHandler();
+    setEditorOpen(false);
   };
 
   useEffect(() => {
@@ -172,24 +197,6 @@ export default function JournalEditor() {
     const playlist = await dispatch(createPlaylist(journalEntry.id));
     dispatch(addPlaylistAction(journalEntry.id, playlist));
     setPlaylistId(playlist.playlist.id);
-  };
-
-  const recSongsHandler = (e) => {
-    console.log("REC SONGS HANDLER");
-    e.preventDefault();
-    const quill = quillRef.current.getEditor();
-    const content = quill.getText();
-    const formattedContent = quill.getContents();
-    console.log("CONTENT: ", content);
-    const energy = getEnergy(content);
-    const valence = getValence(content);
-    dispatch(
-      getRecSongs({
-        valence: valence,
-        energy: energy,
-        genre: "pop",
-      })
-    );
   };
 
   const deletePlaylistHandler = () => {

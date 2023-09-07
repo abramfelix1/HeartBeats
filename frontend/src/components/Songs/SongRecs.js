@@ -33,12 +33,12 @@ export default function SongRecs() {
 
   return (
     songs && (
-      <div className="flex rounded-3xl relative  cursor-default">
+      <div className="flex rounded-3xl relative cursor-default">
         <div
           ref={scrollContainerRef}
           className="songs-list mx-4 overflow-x-auto"
         >
-          <div className="flex flex-row gap-x-8 w-max">
+          <div className="flex flex-row gap-x-8 w-max overflow-hidden">
             {songs &&
               songs.map((song, idx) => (
                 <div className="flex flex-col pt-4 max-w-[208px]">
@@ -97,20 +97,22 @@ export default function SongRecs() {
                       ) : (
                         <p className="text-bkg-text">No Preview</p>
                       )}
-                      <IoAddCircleOutline
-                        className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105 hover:cursor-pointer"
-                        onClick={() => {
-                          addSongHandler({
-                            name: song.name,
-                            artists: song.artists[0].name,
-                            album: song.album.name,
-                            img_url: song.album.images[1].url,
-                            spotifyId: song.id,
-                            spotify_url: song.external_urls.spotify,
-                            preview: song?.preview_url || null,
-                          });
-                        }}
-                      />
+                      {playlistId && (
+                        <IoAddCircleOutline
+                          className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105 hover:cursor-pointer"
+                          onClick={() => {
+                            addSongHandler({
+                              name: song.name,
+                              artists: song.artists[0].name,
+                              album: song.album.name,
+                              img_url: song.album.images[1].url,
+                              spotifyId: song.id,
+                              spotify_url: song.external_urls.spotify,
+                              preview: song?.preview_url || null,
+                            });
+                          }}
+                        />
+                      )}
                     </div>
                   </div>
                 </div>
