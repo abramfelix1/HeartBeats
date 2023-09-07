@@ -117,3 +117,8 @@
 .mode-checkbox:checked + .mode-label .mode-ball {
   transform: translateX(23px);
 }
+
+.arrow {
+  width: 1px;
+  height: 1px;
+}

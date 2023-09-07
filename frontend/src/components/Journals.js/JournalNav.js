@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext, useMemo } from "react";
+import { Tooltip } from "react-tooltip";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllJournals } from "../../store/journals";
 import { MdExpandMore, MdExpandLess } from "react-icons/md";
@@ -50,8 +51,24 @@ export default function JournalNav() {
     setPlaylistId(null);
   };
 
+  function convertTime(journalDate) {
+    const date = new Date(journalDate);
+
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+
+    const hour = date.getHours() % 12 || 12; // Convert to 12-hour format
+    const minute = date.getMinutes().toString().padStart(2, "0");
+    const ampm = date.getHours() >= 12 ? "PM" : "AM";
+
+    const time = `${year}-${month}-${day} ${hour}:${minute} ${ampm}`;
+
+    return time;
+  }
+
   return (
-    <div className="flex justify-end max-w-[700px] min-w-[700px] hover:cursor-default">
+    <div className="flex justify-start hover:cursor-default">
       <div className="flex flex-col bg-bkg-card relative py-4 rounded-l-3xl">
         <div className="px-4">
           <div className="flex flex-row justify-between text-txt-1 text-2xl font-semibold">
@@ -70,6 +87,14 @@ export default function JournalNav() {
               placeholder={"Search journals..."}
               className="bg-bkg-button pl-8 p-2 w-full rounded-full  border-2 border-transparent outline-none focus:border-text-txt-hover caret-text-txt-hover"
             />
+            <div className="flex justify-center px-3 text-white bottom-0">
+              <button
+                className="text-bkg-text hover:scale-105 hover:txt-hover w-fit h-fit p-1 font-bold "
+                onClick={createJournalHandler}
+              >
+                CREATE
+              </button>
+            </div>
           </div>
           <div className="text-bkg-text text-sm grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 py-1 border-b-[1px] border-b-bkg-nav relative">
             <div className="text-center">#</div>
@@ -99,13 +124,19 @@ export default function JournalNav() {
                     </div>
                   </div>
                   <div className="text-bkg-text text-sm truncate">
-                    {journalEntry.createdAt}
+                    {convertTime(journalEntry.createdAt)}
                   </div>{" "}
                   <div className="flex flex-row gap-x-2 items-center">
-                    <ComposeIcon className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer" />
+                    <ComposeIcon
+                      className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer"
+                      data-tooltip-id="journal-tooltip"
+                      data-tooltip-content="Edit Journal"
+                    />
                     <TrashIcon
                       className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer"
                       onClick={() => setType("DELETE")}
+                      data-tooltip-id="journal-tooltip"
+                      data-tooltip-content="Delete Journal"
                     />
                   </div>
                 </div>
@@ -116,15 +147,13 @@ export default function JournalNav() {
             </div>
           )}
         </div>
-        {/* <div className="flex justify-center px-3 text-white absolute bottom-0">
-          <button
-            className="bg-bkg-primary text-txt-2 flex justify-center items-center gap-x-2 my-4 py-2 px-5 w-fit h-fit rounded-xl  text-text font-semibold hover:bg-bkg-primary-hover"
-            onClick={createJournalHandler}
-          >
-            <IoCreateOutline className="text-2xl" />
-            <p>NEW</p>
-          </button>
-        </div> */}
+        <Tooltip
+          className="z-10"
+          place="top"
+          type="dark"
+          effect="solid"
+          id="journal-tooltip"
+        />
       </div>
     </div>
   );

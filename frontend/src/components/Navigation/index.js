@@ -49,7 +49,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
           <div
             className=" flex gap-x-2 justify-center items-center  hover:cursor-pointer"
             data-tooltip-id="nav-tooltip"
-            data-tooltip-content="Journal"
+            data-tooltip-content="Journals"
             onClick={toggleJournalPage}
           >
             <JournalIcon className="w-12 fill-txt-1" />
@@ -59,7 +59,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
           <div
             className="flex gap-x-2 justify-center items-center  hover:cursor-pointer"
             data-tooltip-id="nav-tooltip"
-            data-tooltip-content="Music"
+            data-tooltip-content="Playlists"
           >
             <PlaylistIcon className="w-12 fill-txt-1" />
           </div>
@@ -77,6 +77,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
                   type="checkbox"
                   id="check"
                   className="mode-checkbox opacity-0 absolute "
+                  classNameArrow="noArrow"
                   onChange={toggleDark}
                   checked={theme === "dark"}
                 />
@@ -129,7 +130,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
         )}
       </div>
       <Tooltip
-        className="mx-1 z-10"
+        className="z-10"
         place="bottom"
         type="dark"
         effect="solid"
