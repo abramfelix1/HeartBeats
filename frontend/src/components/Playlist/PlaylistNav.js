@@ -15,15 +15,17 @@ import { AiOutlineSearch } from "react-icons/ai";
 
 import { ReactComponent as CloseIcon } from "../../images/icons/outline/close.svg";
 import { ReactComponent as TrashIcon } from "../../images/icons/outline/trash.svg";
+import { ReactComponent as PlayIcon } from "../../images/icons/outline/play.svg";
 
 export default function PlaylistNav() {
   const dispatch = useDispatch();
   const { playlistId, setPlaylistId, setPlaylistOpen } =
     useContext(PlaylistContext);
   const { setErrors } = useContext(ErrorContext);
-  const { setType } = useContext(ModalContext);
+  const { setType, setDeleteContext } = useContext(ModalContext);
   const playlists = useSelector((state) => Object.values(state.playlists));
   const [searchInput, setSearchInput] = useState("");
+  const [hoverId, setHoverId] = useState("null");
 
   const closeHandler = () => {
     setPlaylistOpen(false);
@@ -32,6 +34,10 @@ export default function PlaylistNav() {
   useEffect(() => {
     dispatch(getAllPlaylists());
   }, []);
+
+  useEffect(() => {
+    console.log("PLAYLIST HOVER ID: ", hoverId);
+  }, [hoverId]);
 
   const sortedJournals = useMemo(() => {
     return playlists.sort(
@@ -106,43 +112,56 @@ export default function PlaylistNav() {
             <div className="">Created At</div>
           </div>
         </div>
-        <div className="journal-list px-4 max-w-[700px] min-w-[700px] h-full">
+        <div className="journal-list px-4 max-w-[700px] min-w-[700px] h-full ">
           {sortedJournals ? (
             sortedJournals
               .filter((journal) =>
                 journal.name.toLowerCase().includes(searchInput.toLowerCase())
               )
-              .map((journalEntry, index) => (
+              .map((playlist, index) => (
                 <div
-                  className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 py-2 border rounded border-transparent relative hover:bg-bkg-nav"
-                  key={journalEntry.id}
+                  className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 py-2 border rounded border-transparent relative hover:bg-bkg-nav hover:cursor-pointer"
+                  key={playlist.id}
                   onClick={() => {
-                    setPlaylistId(journalEntry.id);
+                    setPlaylistId(playlist.id);
                   }}
+                  onMouseEnter={(e) => setHoverId(playlist.id)}
+                  onMouseLeave={(e) => setHoverId(null)}
                 >
-                  <div className="text-center">{index + 1}</div>
+                  {hoverId === playlist.id ? (
+                    <PlayIcon
+                      className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none"
+                      data-tooltip-id="journal-tooltip"
+                      data-tooltip-content="Play (ADD LATER)"
+                    />
+                  ) : (
+                    <div className="text-center">{index + 1}</div>
+                  )}
                   <div className="flex items-center w-full min-w-0">
-                    {/* <JournalNavItem content={journalEntry.content} /> */}
+                    {/* <JournalNavItem content={playlist.content} /> */}
                     <div className="flex items-center gap-y-[0.5px] px-2 w-full truncate">
-                      <div className="truncate ">{journalEntry.name}</div>
+                      <div className="truncate ">{playlist.name}</div>
                     </div>
                   </div>
                   <div className="text-bkg-text text-sm truncate">
-                    {convertTime(journalEntry.createdAt)}
+                    {convertTime(playlist.createdAt)}
                   </div>{" "}
                   <div className="flex flex-row gap-x-2 items-center">
-                    <ComposeIcon
+                    {/* <ComposeIcon
                       className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
                       data-tooltip-id="journal-tooltip"
                       data-tooltip-content="Edit Journal"
                       onClick={(e) => {
-                        setJournalId(journalEntry.id);
+                        setJournalId(playlist.id);
                         setEditorOpen(true);
                       }}
-                    />
+                    /> */}
                     <TrashIcon
                       className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
-                      onClick={() => setType("DELETE")}
+                      onClick={() => {
+                        setType("DELETE");
+                        setDeleteContext("PLAYLIST");
+                      }}
                       data-tooltip-id="journal-tooltip"
                       data-tooltip-content="Delete Journal"
                     />

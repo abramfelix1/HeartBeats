@@ -4,14 +4,18 @@ import { JournalContext } from "../../context/journalContext";
 import { deleteJournal } from "../../store/journals";
 import { ModalContext } from "../../context/ModalContext";
 import { PlaylistContext } from "../../context/playlistContext";
+import { deletePlaylist } from "../../store/playlists";
 
 export default function DeleteConfirmation({ id }) {
   const dispatch = useDispatch();
   const { setJournalId, journalId } = useContext(JournalContext);
-  const { setType } = useContext(ModalContext);
-  const { setPlaylistId } = useContext(PlaylistContext);
+  const { setType, deleteContext, setDeleteContext } = useContext(ModalContext);
+  const { playlistId, setPlaylistId } = useContext(PlaylistContext);
   const journalEntry = useSelector((state) =>
     journalId ? state.journals[journalId] : null
+  );
+  const playlist = useSelector((state) =>
+    playlistId ? state.playlists[playlistId] : null
   );
 
   const deleteJournalHandler = () => {
@@ -21,6 +25,14 @@ export default function DeleteConfirmation({ id }) {
     setPlaylistId(null);
   };
 
+  const deletePlaylistHandler = () => {
+    setType(null);
+    console.log("PLAYLIST DELETE ID: ", playlistId);
+    dispatch(deletePlaylist(playlistId));
+    setPlaylistId(null);
+    setDeleteContext(null);
+  };
+
   return (
     <div className="min-w-[24rem] max-w-fit h-fit p-8 bg-baby-powder rounded-3xl">
       <div className="flex flex-col gap-y-5">
@@ -28,7 +40,8 @@ export default function DeleteConfirmation({ id }) {
         <div className="w-full border-[1px] border-black opacity-5"></div>
         <p className="text-lg">Are you sure you want to delete:</p>
         <p>
-          <span className="font-medium">"</span> {journalEntry.name}{" "}
+          <span className="font-medium">"</span>{" "}
+          {deleteContext === "PLAYLIST" ? playlist.name : journalEntry.name}
           <span className="font-medium">"</span>
         </p>
         <div className="flex flex-row gap-x-5 justify-end">
@@ -40,7 +53,9 @@ export default function DeleteConfirmation({ id }) {
           </button>
           <button
             className="w-fit h-fit p-2 rounded-xl border-[1px] border-black hover:bg-slate-200 font-semibold"
-            onClick={deleteJournalHandler}
+            onClick={()=>{
+              deleteContext === "PLAYLIST" ? deletePlaylistHandler() : deleteJournalHandler()
+            }}
           >
             Delete
           </button>

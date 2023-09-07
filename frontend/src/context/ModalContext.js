@@ -5,6 +5,7 @@ export const ModalContext = createContext();
 
 export function ModalProvider({ children }) {
   const [type, setType] = useState(null);
+  const [deleteContext, setDeleteContext] = useState(null);
 
   useEffect(() => {
     console.log("MODAL TYPE: ", type);
@@ -15,6 +16,8 @@ export function ModalProvider({ children }) {
       value={{
         type,
         setType,
+        deleteContext,
+        setDeleteContext,
       }}
     >
       {children}

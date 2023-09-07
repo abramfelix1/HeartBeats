@@ -121,6 +121,7 @@ export const updatePlaylist = (id, payload) => async (dispatch) => {
 
 /* DELETE PLAYLIST */
 export const deletePlaylist = (id) => async (dispatch) => {
+  console.log("STORE: ", id);
   const res = await csrfFetch(`/api/playlists/${id}`, {
     method: "DELETE",
     headers: {
