@@ -84,7 +84,7 @@ export default function JournalNav() {
           <div className="flex flex-row justify-between text-txt-1 text-2xl font-semibold">
             <>Journals</>
             <CloseIcon
-              className="fill-txt-1 w-8 h-fit hover:cursor-pointer"
+              className="fill-txt-1 w-8 h-fit hover:cursor-pointer hover:scale-110"
               onClick={closeHandler}
             />
           </div>
@@ -148,7 +148,7 @@ export default function JournalNav() {
                     </div>{" "}
                     <div className="flex flex-row gap-x-2 items-center">
                       <ComposeIcon
-                        className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
+                        className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none hover:scale-105"
                         data-tooltip-id="journal-tooltip"
                         data-tooltip-content="Edit Journal"
                         onClick={(e) => {
@@ -157,7 +157,7 @@ export default function JournalNav() {
                         }}
                       />
                       <TrashIcon
-                        className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
+                        className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none hover:scale-110"
                         onClick={(e) => {
                           e.stopPropagation();
                           setDeleteId(journalEntry.id);

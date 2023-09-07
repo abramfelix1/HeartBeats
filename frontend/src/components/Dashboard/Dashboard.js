@@ -66,7 +66,7 @@ export default function Dashboard() {
               </p>
               <button className="cursor-pointer w-10">
                 <ComposeIcon
-                  className="w-10 cursor-pointer"
+                  className="w-10 cursor-pointer fill-txt-1 hover:scale-105"
                   onClick={(e) => {
                     setEditorOpen(true);
                   }}
@@ -80,7 +80,7 @@ export default function Dashboard() {
               Find songs write away!
             </p>
             <ComposeIcon
-              className="hover:cursor-pointer"
+              className="hover:cursor-pointer fill-txt-1 hover:scale-105"
               onClick={(e) => {
                 setEditorOpen(true);
               }}

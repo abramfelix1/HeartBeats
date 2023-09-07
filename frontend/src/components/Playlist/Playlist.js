@@ -78,7 +78,7 @@ export default function Playlist() {
               className="bg-bkg-card border-none focus:outline-none  w-[80%]"
             />
             <CloseIcon
-              className="fill-txt-1 w-8 h-fit hover:cursor-pointer"
+              className="fill-txt-1 w-8 h-fit hover:cursor-pointer hover:scale-110"
               onClick={closeHandler}
             />
           </div>
@@ -111,15 +111,15 @@ export default function Playlist() {
                         <div>
                           {isPlaying && currentPlaying === index ? (
                             <StopIcon
-                              className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none"
-                              data-tooltip-id="journal-tooltip"
+                              className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
+                              data-tooltip-id="playlist-tooltip"
                               data-tooltip-content="Play (ADD LATER)"
                             />
                           ) : (
                             <PlayIcon
-                              className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none"
-                              data-tooltip-id="journal-tooltip"
-                              data-tooltip-content="Play (ADD LATER)"
+                              className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
+                              data-tooltip-id="playlist-tooltip"
+                              data-tooltip-content="Play Preview"
                             />
                           )}
                         </div>
@@ -158,7 +158,7 @@ export default function Playlist() {
               ))}
           </div>
           <Tooltip
-            className="z-10"
+            className="z-[100]"
             place="top"
             type="dark"
             effect="solid"

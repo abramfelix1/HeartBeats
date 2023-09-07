@@ -51,7 +51,7 @@ export default function PlaylistNav() {
           <div className="flex flex-row justify-between text-txt-1 text-2xl font-semibold">
             <>Playlists</>
             <CloseIcon
-              className="fill-txt-1 w-8 h-fit hover:cursor-pointer"
+              className="fill-txt-1 w-8 h-fit hover:cursor-pointer hover:scale-110"
               onClick={closeHandler}
             />
           </div>
@@ -99,9 +99,9 @@ export default function PlaylistNav() {
                 >
                   {hoverId === playlist.id ? (
                     <PlayIcon
-                      className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none"
-                      data-tooltip-id="journal-tooltip"
-                      data-tooltip-content="Play (ADD LATER)"
+                      className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
+                      data-tooltip-id="playlist-tooltip"
+                      data-tooltip-content="Play Playlist (ADD LATER)"
                     />
                   ) : (
                     <div className="text-center">{index + 1}</div>
@@ -121,7 +121,7 @@ export default function PlaylistNav() {
                         <img
                           src={spotifyIconGreen}
                           alt="spotify icon"
-                          className="w-9"
+                          className="w-9 hover:scale-105"
                           data-tooltip-id="journal-tooltip"
                           data-tooltip-content="Open Spotify (ADD LATER)"
                         />
@@ -129,14 +129,14 @@ export default function PlaylistNav() {
                         <img
                           src={spotifyIcon}
                           alt="spotify icon"
-                          className="w-9"
+                          className="w-8 hover:scale-105"
                           data-tooltip-id="journal-tooltip"
                           data-tooltip-content="Open Spotify (ADD LATER)"
                         />
                       )}
                     </div>
                     <TrashIcon
-                      className="w-10 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
+                      className="w-11 h-fit ml-3 m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
                       onClick={(e) => {
                         e.stopPropagation();
                         setDeleteId(playlist.id);
