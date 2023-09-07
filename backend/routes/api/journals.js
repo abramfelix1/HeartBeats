@@ -11,16 +11,9 @@ const router = express.Router();
 /* GET ALL JOURNALS OF USER */
 router.get("/session", requireAuth, async (req, res, next) => {
   const { user } = req;
-  const where = { userId: user.dataValues.id };
 
   const journals = await Journal.findAll({
-    where,
-    include: [
-      {
-        model: Playlist,
-        as: "playlist",
-      },
-    ],
+    where: { userId: user.dataValues.id },
   });
 
   if (!journals.length) {
@@ -37,18 +30,6 @@ router.get("/:id", requireAuth, async (req, res, next) => {
 
   const journal = await Journal.findOne({
     where: { id: journalId },
-    include: [
-      {
-        model: Playlist,
-        as: "playlist",
-        include: [
-          {
-            model: Song,
-            as: "songs",
-          },
-        ],
-      },
-    ],
   });
 
   if (!journal) {
@@ -79,6 +60,8 @@ router.post("/", requireAuth, async (req, res, next) => {
     image_url: newJournal.image_url,
     createdAt: newJournal.createdAt,
     updatedAt: newJournal.updatedAt,
+    mood: req.body.mood || null,
+    energy: req.body.energy || null,
     // playlist: null,
   };
 
