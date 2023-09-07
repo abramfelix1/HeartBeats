@@ -20,6 +20,7 @@ export default function JournalNav() {
   const { setType, setDeleteId } = useContext(ModalContext);
   const quillRefs = useRef([]);
   const {
+    journalId,
     setJournalOpen,
     setJournalId,
     setEditorOpen,
@@ -48,7 +49,7 @@ export default function JournalNav() {
   const createJournalHandler = async () => {
     // const journal = await dispatch(createJournal());
     // setJournalId(journal.journal.id);
-    // dispatch(resetRecSongsAction());
+    dispatch(resetRecSongsAction());
     setEditorOpen(true);
     setJournalId(null);
     setJournalContent(null);
@@ -127,7 +128,9 @@ export default function JournalNav() {
                 }
                 return (
                   <div
-                    className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 py-2 border rounded border-transparent relative hover:bg-bkg-nav"
+                    className={`grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 py-2 border rounded border-transparent relative hover:bg-bkg-nav
+                    ${journalId === journalEntry.id && "bg-bkg-nav"}
+                    `}
                     key={journalEntry.id}
                     onClick={() => {
                       setJournalId(journalEntry.id);
