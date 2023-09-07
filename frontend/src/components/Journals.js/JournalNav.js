@@ -47,8 +47,10 @@ export default function JournalNav() {
 
   const createJournalHandler = async () => {
     const journal = await dispatch(createJournal());
-    // setJournalId(journal.journal.id);
-    setPlaylistId(null);
+    setJournalId(journal.journal.id);
+    setEditorOpen(true);
+    dispatch(resetRecSongsAction());
+    setJournalContent(null);
   };
 
   const getJournalContents = (index) => {
@@ -72,8 +74,8 @@ export default function JournalNav() {
       );
     } else {
       dispatch(resetRecSongsAction());
-      // setJournalId(null);
       setJournalContent(null);
+      // setJournalId(null);
     }
   };
   // 2xl:min-w-[700px] xl:min-w-[550px] lg:min-w-[400px] md:min-w-[350px]

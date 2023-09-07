@@ -55,7 +55,7 @@ export default function Dashboard() {
           onMouseEnter={() => setNavHovered(true)}
           onMouseLeave={() => setNavHovered(false)}
         />
-        {journalContent ? (
+        {journalEntry && journalContent ? (
           <div className="flex flex-col left-0 top-0 absolute mt-4 ml-4 w-[30%] h-[25%] z-[3]">
             <p className="flex text-3xl font-semibold whitespace-nowrap">
               {convertTime(journalEntry.updatedAt)} - {journalEntry.name}
