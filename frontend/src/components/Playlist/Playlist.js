@@ -62,7 +62,7 @@ export default function Playlist() {
   return (
     playlist && (
       <div
-        className={`py-4 bg-bkg-card flex flex-col flex-grow w-full mb-2  rounded-l-3xl cursor-default overflow-y-auto
+        className={`py-4 bg-bkg-card flex flex-col flex-grow w-full   rounded-l-3xl cursor-default overflow-y-auto
       `}
       >
         <div className="px-4">
