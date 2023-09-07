@@ -42,6 +42,7 @@ export default function JournalEditor() {
   );
   const [title, setTitle] = useState("");
   const [body, setBody] = useState(journalEntry?.content || "");
+  const editorRef = useRef(null);
 
   useEffect(() => {
     const handleEsc = (event) => {
@@ -53,6 +54,18 @@ export default function JournalEditor() {
       window.removeEventListener("keydown", handleEsc);
     };
   }, []);
+
+  useEffect(() => {
+    function handleOutsideClick(event) {
+      if (editorRef.current && !editorRef.current.contains(event.target)) {
+        setEditorOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [setEditorOpen]);
 
   useEffect(() => {
     if (journalEntry) {
@@ -186,7 +199,10 @@ export default function JournalEditor() {
   };
 
   return (
-    <div className=" bg-bkg-card flex-col justify-center rounded-3xl relative w-96 shadow-xl m-20 z-[3]">
+    <div
+      ref={editorRef}
+      className="bg-bkg-card flex-col justify-center rounded-3xl relative w-96 shadow-xl m-20 z-[3]"
+    >
       {journalEntry ? (
         <>
           <div className="flex flex-col w-full h-full">

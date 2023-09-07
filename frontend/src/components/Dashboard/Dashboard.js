@@ -48,7 +48,7 @@ export default function Dashboard() {
   return (
     <>
       <Modal />
-      <div className="bg-bkg-body flex-row text-txt-1 w-screen h-screen flex  relative">
+      <div className="bg-bkg-body flex-row text-txt-1 w-screen h-screen flex  relative ">
         <Navigation
           isLoaded={isLoaded}
           navHovered={navHovered}
@@ -56,18 +56,31 @@ export default function Dashboard() {
           onMouseLeave={() => setNavHovered(false)}
         />
         {journalContent ? (
-          <div className="flex flex-col left-0 top-0 absolute m-4 gap-y-2 w-[30%] h-[25%]">
+          <div className="flex flex-col left-0 top-0 absolute mt-4 ml-4 w-[30%] h-[25%] z-[3]">
             <p className="flex text-3xl font-semibold whitespace-nowrap">
               {convertTime(journalEntry.updatedAt)} - {journalEntry.name}
             </p>
-            <p className="text-2xl font-semibold truncate">
-              "{` ${journalContent}`}"
-            </p>
+            <div className="flex flex-row w-full gap-x-2 items-center">
+              <p className="text-2xl font-semibold truncate">
+                "{journalContent}"
+              </p>
+              <button className="cursor-pointer w-10">
+                <ComposeIcon
+                  className="w-10 cursor-pointer"
+                  onClick={(e) => {
+                    setEditorOpen(true);
+                  }}
+                />
+              </button>
+            </div>
           </div>
         ) : (
           <div className="flex flex-col absolute w-full h-full items-center justify-center overflow-hidden gap-y-2">
-            <p className="text-2xl font-semibold">Find songs write away!</p>
+            <p className="text-2xl font-semibold select-none">
+              Find songs write away!
+            </p>
             <ComposeIcon
+              className="hover:cursor-pointer"
               onClick={(e) => {
                 setEditorOpen(true);
               }}
@@ -95,7 +108,7 @@ export default function Dashboard() {
           </div>
         )}
         {editorOpen && (
-          <div className="flex h-full w-full justify-center absolute">
+          <div className="flex h-full w-full justify-center absolute ">
             <JournalEditor />
           </div>
         )}
