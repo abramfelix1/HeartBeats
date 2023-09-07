@@ -173,12 +173,13 @@ export default function PlaylistNav() {
                     </div>
                     <TrashIcon
                       className="w-10 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
-                      onClick={() => {
+                      onClick={(e) => {
+                        e.stopPropagation();
                         setType("DELETE");
                         setDeleteContext("PLAYLIST");
                       }}
-                      data-tooltip-id="journal-tooltip"
-                      data-tooltip-content="Delete Journal"
+                      data-tooltip-id="playlist-tooltip"
+                      data-tooltip-content="Delete Playlist"
                     />
                   </div>
                 </div>
@@ -194,7 +195,7 @@ export default function PlaylistNav() {
           place="top"
           type="dark"
           effect="solid"
-          id="journal-tooltip"
+          id="playlist-tooltip"
         />
       </div>
     </div>

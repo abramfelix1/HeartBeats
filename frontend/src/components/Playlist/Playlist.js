@@ -8,6 +8,7 @@ import {
   removeSongFromPlaylist,
 } from "../../store/playlists";
 import { useDispatch, useSelector } from "react-redux";
+import { Tooltip } from "react-tooltip";
 import { JournalContext } from "../../context/journalContext";
 import { PlaylistContext } from "../../context/playlistContext";
 import { IoAddCircleOutline, IoRemoveCircleOutline } from "react-icons/io5";
@@ -109,11 +110,20 @@ export default function Playlist() {
                       onClick={() => {
                         removeSongHandler(song.id);
                       }}
+                      data-tooltip-id="playlist-tooltip"
+                      data-tooltip-content="Remove Song"
                     />
                   </button>
                 </div>
               ))}
           </div>
+          <Tooltip
+            className="z-10"
+            place="top"
+            type="dark"
+            effect="solid"
+            id="playlist-tooltip"
+          />
         </div>
       </div>
     )
