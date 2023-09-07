@@ -91,7 +91,7 @@ export default function Playlist() {
             {playlistSongs &&
               playlistSongs.map((song, index) => (
                 <div
-                  className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center border rounded h-14 border-transparent relative hover:bg-bkg-nav"
+                  className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center border rounded h-14 border-transparent relative hover:bg-bkg-nav hover:cursor-pointer"
                   key={song.id}
                   // data-id={song.id}
                   onMouseEnter={(e) => setHoverId(song.id)}

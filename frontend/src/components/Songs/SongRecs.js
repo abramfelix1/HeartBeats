@@ -84,9 +84,9 @@ export default function SongRecs() {
                           >
                             <div>
                               {isPlaying && currentPlaying === idx ? (
-                                <BsStopCircle className="text-bkg-text text-xl hover:text-txt-hover" />
+                                <BsStopCircle className="text-bkg-text text-xl hover:text-txt-hover hover:scale-105" />
                               ) : (
-                                <BsPlayCircle className=" text-bkg-text text-xl hover:text-txt-hover" />
+                                <BsPlayCircle className=" text-bkg-text text-xl hover:text-txt-hover hover:scale-105" />
                               )}
                             </div>
                           </button>

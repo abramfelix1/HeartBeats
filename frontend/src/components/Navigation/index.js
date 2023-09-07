@@ -52,7 +52,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             data-tooltip-content="Journals"
             onClick={toggleJournalPage}
           >
-            <JournalIcon className="w-12 fill-txt-1" />
+            <JournalIcon className="w-12 fill-txt-1 hover:scale-105" />
           </div>
         )}
         {sessionUser && (
@@ -62,7 +62,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             data-tooltip-content="Playlists"
             onClick={togglePlaylist}
           >
-            <PlaylistIcon className="w-12 fill-txt-1" />
+            <PlaylistIcon className="w-12 fill-txt-1 hover:scale-105" />
           </div>
         )}
         {sessionUser && (
@@ -77,13 +77,13 @@ function Navigation({ isLoaded, navHovered, ...props }) {
                 <input
                   type="checkbox"
                   id="check"
-                  className="mode-checkbox opacity-0 absolute "
+                  className="mode-checkbox opacity-0 absolute hover:scale-105"
                   onChange={toggleDark}
                   checked={theme === "dark"}
                 />
                 <label
                   for="check"
-                  className="mode-label relative flex justify-between items-center p-1 h-12 w-[48px] rounded-lg border-2 border-txt-1 cursor-pointer"
+                  className="mode-label relative flex justify-between items-center p-1 h-12 w-[48px] rounded-lg border-2 border-txt-1 cursor-pointer hover:scale-105"
                 >
                   <MoonIcon className="w-8 fill-txt-1" />
                   <SunIcon className="w-8 fill-txt-1" />
@@ -103,7 +103,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             data-tooltip-id="nav-tooltip"
             data-tooltip-content="Settings"
           >
-            <SettingsIcon className="w-12 fill-txt-1" />
+            <SettingsIcon className="w-12 fill-txt-1 hover:scale-105" />
           </div>
         )}
         {sessionUser ? (
@@ -116,7 +116,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             data-tooltip-id="nav-tooltip"
             data-tooltip-content="Logout"
           >
-            <LogOutIcon className="w-12 fill-txt-1" />
+            <LogOutIcon className="w-12 fill-txt-1 hover:scale-105" />
           </div>
         ) : (
           <NavLink
@@ -125,7 +125,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             data-tooltip-id="nav-tooltip"
             data-tooltip-content="Login"
           >
-            <LogInIcon className="w-12 fill-txt-1" />
+            <LogInIcon className="w-12 fill-txt-1 hover:scale-105" />
           </NavLink>
         )}
       </div>
