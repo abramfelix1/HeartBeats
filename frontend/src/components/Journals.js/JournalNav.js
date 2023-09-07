@@ -55,10 +55,10 @@ export default function JournalNav() {
       })
     );
   };
-
+  // 2xl:min-w-[700px] xl:min-w-[550px] lg:min-w-[400px] md:min-w-[350px]
   return (
-    <div className="flex hover:cursor-default">
-      <div className="flex flex-col bg-bkg-card relative py-4 rounded-l-3xl">
+    <div className="flex flex-grow hover:cursor-default h-full w-full rounded-l-3xl">
+      <div className="flex flex-grow flex-col bg-bkg-card relative py-4 rounded-l-3xl">
         <div className="px-4">
           <div className="flex flex-row justify-between text-txt-1 text-2xl font-semibold">
             <>Journals</>
@@ -91,7 +91,7 @@ export default function JournalNav() {
             <div className="">Created At</div>
           </div>
         </div>
-        <div className="journal-list px-4 max-w-[700px] min-w-[700px] h-full">
+        <div className="journal-list px-4 h-full">
           {sortedJournals ? (
             sortedJournals
               .filter((journal) =>
@@ -123,13 +123,17 @@ export default function JournalNav() {
                       data-tooltip-id="journal-tooltip"
                       data-tooltip-content="Edit Journal"
                       onClick={(e) => {
+                        e.stopPropagation();
                         setJournalId(journalEntry.id);
                         setEditorOpen(true);
                       }}
                     />
                     <TrashIcon
                       className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
-                      onClick={() => setType("DELETE")}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setType("DELETE");
+                      }}
                       data-tooltip-id="journal-tooltip"
                       data-tooltip-content="Delete Journal"
                     />

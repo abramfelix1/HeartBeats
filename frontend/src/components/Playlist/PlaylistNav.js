@@ -49,8 +49,8 @@ export default function PlaylistNav() {
   };
 
   return (
-    <div className="flex hover:cursor-default">
-      <div className="flex flex-col bg-bkg-card relative py-4 rounded-l-3xl">
+    <div className="flex hover:cursor-default h-full w-full">
+      <div className="flex flex-grow flex-col bg-bkg-card relative py-4 rounded-l-3xl">
         <div className="px-4">
           <div className="flex flex-row justify-between text-txt-1 text-2xl font-semibold">
             <>Playlists</>
@@ -83,7 +83,7 @@ export default function PlaylistNav() {
             <div className="">Created At</div>
           </div>
         </div>
-        <div className="journal-list px-4 max-w-[700px] min-w-[700px] h-full ">
+        <div className="journal-list px-4 h-full ">
           {sortedPlaylists ? (
             sortedPlaylists
               .filter((playlist) =>
@@ -96,6 +96,7 @@ export default function PlaylistNav() {
                   onClick={() => {
                     setPlaylistId(playlist.id);
                     setShowPlaylist(true);
+                    setPlaylistOpen(false);
                   }}
                   onMouseEnter={(e) => setHoverId(playlist.id)}
                   onMouseLeave={(e) => setHoverId(null)}

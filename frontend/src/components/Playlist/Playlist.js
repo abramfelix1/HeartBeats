@@ -21,7 +21,7 @@ import { HowlerContext } from "../../context/howlerContext";
 
 export default function Playlist() {
   const dispatch = useDispatch();
-  const { playlistId, isSongRecsShown, setIsSongRecsShown, setShowPlaylist } =
+  const { playlistId, setPlaylistOpen, setShowPlaylist } =
     useContext(PlaylistContext);
   const { journal } = useContext(JournalContext);
   const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
@@ -35,6 +35,7 @@ export default function Playlist() {
 
   const closeHandler = () => {
     setShowPlaylist(false);
+    setPlaylistOpen(true);
   };
 
   const handleBlur = () => {
@@ -61,7 +62,7 @@ export default function Playlist() {
   return (
     playlist && (
       <div
-        className={`py-4 bg-bkg-card flex flex-col flex-grow w-full mb-2  rounded-3xl cursor-default overflow-y-auto max-w-[700px] min-w-[700px]
+        className={`py-4 bg-bkg-card flex flex-col flex-grow w-full mb-2  rounded-l-3xl cursor-default overflow-y-auto
       `}
       >
         <div className="px-4">

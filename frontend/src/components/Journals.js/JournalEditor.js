@@ -64,8 +64,7 @@ export default function JournalEditor() {
         setPlaylistId(null);
       }
     }
-    dispatch(resetRecSongsAction());
-    setIsSongRecsShown(false);
+    // dispatch(resetRecSongsAction());
   }, [journalId]);
 
   const modules = {

@@ -13,6 +13,8 @@ import PlaylistContainer from "../Playlist/PlaylistContainer";
 import Playlist from "../Playlist/Playlist";
 import SongRecs from "../Songs/SongRecs";
 import { convertTime } from "../../utils/helper";
+import JournalNav from "../Journals.js/JournalNav";
+import PlaylistNav from "../Playlist/PlaylistNav";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -45,7 +47,7 @@ export default function Dashboard() {
   return (
     <>
       <Modal />
-      <div className="bg-bkg-body text-txt-1 w-screen h-screen flex flex-col relative">
+      <div className="bg-bkg-body flex-row text-txt-1 w-screen h-screen flex  relative">
         <Navigation
           isLoaded={isLoaded}
           navHovered={navHovered}
@@ -54,24 +56,32 @@ export default function Dashboard() {
         />
         {journalEntry && (
           <div className="">
-            <p className="AA">{convertTime(journalEntry.updatedAt)}</p>
-          </div>
-        )}
-        {playlistOpen && <PlaylistContainer />}
-        {journalOpen && <JournalContainer />}
-        {editorOpen && (
-          <div className="flex h-full w-full justify-center">
-            <JournalEditor />
-          </div>
-        )}
-        {showPlaylist && (
-          <div className="flex h-full right-0 absolute z-[4]">
-            <Playlist />
+            <p className="absolute">{convertTime(journalEntry.updatedAt)}</p>
           </div>
         )}
         {isSongRecsShown && (
-          <div className="flex h-full items-center">
+          <div className="flex h-full w-full items-center overflow-hidden">
             <SongsContainer />
+          </div>
+        )}
+        {showPlaylist && (
+          <div className="flex flex-grow z-[3] h-full w-[55%]">
+            <Playlist />
+          </div>
+        )}
+        {playlistOpen && (
+          <div className="flex flex-grow z-[3] h-full w-[55%]">
+            <PlaylistNav />
+          </div>
+        )}
+        {journalOpen && (
+          <div className="flex flex-grow z-[3] h-full w-[55%]">
+            <JournalNav />
+          </div>
+        )}
+        {editorOpen && (
+          <div className="flex h-full w-full justify-center absolute">
+            <JournalEditor />
           </div>
         )}
       </div>
