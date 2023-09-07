@@ -1,17 +1,10 @@
-import React, { useRef, useState, useEffect, useContext, useMemo } from "react";
+import React, { useState, useEffect, useContext, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Tooltip } from "react-tooltip";
-import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
 import { PlaylistContext } from "../../context/playlistContext";
 import { ThemeContext } from "../../context/themeContext";
-import {
-  getPlaylist,
-  createPlaylist,
-  deletePlaylist,
-  getAllPlaylists,
-} from "../../store/playlists";
-import { resetRecSongsAction } from "../../store/spotify";
+import { createPlaylist, getAllPlaylists } from "../../store/playlists";
 import spotifyIconGreen from "../../images/Spotify_Icon_RGB_Green.png";
 import spotifyIcon from "../../images/Spotify_Icon_RGB_Black.png";
 import { AiOutlineSearch } from "react-icons/ai";
@@ -23,9 +16,8 @@ import { convertTime } from "../../utils/helper";
 
 export default function PlaylistNav() {
   const dispatch = useDispatch();
-  const { playlistId, setPlaylistId, setPlaylistOpen, setShowPlaylist } =
+  const { setPlaylistId, setPlaylistOpen, setShowPlaylist } =
     useContext(PlaylistContext);
-  const { setErrors } = useContext(ErrorContext);
   const { setType, setDeleteContext } = useContext(ModalContext);
   const { theme } = useContext(ThemeContext);
   const playlists = useSelector((state) => Object.values(state.playlists));
@@ -50,20 +42,10 @@ export default function PlaylistNav() {
     );
   }, [playlists]);
 
-  const getPlaylistHandler = () => {
-    console.log("CLICK GET PLAYLIST");
-    dispatch(getPlaylist(playlistId));
-  };
-
   const createPlaylistHandler = async () => {
     console.log("CLICK CREATE PLAYLIST");
     const playlist = await dispatch(createPlaylist());
     setPlaylistId(playlist.playlist.id);
-  };
-
-  const deletePlaylistHandler = () => {
-    dispatch(deletePlaylist(playlistId));
-    setPlaylistId(null);
   };
 
   return (

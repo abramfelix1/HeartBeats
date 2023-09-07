@@ -2,24 +2,17 @@ import { useState, useEffect, useContext, useMemo } from "react";
 import { Tooltip } from "react-tooltip";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllJournals } from "../../store/journals";
-import { MdExpandMore, MdExpandLess } from "react-icons/md";
-import { PiTrash } from "react-icons/pi";
 import { JournalContext } from "../../context/journalContext";
 import { ModalContext } from "../../context/ModalContext";
-import { IoCreateOutline } from "react-icons/io5";
 import { createJournal } from "../../store/journals";
 import "./journal.css";
 import { PlaylistContext } from "../../context/playlistContext";
-import { getAllPlaylists } from "../../store/playlists";
 import { AiOutlineSearch } from "react-icons/ai";
 import { ReactComponent as CloseIcon } from "../../images/icons/outline/close.svg";
 import { ReactComponent as TrashIcon } from "../../images/icons/outline/trash.svg";
 import { ReactComponent as ComposeIcon } from "../../images/icons/outline/compose.svg";
-import { ReactComponent as PlaylistIcon } from "../../images/icons/outline/playlist.svg";
-import { ReactComponent as PlaylistAddIcon } from "../../images/icons/outline/add-playlist.svg";
 import JournalNavItem from "./JournalNavItem";
 import { getRecSongs } from "../../store/spotify";
-import { getEnergy, getValence } from "../../utils/journal-analyzer";
 import { convertTime } from "../../utils/helper";
 
 export default function JournalNav() {
@@ -27,8 +20,7 @@ export default function JournalNav() {
   const { setType } = useContext(ModalContext);
   const { setJournalOpen, setJournalId, setEditorOpen } =
     useContext(JournalContext);
-  const { setPlaylistId, isSongRecsShown, setIsSongRecsShown } =
-    useContext(PlaylistContext);
+  const { setPlaylistId, setIsSongRecsShown } = useContext(PlaylistContext);
   const journals = useSelector((state) => Object.values(state.journals));
   const [searchInput, setSearchInput] = useState("");
 
@@ -46,8 +38,6 @@ export default function JournalNav() {
       (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
     );
   }, [journals]);
-
-  const [filteredJournals, setFilteredJournals] = useState([]);
 
   const createJournalHandler = async () => {
     const journal = await dispatch(createJournal());
