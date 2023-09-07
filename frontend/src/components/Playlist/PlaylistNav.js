@@ -131,7 +131,7 @@ export default function PlaylistNav() {
                     {convertTime(journalEntry.createdAt)}
                   </div>{" "}
                   <div className="flex flex-row gap-x-2 items-center">
-                    {/* <ComposeIcon
+                    <ComposeIcon
                       className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
                       data-tooltip-id="journal-tooltip"
                       data-tooltip-content="Edit Journal"
@@ -139,7 +139,7 @@ export default function PlaylistNav() {
                         setJournalId(journalEntry.id);
                         setEditorOpen(true);
                       }}
-                    /> */}
+                    />
                     <TrashIcon
                       className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
                       onClick={() => setType("DELETE")}
