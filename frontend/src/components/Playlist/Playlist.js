@@ -16,12 +16,16 @@ import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
 import { ReactComponent as CloseIcon } from "../../images/icons/outline/close.svg";
 import { ReactComponent as PlayIcon } from "../../images/icons/outline/play.svg";
+import { ReactComponent as StopIcon } from "../../images/icons/outline/stop.svg";
+import { HowlerContext } from "../../context/howlerContext";
 
 export default function Playlist() {
   const dispatch = useDispatch();
   const { playlistId, isSongRecsShown, setIsSongRecsShown, setShowPlaylist } =
     useContext(PlaylistContext);
   const { journal } = useContext(JournalContext);
+  const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
+    useContext(HowlerContext);
   const playlist = useSelector((state) => state.playlists[playlistId]);
   const playlistSongs = playlist?.songs ? Object.values(playlist.songs) : [];
   const [title, setTitle] = useState("");
@@ -85,18 +89,40 @@ export default function Playlist() {
             {playlistSongs &&
               playlistSongs.map((song, index) => (
                 <div
-                  className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center border rounded h-14 border-transparent relative"
+                  className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center border rounded h-14 border-transparent relative hover:bg-bkg-nav"
                   key={song.id}
                   // data-id={song.id}
                   onMouseEnter={(e) => setHoverId(song.id)}
                   onMouseLeave={(e) => setHoverId(null)}
                 >
                   {hoverId === song.id && song?.preview ? (
-                    <PlayIcon
-                      className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none"
-                      data-tooltip-id="playlist-tooltip"
-                      data-tooltip-content="Preview"
-                    />
+                    <>
+                      <button
+                        onClick={() => {
+                          if (isPlaying && currentPlaying === index) {
+                            stopSound();
+                          } else {
+                            playSound(song.preview, index);
+                          }
+                        }}
+                      >
+                        <div>
+                          {isPlaying && currentPlaying === index ? (
+                            <StopIcon
+                              className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none"
+                              data-tooltip-id="journal-tooltip"
+                              data-tooltip-content="Play (ADD LATER)"
+                            />
+                          ) : (
+                            <PlayIcon
+                              className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none"
+                              data-tooltip-id="journal-tooltip"
+                              data-tooltip-content="Play (ADD LATER)"
+                            />
+                          )}
+                        </div>
+                      </button>
+                    </>
                   ) : (
                     <div className="text-center">{index + 1}</div>
                   )}
