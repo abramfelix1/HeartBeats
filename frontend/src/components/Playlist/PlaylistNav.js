@@ -18,7 +18,7 @@ export default function PlaylistNav() {
   const dispatch = useDispatch();
   const { setPlaylistId, setPlaylistOpen, setShowPlaylist } =
     useContext(PlaylistContext);
-  const { setType, setDeleteContext } = useContext(ModalContext);
+  const { setType, setDeleteContext, setDeleteId } = useContext(ModalContext);
   const { theme } = useContext(ThemeContext);
   const playlists = useSelector((state) => Object.values(state.playlists));
   const [searchInput, setSearchInput] = useState("");
@@ -31,10 +31,6 @@ export default function PlaylistNav() {
   useEffect(() => {
     dispatch(getAllPlaylists());
   }, []);
-
-  useEffect(() => {
-    console.log("PLAYLIST HOVER ID: ", hoverId);
-  }, [hoverId]);
 
   const sortedPlaylists = useMemo(() => {
     return playlists.sort(
@@ -143,6 +139,7 @@ export default function PlaylistNav() {
                       className="w-10 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
                       onClick={(e) => {
                         e.stopPropagation();
+                        setDeleteId(playlist.id);
                         setType("DELETE");
                         setDeleteContext("PLAYLIST");
                       }}

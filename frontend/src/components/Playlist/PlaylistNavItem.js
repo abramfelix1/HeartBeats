@@ -1,8 +1,6 @@
 import React from "react";
 
 export default function PlaylistNavItem({ songs }) {
-  console.log("PLAYLIST SONGs", songs);
-
   const getNumColumns = (count) => {
     switch (count) {
       case 1:

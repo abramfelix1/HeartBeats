@@ -9,13 +9,14 @@ import { deletePlaylist } from "../../store/playlists";
 export default function DeleteConfirmation({ id }) {
   const dispatch = useDispatch();
   const { setJournalId, journalId } = useContext(JournalContext);
-  const { setType, deleteContext, setDeleteContext } = useContext(ModalContext);
+  const { setType, deleteContext, setDeleteContext, deleteId, setDeleteId } =
+    useContext(ModalContext);
   const { playlistId, setPlaylistId } = useContext(PlaylistContext);
   const journalEntry = useSelector((state) =>
-    journalId ? state.journals[journalId] : null
+    deleteId ? state.journals[deleteId] : null
   );
   const playlist = useSelector((state) =>
-    playlistId ? state.playlists[playlistId] : null
+    deleteId ? state.playlists[deleteId] : null
   );
 
   const deleteJournalHandler = () => {
@@ -23,11 +24,11 @@ export default function DeleteConfirmation({ id }) {
     dispatch(deleteJournal(journalId));
     setJournalId(null);
     setPlaylistId(null);
+    setDeleteId(null);
   };
 
   const deletePlaylistHandler = () => {
     setType(null);
-    console.log("PLAYLIST DELETE ID: ", playlistId);
     dispatch(deletePlaylist(playlistId));
     setPlaylistId(null);
     setDeleteContext(null);
@@ -47,14 +48,19 @@ export default function DeleteConfirmation({ id }) {
         <div className="flex flex-row gap-x-5 justify-end">
           <button
             className="w-fit h-fit p-2 rounded-xl border-[1px] border-black hover:bg-slate-200  font-semibold"
-            onClick={() => setType(null)}
+            onClick={() => {
+              setType(null);
+              setDeleteContext(null);
+            }}
           >
             Cancel
           </button>
           <button
             className="w-fit h-fit p-2 rounded-xl border-[1px] border-black hover:bg-slate-200 font-semibold"
-            onClick={()=>{
-              deleteContext === "PLAYLIST" ? deletePlaylistHandler() : deleteJournalHandler()
+            onClick={() => {
+              deleteContext === "PLAYLIST"
+                ? deletePlaylistHandler()
+                : deleteJournalHandler();
             }}
           >
             Delete

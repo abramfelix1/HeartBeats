@@ -17,7 +17,7 @@ import { convertTime } from "../../utils/helper";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
-  const { setType } = useContext(ModalContext);
+  const { setType, setDeleteId } = useContext(ModalContext);
   const quillRefs = useRef([]);
   const {
     setJournalOpen,
@@ -73,7 +73,7 @@ export default function JournalNav() {
     } else {
       dispatch(resetRecSongsAction());
       setJournalContent("WRITE HOW YOU ARE FEELING!");
-      setJournalId(null)
+      setJournalId(null);
     }
   };
   // 2xl:min-w-[700px] xl:min-w-[550px] lg:min-w-[400px] md:min-w-[350px]
@@ -161,6 +161,7 @@ export default function JournalNav() {
                         className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
                         onClick={(e) => {
                           e.stopPropagation();
+                          setDeleteId(journalEntry.id);
                           setType("DELETE");
                         }}
                         data-tooltip-id="journal-tooltip"
