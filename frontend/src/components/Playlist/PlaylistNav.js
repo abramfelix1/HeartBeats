@@ -4,6 +4,7 @@ import { Tooltip } from "react-tooltip";
 import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
 import { PlaylistContext } from "../../context/playlistContext";
+import { ThemeContext } from "../../context/themeContext";
 import {
   getPlaylist,
   createPlaylist,
@@ -11,18 +12,20 @@ import {
   getAllPlaylists,
 } from "../../store/playlists";
 import { resetRecSongsAction } from "../../store/spotify";
+import spotifyIconGreen from "../../images/Spotify_Icon_RGB_Green.png";
+import spotifyIcon from "../../images/Spotify_Icon_RGB_Black.png";
 import { AiOutlineSearch } from "react-icons/ai";
-
 import { ReactComponent as CloseIcon } from "../../images/icons/outline/close.svg";
 import { ReactComponent as TrashIcon } from "../../images/icons/outline/trash.svg";
 import { ReactComponent as PlayIcon } from "../../images/icons/outline/play.svg";
 
 export default function PlaylistNav() {
   const dispatch = useDispatch();
-  const { playlistId, setPlaylistId, setPlaylistOpen } =
+  const { playlistId, setPlaylistId, setPlaylistOpen, setShowPlaylist } =
     useContext(PlaylistContext);
   const { setErrors } = useContext(ErrorContext);
   const { setType, setDeleteContext } = useContext(ModalContext);
+  const { theme } = useContext(ThemeContext);
   const playlists = useSelector((state) => Object.values(state.playlists));
   const [searchInput, setSearchInput] = useState("");
   const [hoverId, setHoverId] = useState("null");
@@ -82,7 +85,7 @@ export default function PlaylistNav() {
       <div className="flex flex-col bg-bkg-card relative py-4 rounded-l-3xl">
         <div className="px-4">
           <div className="flex flex-row justify-between text-txt-1 text-2xl font-semibold">
-            <>Journals</>
+            <>Playlists</>
             <CloseIcon
               className="fill-txt-1 w-8 h-fit hover:cursor-pointer"
               onClick={closeHandler}
@@ -94,7 +97,7 @@ export default function PlaylistNav() {
               onChange={(e) => {
                 setSearchInput(e.target.value);
               }}
-              placeholder={"Search journals..."}
+              placeholder={"Search playlists..."}
               className="bg-bkg-button pl-8 p-2 w-full rounded-full  border-2 border-transparent outline-none focus:border-text-txt-hover caret-text-txt-hover"
             />
             <div className="flex justify-center px-3 text-white bottom-0">
@@ -124,6 +127,7 @@ export default function PlaylistNav() {
                   key={playlist.id}
                   onClick={() => {
                     setPlaylistId(playlist.id);
+                    setShowPlaylist(true);
                   }}
                   onMouseEnter={(e) => setHoverId(playlist.id)}
                   onMouseLeave={(e) => setHoverId(null)}
@@ -147,17 +151,27 @@ export default function PlaylistNav() {
                     {convertTime(playlist.createdAt)}
                   </div>{" "}
                   <div className="flex flex-row gap-x-2 items-center">
-                    {/* <ComposeIcon
-                      className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
-                      data-tooltip-id="journal-tooltip"
-                      data-tooltip-content="Edit Journal"
-                      onClick={(e) => {
-                        setJournalId(playlist.id);
-                        setEditorOpen(true);
-                      }}
-                    /> */}
+                    <div>
+                      {theme === "dark" ? (
+                        <img
+                          src={spotifyIconGreen}
+                          alt="spotify icon"
+                          className="w-9"
+                          data-tooltip-id="journal-tooltip"
+                          data-tooltip-content="Open Spotify (ADD LATER)"
+                        />
+                      ) : (
+                        <img
+                          src={spotifyIcon}
+                          alt="spotify icon"
+                          className="w-9"
+                          data-tooltip-id="journal-tooltip"
+                          data-tooltip-content="Open Spotify (ADD LATER)"
+                        />
+                      )}
+                    </div>
                     <TrashIcon
-                      className="w-6 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
+                      className="w-10 h-fit ml-3 m-0 fill-txt-hover hover:cursor-pointer outline-none border-none"
                       onClick={() => {
                         setType("DELETE");
                         setDeleteContext("PLAYLIST");

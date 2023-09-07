@@ -10,11 +10,12 @@ import SongsContainer from "../Songs/SongsContainer";
 import JournalEditor from "../Journals.js/JournalEditor";
 import { PlaylistContext } from "../../context/playlistContext";
 import PlaylistContainer from "../Playlist/PlaylistContainer";
+import Playlist from "../Playlist/Playlist";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
   const { journalOpen, editorOpen, setEditorOpen } = useContext(JournalContext);
-  const { playlistOpen } = useContext(PlaylistContext);
+  const { playlistOpen, showPlaylist } = useContext(PlaylistContext);
   const [isLoaded, setIsLoaded] = useState(false);
   const [navHovered, setNavHovered] = useState(false);
 
@@ -49,6 +50,11 @@ export default function Dashboard() {
         {editorOpen && (
           <div className="flex h-full w-full justify-center">
             <JournalEditor />
+          </div>
+        )}
+        {showPlaylist && (
+          <div className="flex h-full  right-0  absolute z-[4]">
+            <Playlist />
           </div>
         )}
       </div>

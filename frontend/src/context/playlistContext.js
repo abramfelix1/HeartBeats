@@ -5,6 +5,7 @@ export const PlaylistContext = createContext();
 export const PlaylistProvider = ({ children }) => {
   const [playlistId, setPlaylistId] = useState(null);
   const [playlistOpen, setPlaylistOpen] = useState(false);
+  const [showPlaylist, setShowPlaylist] = useState(false);
   const [isSongRecsShown, setIsSongRecsShown] = useState(false);
 
   useEffect(() => {
@@ -14,6 +15,10 @@ export const PlaylistProvider = ({ children }) => {
   useEffect(() => {
     console.log("SONGREC CONTEXT: ", isSongRecsShown);
   }, [isSongRecsShown]);
+
+  useEffect(() => {
+    console.log("SHOW PLAYIST CONTEXT: ", isSongRecsShown);
+  }, [showPlaylist]);
 
   const togglePlaylist = () => {
     console.log("PLAYLIST OPEN: ", playlistOpen);
@@ -30,6 +35,8 @@ export const PlaylistProvider = ({ children }) => {
         playlistOpen,
         setPlaylistOpen,
         togglePlaylist,
+        showPlaylist,
+        setShowPlaylist,
       }}
     >
       {children}
