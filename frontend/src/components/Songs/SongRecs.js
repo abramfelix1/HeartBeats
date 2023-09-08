@@ -41,7 +41,7 @@ export default function SongRecs() {
           <div className="flex flex-row gap-x-8 w-max">
             {songs &&
               songs.map((song, idx) => (
-                <div className="bg-bkg-body song-item flex flex-col max-w-[256px] shadow-md">
+                <div className="bg-bkg-body song-item flex flex-col max-w-[256px] shadow-md hover:scale-105">
                   <img
                     src={song.album.images[1].url}
                     alt="album cover"
