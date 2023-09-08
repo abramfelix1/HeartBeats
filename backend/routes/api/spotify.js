@@ -298,15 +298,17 @@ router.post("/recsongs", async (req, res) => {
 
 /* SPOTIFY SEARCH */
 router.get("/search", async (req, res) => {
+  const accessToken = req.cookies.access_token;
   const query = req.query.q;
   const url = `https://api.spotify.com/v1/search?q=${query}&type=artist,track&limit=20`;
 
   try {
     const response = await fetch(url, {
-      headers: {
-        Authorization: { Authorization: "Bearer " + accessToken },
-      },
+      method: "GET",
+      headers: { Authorization: "Bearer " + accessToken },
     });
+
+    const data = await response.json();
 
     if (response.ok) {
       return res.json({ ...data });

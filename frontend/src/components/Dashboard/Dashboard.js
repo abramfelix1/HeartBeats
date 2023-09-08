@@ -18,6 +18,7 @@ import PlaylistNav from "../Playlist/PlaylistNav";
 import { ReactComponent as ComposeIcon } from "../../images/icons/outline/compose2.svg";
 import { ReactComponent as RefreshIcon } from "../../images/icons/outline/refresh.svg";
 import { getEnergy, getValence } from "../../utils/journal-analyzer";
+import SearchSpotify from "../Songs/SearchSpotify";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -63,6 +64,7 @@ export default function Dashboard() {
 
   return (
     <>
+      <SearchSpotify />
       <Modal />
       <div className="bg-bkg-body flex-row text-txt-1 w-screen h-screen flex  relative cursor-default">
         <Navigation

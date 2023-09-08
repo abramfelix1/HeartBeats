@@ -3,6 +3,7 @@ export const GET_SPOTIFY = "spotify/GET_SPOTIFY";
 export const GET_SONG = "spotify/GET_SONG";
 export const GET_REC_SONGS = "spotify/GET_REC_SONGS";
 export const RESET_REC_SONGS = "spotify/RESET_REC_SONGS";
+export const GET_SEARCH = "spotify/GET_SEARCH";
 
 export const getSpotifyUserAction = (payload) => {
   return {
@@ -28,6 +29,13 @@ export const getRecSongsAction = (payload) => {
 export const resetRecSongsAction = () => {
   return {
     type: RESET_REC_SONGS,
+  };
+};
+
+export const spotifySearchAction = (payload) => {
+  return {
+    type: GET_SEARCH,
+    payload,
   };
 };
 
@@ -85,9 +93,26 @@ export const getRecSongs = (payload) => async (dispatch) => {
   }
 };
 
+export const spotifySearch = (payload) => async (dispatch) => {
+  try {
+    const response = await csrfFetch(`/api/spotify/search?q=${payload}`, {
+      method: "GET",
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      dispatch(spotifySearchAction(data));
+    }
+  } catch (err) {
+    const data = await err.json();
+    console.error("spotifySearch ERROR:", data.error);
+  }
+};
+
 const initialState = {
   song: null,
   songs: null,
+  search: null,
 };
 
 export const spotifyReducer = (state = initialState, action) => {
@@ -99,6 +124,10 @@ export const spotifyReducer = (state = initialState, action) => {
     }
     case GET_REC_SONGS: {
       newState.songs = action.payload;
+      return newState;
+    }
+    case GET_SEARCH: {
+      newState.search = action.payload;
       return newState;
     }
     case RESET_REC_SONGS: {

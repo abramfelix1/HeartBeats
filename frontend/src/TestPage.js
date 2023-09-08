@@ -18,6 +18,7 @@ import {
 import { checkLoggedIn } from "./store/session";
 import { useSelector } from "react-redux";
 import { Howl } from "howler";
+import SearchSpotify from "./components/Songs/SearchSpotify";
 
 export default function TestPage() {
   const dispatch = useDispatch();
@@ -391,6 +392,7 @@ export default function TestPage() {
           ADD SONG TO PLAYLIST (CREATE SONG)
         </button>
       </div>
+      <SearchSpotify />
     </div>
   );
 }
