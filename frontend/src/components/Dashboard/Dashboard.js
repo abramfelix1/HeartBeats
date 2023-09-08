@@ -23,7 +23,7 @@ export default function Dashboard() {
   const dispatch = useDispatch();
   const { journalId, journalOpen, editorOpen, setEditorOpen, journalContent } =
     useContext(JournalContext);
-  const { playlistOpen, showPlaylist, isSongRecsShown } =
+  const { playlistOpen, showPlaylist, isSongRecsShown, setIsSongRecsShown } =
     useContext(PlaylistContext);
   const [isLoaded, setIsLoaded] = useState(false);
   const [navHovered, setNavHovered] = useState(false);
@@ -103,21 +103,26 @@ export default function Dashboard() {
             />
           </div>
         )}
-        {isSongRecsShown && (
-          <div className="flex h-full w-full items-center overflow-hidden relative">
-            <SongsContainer />
-            <div
-              className="absolute w-full h-fit flex flex-col items-center justify-center
+        {isSongRecsShown && journalEntry && journalContent ? (
+          <>
+            <div className="flex h-full w-full items-center overflow-hidden relative">
+              <SongsContainer />
+              <div
+                className="absolute w-full h-fit flex flex-col items-center justify-center
             2xl:bottom-36 xl:bottom-8 lg:bottom-4 md:bottom-2"
-            >
-              <RefreshIcon
-                className="fill-txt-1 w-10 hover:scale-105 hover:cursor-pointer"
-                onClick={recSongsHandler}
-              />
-              <p className="text-txt-1">Refresh Songs</p>
+              >
+                <RefreshIcon
+                  className="fill-txt-1 w-10 hover:scale-105 hover:cursor-pointer"
+                  onClick={recSongsHandler}
+                />
+                <p className="text-txt-1">Refresh Songs</p>
+              </div>
             </div>
-          </div>
+          </>
+        ) : (
+          <div className="flex h-full w-full opacity-0">a</div>
         )}
+
         {showPlaylist && (
           <div className="flex flex-grow z-[3] h-full w-[55%]">
             <Playlist />

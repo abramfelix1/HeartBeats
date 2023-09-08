@@ -38,41 +38,29 @@ export default function SongRecs() {
           ref={scrollContainerRef}
           className="flex flex-col songs-list mx-4 w-full relative"
         >
-          <div className="flex flex-row gap-x-8 w-max ">
+          <div className="flex flex-row gap-x-8 w-max">
             {songs &&
               songs.map((song, idx) => (
-                <div className="flex flex-col pt-4 max-w-[208px]">
+                <div className="bg-bkg-body song-item flex flex-col max-w-[256px] shadow-md">
                   <img
                     src={song.album.images[1].url}
                     alt="album cover"
-                    className="h-52 select-none"
+                    className="h-64 w-64 select-none"
                   />
-                  <a
-                    href={song.external_urls.spotify}
-                    className="flex flex-row gap-x-2 border-[1px] border-bkg-nav p-1 rounded-3xl mt-2 justify-center hover:border-txt-hover font-semibold w-full select-none"
-                  >
-                    <img src={spotifyIcon} alt="spotify icon" className="w-7" />{" "}
-                    <p>Open Spotify</p>
-                  </a>
-                  <div className="flex flex-col gap-y-1 py-2 font-semibold">
-                    <p className="text-lg truncate">{song.name}</p>
-                    <p className="text-bkg-text truncate">
-                      <span></span>
-                      {song.artists[0].name}
-                      {song.artists.length > 1 && " ft. "}
-                      {song.artists.slice(1).map((artist, idx, array) => (
-                        <span key={idx}>
-                          {artist.name}
-                          {array.length > 1 && idx !== array.length - 1
-                            ? ", "
-                            : ""}
-                        </span>
-                      ))}
-                    </p>
-                    <p className="text-bkg-text truncate">{song.album.name}</p>
-                    <div className="flex flex-row gap-x-2 justify-between">
+                  <div className="flex w-full flex-row-reverse justify-between items-center mt-2 px-4">
+                    <a
+                      href={song.external_urls.spotify}
+                      className="flex flex-row w-fit gap-x-2 p-1 rounded-3xl  select-none items items-center"
+                    >
+                      <img
+                        src={spotifyIcon}
+                        alt="spotify icon"
+                        className="w-7 hover:scale-105"
+                      />{" "}
+                    </a>
+                    <div className="flex flex-row gap-x-4 items-center">
                       {song.preview_url ? (
-                        <>
+                        <div className="flex items-center">
                           <button
                             onClick={() => {
                               if (isPlaying && currentPlaying === idx) {
@@ -82,24 +70,24 @@ export default function SongRecs() {
                               }
                             }}
                           >
-                            <div>
+                            <div className="flex items-center">
                               {isPlaying && currentPlaying === idx ? (
-                                <BsStopCircle className="text-bkg-text text-xl hover:text-txt-hover hover:scale-105" />
+                                <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
                               ) : (
-                                <BsPlayCircle className=" text-bkg-text text-xl hover:text-txt-hover hover:scale-105" />
+                                <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
                               )}
                             </div>
                           </button>
                           {isPlaying && currentPlaying === idx && (
-                            <p>{remainingTime}</p>
+                            <p className="pl-2">{remainingTime}</p>
                           )}
-                        </>
+                        </div>
                       ) : (
-                        <p className="text-bkg-text">No Preview</p>
+                        <BsPlayCircle className="text-gray-300 text-2xl" />
                       )}
                       {playlistId && (
                         <IoAddCircleOutline
-                          className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105 hover:cursor-pointer"
+                          className="text-bkg-text text-3xl hover:text-txt-hover hover:scale-105 hover:cursor-pointer"
                           onClick={() => {
                             addSongHandler({
                               name: song.name,
@@ -114,6 +102,25 @@ export default function SongRecs() {
                         />
                       )}
                     </div>
+                  </div>
+                  <div className="flex flex-col gap-y-1 py-2 font-semibold px-4">
+                    <p className="text-xl truncate">{song.name}</p>
+                    <p className="text-bkg-text truncate text-lg">
+                      <span></span>
+                      {song.artists[0].name}
+                      {song.artists.length > 1 && " ft. "}
+                      {song.artists.slice(1).map((artist, idx, array) => (
+                        <span key={idx}>
+                          {artist.name}
+                          {array.length > 1 && idx !== array.length - 1
+                            ? ", "
+                            : ""}
+                        </span>
+                      ))}
+                    </p>
+                    <p className="text-bkg-text truncate text-lg">
+                      {song.album.name}
+                    </p>
                   </div>
                 </div>
               ))}
