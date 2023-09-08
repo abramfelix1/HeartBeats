@@ -46,7 +46,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
 
   return (
     <div className=" flex w-full justify-end absolute z-[1]">
-      <div className="bg-bkg-comp2 flex flex-row items center gap-3 h-fit w-fit p-2 rounded-lg m-4">
+      <div className="bg-bgk-card flex flex-row items center gap-3 h-fit w-fit p-2 rounded-lg m-4">
         {sessionUser && (
           <div
             className=" flex gap-x-2 justify-center items-center  hover:cursor-pointer"
@@ -99,7 +99,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             )}
           </div>
         )}
-        {sessionUser && (
+        {/* {sessionUser && (
           <div
             className="flex gap-x-2 justify-center items-center  hover:cursor-pointer"
             data-tooltip-id="nav-tooltip"
@@ -107,7 +107,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
           >
             <SettingsIcon className="w-12 fill-txt-1 hover:scale-105" />
           </div>
-        )}
+        )} */}
         {sessionUser ? (
           <div
             className="flex gap-x-2 justify-center items-center hover:cursor-pointer"

@@ -36,9 +36,9 @@ export default function SongRecs() {
       <div className="flex rounded-3xl relative cursor-default">
         <div
           ref={scrollContainerRef}
-          className="songs-list mx-4 overflow-x-auto"
+          className="flex flex-col songs-list mx-4 w-full relative"
         >
-          <div className="flex flex-row gap-x-8 w-max overflow-hidden">
+          <div className="flex flex-row gap-x-8 w-max ">
             {songs &&
               songs.map((song, idx) => (
                 <div className="flex flex-col pt-4 max-w-[208px]">

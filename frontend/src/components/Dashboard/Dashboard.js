@@ -3,7 +3,7 @@ import Navigation from "../Navigation";
 import JournalContainer from "../Journals.js/JournalContainer";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
-import { getSpotifyUser } from "../../store/spotify";
+import { getRecSongs, getSpotifyUser } from "../../store/spotify";
 import Modal from "../../utils/Modal";
 import { JournalContext } from "../../context/journalContext";
 import SongsContainer from "../Songs/SongsContainer";
@@ -16,6 +16,8 @@ import { convertTime } from "../../utils/helper";
 import JournalNav from "../Journals.js/JournalNav";
 import PlaylistNav from "../Playlist/PlaylistNav";
 import { ReactComponent as ComposeIcon } from "../../images/icons/outline/compose2.svg";
+import { ReactComponent as RefreshIcon } from "../../images/icons/outline/refresh.svg";
+import { getEnergy, getValence } from "../../utils/journal-analyzer";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -45,6 +47,20 @@ export default function Dashboard() {
 
   // bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#7CA8D2] from-0% to-azure-blue to-100% bg-whoite
 
+  const recSongsHandler = (e) => {
+    if (journalContent) {
+      const energy = getEnergy(journalContent);
+      const valence = getValence(journalContent);
+      dispatch(
+        getRecSongs({
+          valence: valence,
+          energy: energy,
+          genre: "pop",
+        })
+      );
+    }
+  };
+
   return (
     <>
       <Modal />
@@ -66,7 +82,7 @@ export default function Dashboard() {
               </p>
               <button className="cursor-pointer w-10">
                 <ComposeIcon
-                  className="w-10 cursor-pointer fill-txt-1 hover:scale-105"
+                  className="w-8 cursor-pointer fill-txt-1 hover:scale-105"
                   onClick={(e) => {
                     setEditorOpen(true);
                   }}
@@ -88,8 +104,18 @@ export default function Dashboard() {
           </div>
         )}
         {isSongRecsShown && (
-          <div className="flex h-full w-full items-center overflow-hidden">
+          <div className="flex h-full w-full items-center overflow-hidden relative">
             <SongsContainer />
+            <div
+              className="absolute w-full h-fit flex flex-col items-center justify-center
+            2xl:bottom-36 xl:bottom-8 lg:bottom-4 md:bottom-2"
+            >
+              <RefreshIcon
+                className="fill-txt-1 w-10 hover:scale-105 hover:cursor-pointer"
+                onClick={recSongsHandler}
+              />
+              <p className="text-txt-1">Refresh Songs</p>
+            </div>
           </div>
         )}
         {showPlaylist && (
