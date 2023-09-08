@@ -225,7 +225,7 @@ router.get("/songtest", async (req, res) => {
   }
 });
 
-//Get reccomended songs
+/* GET REC SONGS */
 router.post("/recsongs", async (req, res) => {
   //https://developer.spotify.com/documentation/web-api/reference/get-recommendations
   const accessToken = req.cookies.access_token;
@@ -285,6 +285,28 @@ router.post("/recsongs", async (req, res) => {
     );
 
     const data = await response.json();
+
+    if (response.ok) {
+      return res.json({ ...data });
+    } else {
+      res.status(response.status).json({ error: data.error });
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+/* SPOTIFY SEARCH */
+router.get("/search", async (req, res) => {
+  const query = req.query.q;
+  const url = `https://api.spotify.com/v1/search?q=${query}&type=artist,track&limit=20`;
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        Authorization: { Authorization: "Bearer " + accessToken },
+      },
+    });
 
     if (response.ok) {
       return res.json({ ...data });
