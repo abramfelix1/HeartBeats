@@ -22,8 +22,14 @@ import SearchSpotify from "../Songs/SearchSpotify";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
-  const { journalId, journalOpen, editorOpen, setEditorOpen, journalContent } =
-    useContext(JournalContext);
+  const {
+    journalId,
+    journalOpen,
+    editorOpen,
+    setEditorOpen,
+    journalContent,
+    filterOpen,
+  } = useContext(JournalContext);
   const { playlistOpen, showPlaylist, isSongRecsShown, setIsSongRecsShown } =
     useContext(PlaylistContext);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -64,9 +70,8 @@ export default function Dashboard() {
 
   return (
     <>
-      <SearchSpotify />
       <Modal />
-      <div className="bg-bkg-body flex-row text-txt-1 w-screen h-screen flex  relative cursor-default">
+      <div className="bg-bkg-body flex-row text-txt-1 w-screen h-screen flex  relative cursor-default ">
         <Navigation
           isLoaded={isLoaded}
           navHovered={navHovered}
@@ -143,6 +148,7 @@ export default function Dashboard() {
         {editorOpen && (
           <div className="flex h-full w-full justify-center absolute ">
             <JournalEditor />
+            {filterOpen && <SearchSpotify />}
           </div>
         )}
       </div>

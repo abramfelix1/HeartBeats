@@ -27,6 +27,7 @@ import {
 import { getRecSongs, resetRecSongsAction } from "../../store/spotify";
 import { getEnergy, getValence } from "../../utils/journal-analyzer";
 import { PlaylistContext } from "../../context/playlistContext";
+import SearchSpotify from "../Songs/SearchSpotify";
 
 export default function JournalEditor() {
   const dispatch = useDispatch();
@@ -37,6 +38,8 @@ export default function JournalEditor() {
     editorOpen,
     setEditorOpen,
     setJournalContent,
+    filterOpen,
+    setFilterOpen,
   } = useContext(JournalContext);
   const { playlistId, setPlaylistId, isSongRecsShown, setIsSongRecsShown } =
     useContext(PlaylistContext);
@@ -48,10 +51,11 @@ export default function JournalEditor() {
   const [title, setTitle] = useState("Untitled");
   const [body, setBody] = useState(journalEntry?.content || "");
   const editorRef = useRef(null);
+  const [filterHover, setFilterHover] = useState(false);
 
   useEffect(() => {
     const handleEsc = (event) => {
-      if (errors || type === "ERROR") return;
+      if (errors || type === "ERROR" || filterOpen) return;
       if (event.keyCode === 27) setEditorOpen(false);
     };
     window.addEventListener("keydown", handleEsc);
@@ -59,11 +63,11 @@ export default function JournalEditor() {
     return () => {
       window.removeEventListener("keydown", handleEsc);
     };
-  }, [type, errors]);
+  }, [type, errors, filterOpen]);
 
   useEffect(() => {
     function handleOutsideClick(event) {
-      if (type === "ERROR") return;
+      if (type === "ERROR" || filterOpen) return;
       if (editorRef.current && !editorRef.current.contains(event.target)) {
         setEditorOpen(false);
       }
@@ -72,7 +76,7 @@ export default function JournalEditor() {
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
     };
-  }, [type, errors]);
+  }, [type, errors, filterOpen]);
 
   useEffect(() => {
     if (journalEntry) {
@@ -221,14 +225,18 @@ export default function JournalEditor() {
   return (
     <div
       ref={editorRef}
-      className="bg-bkg-card flex-col justify-center rounded-3xl relative w-96 shadow-xl m-20 z-[3]"
+      className={`bg-bkg-card flex-col justify-center rounded-3xl  relative w-96 shadow-xl ml-20 mt-20 mb-20 z-[3]
+      ${filterOpen && "rounded-r-none"}
+  `}
     >
       <>
         <div className="flex flex-col w-full h-full">
           <input
             onChange={(e) => setTitle(e.target.value)}
             value={title}
-            className="bg-bkg-card p-3 border-none rounded-3xl focus:outline-none font-semibold"
+            className={`bg-bkg-card p-3 border-none rounded-3xl focus:outline-none font-semibold
+            ${filterOpen && "rounded-r-none"}
+            `}
           />
           <ReactQuill
             modules={modules}
@@ -237,16 +245,30 @@ export default function JournalEditor() {
             onChange={setBody}
             className="bg-white text-black overflow-hidden"
           />
-          <div className="">
+          <div className="flex flex-col">
+            <button
+              className="flex justify-center p-4 hover:cursor-pointer border-b-[1px] border-b-bkg-nav"
+              onMouseEnter={(e) => setFilterHover(true)}
+              onMouseLeave={(e) => setFilterHover(false)}
+              onClick={() => setFilterOpen(!filterOpen)}
+            >
+              <p
+                className={`text-bkg-text ${
+                  filterHover && "scale-105 text-txt-hover"
+                }`}
+              >
+                Filters
+              </p>
+            </button>
             <div className="flex flex-row w-full h-full p-5 bg-bkg-card justify-around items-center rounded-b-3xl">
               <button
-                className="text-bkg-text hover:scale-105 hover:txt-hover w-fit h-fit p-1 font-semibold "
+                className="text-bkg-text hover:scale-105 hover:text-txt-hover w-fit h-fit p-1 font-semibold "
                 onClick={(e) => setEditorOpen(false)}
               >
                 Close
               </button>
               <button
-                className="text-bkg-text hover:scale-105 hover:txt-hover w-fit h-fit p-1 font-semibold"
+                className="text-bkg-text hover:scale-105 hover:text-txt-hover w-fit h-fit p-1 font-semibold"
                 onClick={(e) => submitHandler(e)}
               >
                 Save
@@ -263,16 +285,9 @@ export default function JournalEditor() {
           id="toolbar-tooltip"
         />
       </>
-      {/* ) : (
-        <div className="bg-bkg-card flex h-full justify-center items-center rounded-3xl">
-          <button
-            className="bg-bkg-primary-hover text-txt-2 w-fit h-fit p-5 rounded-3xl  font-semibold hover:scale-105"
-            onClick={openEditorHandler}
-          >
-            NEW JOURNAL
-          </button>
-        </div>
-      )} */}
+      {/* <div className="absolute left-[360px] top-0 h-full">
+        {filterOpen && <SearchSpotify />}
+      </div> */}
     </div>
   );
 }
