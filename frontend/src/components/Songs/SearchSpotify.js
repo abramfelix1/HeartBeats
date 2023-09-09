@@ -216,10 +216,10 @@ export default function SearchSpotify() {
                         Song
                       </p>
                     </div>
-                    <div className="flex flex-col h-full w-full justify-center">
+                    <div className="flex flex-col h-full w-full justify-center ">
                       <div className="flex w-full">
-                        <div className="flex flex-col h-full w-full justify-center max-w [15rem] min-w-[15rem]">
-                          <p className="text-txt-1 text-xl font-bold items-center truncate">
+                        <div className="flex flex-col h-full w-full justify-center max-w-[16rem] min-w-[16rem] ">
+                          <p className="text-txt-1 text-xl font-bold items-center  truncate">
                             {songs.items[0].name}
                           </p>
                           <p className="text-lg text-txt-1 font-semibold items-center truncate">
@@ -324,14 +324,13 @@ export default function SearchSpotify() {
           <div className="flex flex-col w-full items-center  mt-10">
             <p className="text-txt-1 font-semibold">Select up to 5 filters.</p>
             <p className="text-txt-1 font-semibold">
-              {" "}
               Choose from your favorite artists, songs, or genres.
             </p>
           </div>
         )}
       </div>
       {filtersOpen && (
-        <div className="text-txt-1 h-[80%] w-full absolute top-20 right-0 ">
+        <div className="text-txt-1 h-[80%] w-full absolute top-20 right-0 z-[10]">
           <div className="flex flex-col bg-bkg-card h-full mx-10 justify-center items-center shadow-xl">
             <div>
               <CloseIcon onClick={(e) => setFiltersOpen(false)} />
