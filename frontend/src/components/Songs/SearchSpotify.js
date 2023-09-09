@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { spotifySearch } from "../../store/spotify";
 
@@ -13,11 +13,27 @@ export default function SearchSpotify() {
   );
   const [showSongs, setShowSongs] = useState(true);
   const [showArtists, setShowArtists] = useState(false);
+  const [timer, setTimer] = useState(null);
+
+  const search = useCallback(
+    (query) => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+      const newTimer = setTimeout(() => {
+        console.log("DISPATCH VALUE: ", query);
+        dispatch(spotifySearch(query));
+        setTimer(null);
+      }, 300);
+      setTimer(newTimer);
+    },
+    [dispatch, timer]
+  );
 
   const inputHandler = (e) => {
     setQuery(e.target.value);
     if (e.target.value !== "") {
-      dispatch(spotifySearch(e.target.value));
+      search(e.target.value);
     } else {
     }
   };
