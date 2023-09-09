@@ -20,7 +20,6 @@ import { HowlerContext } from "../../context/howlerContext";
 import { BsStopCircle, BsPlayCircle, BsQuestionCircle } from "react-icons/bs";
 import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
-import { ReactComponent as CloseIcon } from "../../images/icons/outline/close.svg";
 
 export default function SearchSpotify() {
   const [query, setQuery] = useState("");
@@ -435,7 +434,13 @@ export default function SearchSpotify() {
                 >
                   {filter?.genre && (
                     <div className="py-1 hover:cursor-pointer">
-                      <p className="text-txt-1  bg-bkg-nav rounded-3xl w-fit py-1 px-2  hover:bg-bkg-button">
+                      <p
+                        className={`text-txt-1 bg-bkg-nav rounded-3xl w-fit py-1 px-2 hover:bg-bkg-button ${
+                          filters.some(
+                            (item) => item?.genre === filter.genre
+                          ) && "bg-bkg-black"
+                        }`}
+                      >
                         {filter.genre}
                       </p>
                     </div>

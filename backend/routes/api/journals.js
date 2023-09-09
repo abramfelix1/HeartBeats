@@ -59,16 +59,31 @@ router.post("/", requireAuth, validateJournal, async (req, res, next) => {
     image_url: req.body.image_url || null,
   });
 
+  const countFilters = (filterObj) => {
+    let count = 0;
+    for (let i = 1; i <= 5; i++) {
+      if (
+        filterObj[`filter${i}`] !== null &&
+        filterObj[`filter${i}`] !== undefined
+      ) {
+        count++;
+      }
+    }
+    return count;
+  };
+
   const filterData = {
     valence: valence,
     energy: energy,
   };
 
-  if (filters)
-    filters.forEach((filter, index) => {
-      console.log("ASDFDSFSD, ", filter);
-      filterData[`filter${index + 1}`] = filter;
-    });
+  for (let i = 0; i < 5; i++) {
+    if (filters && i < filters.length) {
+      filterData[`filter${i + 1}`] = filters[i];
+    } else {
+      filterData[`filter${i + 1}`] = null;
+    }
+  }
 
   const newFilter = await Filter.create({
     journalId: newJournal.id,
@@ -84,6 +99,7 @@ router.post("/", requireAuth, validateJournal, async (req, res, next) => {
     createdAt: newJournal.createdAt,
     updatedAt: newJournal.updatedAt,
     filter: newFilter,
+    filterCount: countFilters(newFilter),
   };
 
   res.json({ journal: reorderedJournal });
@@ -94,6 +110,8 @@ router.put("/:id", requireAuth, validateJournal, async (req, res, next) => {
   const { user } = req;
   const { filters, valence, energy } = req.body;
   const journalId = req.params.id;
+
+  console.log("JOURNAL UPDATE REQ BODY: ", req.body);
 
   const journal = await Journal.findOne({
     where: { id: journalId },
@@ -123,6 +141,19 @@ router.put("/:id", requireAuth, validateJournal, async (req, res, next) => {
 
   const updatedJournal = await journal.update(req.body);
 
+  const countFilters = (filterObj) => {
+    let count = 0;
+    for (let i = 1; i <= 5; i++) {
+      if (
+        filterObj[`filter${i}`] !== null &&
+        filterObj[`filter${i}`] !== undefined
+      ) {
+        count++;
+      }
+    }
+    return count;
+  };
+
   let updatedFilter;
 
   const filterData = {
@@ -130,15 +161,20 @@ router.put("/:id", requireAuth, validateJournal, async (req, res, next) => {
     energy: energy,
   };
 
-  if (filters)
-    filters.forEach((filter, index) => {
-      console.log("ASDFDSFSD, ", filter);
-      filterData[`filter${index + 1}`] = filter;
-    });
+  for (let i = 0; i < 5; i++) {
+    if (filters && i < filters.length) {
+      filterData[`filter${i + 1}`] = filters[i];
+    } else {
+      filterData[`filter${i + 1}`] = null;
+    }
+  }
 
   if (filter) {
     updatedFilter = await filter.update(filterData);
   }
+
+  console.log("FILTER", filter);
+  console.log("UPDATED FILTER", updatedFilter);
 
   const reorderedJournal = {
     id: updatedJournal.id,
@@ -149,6 +185,7 @@ router.put("/:id", requireAuth, validateJournal, async (req, res, next) => {
     createdAt: updatedJournal.createdAt,
     updatedAt: updatedJournal.updatedAt,
     filter: updatedFilter,
+    filterCount: countFilters(updatedFilter),
   };
 
   res.json({ journal: reorderedJournal });
