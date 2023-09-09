@@ -30,6 +30,7 @@ export default function SearchSpotify() {
           value={query}
           onChange={inputHandler}
           placeholder="Search Artists or Songs"
+          className="text-txt-2"
         />
         <div>
           <p>Select Genres</p>
@@ -51,7 +52,7 @@ export default function SearchSpotify() {
                       className="w-36 h-36"
                     />
                     <div className="flex flex-col h-full p-4">
-                      <p className="flex text-txt-1">Top Result</p>
+                      <p className="flex text-txt-1 ">Top Result</p>
                       <p className="flex h-full text-txt-1 text-2xl font-bold items-center">
                         {artist.name}
                       </p>
@@ -82,7 +83,7 @@ export default function SearchSpotify() {
             tracks.items.map((track) => (
               <div
                 key={track.id}
-                className="flex flex-row gap-x-2 p-2 items-center w-full hover:bg-bkg-card hover:cursor-pointer hover:scale-105"
+                className="flex flex-row gap-x-2 p-2 items-center w-full hover:bg-bkg-card hover:cursor-pointer hover:scale-105 max-w-[19rem] min-w-[19rem]"
               >
                 <img
                   src={track.album.images[0]?.url}
@@ -90,9 +91,13 @@ export default function SearchSpotify() {
                   width="50"
                   className="w-24 h-24"
                 />
-                <div className="">
-                  <p className="text-txt-1 font-semibold">{track.name}</p>
-                  <p className="text-txt-1 ">{track.artists[0].name}</p>
+                <div className="w-full truncate">
+                  <p className="text-txt-1 font-semibold w-full truncate">
+                    {track.name}
+                  </p>
+                  <p className="text-txt-1 w-full truncate">
+                    {track.artists[0].name}
+                  </p>
                 </div>
                 <div>
                   <p>PLAY</p>

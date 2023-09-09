@@ -302,7 +302,7 @@ router.post("/recsongs", async (req, res) => {
 router.get("/search", async (req, res) => {
   const accessToken = req.cookies.access_token;
   const query = req.query.q;
-  const url = `https://api.spotify.com/v1/search?q=${query}&type=artist,track&limit=20`;
+  const url = `https://api.spotify.com/v1/search?q=${query}&type=artist,track&limit=5`;
 
   try {
     const response = await fetch(url, {
