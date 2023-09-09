@@ -112,7 +112,7 @@ export default function Dashboard() {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col absolute w-full h-full items-center justify-center overflow-hidden gap-y-2">
+          <div className="flex flex-col w-[100%] h-full items-center justify-center overflow-hidden gap-y-2 z-9">
             <p className="text-2xl font-semibold select-none">
               Find songs write away!
             </p>
@@ -141,7 +141,7 @@ export default function Dashboard() {
             </div>
           </>
         ) : (
-          <div className="flex h-full w-full opacity-0">a</div>
+          <div className=""></div>
         )}
 
         {showPlaylist && (

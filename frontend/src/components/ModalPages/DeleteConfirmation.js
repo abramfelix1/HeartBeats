@@ -24,6 +24,7 @@ export default function DeleteConfirmation({ id }) {
     dispatch(deleteJournal(deleteId));
     setPlaylistId(null);
     setDeleteId(null);
+    setJournalId(null);
   };
 
   const deletePlaylistHandler = () => {

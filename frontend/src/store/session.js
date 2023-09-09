@@ -69,6 +69,7 @@ export const logout = () => async (dispatch) => {
 
   if (response.ok) {
     dispatch(clearSessionUser());
+    dispatch(spotifyToken());
     return response;
   }
 };

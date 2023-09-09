@@ -12,12 +12,17 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { HowlerContext } from "../../context/howlerContext";
 import { BsStopCircle, BsPlayCircle, BsQuestionCircle } from "react-icons/bs";
+import { ErrorContext } from "../../context/ErrorContext";
+import { ModalContext } from "../../context/ModalContext";
+import { ReactComponent as CloseIcon } from "../../images/icons/outline/close.svg";
 
 export default function SearchSpotify() {
   const [query, setQuery] = useState("");
   const dispatch = useDispatch();
   const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
     useContext(HowlerContext);
+  const { errors, setErrors } = useContext(ErrorContext);
+  const { type, setType } = useContext(ModalContext);
   const [timer, setTimer] = useState(null);
   const [topResHover, setTopResHover] = useState(null);
   const artists = useSelector((state) =>
@@ -27,13 +32,19 @@ export default function SearchSpotify() {
     state.spotify.search ? state.spotify.search.tracks : null
   );
   const genres = useSelector((state) =>
-    state.spotify.genres.genres ? state.spotify.genres.genres : null
+    state.spotify.genres?.genres ? state.spotify.genres.genres : null
   );
   const [genresList, setGenresList] = useState([]);
+  const [filters, setFilters] = useState([]);
+  const [filtersOpen, setFiltersOpen] = useState(true);
 
   useEffect(() => {
     dispatch(getSpotifyGenre());
   }, []);
+
+  useEffect(() => {
+    console.log(filters);
+  }, [filters]);
 
   const search = useCallback(
     (query) => {
@@ -69,18 +80,38 @@ export default function SearchSpotify() {
     }
   };
 
+  const addFilterHandler = (filter) => {
+    console.log("ADD FILTER CLICK", filters.length);
+    if (filters.length < 5) {
+      setFilters((prev) => [...prev, filter]);
+    } else {
+      setErrors({ name: "You can only select 5 filters" });
+      setType("ERROR");
+    }
+  };
+
+  const removeFilterHandler = (filter) => {
+    const index = filters.indexOf(filter);
+    console.log("REMOVE FILTER CLICK", filter, index);
+    const updatedFilters = filters.slice(index);
+    setFilters(updatedFilters);
+  };
+
   return (
-    <div className="bg-bkg-card flex-col justify-center rounded-r-3xl w-[28rem] z-[3] my-20 shadow-xl overflow-hiddne">
+    <div className="bg-bkg-card flex-col justify-center rounded-r-3xl w-[28rem] z-[3] my-20 shadow-xl overflow-hidden relative">
       <div className="flex gap-x-2 p-4 items-center ">
         <input
           value={query}
           onChange={inputHandler}
           placeholder="Search Artists or Songs"
-          className="bg-bkg-button pl-8 p-2 w-full rounded-full  border-2 border-transparent outline-none focus:border-text-txt-hover caret-text-txt-hover"
+          className="bg-bkg-button pl-8 p-2 w-[80%] rounded-full  border-2 border-transparent outline-none focus:border-text-txt-hover caret-text-txt-hover"
         />
-        {/* <div>
-          <p>Select Genres</p>
-        </div> */}
+        <div
+          className="text-txt-1 hover:cursor-pointer hover:scale-105 font-semibold"
+          onClick={() => setFiltersOpen(true)}
+        >
+          <p>Filters {`${filters.length >= 1 ? `(${filters.length})` : ""}`}</p>
+        </div>
       </div>
       <div className="flex flex-col h-full w-full pb-24 ">
         {query ? (
@@ -88,10 +119,13 @@ export default function SearchSpotify() {
             <div className="flex flex-row flex-wrap w-full gap-x-2 px-4 pb-4">
               {genresList &&
                 genresList.map((genre) => (
-                  <div className="text-txt-1 py-1 hover:cursor-pointer">
-                    <div className="bg-bkg-nav rounded-3xl w-fit py-1 px-2  hover:bg-bkg-button">
+                  <div
+                    className="py-1 hover:cursor-pointer"
+                    onClick={() => addFilterHandler({ type: "genre", genre })}
+                  >
+                    <p className="text-txt-1  bg-bkg-nav rounded-3xl w-fit py-1 px-2  hover:bg-bkg-button">
                       {genre}
-                    </div>
+                    </p>
                   </div>
                 ))}
             </div>
@@ -296,6 +330,24 @@ export default function SearchSpotify() {
           </div>
         )}
       </div>
+      {filtersOpen && (
+        <div className="text-txt-1 h-[80%] w-full absolute top-20 right-0 ">
+          <div className="flex flex-col bg-bkg-card h-full mx-10 justify-center items-center shadow-xl">
+            <div>
+              <CloseIcon onClick={(e) => setFiltersOpen(false)} />
+            </div>
+            {filters.map((filter) => (
+              <div
+                onClick={() => {
+                  removeFilterHandler(filter);
+                }}
+              >
+                <p>{filter.genre}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
