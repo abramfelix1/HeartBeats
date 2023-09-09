@@ -146,7 +146,7 @@ export default function JournalEditor() {
           name: title,
           content: body,
           energy: Number(energy),
-          mood: Number(valence),
+          valence: Number(valence),
         })
       ).catch(async (res) => {
         const data = await res.json();
@@ -166,7 +166,7 @@ export default function JournalEditor() {
           name: title,
           content: body,
           energy: Number(energy),
-          mood: Number(valence),
+          valence: Number(valence),
         })
       ).catch(async (res) => {
         const data = await res.json();

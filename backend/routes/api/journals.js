@@ -92,11 +92,17 @@ router.post("/", requireAuth, validateJournal, async (req, res, next) => {
 /* UPDATE JOURNAL BY ID */
 router.put("/:id", requireAuth, validateJournal, async (req, res, next) => {
   const { user } = req;
-  const { valence, energy } = req.body;
+  const { filters, valence, energy } = req.body;
   const journalId = req.params.id;
 
   const journal = await Journal.findOne({
     where: { id: journalId },
+    include: [
+      {
+        model: Filter,
+        as: "filter",
+      },
+    ],
   });
 
   if (!journal) {
@@ -111,17 +117,41 @@ router.put("/:id", requireAuth, validateJournal, async (req, res, next) => {
     });
   }
 
-  const updatedJournal = await journal.update(req.body);
-
   const filter = await Filter.findOne({
     where: { journalId: journalId },
   });
 
+  const updatedJournal = await journal.update(req.body);
+
+  let updatedFilter;
+
+  const filterData = {
+    valence: valence,
+    energy: energy,
+  };
+
+  if (filters)
+    filters.forEach((filter, index) => {
+      console.log("ASDFDSFSD, ", filter);
+      filterData[`filter${index + 1}`] = filter;
+    });
+
   if (filter) {
-    await filter.update({ valence, energy });
+    updatedFilter = await filter.update(filterData);
   }
 
-  res.json({ journal: { ...updatedJournal, filter } });
+  const reorderedJournal = {
+    id: updatedJournal.id,
+    userId: updatedJournal.userId,
+    name: updatedJournal.name,
+    content: updatedJournal.content,
+    image_url: updatedJournal.image_url,
+    createdAt: updatedJournal.createdAt,
+    updatedAt: updatedJournal.updatedAt,
+    filter: updatedFilter,
+  };
+
+  res.json({ journal: reorderedJournal });
 });
 
 /* DELETE JOURNAL BY ID */
