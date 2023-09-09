@@ -9,6 +9,7 @@ import "./songs.css";
 import { PlaylistContext } from "../../context/playlistContext";
 import { addSongToPlaylist, createSong } from "../../store/playlists";
 import { HowlerContext } from "../../context/howlerContext";
+import "swiper/css";
 
 export default function SongRecs() {
   const dispatch = useDispatch();

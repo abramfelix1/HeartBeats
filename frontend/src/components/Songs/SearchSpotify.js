@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Mousewheel, Navigation, FreeMode } from "swiper/modules";
 import {
+  getSpotifyGenre,
   resetSearch,
   resetSearchAction,
   spotifySearch,
@@ -22,6 +23,10 @@ export default function SearchSpotify() {
   const [showSongs, setShowSongs] = useState(true);
   const [showArtists, setShowArtists] = useState(false);
   const [timer, setTimer] = useState(null);
+
+  useEffect(() => {
+    dispatch(getSpotifyGenre());
+  }, []);
 
   const search = useCallback(
     (query) => {
@@ -53,10 +58,9 @@ export default function SearchSpotify() {
   };
 
   return (
-    <div className="bg-bkg-card flex-col justify-center rounded-r-3xl w-[28rem] z-[3] my-20 shadow-xl">
-      <div className="flex gap-x-2 p-4 items-center">
+    <div className="bg-bkg-card flex-col justify-center rounded-r-3xl w-[28rem] z-[3] my-20 shadow-xl overflow-hiddne">
+      <div className="flex gap-x-2 p-4 items-center ">
         <input
-          type="text"
           value={query}
           onChange={inputHandler}
           placeholder="Search Artists or Songs"
@@ -66,9 +70,9 @@ export default function SearchSpotify() {
           <p>Select Genres</p>
         </div> */}
       </div>
-      <div className="flex flex-col  h-full w-full pb-24">
+      <div className="flex flex-col h-full w-full pb-24 ">
         {query ? (
-          <div className="playlist flex flex-col w-full ">
+          <div className="playlist flex flex-col w-full overflow-y-scroll">
             {artists && (
               <div className="flex flex-col mx-2">
                 <div
@@ -116,7 +120,7 @@ export default function SearchSpotify() {
                             <img
                               src={artist.images[0]?.url}
                               alt={artist.name}
-                              className="w-32 h-32"
+                              className="w-24 h-24"
                             />
                             <p
                               className={`truncate text-txt-1 text-lg text-semibold ${
@@ -134,10 +138,10 @@ export default function SearchSpotify() {
               </div>
             )}
             {tracks && (
-              <div className="flex flex-col">
+              <div className="flex flex-col mx-2">
                 <div
                   key={tracks.items[0].id}
-                  className="flex flex-row mx-2 ml-0 bg-bkg-nav hover:cursor-pointer hover:bg-bkg-button rounded-r-3xl"
+                  className="flex flex-row bg-bkg-nav hover:cursor-pointer hover:bg-bkg-button rounded-r-3xl select-none"
                 >
                   <img
                     src={tracks.items[0].album.images[0]?.url}
@@ -163,50 +167,39 @@ export default function SearchSpotify() {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-row ">
-                  <Swiper
-                    spaceBetween={100}
-                    slidesPerView={2}
-                    onSlideChange={() => console.log("slide change")}
-                    onSwiper={(swiper) => console.log(swiper)}
-                    mousewheel={true}
-                    // navigation={true}
-                    freeMode={true}
-                    // centeredSlides={true}
-                    modules={[FreeMode, Mousewheel, Navigation]}
-                    effect="fade"
-                  >
-                    {tracks.items.slice(1).map((track, index) => (
-                      <SwiperSlide key={track.id}>
-                        <div
-                          key={track.id}
-                          className="flex flex-row gap-x-2 m-4 items-center w-full hover:cursor-pointer hover:scale-105 max-w-[16rem] min-w-[16rem] bg-bkg-nav"
-                        >
-                          <img
-                            src={track.album.images[0]?.url}
-                            alt={track.name}
-                            width="50"
-                            className="w-24 h-24"
-                          />
-                          <div className="w-full truncate">
-                            <p className="text-txt-1 font-semibold w-full truncate">
-                              {track.name}
-                            </p>
-                            <p className="text-txt-1 text-lg w-full truncate">
-                              {track.artists[0].name}
-                            </p>
-                          </div>
-                          <div>{/* <p>PLAY</p> */}</div>
+                <div className="flex flex-col ">
+                  {tracks.items.slice(1).map((track, index) => (
+                    <div key={track.id}>
+                      <div
+                        key={track.id}
+                        className="flex flex-row m-4 items-center w-full hover:cursor-pointer hover:bg-bkg-button max-w-[25rem] min-w-[25rem] bg-bkg-nav"
+                      >
+                        <img
+                          src={track.album.images[0]?.url}
+                          alt={track.name}
+                          width="50"
+                          className="w-24 h-24"
+                        />
+                        <div className="w-full truncate px-4">
+                          <p className="text-txt-1 font-semibold w-full truncate">
+                            {track.name}
+                          </p>
+                          <p className="text-txt-1 text-lg w-full truncate">
+                            {track.artists[0].name}
+                          </p>
                         </div>
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
+                        <div className="px-2">
+                          <p>PLAY</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
           </div>
         ) : (
-          <div className="flex flex-col w-full h-full items-center  mt-10">
+          <div className="flex flex-col w-full items-center  mt-10">
             <p className="text-txt-1 font-semibold">Select up to 5 filters.</p>
             <p className="text-txt-1 font-semibold">
               {" "}
@@ -214,7 +207,6 @@ export default function SearchSpotify() {
             </p>
           </div>
         )}
-        <div>GENRES HERE</div>
       </div>
     </div>
   );
