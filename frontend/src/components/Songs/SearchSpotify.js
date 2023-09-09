@@ -1,6 +1,10 @@
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { spotifySearch } from "../../store/spotify";
+import {
+  resetSearch,
+  resetSearchAction,
+  spotifySearch,
+} from "../../store/spotify";
 
 export default function SearchSpotify() {
   const [query, setQuery] = useState("");
@@ -35,7 +39,9 @@ export default function SearchSpotify() {
     if (e.target.value !== "") {
       search(e.target.value);
     } else {
+      dispatch(resetSearchAction());
     }
+    if (query === "") dispatch(resetSearchAction());
   };
 
   return (

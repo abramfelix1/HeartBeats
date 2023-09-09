@@ -4,6 +4,7 @@ export const GET_SONG = "spotify/GET_SONG";
 export const GET_REC_SONGS = "spotify/GET_REC_SONGS";
 export const RESET_REC_SONGS = "spotify/RESET_REC_SONGS";
 export const GET_SEARCH = "spotify/GET_SEARCH";
+export const RESET_SEARCH = "spotify/RESET_SEARCH";
 
 export const getSpotifyUserAction = (payload) => {
   return {
@@ -29,6 +30,12 @@ export const getRecSongsAction = (payload) => {
 export const resetRecSongsAction = () => {
   return {
     type: RESET_REC_SONGS,
+  };
+};
+
+export const resetSearchAction = () => {
+  return {
+    type: RESET_SEARCH,
   };
 };
 
@@ -128,6 +135,10 @@ export const spotifyReducer = (state = initialState, action) => {
     }
     case GET_SEARCH: {
       newState.search = action.payload;
+      return newState;
+    }
+    case RESET_SEARCH: {
+      newState.search = null;
       return newState;
     }
     case RESET_REC_SONGS: {
