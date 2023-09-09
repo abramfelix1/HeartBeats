@@ -102,8 +102,15 @@ export default function SearchSpotify() {
 
   const addFilterHandler = (filter) => {
     console.log("ADD FILTER CLICK", filters.length);
+    const sortOrder = {
+      genre: 1,
+      artists: 2,
+      song: 3,
+    };
     if (filters.length < 5) {
-      setFilters((prev) => [...prev, filter]);
+      const updatedFilters = [...filters, filter];
+      updatedFilters.sort((a, b) => sortOrder[a.type] - sortOrder[b.type]);
+      setFilters(updatedFilters);
     } else {
       setErrors({ name: "You can only select 5 filters" });
       setType("ERROR");
@@ -122,7 +129,7 @@ export default function SearchSpotify() {
   };
 
   return (
-    <div className="bg-bkg-card flex-col justify-center rounded-r-3xl w-[28rem] z-[3] my-20 shadow-xl overflow-hidden relative">
+    <div className="bg-bkg-card flex-col justify-center rounded-r-3xl w-[28rem] z-[3] my-20 shadow-xl  relative">
       <div className="flex gap-x-2 p-4 items-center ">
         <input
           value={query}
@@ -131,8 +138,14 @@ export default function SearchSpotify() {
           className="bg-bkg-button pl-8 p-2 w-[80%] rounded-full  border-2 border-transparent outline-none focus:border-text-txt-hover caret-text-txt-hover"
         />
         <div
-          className="text-txt-1 hover:cursor-pointer hover:scale-105 font-semibold"
-          onClick={() => setFiltersOpen(true)}
+          className={`text-txt-1 hover:cursor-pointer hover:scale-105 font-semibold
+          ${filtersOpen && "pointer-events-none"}
+          `}
+          onClick={() => {
+            if (!filtersOpen) {
+              setFiltersOpen(true);
+            }
+          }}
         >
           <p>Filters {`${filters.length >= 1 ? `(${filters.length})` : ""}`}</p>
         </div>
@@ -158,6 +171,12 @@ export default function SearchSpotify() {
                 <div
                   key={artists.items[0].id}
                   className="flex flex-row bg-bkg-nav hover:cursor-pointer hover:bg-bkg-button rounded-r-3xl select-none"
+                  onClick={() =>
+                    addFilterHandler({
+                      type: "artist",
+                      artist: artists.items[0],
+                    })
+                  }
                 >
                   <img
                     src={artists.items[0].images[0]?.url}
@@ -196,7 +215,12 @@ export default function SearchSpotify() {
                     >
                       {artists.items.slice(1).map((artist, index) => (
                         <SwiperSlide key={artist.id}>
-                          <div className="flex flex-col items-center max-w-[8rem] min-w-[8rem] hover:cursor-pointer hover:scale-105 m-4 select-none">
+                          <div
+                            className="flex flex-col items-center max-w-[8rem] min-w-[8rem] hover:cursor-pointer hover:scale-105 m-4 select-none"
+                            onClick={() =>
+                              addFilterHandler({ type: "artist", artist })
+                            }
+                          >
                             <img
                               src={artist.images[0]?.url}
                               alt={artist.name}
@@ -225,6 +249,9 @@ export default function SearchSpotify() {
                   `}
                   onMouseEnter={() => setTopResHover(true)}
                   onMouseLeave={() => setTopResHover(false)}
+                  onClick={() =>
+                    addFilterHandler({ type: "song", song: songs.items[0] })
+                  }
                 >
                   <img
                     src={songs.items[0].album.images[0]?.url}
@@ -254,7 +281,8 @@ export default function SearchSpotify() {
                       {songs.items[0].preview_url ? (
                         <div className="flex w-full items-center justify-end">
                           <button
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
                               if (
                                 isPlaying &&
                                 currentPlaying === songs.items[0].id
@@ -273,7 +301,7 @@ export default function SearchSpotify() {
                               currentPlaying === songs.items[0].id ? (
                                 <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
                               ) : (
-                                <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                                <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105 hover:cur" />
                               )}
                             </div>
                           </button>
@@ -290,7 +318,12 @@ export default function SearchSpotify() {
                 </div>
                 <div className="flex flex-col ">
                   {songs.items.slice(1).map((song, index) => (
-                    <div key={song.id}>
+                    <div
+                      key={song.id}
+                      onClick={() =>
+                        addFilterHandler({ type: "song", song: song })
+                      }
+                    >
                       <div
                         key={song.id}
                         className="flex flex-row m-4 items-center w-full hover:cursor-pointer hover:bg-bkg-button max-w-[25rem] min-w-[25rem] bg-bkg-nav"
@@ -313,7 +346,8 @@ export default function SearchSpotify() {
                           {song.preview_url ? (
                             <div className="flex items-center">
                               <button
-                                onClick={() => {
+                                onClick={(e) => {
+                                  e.stopPropagation();
                                   if (isPlaying && currentPlaying === index) {
                                     stopSound();
                                   } else {
@@ -358,7 +392,7 @@ export default function SearchSpotify() {
           className="text-txt-1 h-[85%] w-full absolute top-[79px] right-0 z-[10]"
           ref={filtersRef}
         >
-          <div className="flex flex-col bg-bkg-card h-full mx-10 justify-center items-center shadow-xl">
+          <div className="playlist flex flex-col bg-bkg-card h-full mx-10 justify-center items-center shadow-xl overflow-y-scroll overflow-x-hidden">
             <div>
               <CloseIcon onClick={(e) => setFiltersOpen(false)} />
             </div>
@@ -369,7 +403,86 @@ export default function SearchSpotify() {
                     removeFilterHandler(filter);
                   }}
                 >
-                  {filter.genre}
+                  {filter?.genre && (
+                    <div className="py-1 hover:cursor-pointer">
+                      <p className="text-txt-1  bg-bkg-nav rounded-3xl w-fit py-1 px-2  hover:bg-bkg-button">
+                        {filter.genre}
+                      </p>
+                    </div>
+                  )}
+                  {filter?.artist && (
+                    <div className="flex flex-col items-center max-w-[8rem] min-w-[8rem] hover:cursor-pointer hover:scale-105 m-4 select-none">
+                      <img
+                        src={filter.artist.images[0]?.url}
+                        alt={filter.artist.name}
+                        className="w-24 h-24"
+                      />
+                      <p
+                        className={`truncate text-txt-1 text-lg text-semibold ${
+                          filter.artist.name.length > 17 && "w-full"
+                        }`}
+                      >
+                        {filter.artist.name}
+                      </p>
+                    </div>
+                  )}
+                  {filter?.song && (
+                    <div
+                      key={filter?.song.id}
+                      className="flex flex-row m-4 items-center w-full hover:cursor-pointer hover:bg-bkg-button max-w-[20rem] min-w-[20rem] bg-bkg-nav"
+                    >
+                      <img
+                        src={filter?.song.album.images[0]?.url}
+                        alt={filter?.song.name}
+                        width="50"
+                        className="w-24 h-24"
+                      />
+                      <div className="w-full truncate px-4">
+                        <p className="text-txt-1 font-semibold w-full truncate">
+                          {filter?.song.name}
+                        </p>
+                        <p className="text-txt-1 text-lg w-full truncate">
+                          {filter?.song.artists[0].name}
+                        </p>
+                      </div>
+                      <div className="px-4">
+                        {filter?.song.preview_url ? (
+                          <div className="flex items-center">
+                            <button
+                              onClick={() => {
+                                if (
+                                  isPlaying &&
+                                  currentPlaying === filter?.song.id
+                                ) {
+                                  stopSound();
+                                } else {
+                                  playSound(
+                                    filter?.song.preview_url,
+                                    filter?.song.id
+                                  );
+                                }
+                              }}
+                            >
+                              <div className="flex items-center">
+                                {isPlaying &&
+                                currentPlaying === filter?.song.id ? (
+                                  <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                                ) : (
+                                  <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                                )}
+                              </div>
+                            </button>
+                            {isPlaying &&
+                              currentPlaying === filter?.song.id && (
+                                <p className="pl-2">{remainingTime}</p>
+                              )}
+                          </div>
+                        ) : (
+                          <BsPlayCircle className="text-gray-300 text-2xl" />
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </p>
               </div>
             ))}
