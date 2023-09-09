@@ -103,10 +103,40 @@ export default function SearchSpotify() {
   const addFilterHandler = (filter) => {
     console.log("ADD FILTER CLICK", filters.length);
     const sortOrder = {
-      genre: 1,
-      artists: 2,
-      song: 3,
+      artist: 1,
+      song: 2,
+      genre: 3,
     };
+
+    if (
+      filter.type === "genre" &&
+      filters.some(
+        (data) => data.type === "genre" && data.genre === filter.genre
+      )
+    ) {
+      console.log("This genre is already added.");
+      return;
+    }
+
+    if (
+      filter.type === "artist" &&
+      filters.some(
+        (data) => data.type === "artist" && data.artist.id === filter.artist.id
+      )
+    ) {
+      console.log("This artist is already added.");
+      return;
+    }
+
+    if (
+      filter.type === "song" &&
+      filters.some(
+        (data) => data.type === "song" && data.song.id === filter.song.id
+      )
+    ) {
+      console.log("This song is already added.");
+      return;
+    }
 
     if (filters.length < 5) {
       const updatedFilters = [...filters, filter];
@@ -391,16 +421,13 @@ export default function SearchSpotify() {
         )}
       </div>
       {filtersOpen && (
-        <div
-          className="text-txt-1 h-[85%] w-full absolute top-[79px] right-0 z-[10]"
-          ref={filtersRef}
-        >
-          <div className="playlist flex flex-col bg-bkg-card h-full mx-10 justify-center items-center shadow-xl overflow-y-scroll overflow-x-hidden">
-            <div>
-              <CloseIcon onClick={(e) => setFiltersOpen(false)} />
-            </div>
+        <div className="text-txt-1 h-full absolute top-[79px] right-0 z-[10]">
+          <div
+            className="playlist max-h-[50%] flex flex-row flex-wrap bg-bkg-card mx-10  shadow-xl overflow-y-scroll overflow-x-hidden justify-center"
+            ref={filtersRef}
+          >
             {filters.map((filter) => (
-              <div>
+              <div className="p-2">
                 <p
                   onClick={() => {
                     removeFilterHandler(filter);
@@ -414,14 +441,14 @@ export default function SearchSpotify() {
                     </div>
                   )}
                   {filter?.artist && (
-                    <div className="flex flex-col items-center max-w-[8rem] min-w-[8rem] hover:cursor-pointer hover:scale-105 m-4 select-none">
+                    <div className="flex flex-row items-center w-full hover:cursor-pointer hover:bg-bkg-button max-w-[20rem] min-w-[20rem] bg-bkg-nav">
                       <img
                         src={filter.artist.images[0]?.url}
                         alt={filter.artist.name}
-                        className="w-24 h-24"
+                        className="w-12 h-12"
                       />
                       <p
-                        className={`truncate text-txt-1 text-lg text-semibold ${
+                        className={`truncate text-txt-1 text-lg text-semibold px-4 ${
                           filter.artist.name.length > 17 && "w-full"
                         }`}
                       >
@@ -432,13 +459,13 @@ export default function SearchSpotify() {
                   {filter?.song && (
                     <div
                       key={filter?.song.id}
-                      className="flex flex-row m-4 items-center w-full hover:cursor-pointer hover:bg-bkg-button max-w-[20rem] min-w-[20rem] bg-bkg-nav"
+                      className="flex flex-row items-center w-full hover:cursor-pointer hover:bg-bkg-button max-w-[20rem] min-w-[20rem] bg-bkg-nav"
                     >
                       <img
                         src={filter?.song.album.images[0]?.url}
                         alt={filter?.song.name}
                         width="50"
-                        className="w-24 h-24"
+                        className="w-12 h-12"
                       />
                       <div className="w-full truncate px-4">
                         <p className="text-txt-1 font-semibold w-full truncate">
