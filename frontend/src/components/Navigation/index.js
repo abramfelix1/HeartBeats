@@ -11,6 +11,7 @@ import { BsFillBrightnessHighFill } from "react-icons/bs";
 import { PiMusicNotes } from "react-icons/pi";
 import { JournalContext } from "../../context/journalContext";
 import { resetJournalsActions } from "../../store/journals";
+import { resetPlaylistAction } from "../../store/playlists";
 import { PlaylistContext } from "../../context/playlistContext";
 import { ThemeContext } from "../../context/themeContext";
 import { ReactComponent as JournalIcon } from "../../images/icons/outline/journal.svg";
@@ -40,6 +41,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
     dispatch(logout());
     dispatch(resetJournalsActions());
     dispatch(resetRecSongsAction());
+    dispatch(resetPlaylistAction());
     setJournalOpen(false);
     setJournalId(null);
     setPlaylistId(null);

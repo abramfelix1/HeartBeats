@@ -14,6 +14,7 @@ router.get("/session", requireAuth, async (req, res, next) => {
   const { user } = req;
 
   const playlists = await Playlist.findAll({
+    where:{userId:user.id},
     include: [
       // {
       //   model: Journal,
@@ -41,7 +42,7 @@ router.get("/:id", requireAuth, async (req, res, next) => {
   const playlistId = req.params.id;
 
   const playlist = await Playlist.findOne({
-    where: { id: playlistId },
+    where: { id: playlistId, userId: user.id },
     include: [
       {
         model: Song,

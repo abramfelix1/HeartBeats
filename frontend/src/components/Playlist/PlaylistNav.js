@@ -130,7 +130,7 @@ export default function PlaylistNav() {
                           src={spotifyIcon}
                           alt="spotify icon"
                           className="w-8 hover:scale-105"
-                          data-tooltip-id="journal-tooltip"
+                          data-tooltip-id="playlist-tooltip"
                           data-tooltip-content="Open Spotify (ADD LATER)"
                         />
                       )}
