@@ -1,10 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Mousewheel, Navigation, FreeMode } from "swiper/modules";
 import {
   resetSearch,
   resetSearchAction,
   spotifySearch,
 } from "../../store/spotify";
+import "swiper/css";
+import "swiper/css/navigation";
 
 export default function SearchSpotify() {
   const [query, setQuery] = useState("");
@@ -49,134 +53,168 @@ export default function SearchSpotify() {
   };
 
   return (
-    <div className="bg-bkg-card flex-col justify-center rounded-r-3xl w-[26rem] z-[3] my-20 shadow-xl">
+    <div className="bg-bkg-card flex-col justify-center rounded-r-3xl w-[28rem] z-[3] my-20 shadow-xl">
       <div className="flex gap-x-2 p-4 items-center">
         <input
           type="text"
           value={query}
           onChange={inputHandler}
           placeholder="Search Artists or Songs"
-          className="text-txt-2"
+          className="bg-bkg-button pl-8 p-2 w-full rounded-full  border-2 border-transparent outline-none focus:border-text-txt-hover caret-text-txt-hover"
         />
-        <div>
+        {/* <div>
           <p>Select Genres</p>
-        </div>
+        </div> */}
       </div>
-      <div className="flex h-full w-full pb-24">
-        <div className="playlist flex flex-col w-full overflow-y-scroll">
-          {artists && (
-            <div className="flex flex-col">
-              <div
-                key={artists.items[0].id}
-                className="flex flex-row mx-4 ml-0 bg-bkg-nav hover:cursor-pointer hover:scale-105 rounded-r-3xl"
-              >
-                <img
-                  src={artists.items[0].images[0]?.url}
-                  alt={artists.items[0].name}
-                  className="w-36 h-36"
-                />
-                <div className="flex flex-col py-2 px-4 w-full">
-                  <div className="flex justify-between items-center">
-                    <p className="flex text-txt-1 font-semibold">Top Result</p>
-                    <p className="flex text-txt-1 font-semibold w-fit p-[3px] rounded-xl bg-bkg-button">
-                      Artist
-                    </p>
-                  </div>
-                  <div className="flex h-full w-full items-center max-w-[15rem] min-w-[15rem]">
-                    <p className="text-txt-1 text-xl font-bold">
-                      {artists.items[0].name}
-                    </p>
+      <div className="flex flex-col  h-full w-full pb-24">
+        {query ? (
+          <div className="playlist flex flex-col w-full ">
+            {artists && (
+              <div className="flex flex-col mx-2">
+                <div
+                  key={artists.items[0].id}
+                  className="flex flex-row bg-bkg-nav hover:cursor-pointer hover:bg-bkg-button rounded-r-3xl select-none"
+                >
+                  <img
+                    src={artists.items[0].images[0]?.url}
+                    alt={artists.items[0].name}
+                    className="w-36 h-36"
+                  />
+                  <div className="flex flex-col py-2 px-4 w-full">
+                    <div className="flex justify-between items-center">
+                      <p className="flex text-txt-1 font-semibold">
+                        Top Result
+                      </p>
+                      <p className="flex text-txt-1 font-semibold w-fit p-[3px] rounded-xl bg-bkg-button">
+                        Artist
+                      </p>
+                    </div>
+                    <div className="flex h-full w-full items-center max-w-[15rem] min-w-[15rem]">
+                      <p className="text-txt-1 text-xl font-bold">
+                        {artists.items[0].name}
+                      </p>
+                    </div>
                   </div>
                 </div>
+                {artists.items.length > 1 && (
+                  <div className="flex flex-row">
+                    <Swiper
+                      spaceBetween={2}
+                      slidesPerView={3}
+                      onSlideChange={() => console.log("slide change")}
+                      onSwiper={(swiper) => console.log(swiper)}
+                      mousewheel={true}
+                      // navigation={true}
+                      freeMode={true}
+                      // centeredSlides={true}
+                      modules={[FreeMode, Mousewheel, Navigation]}
+                      effect="fade"
+                    >
+                      {artists.items.slice(1).map((artist, index) => (
+                        <SwiperSlide key={artist.id}>
+                          <div className="flex flex-col items-center max-w-[8rem] min-w-[8rem] hover:cursor-pointer hover:scale-105 m-4 select-none">
+                            <img
+                              src={artist.images[0]?.url}
+                              alt={artist.name}
+                              className="w-32 h-32"
+                            />
+                            <p
+                              className={`truncate text-txt-1 text-lg text-semibold ${
+                                artist.name.length > 17 && "w-full"
+                              }`}
+                            >
+                              {artist.name}
+                            </p>
+                          </div>
+                        </SwiperSlide>
+                      ))}
+                    </Swiper>
+                  </div>
+                )}
               </div>
-              <div className="flex flex-row overflow-x-scroll">
-                {artists.items.map((artist, index) => (
-                  <>
-                    {index > 1 && (
-                      <div
-                        key={artist.id}
-                        className="flex flex-col items-center max-w-[8rem] min-w-[8rem] hover:cursor-pointer hover:scale-105 m-4 rounded-b-3xl"
-                      >
-                        <img
-                          src={artist.images[0]?.url}
-                          alt={artist.name}
-                          className="w-24 h-24"
-                        />
-                        <p
-                          className={`truncate text-txt-1 text-lg text-semibold ${
-                            artist.name.length > 17 && "w-full"
-                          }`}
+            )}
+            {tracks && (
+              <div className="flex flex-col">
+                <div
+                  key={tracks.items[0].id}
+                  className="flex flex-row mx-2 ml-0 bg-bkg-nav hover:cursor-pointer hover:bg-bkg-button rounded-r-3xl"
+                >
+                  <img
+                    src={tracks.items[0].album.images[0]?.url}
+                    alt={tracks.items[0].name}
+                    className="w-36 h-36"
+                  />
+                  <div className="flex flex-col py-2 px-4 w-full">
+                    <div className="flex justify-between items-center">
+                      <p className="flex text-txt-1 font-semibold">
+                        Top Result
+                      </p>
+                      <p className="flex text-txt-1 font-semibold w-fit p-[3px] rounded-xl bg-bkg-button">
+                        Song
+                      </p>
+                    </div>
+                    <div className="flex flex-col h-full w-full justify-center max-w [15rem] min-w-[15rem]">
+                      <p className="text-txt-1 text-xl font-bold items-center truncate">
+                        {tracks.items[0].name}
+                      </p>
+                      <p className="text-lg text-txt-1 font-semibold items-center truncate">
+                        {tracks.items[0].artists[0].name}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="flex flex-row ">
+                  <Swiper
+                    spaceBetween={100}
+                    slidesPerView={2}
+                    onSlideChange={() => console.log("slide change")}
+                    onSwiper={(swiper) => console.log(swiper)}
+                    mousewheel={true}
+                    // navigation={true}
+                    freeMode={true}
+                    // centeredSlides={true}
+                    modules={[FreeMode, Mousewheel, Navigation]}
+                    effect="fade"
+                  >
+                    {tracks.items.slice(1).map((track, index) => (
+                      <SwiperSlide key={track.id}>
+                        <div
+                          key={track.id}
+                          className="flex flex-row gap-x-2 m-4 items-center w-full hover:cursor-pointer hover:scale-105 max-w-[16rem] min-w-[16rem] bg-bkg-nav"
                         >
-                          {artist.name}
-                        </p>
-                      </div>
-                    )}
-                  </>
-                ))}
-              </div>
-            </div>
-          )}
-          {tracks && (
-            <div className="flex flex-col">
-              <div
-                key={tracks.items[0].id}
-                className="flex flex-row mx-4 ml-0 bg-bkg-nav hover:cursor-pointer hover:scale-105 rounded-r-3xl"
-              >
-                <img
-                  src={tracks.items[0].album.images[0]?.url}
-                  alt={tracks.items[0].name}
-                  className="w-36 h-36"
-                />
-                <div className="flex flex-col py-2 px-4 w-full">
-                  <div className="flex justify-between items-center">
-                    <p className="flex text-txt-1 font-semibold">Top Result</p>
-                    <p className="flex text-txt-1 font-semibold w-fit p-[3px] rounded-xl bg-bkg-button">
-                      Song
-                    </p>
-                  </div>
-                  <div className="flex flex-col h-full w-full justify-center max-w [15rem] min-w-[15rem]">
-                    <p className="text-txt-1 text-xl font-bold items-center truncate">
-                      {tracks.items[0].name}
-                    </p>
-                    <p className="text-lg text-txt-1 font-semibold items-center truncate">
-                      {tracks.items[0].artists[0].name}
-                    </p>
-                  </div>
+                          <img
+                            src={track.album.images[0]?.url}
+                            alt={track.name}
+                            width="50"
+                            className="w-24 h-24"
+                          />
+                          <div className="w-full truncate">
+                            <p className="text-txt-1 font-semibold w-full truncate">
+                              {track.name}
+                            </p>
+                            <p className="text-txt-1 text-lg w-full truncate">
+                              {track.artists[0].name}
+                            </p>
+                          </div>
+                          <div>{/* <p>PLAY</p> */}</div>
+                        </div>
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
                 </div>
               </div>
-              <div className="flex flex-row ">
-                {tracks.items.map((track, index) => (
-                  <>
-                    {index > 1 && (
-                      <div
-                        key={track.id}
-                        className="flex flex-row gap-x-2 m-4 items-center w-full hover:cursor-pointer hover:scale-105 max-w-[16rem] min-w-[16rem] bg-bkg-nav"
-                      >
-                        <img
-                          src={track.album.images[0]?.url}
-                          alt={track.name}
-                          width="50"
-                          className="w-24 h-24"
-                        />
-                        <div className="w-full truncate">
-                          <p className="text-txt-1 font-semibold w-full truncate">
-                            {track.name}
-                          </p>
-                          <p className="text-txt-1 text-lg w-full truncate">
-                            {track.artists[0].name}
-                          </p>
-                        </div>
-                        <div>
-                          <p>PLAY</p>
-                        </div>
-                      </div>
-                    )}
-                  </>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
+            )}
+          </div>
+        ) : (
+          <div className="flex flex-col w-full h-full items-center  mt-10">
+            <p className="text-txt-1 font-semibold">Select up to 5 filters.</p>
+            <p className="text-txt-1 font-semibold">
+              {" "}
+              Choose from your favorite artists, songs, or genres.
+            </p>
+          </div>
+        )}
+        <div>GENRES HERE</div>
       </div>
     </div>
   );

@@ -32,8 +32,8 @@
     --color-hover: 0deg 0% 0%;
     --color-surface-mixed-100: 186deg 100% 92%;
     --color-surface-mixed-200: 209deg 100% 86%;
-    --color-surface-mixed-300: 209deg 100% 92%;
-    --color-surface-mixed-400: 209deg 100% 80%;
+    --color-surface-mixed-300: 209deg 100% 100%;
+    --color-surface-mixed-400: 209deg 100% 95%;
     --color-surface-mixed-500: 233deg 100% 92%;
     --color-surface-mixed-600: 210deg 8% 15%;
     --color-comp-1: 275deg 95% 92%;
@@ -53,8 +53,8 @@
     --color-hover: 0deg 0% 100%;
     --color-surface-mixed-100: 0deg 0% 7%;
     --color-surface-mixed-200: 0deg 0% 16%;
-    --color-surface-mixed-300: 0deg 0% 25%;
-    --color-surface-mixed-400: 0deg 0% 34%;
+    --color-surface-mixed-300: 0deg 0% 30%;
+    --color-surface-mixed-400: 0deg 0% 25%;
     --color-surface-mixed-500: 0deg 0% 44%;
     --color-surface-mixed-600: 218deg 6% 61%;
     --color-comp-1: 275deg 95% 92%;
@@ -75,8 +75,8 @@
       --color-hover: 0deg 0% 100%;
       --color-surface-mixed-100: 0deg 0% 7%;
       --color-surface-mixed-200: 0deg 0% 16%;
-      --color-surface-mixed-300: 0deg 0% 25%;
-      --color-surface-mixed-400: 0deg 0% 34%;
+      --color-surface-mixed-300: 0deg 0% 34%;
+      --color-surface-mixed-400: 0deg 0% 25%;
       --color-surface-mixed-500: 0deg 0% 44%;
       --color-surface-mixed-600: 218deg 6% 61%;
       --color-comp-1: 275deg 95% 92%;
