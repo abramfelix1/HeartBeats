@@ -107,9 +107,12 @@ export default function SearchSpotify() {
       artists: 2,
       song: 3,
     };
+
     if (filters.length < 5) {
       const updatedFilters = [...filters, filter];
+
       updatedFilters.sort((a, b) => sortOrder[a.type] - sortOrder[b.type]);
+
       setFilters(updatedFilters);
     } else {
       setErrors({ name: "You can only select 5 filters" });
