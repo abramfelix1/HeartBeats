@@ -17,12 +17,12 @@ module.exports = (sequelize, DataTypes) => {
   Filter.init(
     {
       journalId: DataTypes.INTEGER,
-      fitler1: DataTypes.STRING,
+      filter1: DataTypes.STRING,
       filter2: DataTypes.STRING,
       filter3: DataTypes.STRING,
       filter4: DataTypes.STRING,
       filter5: DataTypes.STRING,
-      mood: DataTypes.DECIMAL(10, 6),
+      valence: DataTypes.DECIMAL(10, 6),
       energy: DataTypes.DECIMAL(10, 6),
     },
     {

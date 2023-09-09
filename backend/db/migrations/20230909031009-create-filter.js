@@ -18,7 +18,7 @@ module.exports = {
         },
         onDelete: "CASCADE",
       },
-      fitler1: {
+      filter1: {
         type: Sequelize.STRING,
       },
       filter2: {
