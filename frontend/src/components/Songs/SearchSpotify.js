@@ -16,48 +16,89 @@ export default function SearchSpotify() {
 
   const inputHandler = (e) => {
     setQuery(e.target.value);
-    dispatch(spotifySearch(e.target.value));
+    if (e.target.value !== "") {
+      dispatch(spotifySearch(e.target.value));
+    } else {
+    }
   };
 
   return (
     <div className="bg-bkg-comp2 flex-col justify-center rounded-r-3xl w-96 z-[3] my-20 shadow-xl">
-      <div className="p-4">
+      <div className="flex gap-x-2 p-4 items-center">
         <input
           type="text"
           value={query}
           onChange={inputHandler}
-          placeholder="Search Spotify"
+          placeholder="Search Artists or Songs"
         />
+        <div>
+          <p>Select Genres</p>
+        </div>
       </div>
-      <div className="flex flex-row  h-full w-full pb-24">
-        <div className="playlist flex flex-row  justify-center flex-wrap gap-4 h-full w-full overflow-y-scroll">
+      <div className="flex h-full w-full pb-24">
+        <div className="playlist flex justify-center flex-wrap h-full w-full overflow-y-scroll">
           {artists &&
-            artists.items.map((artist) => (
-              <div key={artist.id} className="flex flex-col">
-                <img
-                  src={artist.images[0]?.url}
-                  alt={artist.name}
-                  width="50"
-                  className="w-40 h-40"
-                />
-                <p>{artist.name}</p>
-              </div>
+            artists.items.map((artist, index) => (
+              <>
+                {index === 0 ? (
+                  <div
+                    key={artist.id}
+                    className="flex flex-row items-center w-full mx-4 bg-bkg-card hover:cursor-pointer hover:scale-105"
+                  >
+                    <img
+                      src={artist.images[0]?.url}
+                      alt={artist.name}
+                      className="w-36 h-36"
+                    />
+                    <div className="flex flex-col h-full p-4">
+                      <p className="flex text-txt-1">Top Result</p>
+                      <p className="flex h-full text-txt-1 text-2xl font-bold items-center">
+                        {artist.name}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div
+                    key={artist.id}
+                    className="flex flex-col items-center max-w-[8rem] min-w-[8rem] hover:cursor-pointer hover:scale-105 m-4"
+                  >
+                    <img
+                      src={artist.images[0]?.url}
+                      alt={artist.name}
+                      className="w-32 h-32"
+                    />
+                    <p
+                      className={`truncate text-txt-1 text-lg text-semibold ${
+                        artist.name.length > 17 && "w-full"
+                      }`}
+                    >
+                      {artist.name}
+                    </p>
+                  </div>
+                )}
+              </>
             ))}
-
-          {/* {tracks &&
+          {tracks &&
             tracks.items.map((track) => (
-              <div key={track.id} className="flex flex-row gap-x-2 py-2">
+              <div
+                key={track.id}
+                className="flex flex-row gap-x-2 p-2 items-center w-full hover:bg-bkg-card hover:cursor-pointer hover:scale-105"
+              >
                 <img
                   src={track.album.images[0]?.url}
                   alt={track.name}
                   width="50"
-                  className="w-40 h-40"
+                  className="w-24 h-24"
                 />
-                <p>
-                  {track.name} by {track.artists[0].name}
-                </p>
+                <div className="">
+                  <p className="text-txt-1 font-semibold">{track.name}</p>
+                  <p className="text-txt-1 ">{track.artists[0].name}</p>
+                </div>
+                <div>
+                  <p>PLAY</p>
+                </div>
               </div>
-            ))} */}
+            ))}
         </div>
       </div>
     </div>

@@ -237,9 +237,11 @@ router.post("/recsongs", async (req, res) => {
     // maxEnergy,
     valence,
     energy,
-    minInstrumentalness,
-    maxInstrumentalness,
-    genre,
+    filter1,
+    filter2,
+    filter3,
+    filter4,
+    filter5,
   } = req.body;
 
   //change this offset if not generating enough or too much duplicates
@@ -256,13 +258,13 @@ router.post("/recsongs", async (req, res) => {
   let baseUrl = "https://api.spotify.com/v1/recommendations?";
   let queryParams = [];
 
-  if (genre) {
-    let genreString = genre
-      .split(",")
-      .map((g) => g.trim())
-      .join("%2C");
-    queryParams.push(`seed_genres=${genreString}`);
-  }
+  // if (genre) {
+  //   let genreString = genre
+  //     .split(",")
+  //     .map((g) => g.trim())
+  //     .join("%2C");
+  //   queryParams.push(`seed_genres=${genreString}`);
+  // }
 
   queryParams.push(`min_energy=${minEnergy}`);
   queryParams.push(`max_energy=${maxEnergy}`);

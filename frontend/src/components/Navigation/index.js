@@ -24,7 +24,7 @@ import { resetRecSongsAction } from "../../store/spotify";
 
 function Navigation({ isLoaded, navHovered, ...props }) {
   const dispatch = useDispatch();
-  const { toggleJournalPage, setJournalOpen, setJournalId } =
+  const { toggleJournalPage, setJournalOpen, setJournalId, setEditorOpen } =
     useContext(JournalContext);
   const { setPlaylistId, togglePlaylist } = useContext(PlaylistContext);
   const [isCollapsed, setIsCollapsed] = useState(false);
@@ -38,6 +38,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
     setJournalOpen(false);
     setJournalId(null);
     setPlaylistId(null);
+    setEditorOpen(false);
   };
 
   const collapseClickHandler = () => {

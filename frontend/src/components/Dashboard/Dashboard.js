@@ -116,7 +116,7 @@ export default function Dashboard() {
               <SongsContainer />
               <div
                 className="absolute w-full h-fit flex flex-col items-center justify-center
-            2xl:bottom-36 xl:bottom-8 lg:bottom-4 md:bottom-2"
+            2xl:bottom-32 xl:bottom-8 lg:bottom-4 md:bottom-2"
               >
                 <RefreshIcon
                   className="fill-txt-1 w-10 hover:scale-105 hover:cursor-pointer"
