@@ -26,6 +26,10 @@ export default function SearchSpotify() {
   const songs = useSelector((state) =>
     state.spotify.search ? state.spotify.search.tracks : null
   );
+  const genres = useSelector((state) =>
+    state.spotify.genres.genres ? state.spotify.genres.genres : null
+  );
+  const [genresList, setGenresList] = useState([]);
 
   useEffect(() => {
     dispatch(getSpotifyGenre());
@@ -51,6 +55,11 @@ export default function SearchSpotify() {
     console.log("SEARCH INPUT: ", e.target.value);
     if (e.target.value) {
       search(e.target.value);
+      setGenresList(
+        genres.filter((genre) =>
+          genre.toLowerCase().includes(query.toLowerCase())
+        )
+      );
     } else {
       if (timer) {
         clearTimeout(timer);
@@ -76,6 +85,16 @@ export default function SearchSpotify() {
       <div className="flex flex-col h-full w-full pb-24 ">
         {query ? (
           <div className="playlist flex flex-col w-full overflow-y-scroll">
+            <div className="flex flex-row flex-wrap w-full gap-x-2 px-4 pb-4">
+              {genresList &&
+                genresList.map((genre) => (
+                  <div className="text-txt-1 py-1 hover:cursor-pointer">
+                    <div className="bg-bkg-nav rounded-3xl w-fit py-1 px-2  hover:bg-bkg-button">
+                      {genre}
+                    </div>
+                  </div>
+                ))}
+            </div>
             {artists && (
               <div className="flex flex-col mx-2">
                 <div

@@ -55,8 +55,11 @@ export default function JournalEditor() {
 
   useEffect(() => {
     const handleEsc = (event) => {
-      if (errors || type === "ERROR" || filterOpen) return;
-      if (event.keyCode === 27) setEditorOpen(false);
+      if (errors || type === "ERROR") return;
+      if (event.keyCode === 27) {
+        setEditorOpen(false);
+        setFilterOpen(false);
+      }
     };
     window.addEventListener("keydown", handleEsc);
 
@@ -70,6 +73,7 @@ export default function JournalEditor() {
       if (type === "ERROR" || filterOpen) return;
       if (editorRef.current && !editorRef.current.contains(event.target)) {
         setEditorOpen(false);
+        setFilterOpen(false);
       }
     }
     document.addEventListener("mousedown", handleOutsideClick);

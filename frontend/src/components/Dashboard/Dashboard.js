@@ -160,7 +160,7 @@ export default function Dashboard() {
           </div>
         )}
         {editorOpen && (
-          <div className="flex h-full w-full justify-center absolute ">
+          <div className="flex h-full w-full justify-center absolute">
             <JournalEditor />
             {filterOpen && <SearchSpotify />}
           </div>
