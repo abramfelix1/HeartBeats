@@ -159,13 +159,51 @@ export default function SearchSpotify() {
                         Song
                       </p>
                     </div>
-                    <div className="flex flex-col h-full w-full justify-center max-w [15rem] min-w-[15rem]">
-                      <p className="text-txt-1 text-xl font-bold items-center truncate">
-                        {songs.items[0].name}
-                      </p>
-                      <p className="text-lg text-txt-1 font-semibold items-center truncate">
-                        {songs.items[0].artists[0].name}
-                      </p>
+                    <div className="flex flex-col h-full w-full justify-center">
+                      <div className="flex w-full">
+                        <div className="flex flex-col h-full w-full justify-center max-w [15rem] min-w-[15rem]">
+                          <p className="text-txt-1 text-xl font-bold items-center truncate">
+                            {songs.items[0].name}
+                          </p>
+                          <p className="text-lg text-txt-1 font-semibold items-center truncate">
+                            {songs.items[0].artists[0].name}
+                          </p>
+                        </div>
+                      </div>
+                      {songs.items[0].preview_url ? (
+                        <div className="flex w-full items-center justify-end">
+                          <button
+                            onClick={() => {
+                              if (
+                                isPlaying &&
+                                currentPlaying === songs.items[0].id
+                              ) {
+                                stopSound();
+                              } else {
+                                playSound(
+                                  songs.items[0].preview_url,
+                                  songs.items[0].id
+                                );
+                              }
+                            }}
+                          >
+                            <div className="flex items-center">
+                              {isPlaying &&
+                              currentPlaying === songs.items[0].id ? (
+                                <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                              ) : (
+                                <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                              )}
+                            </div>
+                          </button>
+                          {isPlaying &&
+                            currentPlaying === songs.items[0].id && (
+                              <p className="pl-2">{remainingTime}</p>
+                            )}
+                        </div>
+                      ) : (
+                        <BsPlayCircle className="text-gray-300 text-2xl" />
+                      )}
                     </div>
                   </div>
                 </div>
