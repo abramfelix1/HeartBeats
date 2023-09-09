@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Mousewheel, Navigation, FreeMode } from "swiper/modules";
@@ -36,11 +42,25 @@ export default function SearchSpotify() {
   );
   const [genresList, setGenresList] = useState([]);
   const [filters, setFilters] = useState([]);
-  const [filtersOpen, setFiltersOpen] = useState(true);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const filtersRef = useRef(null);
 
   useEffect(() => {
     dispatch(getSpotifyGenre());
   }, []);
+
+  useEffect(() => {
+    function handleOutsideClick(event) {
+      if (type === "ERROR") return;
+      if (filtersRef.current && !filtersRef.current.contains(event.target)) {
+        setFiltersOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideClick);
+    };
+  }, [type, errors, filtersOpen]);
 
   useEffect(() => {
     console.log(filters);
@@ -93,8 +113,12 @@ export default function SearchSpotify() {
   const removeFilterHandler = (filter) => {
     const index = filters.indexOf(filter);
     console.log("REMOVE FILTER CLICK", filter, index);
-    const updatedFilters = filters.slice(index);
-    setFilters(updatedFilters);
+
+    if (index !== -1) {
+      const updatedFilters = [...filters];
+      updatedFilters.splice(index, 1);
+      setFilters(updatedFilters);
+    }
   };
 
   return (
@@ -330,18 +354,23 @@ export default function SearchSpotify() {
         )}
       </div>
       {filtersOpen && (
-        <div className="text-txt-1 h-[80%] w-full absolute top-20 right-0 z-[10]">
+        <div
+          className="text-txt-1 h-[85%] w-full absolute top-[79px] right-0 z-[10]"
+          ref={filtersRef}
+        >
           <div className="flex flex-col bg-bkg-card h-full mx-10 justify-center items-center shadow-xl">
             <div>
               <CloseIcon onClick={(e) => setFiltersOpen(false)} />
             </div>
             {filters.map((filter) => (
-              <div
-                onClick={() => {
-                  removeFilterHandler(filter);
-                }}
-              >
-                <p>{filter.genre}</p>
+              <div>
+                <p
+                  onClick={() => {
+                    removeFilterHandler(filter);
+                  }}
+                >
+                  {filter.genre}
+                </p>
               </div>
             ))}
           </div>
