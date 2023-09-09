@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Mousewheel, Navigation, FreeMode } from "swiper/modules";
@@ -10,6 +10,8 @@ import {
 } from "../../store/spotify";
 import "swiper/css";
 import "swiper/css/navigation";
+import { HowlerContext } from "../../context/howlerContext";
+import { BsStopCircle, BsPlayCircle, BsQuestionCircle } from "react-icons/bs";
 
 export default function SearchSpotify() {
   const [query, setQuery] = useState("");
@@ -17,12 +19,12 @@ export default function SearchSpotify() {
   const artists = useSelector((state) =>
     state.spotify.search ? state.spotify.search.artists : null
   );
-  const tracks = useSelector((state) =>
+  const songs = useSelector((state) =>
     state.spotify.search ? state.spotify.search.tracks : null
   );
-  const [showSongs, setShowSongs] = useState(true);
-  const [showArtists, setShowArtists] = useState(false);
   const [timer, setTimer] = useState(null);
+  const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
+    useContext(HowlerContext);
 
   useEffect(() => {
     dispatch(getSpotifyGenre());
@@ -137,15 +139,15 @@ export default function SearchSpotify() {
                 )}
               </div>
             )}
-            {tracks && (
+            {songs && (
               <div className="flex flex-col mx-2">
                 <div
-                  key={tracks.items[0].id}
+                  key={songs.items[0].id}
                   className="flex flex-row bg-bkg-nav hover:cursor-pointer hover:bg-bkg-button rounded-r-3xl select-none"
                 >
                   <img
-                    src={tracks.items[0].album.images[0]?.url}
-                    alt={tracks.items[0].name}
+                    src={songs.items[0].album.images[0]?.url}
+                    alt={songs.items[0].name}
                     className="w-36 h-36"
                   />
                   <div className="flex flex-col py-2 px-4 w-full">
@@ -159,37 +161,62 @@ export default function SearchSpotify() {
                     </div>
                     <div className="flex flex-col h-full w-full justify-center max-w [15rem] min-w-[15rem]">
                       <p className="text-txt-1 text-xl font-bold items-center truncate">
-                        {tracks.items[0].name}
+                        {songs.items[0].name}
                       </p>
                       <p className="text-lg text-txt-1 font-semibold items-center truncate">
-                        {tracks.items[0].artists[0].name}
+                        {songs.items[0].artists[0].name}
                       </p>
                     </div>
                   </div>
                 </div>
                 <div className="flex flex-col ">
-                  {tracks.items.slice(1).map((track, index) => (
-                    <div key={track.id}>
+                  {songs.items.slice(1).map((song, index) => (
+                    <div key={song.id}>
                       <div
-                        key={track.id}
+                        key={song.id}
                         className="flex flex-row m-4 items-center w-full hover:cursor-pointer hover:bg-bkg-button max-w-[25rem] min-w-[25rem] bg-bkg-nav"
                       >
                         <img
-                          src={track.album.images[0]?.url}
-                          alt={track.name}
+                          src={song.album.images[0]?.url}
+                          alt={song.name}
                           width="50"
                           className="w-24 h-24"
                         />
                         <div className="w-full truncate px-4">
                           <p className="text-txt-1 font-semibold w-full truncate">
-                            {track.name}
+                            {song.name}
                           </p>
                           <p className="text-txt-1 text-lg w-full truncate">
-                            {track.artists[0].name}
+                            {song.artists[0].name}
                           </p>
                         </div>
-                        <div className="px-2">
-                          <p>PLAY</p>
+                        <div className="px-4">
+                          {song.preview_url ? (
+                            <div className="flex items-center">
+                              <button
+                                onClick={() => {
+                                  if (isPlaying && currentPlaying === index) {
+                                    stopSound();
+                                  } else {
+                                    playSound(song.preview_url, index);
+                                  }
+                                }}
+                              >
+                                <div className="flex items-center">
+                                  {isPlaying && currentPlaying === index ? (
+                                    <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                                  ) : (
+                                    <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                                  )}
+                                </div>
+                              </button>
+                              {isPlaying && currentPlaying === index && (
+                                <p className="pl-2">{remainingTime}</p>
+                              )}
+                            </div>
+                          ) : (
+                            <BsPlayCircle className="text-gray-300 text-2xl" />
+                          )}
                         </div>
                       </div>
                     </div>
