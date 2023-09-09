@@ -8,6 +8,10 @@ module.exports = (sequelize, DataTypes) => {
         as: "user",
         foreignKey: "userId",
       });
+      Journal.hasOne(models.Filter, {
+        as: "filter",
+        foreignKey: "journalId",
+      });
     }
   }
   Journal.init(
@@ -42,8 +46,6 @@ module.exports = (sequelize, DataTypes) => {
           isUrl: true,
         },
       },
-      mood: DataTypes.DECIMAL(10, 6),
-      energy: DataTypes.DECIMAL(10, 6),
     },
     {
       sequelize,
