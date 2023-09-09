@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   resetSearch,
@@ -28,7 +28,7 @@ export default function SearchSpotify() {
         console.log("DISPATCH VALUE: ", query);
         dispatch(spotifySearch(query));
         setTimer(null);
-      }, 300);
+      }, 500);
       setTimer(newTimer);
     },
     [dispatch, timer]
@@ -36,12 +36,16 @@ export default function SearchSpotify() {
 
   const inputHandler = (e) => {
     setQuery(e.target.value);
-    if (e.target.value !== "") {
+    console.log("SEARCH INPUT: ", e.target.value);
+    if (e.target.value) {
       search(e.target.value);
     } else {
+      if (timer) {
+        clearTimeout(timer);
+        setTimer(null);
+      }
       dispatch(resetSearchAction());
     }
-    if (query === "") dispatch(resetSearchAction());
   };
 
   return (
