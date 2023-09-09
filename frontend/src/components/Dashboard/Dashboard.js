@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import Navigation from "../Navigation";
 import JournalContainer from "../Journals.js/JournalContainer";
 import * as sessionActions from "../../store/session";
@@ -37,6 +37,7 @@ export default function Dashboard() {
   const journalEntry = useSelector((state) =>
     journalId ? state.journals[journalId] : null
   );
+  const [timer, setTimer] = useState(null);
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
@@ -54,17 +55,30 @@ export default function Dashboard() {
 
   // bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#7CA8D2] from-0% to-azure-blue to-100% bg-whoite
 
+  const getSongs = useCallback(
+    (query) => {
+      if (timer) {
+        clearTimeout(timer);
+      }
+      const newTimer = setTimeout(() => {
+        console.log("DISPATCH VALUE: ", query);
+        dispatch(getRecSongs(query));
+        setTimer(null);
+      }, 500);
+      setTimer(newTimer);
+    },
+    [dispatch, timer]
+  );
+
   const recSongsHandler = (e) => {
     if (journalContent) {
       const energy = getEnergy(journalContent);
       const valence = getValence(journalContent);
-      dispatch(
-        getRecSongs({
-          valence: valence,
-          energy: energy,
-          genre: "pop",
-        })
-      );
+      getSongs({
+        valence: valence,
+        energy: energy,
+        genre: "pop",
+      });
     }
   };
 

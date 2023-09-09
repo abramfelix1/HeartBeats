@@ -253,8 +253,8 @@ export default function JournalEditor() {
               onClick={() => setFilterOpen(!filterOpen)}
             >
               <p
-                className={`text-bkg-text ${
-                  filterHover && "scale-105 text-txt-hover"
+                className={`text-bkg-text font-semibold ${
+                  filterHover && "scale-105 text-txt-hover "
                 }`}
               >
                 Filters

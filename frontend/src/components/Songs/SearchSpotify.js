@@ -16,15 +16,16 @@ import { BsStopCircle, BsPlayCircle, BsQuestionCircle } from "react-icons/bs";
 export default function SearchSpotify() {
   const [query, setQuery] = useState("");
   const dispatch = useDispatch();
+  const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
+    useContext(HowlerContext);
+  const [timer, setTimer] = useState(null);
+  const [topResHover, setTopResHover] = useState(null);
   const artists = useSelector((state) =>
     state.spotify.search ? state.spotify.search.artists : null
   );
   const songs = useSelector((state) =>
     state.spotify.search ? state.spotify.search.tracks : null
   );
-  const [timer, setTimer] = useState(null);
-  const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
-    useContext(HowlerContext);
 
   useEffect(() => {
     dispatch(getSpotifyGenre());
@@ -91,7 +92,7 @@ export default function SearchSpotify() {
                       <p className="flex text-txt-1 font-semibold">
                         Top Result
                       </p>
-                      <p className="flex text-txt-1 font-semibold w-fit p-[3px] rounded-xl bg-bkg-button">
+                      <p className="flex text-txt-1 font-semibold w-fit py-[1px]  px-2  rounded-xl bg-bkg-card">
                         Artist
                       </p>
                     </div>
@@ -105,7 +106,7 @@ export default function SearchSpotify() {
                 {artists.items.length > 1 && (
                   <div className="flex flex-row">
                     <Swiper
-                      spaceBetween={2}
+                      spaceBetween={8}
                       slidesPerView={3}
                       onSlideChange={() => console.log("slide change")}
                       onSwiper={(swiper) => console.log(swiper)}
@@ -143,7 +144,10 @@ export default function SearchSpotify() {
               <div className="flex flex-col mx-2">
                 <div
                   key={songs.items[0].id}
-                  className="flex flex-row bg-bkg-nav hover:cursor-pointer hover:bg-bkg-button rounded-r-3xl select-none"
+                  className={`flex flex-row bg-bkg-nav hover:cursor-pointer hover:bg-bkg-button rounded-r-3xl select-none
+                  `}
+                  onMouseEnter={() => setTopResHover(true)}
+                  onMouseLeave={() => setTopResHover(false)}
                 >
                   <img
                     src={songs.items[0].album.images[0]?.url}
@@ -155,7 +159,7 @@ export default function SearchSpotify() {
                       <p className="flex text-txt-1 font-semibold">
                         Top Result
                       </p>
-                      <p className="flex text-txt-1 font-semibold w-fit p-[3px] rounded-xl bg-bkg-button">
+                      <p className="flex text-txt-1 font-semibold w-fit py-[1px]  px-2 rounded-xl bg-bkg-card">
                         Song
                       </p>
                     </div>
