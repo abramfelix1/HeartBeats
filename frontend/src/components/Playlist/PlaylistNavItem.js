@@ -1,5 +1,7 @@
 import React from "react";
 
+import logo from "../../images/heartBeatLogo.png";
+
 export default function PlaylistNavItem({ songs }) {
   const getNumColumns = (count) => {
     switch (count) {
@@ -40,6 +42,6 @@ export default function PlaylistNavItem({ songs }) {
       ))}
     </div>
   ) : (
-    <div className="max-w-[48px] max-h-[48px]">Hi</div>
+    <img src={logo} className="max-w-[48px] max-h-[48px]" alt="mini logo" />
   );
 }
