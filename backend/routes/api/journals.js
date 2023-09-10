@@ -56,7 +56,16 @@ router.get("/session", requireAuth, async (req, res, next) => {
     res.json({ journals: [] });
   }
 
-  res.json({ journals: journals });
+  const modifiedJournals = journals.map((journal) => {
+    const plainJournal = journal.toJSON();
+    plainJournal.filterCount =
+      (plainJournal.filter?.songs?.length || 0) +
+      (plainJournal.filter?.genres?.length || 0) +
+      (plainJournal.filter?.artists?.length || 0);
+    return plainJournal;
+  });
+
+  res.json({ journals: modifiedJournals });
 });
 
 /* GET JOURNALS BY ID */
@@ -108,6 +117,10 @@ router.post("/", requireAuth, validateJournal, async (req, res, next) => {
     createdAt: newJournal.createdAt,
     updatedAt: newJournal.updatedAt,
     filter: newFilter,
+    filterCount:
+      newJournal.filter?.songs.length +
+        newJournal.filter?.genres.length +
+        newJournal.filter?.artists.length || 0,
   };
 
   res.json({ journal: reorderedJournal });
@@ -180,6 +193,11 @@ router.put("/:id", requireAuth, validateJournal, async (req, res, next) => {
     image_url: updatedJournal.image_url,
     createdAt: updatedJournal.createdAt,
     updatedAt: updatedJournal.updatedAt,
+    filter: updatedJournal.filter,
+    filterCount:
+      updatedJournal.filter?.songs.length +
+        updatedJournal.filter?.genres.length +
+        updatedJournal.filter?.artists.length || 0,
   };
 
   res.json({ journal: reorderedJournal });

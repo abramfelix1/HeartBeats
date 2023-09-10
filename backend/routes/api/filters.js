@@ -167,6 +167,7 @@ router.delete("/:id", async (req, res, next) => {
       {
         model: Filter,
         where: { id: filterId },
+        as: "filter",
       },
     ],
   });
