@@ -7,6 +7,8 @@ const UPDATE_JOURNAL = "journals/UPDATE_JOURNAL";
 const DELETE_JOURNAL = "journals/DELETE_JOURNAL";
 const RESET_JOURNALS = "journals/RESET_JOURNAL";
 const JOURNAL_ADD_PLAYLIST = "journal/ADD_PLAYLIST";
+const ADD_FILTERS = "journals/ADD_FILTERS";
+const DELETE_FILTERS = "journals/DELETE_FILTERS";
 
 export const getAllJournalsAction = (payload) => {
   return {
@@ -51,6 +53,24 @@ export const addPlaylistAction = (id, playlist) => {
     payload: {
       id,
       playlist,
+    },
+  };
+};
+
+export const addFiltersAction = (id) => {
+  return {
+    type: ADD_FILTERS,
+    payload: {
+      id,
+    },
+  };
+};
+
+export const deleteFiltersAction = (id) => {
+  return {
+    type: DELETE_FILTERS,
+    payload: {
+      id,
     },
   };
 };
@@ -149,6 +169,42 @@ export const deleteJournal = (id) => async (dispatch) => {
   if (res.ok) {
     const data = await res.json();
     dispatch(deleteJournalAction(id));
+    return data;
+  }
+};
+
+/* ADD FILTERS */
+export const createFilters = (id, payload) => async (dispatch) => {
+  const res = await csrfFetch(`/api/filters/${id}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ...payload,
+    }),
+  });
+  if (res.ok) {
+    const data = await res.json();
+    dispatch(addFiltersAction(id));
+    return data;
+  }
+};
+
+/* DELETE FILTERS */
+export const deleteFilters = (id, payload) => async (dispatch) => {
+  const res = await csrfFetch(`/api/filters/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      ...payload,
+    }),
+  });
+  if (res.ok) {
+    const data = await res.json();
+    dispatch(deleteFiltersAction(id));
     return data;
   }
 };
