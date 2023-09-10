@@ -37,7 +37,11 @@ export default function SearchSpotify() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const filtersRef = useRef(null);
   const filtersButtonRef = useRef(null);
-  const filterId = useSelector((state) => state.journals[journalId]?.filter.id ? state.journals[journalId]?.filter.id : null);
+  const filterId = useSelector((state) =>
+    state.journals[journalId]?.filter.id
+      ? state.journals[journalId]?.filter.id
+      : null
+  );
   const artists = useSelector((state) =>
     state.spotify.search ? state.spotify.search.artists : null
   );
@@ -128,11 +132,17 @@ export default function SearchSpotify() {
   };
 
   const addFilterHandler = async (filter) => {
-    dispatch(createFilters(filterId, filter));
+    if (filterId && filterCount < 5) {
+      dispatch(createFilters(filterId, filter));
+    } else {
+      setErrors({ name: "You can only select 5 filters" });
+      setType("ERROR");
+    }
   };
-
   const removeFilterHandler = async (filter) => {
-    dispatch(deleteFilters(filterId, filter));
+    if (filterId) {
+      dispatch(deleteFilters(filterId, filter));
+    }
   };
 
   return (
@@ -162,7 +172,9 @@ export default function SearchSpotify() {
               }
             }}
           >
-            Filters{` ${filterCount > 0 ? `(${filterCount})` : ""}`}
+            {filterId
+              ? `Filters${filterCount > 0 ? `(${filterCount})` : ""}`
+              : `Filters${filters.length > 0 ? `(${filters.length})` : ""}`}
           </p>
         </div>
       </div>
@@ -484,7 +496,6 @@ export default function SearchSpotify() {
                   </div>
                 </div>
               ))}
-
             {genresFilters &&
               genresFilters.map((filter) => (
                 <div

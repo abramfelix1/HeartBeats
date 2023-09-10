@@ -89,7 +89,7 @@ router.get("/:id", requireAuth, async (req, res, next) => {
 /* CREATE A JOURNAL */
 router.post("/", requireAuth, validateJournal, async (req, res, next) => {
   const { user } = req;
-  const { filters, valence, energy } = req.body;
+  const { valence, energy } = req.body;
   console.log("JOURNAL CREATE REQ BODY: ", req.body);
   const newJournal = await Journal.create({
     userId: user.dataValues.id,
@@ -129,7 +129,7 @@ router.post("/", requireAuth, validateJournal, async (req, res, next) => {
 /* UPDATE JOURNAL BY ID */
 router.put("/:id", requireAuth, validateJournal, async (req, res, next) => {
   const { user } = req;
-  const { filters, valence, energy } = req.body;
+  const { valence, energy } = req.body;
   const journalId = req.params.id;
 
   console.log("JOURNAL UPDATE REQ BODY: ", req.body);

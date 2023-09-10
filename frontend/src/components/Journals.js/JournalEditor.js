@@ -165,7 +165,6 @@ export default function JournalEditor() {
           content: body,
           energy: Number(energy),
           valence: Number(valence),
-          filters: filters.map((filter) => JSON.stringify(filter)),
         })
       ).catch(async (res) => {
         const data = await res.json();
@@ -187,7 +186,6 @@ export default function JournalEditor() {
           content: body,
           energy: Number(energy),
           valence: Number(valence),
-          filters: filters.map((filter) => JSON.stringify(filter)),
         })
       ).catch(async (res) => {
         const data = await res.json();

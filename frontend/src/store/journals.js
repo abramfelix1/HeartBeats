@@ -101,14 +101,6 @@ export const createJournal = (payload) => async (dispatch) => {
 
   if (res.ok) {
     const journal = await res.json();
-    if (journal.journal.filter) {
-      for (let i = 0; i < 5; i++) {
-        if (journal.journal.filter[`filter${i + 1}`] !== null)
-          journal.journal.filter[`filter${i + 1}`] = JSON.parse(
-            journal.journal.filter[`filter${i + 1}`]
-          );
-      }
-    }
     dispatch(createJournalAction(journal));
     return journal;
   }
@@ -127,15 +119,6 @@ export const updateJournal = (id, payload) => async (dispatch) => {
   });
   if (res.ok) {
     const journal = await res.json();
-    if (journal.journal.filter) {
-      for (let i = 0; i < 5; i++) {
-        if (journal.journal.filter[`filter${i + 1}`] !== null)
-          journal.journal.filter[`filter${i + 1}`] = JSON.parse(
-            journal.journal.filter[`filter${i + 1}`]
-          );
-      }
-    }
-
     dispatch(updateJournalAction(journal));
     return journal;
   }
