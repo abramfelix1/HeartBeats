@@ -3,7 +3,14 @@ const sequelize = require("sequelize");
 const { Op } = require("sequelize");
 const { requireAuth } = require("../../utils/auth");
 const { User } = require("../../db/models");
-const { Journal, Playlist, Song, Filter } = require("../../db/models");
+const {
+  Journal,
+  Playlist,
+  Song,
+  Filter,
+  Genre,
+  Artist,
+} = require("../../db/models");
 const { validateJournal } = require("../../utils/validation");
 
 const router = express.Router();
@@ -18,6 +25,29 @@ router.get("/session", requireAuth, async (req, res, next) => {
       {
         model: Filter,
         as: "filter",
+        include: [
+          {
+            model: Song,
+            as: "songs",
+            through: {
+              attributes: [],
+            },
+          },
+          {
+            model: Genre,
+            as: "genres",
+            through: {
+              attributes: [],
+            },
+          },
+          {
+            model: Artist,
+            as: "artists",
+            through: {
+              attributes: [],
+            },
+          },
+        ],
       },
     ],
   });
@@ -59,31 +89,10 @@ router.post("/", requireAuth, validateJournal, async (req, res, next) => {
     image_url: req.body.image_url || null,
   });
 
-  const countFilters = (filterObj) => {
-    let count = 0;
-    for (let i = 1; i <= 5; i++) {
-      if (
-        filterObj[`filter${i}`] !== null &&
-        filterObj[`filter${i}`] !== undefined
-      ) {
-        count++;
-      }
-    }
-    return count;
-  };
-
   const filterData = {
     valence: valence,
     energy: energy,
   };
-
-  for (let i = 0; i < 5; i++) {
-    if (filters && i < filters.length) {
-      filterData[`filter${i + 1}`] = filters[i];
-    } else {
-      filterData[`filter${i + 1}`] = null;
-    }
-  }
 
   const newFilter = await Filter.create({
     journalId: newJournal.id,
@@ -99,7 +108,6 @@ router.post("/", requireAuth, validateJournal, async (req, res, next) => {
     createdAt: newJournal.createdAt,
     updatedAt: newJournal.updatedAt,
     filter: newFilter,
-    filterCount: countFilters(newFilter),
   };
 
   res.json({ journal: reorderedJournal });
@@ -119,6 +127,29 @@ router.put("/:id", requireAuth, validateJournal, async (req, res, next) => {
       {
         model: Filter,
         as: "filter",
+        include: [
+          {
+            model: Song,
+            as: "songs",
+            through: {
+              attributes: [],
+            },
+          },
+          {
+            model: Genre,
+            as: "genres",
+            through: {
+              attributes: [],
+            },
+          },
+          {
+            model: Artist,
+            as: "artists",
+            through: {
+              attributes: [],
+            },
+          },
+        ],
       },
     ],
   });
@@ -141,41 +172,6 @@ router.put("/:id", requireAuth, validateJournal, async (req, res, next) => {
 
   const updatedJournal = await journal.update(req.body);
 
-  const countFilters = (filterObj) => {
-    let count = 0;
-    for (let i = 1; i <= 5; i++) {
-      if (
-        filterObj[`filter${i}`] !== null &&
-        filterObj[`filter${i}`] !== undefined
-      ) {
-        count++;
-      }
-    }
-    return count;
-  };
-
-  let updatedFilter;
-
-  const filterData = {
-    valence: valence,
-    energy: energy,
-  };
-
-  for (let i = 0; i < 5; i++) {
-    if (filters && i < filters.length) {
-      filterData[`filter${i + 1}`] = filters[i];
-    } else {
-      filterData[`filter${i + 1}`] = null;
-    }
-  }
-
-  if (filter) {
-    updatedFilter = await filter.update(filterData);
-  }
-
-  console.log("FILTER", filter);
-  console.log("UPDATED FILTER", updatedFilter);
-
   const reorderedJournal = {
     id: updatedJournal.id,
     userId: updatedJournal.userId,
@@ -184,8 +180,6 @@ router.put("/:id", requireAuth, validateJournal, async (req, res, next) => {
     image_url: updatedJournal.image_url,
     createdAt: updatedJournal.createdAt,
     updatedAt: updatedJournal.updatedAt,
-    filter: updatedFilter,
-    filterCount: countFilters(updatedFilter),
   };
 
   res.json({ journal: reorderedJournal });

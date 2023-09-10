@@ -8,6 +8,7 @@ const {
   Song,
   Genre,
   Artist,
+  Filter,
   FilterSong,
   FilterGenre,
   FilterArtist,
@@ -154,6 +155,24 @@ router.delete("/:id", async (req, res, next) => {
         await filterSong.destroy();
       }
     }
+  }
+
+  const filter = await Filter.findOne({
+    where: { id: filterId },
+  });
+
+  const updatedJournal = await Journal.findOne({
+    where: { id: filter.journalId },
+    include: [
+      {
+        model: Filter,
+        where: { id: filterId },
+      },
+    ],
+  });
+
+  if (!updatedJournal) {
+    return res.status(404).json({ error: "Journal not found." });
   }
 
   return res.json({
