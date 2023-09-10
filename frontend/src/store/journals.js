@@ -57,21 +57,17 @@ export const addPlaylistAction = (id, playlist) => {
   };
 };
 
-export const addFiltersAction = (id) => {
+export const addFiltersAction = (payload) => {
   return {
     type: ADD_FILTERS,
-    payload: {
-      id,
-    },
+    payload,
   };
 };
 
-export const deleteFiltersAction = (id) => {
+export const deleteFiltersAction = (payload) => {
   return {
     type: DELETE_FILTERS,
-    payload: {
-      id,
-    },
+    payload,
   };
 };
 
@@ -185,9 +181,9 @@ export const createFilters = (id, payload) => async (dispatch) => {
     }),
   });
   if (res.ok) {
-    const data = await res.json();
-    dispatch(addFiltersAction(id));
-    return data;
+    const journal = await res.json();
+    dispatch(addFiltersAction(journal));
+    return journal;
   }
 };
 
@@ -203,9 +199,9 @@ export const deleteFilters = (id, payload) => async (dispatch) => {
     }),
   });
   if (res.ok) {
-    const data = await res.json();
-    dispatch(deleteFiltersAction(id));
-    return data;
+    const journal = await res.json();
+    dispatch(deleteFiltersAction(journal));
+    return journal;
   }
 };
 
@@ -245,6 +241,22 @@ export default function journalsReducer(state = initialState, action) {
       newState[action.payload.id] = {
         ...newState[action.payload.id],
         ...action.payload.playlist,
+      };
+      return newState;
+    }
+    case ADD_FILTERS: {
+      console.log("ADD FILTERS PAYLOAD", action.payload);
+      newState[action.payload.journal.id] = {
+        ...newState[action.payload.journal.id],
+        ...action.payload.journal,
+      };
+      return newState;
+    }
+    case DELETE_FILTERS: {
+      console.log("DELETE FILTERS PAYLOAD", action.payload);
+      newState[action.payload.journal.id] = {
+        ...newState[action.payload.journal.id],
+        ...action.payload.journal,
       };
       return newState;
     }
