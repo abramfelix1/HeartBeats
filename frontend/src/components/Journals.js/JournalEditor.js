@@ -131,9 +131,7 @@ export default function JournalEditor() {
     const valence = getValence(content);
     dispatch(
       getRecSongs({
-        valence: valence,
-        energy: energy,
-        genre: "pop",
+        filter: journalEntry.filter,
       })
     ).catch(async (res) => {
       const data = await res.json();

@@ -73,7 +73,14 @@ export default function SearchSpotify() {
   );
 
   useEffect(() => {
-    dispatch(getSpotifyGenre());
+    const getGenre = async () =>
+      await dispatch(getSpotifyGenre()).catch(async (res) => {
+        const data = await res.json();
+        console.log(data.errors);
+        setErrors(data.errors);
+        setType("ERROR");
+      });
+    getGenre();
   }, []);
 
   useEffect(() => {
@@ -102,9 +109,9 @@ export default function SearchSpotify() {
       if (timer) {
         clearTimeout(timer);
       }
-      const newTimer = setTimeout(() => {
+      const newTimer = setTimeout(async () => {
         console.log("DISPATCH VALUE: ", query);
-        dispatch(spotifySearch(query)).catch(async (res) => {
+        await dispatch(spotifySearch(query)).catch(async (res) => {
           const data = await res.json();
           console.log(data.errors);
           setErrors(data.errors);

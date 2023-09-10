@@ -230,7 +230,11 @@ router.post("/recsongs", async (req, res) => {
   //https://developer.spotify.com/documentation/web-api/reference/get-recommendations
   const accessToken = req.cookies.access_token;
   console.log("REQ BODY:", req.body);
-  const { valence, energy, filters } = req.body;
+  const { valence, energy, songs, genres, artists } = req.body.filter;
+
+  console.log("SONGS: ", songs);
+  console.log("GENRES: ", genres);
+  console.log("ARTISTS: ", artists);
 
   const rangeOffset = 0.252125;
   let minValence = valence - rangeOffset;
@@ -250,23 +254,19 @@ router.post("/recsongs", async (req, res) => {
   queryParams.push(`min_valence=${minValence}`);
   queryParams.push(`max_valence=${maxValence}`);
 
-  if (filters) {
-    if (filters.songs && filters.songs.length > 0) {
-      const songIds = filters.songs.map((song) => song.spotifyId).join("%2C");
-      queryParams.push(`seed_tracks=${songIds}`);
-    }
+  if (songs && songs.length > 0) {
+    const songIds = songs.map((song) => song.spotifyId).join("%2C");
+    queryParams.push(`seed_tracks=${songIds}`);
+  }
 
-    if (filters.artists && filters.artists.length > 0) {
-      const artistIds = filters.artists
-        .map((artist) => artist.spotifyId)
-        .join("%2C");
-      queryParams.push(`seed_artists=${artistIds}`);
-    }
+  if (artists && artists.length > 0) {
+    const artistIds = artists.map((artist) => artist.spotifyId).join("%2C");
+    queryParams.push(`seed_artists=${artistIds}`);
+  }
 
-    if (filters.genres && filters.genres.length > 0) {
-      const genreNames = filters.genres.join("%2C");
-      queryParams.push(`seed_genres=${genreNames}`);
-    }
+  if (genres && genres.length > 0) {
+    const genreNames = genres.map((genre) => genre.name).join("%2C");
+    queryParams.push(`seed_genres=${genreNames}`);
   }
 
   const url = baseUrl + queryParams.join("&");
@@ -274,13 +274,10 @@ router.post("/recsongs", async (req, res) => {
   console.log("URL: ", url);
 
   try {
-    const response = await fetch(
-      `https://api.spotify.com/v1/recommendations?seed_tracks=3NZJlJemX3mzjf56MqC5ML%2C3MldzywZOH4Uci6bq9noyJ&min_valence=${minValence}&max_valence=${maxValence}`,
-      {
-        method: "GET",
-        headers: { Authorization: "Bearer " + accessToken },
-      }
-    );
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { Authorization: "Bearer " + accessToken },
+    });
 
     const data = await response.json();
 
@@ -314,6 +311,9 @@ router.get("/search", async (req, res) => {
       res.status(response.status).json({ error: data.error });
     }
   } catch (error) {
+    return next({
+      errors: { error: error.message, status: 404 },
+    });
     res.status(500).json({ error: error.message });
   }
 });
@@ -337,6 +337,9 @@ router.get("/genres", async (req, res) => {
       res.status(response.status).json({ error: data.error });
     }
   } catch (error) {
+    return next({
+      errors: { error: error.message, status: 404 },
+    });
     res.status(500).json({ error: error.message });
   }
 });

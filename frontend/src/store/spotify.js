@@ -109,19 +109,19 @@ export const getRecSongs = (payload) => async (dispatch) => {
 };
 
 export const spotifySearch = (payload) => async (dispatch) => {
-  try {
-    const response = await csrfFetch(`/api/spotify/search?q=${payload}`, {
-      method: "GET",
-    });
+  // try {
+  const response = await csrfFetch(`/api/spotify/search?q=${payload}`, {
+    method: "GET",
+  });
 
-    if (response.ok) {
-      const data = await response.json();
-      dispatch(spotifySearchAction(data));
-    }
-  } catch (err) {
-    const data = await err.json();
-    console.error("spotifySearch ERROR:", data.error);
+  if (response.ok) {
+    const data = await response.json();
+    dispatch(spotifySearchAction(data));
   }
+  // } catch (err) {
+  //   const data = await err.json();
+  //   console.error("spotifySearch ERROR:", data.error);
+  // }
 };
 
 export const getSpotifyGenre = (payload) => async (dispatch) => {
