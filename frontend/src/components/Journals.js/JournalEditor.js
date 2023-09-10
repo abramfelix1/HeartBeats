@@ -72,6 +72,20 @@ export default function JournalEditor() {
   }, [type, errors, filterOpen]);
 
   useEffect(() => {
+    const filterValues = [];
+    if (journalEntry?.filter) {
+      for (let i = 1; i <= 5; i++) {
+        const filterValue = journalEntry.filter[`filter${i}`];
+        if (filterValue) {
+          filterValues.push(filterValue);
+        }
+      }
+      setFilters(filterValues);
+      console.log("FILTERS: ", filters)
+    }
+  }, [journalId]);
+
+  useEffect(() => {
     function handleOutsideClick(event) {
       if (type === "ERROR" || filterOpen) return;
       if (editorRef.current && !editorRef.current.contains(event.target)) {
