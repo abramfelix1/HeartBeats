@@ -230,21 +230,8 @@ router.post("/recsongs", async (req, res) => {
   //https://developer.spotify.com/documentation/web-api/reference/get-recommendations
   const accessToken = req.cookies.access_token;
   console.log("REQ BODY:", req.body);
-  const {
-    // minValence,
-    // maxValence,
-    // minEnergy,
-    // maxEnergy,
-    valence,
-    energy,
-    filter1,
-    filter2,
-    filter3,
-    filter4,
-    filter5,
-  } = req.body;
+  const { valence, energy, filters } = req.body;
 
-  //change this offset if not generating enough or too much duplicates
   const rangeOffset = 0.252125;
   let minValence = valence - rangeOffset;
   let maxValence = valence + rangeOffset;
@@ -258,20 +245,29 @@ router.post("/recsongs", async (req, res) => {
   let baseUrl = "https://api.spotify.com/v1/recommendations?";
   let queryParams = [];
 
-  // if (genre) {
-  //   let genreString = genre
-  //     .split(",")
-  //     .map((g) => g.trim())
-  //     .join("%2C");
-  //   queryParams.push(`seed_genres=${genreString}`);
-  // }
-
   queryParams.push(`min_energy=${minEnergy}`);
   queryParams.push(`max_energy=${maxEnergy}`);
-  // queryParams.push(`min_instrumentalness=${minInstrumentalness}`);
-  // queryParams.push(`max_instrumentalness=${maxInstrumentalness}`);
   queryParams.push(`min_valence=${minValence}`);
   queryParams.push(`max_valence=${maxValence}`);
+
+  if (filters) {
+    if (filters.songs && filters.songs.length > 0) {
+      const songIds = filters.songs.map((song) => song.spotifyId).join("%2C");
+      queryParams.push(`seed_tracks=${songIds}`);
+    }
+
+    if (filters.artists && filters.artists.length > 0) {
+      const artistIds = filters.artists
+        .map((artist) => artist.spotifyId)
+        .join("%2C");
+      queryParams.push(`seed_artists=${artistIds}`);
+    }
+
+    if (filters.genres && filters.genres.length > 0) {
+      const genreNames = filters.genres.join("%2C");
+      queryParams.push(`seed_genres=${genreNames}`);
+    }
+  }
 
   const url = baseUrl + queryParams.join("&");
 
