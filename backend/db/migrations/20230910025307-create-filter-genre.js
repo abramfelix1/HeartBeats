@@ -2,27 +2,28 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("Filters", {
+    await queryInterface.createTable("FilterGenres", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      journalId: {
+      genreId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: "Journals",
-          key: "id",
+          model: "Genres",
         },
         onDelete: "CASCADE",
       },
-      valence: {
-        type: Sequelize.DECIMAL(10, 6),
-      },
-      energy: {
-        type: Sequelize.DECIMAL(10, 6),
+      fitlerId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        references: {
+          model: "Filters",
+        },
+        onDelete: "CASCADE",
       },
       createdAt: {
         allowNull: false,
@@ -35,6 +36,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("Filters");
+    await queryInterface.dropTable("FilterGenres");
   },
 };
