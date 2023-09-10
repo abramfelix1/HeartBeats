@@ -139,6 +139,7 @@ router.delete("/:id", async (req, res, next) => {
   const { user } = req;
   const filterId = req.params.id;
   const { genreName, songId, artistId } = req.body;
+  console.log("ARTIST ID: ", artistId);
 
   let genre;
   let filterGenre;

@@ -21,7 +21,7 @@ import { BsStopCircle, BsPlayCircle, BsQuestionCircle } from "react-icons/bs";
 import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
 import { JournalContext } from "../../context/journalContext";
-import { deleteFilters } from "../../store/journals";
+import { createFilters, deleteFilters } from "../../store/journals";
 
 export default function SearchSpotify() {
   const [query, setQuery] = useState("");
@@ -37,7 +37,7 @@ export default function SearchSpotify() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const filtersRef = useRef(null);
   const filtersButtonRef = useRef(null);
-
+  const filterId = useSelector((state) => state.journals[journalId].filter.id);
   const artists = useSelector((state) =>
     state.spotify.search ? state.spotify.search.artists : null
   );
@@ -127,21 +127,12 @@ export default function SearchSpotify() {
     }
   };
 
-  const addFilterHandler = (filter) => {
-    console.log("ADD FILTER CLICK", filters.length);
-
-    if (filterCount < 5) {
-      const updatedFilters = [...filters, filter];
-
-      setFilters(updatedFilters);
-    } else {
-      setErrors({ name: "You can only select 5 filters" });
-      setType("ERROR");
-    }
+  const addFilterHandler = async (filter) => {
+    dispatch(createFilters(filterId, filter));
   };
 
   const removeFilterHandler = async (filter) => {
-    // dispatch(deleteFilters());
+    dispatch(deleteFilters(filterId, filter));
   };
 
   return (
@@ -183,7 +174,7 @@ export default function SearchSpotify() {
                 genresList.map((genre) => (
                   <div
                     className="py-1 hover:cursor-pointer"
-                    onClick={() => addFilterHandler({ type: "genre", genre })}
+                    onClick={() => addFilterHandler({ genreName: genre })}
                   >
                     <p className="text-txt-1  bg-bkg-nav rounded-3xl w-fit py-1 px-2  hover:bg-bkg-button">
                       {genre}
@@ -198,8 +189,10 @@ export default function SearchSpotify() {
                   className="flex flex-row bg-bkg-nav hover:cursor-pointer hover:bg-bkg-button rounded-r-3xl select-none"
                   onClick={() =>
                     addFilterHandler({
-                      type: "artist",
-                      artist: artists.items[0],
+                      artistId: artists.items[0].id,
+                      artistName: artists.items[0].name,
+                      artistImg: artists.items[0].images[0]?.url,
+                      artistSpotify: artists.items[0].href,
                     })
                   }
                 >
@@ -243,7 +236,12 @@ export default function SearchSpotify() {
                           <div
                             className="flex flex-col items-center max-w-[8rem] min-w-[8rem] hover:cursor-pointer hover:scale-105 m-4 select-none"
                             onClick={() =>
-                              addFilterHandler({ type: "artist", artist })
+                              addFilterHandler({
+                                artistId: artist.id,
+                                artistName: artist.name,
+                                artistImg: artist.images[0]?.url,
+                                artistSpotify: artist.href,
+                              })
                             }
                           >
                             <img
@@ -273,7 +271,15 @@ export default function SearchSpotify() {
                   className={`flex flex-row bg-bkg-nav hover:cursor-pointer hover:bg-bkg-button rounded-r-3xl select-none
                   `}
                   onClick={() =>
-                    addFilterHandler({ type: "song", song: songs.items[0] })
+                    addFilterHandler({
+                      songId: songs.items[0].id,
+                      songName: songs.items[0].name,
+                      songArtists: songs.items[0].artists[0].name,
+                      songAlbum: songs.items[0].album.name,
+                      songPreview: songs.items[0].preview_url,
+                      songImg: songs.items[0].album.images[0]?.url,
+                      songSpotify: songs.items[0].href,
+                    })
                   }
                 >
                   <img
@@ -344,7 +350,15 @@ export default function SearchSpotify() {
                     <div
                       key={song.id}
                       onClick={() =>
-                        addFilterHandler({ type: "song", song: song })
+                        addFilterHandler({
+                          songId: song.id,
+                          songName: song.name,
+                          songArtists: song.artists[0].name,
+                          songAlbum: song.album.name,
+                          songPreview: song.preview_url,
+                          songImg: song.album.images[0]?.url,
+                          songSpotify: song.href,
+                        })
                       }
                     >
                       <div
@@ -382,28 +396,20 @@ export default function SearchSpotify() {
         )}
       </div>
       {filtersOpen && (
-        <div className="text-txt-1 h-full absolute top-[79px] right-0 z-[10]">
+        <div className="text-txt-1 h-full absolute top-[79px] right-0 z-[10] ">
           <div
-            className="playlist max-h-[50%] flex flex-row flex-wrap bg-bkg-card mx-10  shadow-xl overflow-y-scroll overflow-x-hidden justify-center"
+            className="playlist max-h-[50%] flex flex-row flex-wrap bg-bkg-card mx-10  shadow-xl overflow-y-scroll overflow-x-hidden justify-center my-2 border-[1px] border-bkg-nav"
             ref={filtersRef}
           >
-            {genresFilters &&
-              genresFilters.map((filter) => (
-                <div className="py-1 hover:cursor-pointer">
-                  <p
-                    className={`text-txt-1 bg-bkg-nav rounded-3xl w-fit py-1 px-2 hover:bg-red-400 ${
-                      filters.some((item) => item?.genre === filter.genre) &&
-                      "bg-bkg-black"
-                    }`}
-                  >
-                    {filter.name}
-                  </p>
-                </div>
-              ))}
-
             {artistFilters &&
               artistFilters.map((filter) => (
-                <div className="flex flex-row items-center w-full hover:cursor-pointer hover:bg-red-400 max-w-[20rem] min-w-[20rem] bg-bkg-nav">
+                <div
+                  key={filter.spotifyId}
+                  className="flex flex-row items-center w-full hover:cursor-pointer hover:bg-red-400 max-w-[20rem] min-w-[20rem] bg-bkg-nav my-2"
+                  onClick={(e) =>
+                    removeFilterHandler({ artistId: filter.spotifyId })
+                  }
+                >
                   <img
                     src={filter.img_url}
                     alt={filter.name}
@@ -423,10 +429,13 @@ export default function SearchSpotify() {
               songFilters.map((filter) => (
                 <div
                   key={filter.spotifyId}
-                  className="flex flex-row items-center w-full hover:cursor-pointer hover:bg-red-400 max-w-[20rem] min-w-[20rem] bg-bkg-nav"
+                  className="flex flex-row items-center w-full hover:cursor-pointer hover:bg-red-400 max-w-[20rem] min-w-[20rem] bg-bkg-nav my-2"
+                  onClick={(e) =>
+                    removeFilterHandler({ songId: filter.spotifyId })
+                  }
                 >
                   <img
-                    src={filter.images_url}
+                    src={filter.img_url}
                     alt={filter.name}
                     width="50"
                     className="w-12 h-12"
@@ -473,6 +482,26 @@ export default function SearchSpotify() {
                       <BsPlayCircle className="text-gray-300 text-2xl" />
                     )}
                   </div>
+                </div>
+              ))}
+
+            {genresFilters &&
+              genresFilters.map((filter) => (
+                <div
+                  key={filter.spotifyId}
+                  className="py-2 mx-1 hover:cursor-pointer"
+                  onClick={(e) =>
+                    removeFilterHandler({ genreName: filter.name })
+                  }
+                >
+                  <p
+                    className={`text-txt-1 bg-bkg-nav rounded-3xl w-fit py-1 px-2 hover:bg-red-400 ${
+                      filters.some((item) => item?.genre === filter.genre) &&
+                      "bg-bkg-black"
+                    }`}
+                  >
+                    {filter.name}
+                  </p>
                 </div>
               ))}
           </div>
