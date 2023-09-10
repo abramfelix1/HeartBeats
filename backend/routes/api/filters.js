@@ -75,13 +75,63 @@ router.post("/:id", async (req, res) => {
     await FilterSong.create({ filterId, songId: song.id });
   }
 
-  return res.json({
-    message: "Filter associations created successfully.",
-    filterId,
-    genreId: genre ? genre : null,
-    artistId: artist ? artist : null,
-    songId: song ? song : null,
+  const filter = await Filter.findOne({
+    where: { id: filterId },
   });
+
+  const updatedJournal = await Journal.findOne({
+    where: { id: filter.journalId },
+    include: [
+      {
+        model: Filter,
+        as: "filter",
+        include: [
+          {
+            model: Song,
+            as: "songs",
+            through: {
+              attributes: [],
+            },
+          },
+          {
+            model: Genre,
+            as: "genres",
+            through: {
+              attributes: [],
+            },
+          },
+          {
+            model: Artist,
+            as: "artists",
+            through: {
+              attributes: [],
+            },
+          },
+        ],
+      },
+    ],
+  });
+
+  if (!updatedJournal) {
+    return res.status(404).json({ error: "Journal not found." });
+  }
+
+  const reorderedJournal = {
+    id: updatedJournal.id,
+    userId: updatedJournal.userId,
+    name: updatedJournal.name,
+    content: updatedJournal.content,
+    image_url: updatedJournal.image_url,
+    createdAt: updatedJournal.createdAt,
+    updatedAt: updatedJournal.updatedAt,
+    filter: updatedJournal.filter,
+    filterCount:
+      updatedJournal.filter?.songs.length +
+        updatedJournal.filter?.genres.length +
+        updatedJournal.filter?.artists.length || 0,
+  };
+
+  res.json({ journal: reorderedJournal });
 });
 
 /* DELETE FILTER ASSOCIATIONS */
@@ -166,8 +216,30 @@ router.delete("/:id", async (req, res, next) => {
     include: [
       {
         model: Filter,
-        where: { id: filterId },
         as: "filter",
+        include: [
+          {
+            model: Song,
+            as: "songs",
+            through: {
+              attributes: [],
+            },
+          },
+          {
+            model: Genre,
+            as: "genres",
+            through: {
+              attributes: [],
+            },
+          },
+          {
+            model: Artist,
+            as: "artists",
+            through: {
+              attributes: [],
+            },
+          },
+        ],
       },
     ],
   });
@@ -176,9 +248,22 @@ router.delete("/:id", async (req, res, next) => {
     return res.status(404).json({ error: "Journal not found." });
   }
 
-  return res.json({
-    message: "Filter association(s) deleted successfully.",
-  });
+  const reorderedJournal = {
+    id: updatedJournal.id,
+    userId: updatedJournal.userId,
+    name: updatedJournal.name,
+    content: updatedJournal.content,
+    image_url: updatedJournal.image_url,
+    createdAt: updatedJournal.createdAt,
+    updatedAt: updatedJournal.updatedAt,
+    filter: updatedJournal.filter,
+    filterCount:
+      updatedJournal.filter?.songs.length +
+        updatedJournal.filter?.genres.length +
+        updatedJournal.filter?.artists.length || 0,
+  };
+
+  res.json({ journal: reorderedJournal });
 });
 
 module.exports = router;
