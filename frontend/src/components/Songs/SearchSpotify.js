@@ -21,6 +21,7 @@ import { BsStopCircle, BsPlayCircle, BsQuestionCircle } from "react-icons/bs";
 import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
 import { JournalContext } from "../../context/journalContext";
+import { deleteFilters } from "../../store/journals";
 
 export default function SearchSpotify() {
   const [query, setQuery] = useState("");
@@ -29,9 +30,14 @@ export default function SearchSpotify() {
     useContext(HowlerContext);
   const { errors, setErrors } = useContext(ErrorContext);
   const { type, setType } = useContext(ModalContext);
-  const { filters, setFilters } = useContext(JournalContext);
+  const { filters, setFilters, journalId } = useContext(JournalContext);
   const [timer, setTimer] = useState(null);
-  const [topResHover, setTopResHover] = useState(null);
+
+  const [genresList, setGenresList] = useState([]);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const filtersRef = useRef(null);
+  const filtersButtonRef = useRef(null);
+
   const artists = useSelector((state) =>
     state.spotify.search ? state.spotify.search.artists : null
   );
@@ -41,10 +47,26 @@ export default function SearchSpotify() {
   const genres = useSelector((state) =>
     state.spotify.genres?.genres ? state.spotify.genres.genres : null
   );
-  const [genresList, setGenresList] = useState([]);
-  const [filtersOpen, setFiltersOpen] = useState(false);
-  const filtersRef = useRef(null);
-  const filtersButtonRef = useRef(null);
+  const genresFilters = useSelector((state) =>
+    state.journals[journalId].filter?.genres
+      ? state.journals[journalId].filter.genres
+      : []
+  );
+  const songFilters = useSelector((state) =>
+    state.journals[journalId].filter?.songs
+      ? state.journals[journalId].filter.songs
+      : []
+  );
+  const artistFilters = useSelector((state) =>
+    state.journals[journalId].filter?.artists
+      ? state.journals[journalId].filter.artists
+      : []
+  );
+  const filterCount = useSelector((state) =>
+    state.journals[journalId]?.filterCount
+      ? state.journals[journalId].filterCount
+      : 0
+  );
 
   useEffect(() => {
     dispatch(getSpotifyGenre());
@@ -53,7 +75,11 @@ export default function SearchSpotify() {
   useEffect(() => {
     function handleOutsideClick(event) {
       if (type === "ERROR") return;
-      if (filtersRef.current && !filtersRef.current.contains(event.target) && !filtersButtonRef.current.contains(event.target)) {
+      if (
+        filtersRef.current &&
+        !filtersRef.current.contains(event.target) &&
+        !filtersButtonRef.current.contains(event.target)
+      ) {
         setFiltersOpen(false);
       }
     }
@@ -103,46 +129,9 @@ export default function SearchSpotify() {
 
   const addFilterHandler = (filter) => {
     console.log("ADD FILTER CLICK", filters.length);
-    const sortOrder = {
-      artist: 1,
-      song: 2,
-      genre: 3,
-    };
 
-    if (
-      filter.type === "genre" &&
-      filters.some(
-        (data) => data.type === "genre" && data.genre === filter.genre
-      )
-    ) {
-      console.log("This genre is already added.");
-      return;
-    }
-
-    if (
-      filter.type === "artist" &&
-      filters.some(
-        (data) => data.type === "artist" && data.artist.id === filter.artist.id
-      )
-    ) {
-      console.log("This artist is already added.");
-      return;
-    }
-
-    if (
-      filter.type === "song" &&
-      filters.some(
-        (data) => data.type === "song" && data.song.id === filter.song.id
-      )
-    ) {
-      console.log("This song is already added.");
-      return;
-    }
-
-    if (filters.length < 5) {
+    if (filterCount < 5) {
       const updatedFilters = [...filters, filter];
-
-      updatedFilters.sort((a, b) => sortOrder[a.type] - sortOrder[b.type]);
 
       setFilters(updatedFilters);
     } else {
@@ -151,15 +140,8 @@ export default function SearchSpotify() {
     }
   };
 
-  const removeFilterHandler = (filter) => {
-    const index = filters.indexOf(filter);
-    console.log("REMOVE FILTER CLICK", filter, index);
-
-    if (index !== -1) {
-      const updatedFilters = [...filters];
-      updatedFilters.splice(index, 1);
-      setFilters(updatedFilters);
-    }
+  const removeFilterHandler = async (filter) => {
+    // dispatch(deleteFilters());
   };
 
   return (
@@ -189,7 +171,7 @@ export default function SearchSpotify() {
               }
             }}
           >
-            Filters {`${filters.length >= 1 ? `(${filters.length})` : ""}`}
+            Filters{` ${filterCount > 0 ? `(${filterCount})` : ""}`}
           </p>
         </div>
       </div>
@@ -290,8 +272,6 @@ export default function SearchSpotify() {
                   key={songs.items[0].id}
                   className={`flex flex-row bg-bkg-nav hover:cursor-pointer hover:bg-bkg-button rounded-r-3xl select-none
                   `}
-                  onMouseEnter={() => setTopResHover(true)}
-                  onMouseLeave={() => setTopResHover(false)}
                   onClick={() =>
                     addFilterHandler({ type: "song", song: songs.items[0] })
                   }
@@ -385,35 +365,6 @@ export default function SearchSpotify() {
                             {song.artists[0].name}
                           </p>
                         </div>
-                        <div className="px-4">
-                          {song.preview_url ? (
-                            <div className="flex items-center">
-                              <button
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  if (isPlaying && currentPlaying === index) {
-                                    stopSound();
-                                  } else {
-                                    playSound(song.preview_url, index);
-                                  }
-                                }}
-                              >
-                                <div className="flex items-center">
-                                  {isPlaying && currentPlaying === index ? (
-                                    <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
-                                  ) : (
-                                    <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
-                                  )}
-                                </div>
-                              </button>
-                              {isPlaying && currentPlaying === index && (
-                                <p className="pl-2">{remainingTime}</p>
-                              )}
-                            </div>
-                          ) : (
-                            <BsPlayCircle className="text-gray-300 text-2xl" />
-                          )}
-                        </div>
                       </div>
                     </div>
                   ))}
@@ -436,102 +387,94 @@ export default function SearchSpotify() {
             className="playlist max-h-[50%] flex flex-row flex-wrap bg-bkg-card mx-10  shadow-xl overflow-y-scroll overflow-x-hidden justify-center"
             ref={filtersRef}
           >
-            {filters.map((filter) => (
-              <div className="p-2">
-                <p
-                  onClick={() => {
-                    removeFilterHandler(filter);
-                  }}
+            {genresFilters &&
+              genresFilters.map((filter) => (
+                <div className="py-1 hover:cursor-pointer">
+                  <p
+                    className={`text-txt-1 bg-bkg-nav rounded-3xl w-fit py-1 px-2 hover:bg-red-400 ${
+                      filters.some((item) => item?.genre === filter.genre) &&
+                      "bg-bkg-black"
+                    }`}
+                  >
+                    {filter.name}
+                  </p>
+                </div>
+              ))}
+
+            {artistFilters &&
+              artistFilters.map((filter) => (
+                <div className="flex flex-row items-center w-full hover:cursor-pointer hover:bg-red-400 max-w-[20rem] min-w-[20rem] bg-bkg-nav">
+                  <img
+                    src={filter.img_url}
+                    alt={filter.name}
+                    className="w-12 h-12"
+                  />
+                  <p
+                    className={`truncate text-txt-1 text-lg text-semibold px-4 ${
+                      filter.name.length > 17 && "w-full"
+                    }`}
+                  >
+                    {filter.name}
+                  </p>
+                </div>
+              ))}
+
+            {songFilters &&
+              songFilters.map((filter) => (
+                <div
+                  key={filter.spotifyId}
+                  className="flex flex-row items-center w-full hover:cursor-pointer hover:bg-red-400 max-w-[20rem] min-w-[20rem] bg-bkg-nav"
                 >
-                  {filter?.genre && (
-                    <div className="py-1 hover:cursor-pointer">
-                      <p
-                        className={`text-txt-1 bg-bkg-nav rounded-3xl w-fit py-1 px-2 hover:bg-bkg-button ${
-                          filters.some(
-                            (item) => item?.genre === filter.genre
-                          ) && "bg-bkg-black"
-                        }`}
-                      >
-                        {filter.genre}
-                      </p>
-                    </div>
-                  )}
-                  {filter?.artist && (
-                    <div className="flex flex-row items-center w-full hover:cursor-pointer hover:bg-bkg-button max-w-[20rem] min-w-[20rem] bg-bkg-nav">
-                      <img
-                        src={filter.artist.images[0]?.url}
-                        alt={filter.artist.name}
-                        className="w-12 h-12"
-                      />
-                      <p
-                        className={`truncate text-txt-1 text-lg text-semibold px-4 ${
-                          filter.artist.name.length > 17 && "w-full"
-                        }`}
-                      >
-                        {filter.artist.name}
-                      </p>
-                    </div>
-                  )}
-                  {filter?.song && (
-                    <div
-                      key={filter?.song.id}
-                      className="flex flex-row items-center w-full hover:cursor-pointer hover:bg-bkg-button max-w-[20rem] min-w-[20rem] bg-bkg-nav"
-                    >
-                      <img
-                        src={filter?.song.album.images[0]?.url}
-                        alt={filter?.song.name}
-                        width="50"
-                        className="w-12 h-12"
-                      />
-                      <div className="w-full truncate px-4">
-                        <p className="text-txt-1 font-semibold w-full truncate">
-                          {filter?.song.name}
-                        </p>
-                        <p className="text-txt-1 text-lg w-full truncate">
-                          {filter?.song.artists[0].name}
-                        </p>
-                      </div>
-                      <div className="px-4">
-                        {filter?.song.preview_url ? (
+                  <img
+                    src={filter.images_url}
+                    alt={filter.name}
+                    width="50"
+                    className="w-12 h-12"
+                  />
+                  <div className="w-full truncate px-4">
+                    <p className="text-txt-1 font-semibold w-full truncate">
+                      {filter.name}
+                    </p>
+                    <p className="text-txt-1 text-lg w-full truncate">
+                      {filter.artists}
+                    </p>
+                  </div>
+                  <div className="px-4">
+                    {filter.preview ? (
+                      <div className="flex items-center">
+                        <button
+                          onClick={() => {
+                            if (
+                              isPlaying &&
+                              currentPlaying === filter?.song.id
+                            ) {
+                              stopSound();
+                            } else {
+                              playSound(
+                                filter?.song.preview_url,
+                                filter?.song.id
+                              );
+                            }
+                          }}
+                        >
                           <div className="flex items-center">
-                            <button
-                              onClick={() => {
-                                if (
-                                  isPlaying &&
-                                  currentPlaying === filter?.song.id
-                                ) {
-                                  stopSound();
-                                } else {
-                                  playSound(
-                                    filter?.song.preview_url,
-                                    filter?.song.id
-                                  );
-                                }
-                              }}
-                            >
-                              <div className="flex items-center">
-                                {isPlaying &&
-                                currentPlaying === filter?.song.id ? (
-                                  <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
-                                ) : (
-                                  <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
-                                )}
-                              </div>
-                            </button>
-                            {isPlaying &&
-                              currentPlaying === filter?.song.id && (
-                                <p className="pl-2">{remainingTime}</p>
-                              )}
+                            {isPlaying && currentPlaying === filter.id ? (
+                              <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                            ) : (
+                              <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                            )}
                           </div>
-                        ) : (
-                          <BsPlayCircle className="text-gray-300 text-2xl" />
+                        </button>
+                        {isPlaying && currentPlaying === filter.id && (
+                          <p className="pl-2">{remainingTime}</p>
                         )}
                       </div>
-                    </div>
-                  )}
-                </p>
-              </div>
-            ))}
+                    ) : (
+                      <BsPlayCircle className="text-gray-300 text-2xl" />
+                    )}
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       )}

@@ -28,6 +28,7 @@ import { getRecSongs, resetRecSongsAction } from "../../store/spotify";
 import { getEnergy, getValence } from "../../utils/journal-analyzer";
 import { PlaylistContext } from "../../context/playlistContext";
 import SearchSpotify from "../Songs/SearchSpotify";
+import { HowlerContext } from "../../context/howlerContext";
 
 export default function JournalEditor() {
   const dispatch = useDispatch();
@@ -47,6 +48,8 @@ export default function JournalEditor() {
     useContext(PlaylistContext);
   const { errors, setErrors } = useContext(ErrorContext);
   const { type, setType } = useContext(ModalContext);
+  const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
+    useContext(HowlerContext);
   const journalEntry = useSelector((state) =>
     journalId ? state.journals[journalId] : null
   );
@@ -54,6 +57,11 @@ export default function JournalEditor() {
   const [body, setBody] = useState(journalEntry?.content || "");
   const editorRef = useRef(null);
   const [filterHover, setFilterHover] = useState(false);
+  const filterCount = useSelector((state) =>
+    state.journals[journalId]?.filterCount
+      ? state.journals[journalId].filterCount
+      : 0
+  );
 
   useEffect(() => {
     const handleEsc = (event) => {
@@ -62,6 +70,7 @@ export default function JournalEditor() {
         setEditorOpen(false);
         setFilterOpen(false);
         setFilters([]);
+        stopSound();
       }
     };
     window.addEventListener("keydown", handleEsc);
@@ -72,26 +81,13 @@ export default function JournalEditor() {
   }, [type, errors, filterOpen]);
 
   useEffect(() => {
-    const filterValues = [];
-    if (journalEntry?.filter) {
-      for (let i = 1; i <= 5; i++) {
-        const filterValue = journalEntry.filter[`filter${i}`];
-        if (filterValue) {
-          filterValues.push(filterValue);
-        }
-      }
-      setFilters(filterValues);
-      console.log("FILTERS: ", filters)
-    }
-  }, [journalId]);
-
-  useEffect(() => {
     function handleOutsideClick(event) {
       if (type === "ERROR" || filterOpen) return;
       if (editorRef.current && !editorRef.current.contains(event.target)) {
         setEditorOpen(false);
         setFilterOpen(false);
         setFilters([]);
+        stopSound();
       }
     }
     document.addEventListener("mousedown", handleOutsideClick);
@@ -283,7 +279,7 @@ export default function JournalEditor() {
                   filterHover && "scale-105 text-txt-hover "
                 }`}
               >
-                Filters
+                Filters{` ${filterCount > 0 ? `(${filterCount})` : ""}`}
               </p>
             </button>
             <div className="flex flex-row w-full h-full p-5 bg-bkg-card justify-around items-center rounded-b-3xl">

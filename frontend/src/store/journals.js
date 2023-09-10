@@ -77,19 +77,6 @@ export const getAllJournals = () => async (dispatch) => {
 
   if (res.ok) {
     const journals = await res.json();
-    if (journals.journals) {
-      journals.journals.forEach((journal) => {
-        if (journal.filter) {
-          for (let i = 0; i < 5; i++) {
-            if (journal.filter[`filter${i + 1}`] !== null) {
-              journal.filter[`filter${i + 1}`] = JSON.parse(
-                journal.filter[`filter${i + 1}`]
-              );
-            }
-          }
-        }
-      });
-    }
 
     dispatch(getAllJournalsAction(journals));
     return journals;
