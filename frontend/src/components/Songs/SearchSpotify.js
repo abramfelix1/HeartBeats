@@ -22,6 +22,7 @@ import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
 import { JournalContext } from "../../context/journalContext";
 import { createFilters, deleteFilters } from "../../store/journals";
+import { ThemeContext } from "../../context/themeContext";
 
 export default function SearchSpotify() {
   const [query, setQuery] = useState("");
@@ -32,6 +33,7 @@ export default function SearchSpotify() {
   const { type, setType } = useContext(ModalContext);
   const { filters, setFilters, journalId } = useContext(JournalContext);
   const [timer, setTimer] = useState(null);
+  const { theme } = useContext(ThemeContext);
 
   const [genresList, setGenresList] = useState([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -403,6 +405,36 @@ export default function SearchSpotify() {
                             {song.artists[0].name}
                           </p>
                         </div>
+                        {song.preview_url ? (
+                          <div className="flex mx-4">
+                            <button
+                              onClick={() => {
+                                if (isPlaying && currentPlaying === song?.id) {
+                                  stopSound();
+                                } else {
+                                  playSound(song?.preview_url, song?.id);
+                                }
+                              }}
+                            >
+                              <div className="flex items-center">
+                                {isPlaying && currentPlaying === song.id ? (
+                                  <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                                ) : (
+                                  <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                                )}
+                              </div>
+                            </button>
+                            {isPlaying && currentPlaying === song.id && (
+                              <p className="pl-2">{remainingTime}</p>
+                            )}
+                          </div>
+                        ) : (
+                          <BsPlayCircle
+                            className={`text-gray-300 text-[40px] mx-4
+                            ${theme === "dark" && "text-slate-800"}
+                            `}
+                          />
+                        )}
                       </div>
                     </div>
                   ))}

@@ -10,6 +10,8 @@ import { PlaylistContext } from "../../context/playlistContext";
 import { addSongToPlaylist, createSong } from "../../store/playlists";
 import { HowlerContext } from "../../context/howlerContext";
 import "swiper/css";
+import { ModalContext } from "../../context/ModalContext";
+import { ThemeContext } from "../../context/themeContext";
 
 export default function SongRecs() {
   const dispatch = useDispatch();
@@ -21,6 +23,7 @@ export default function SongRecs() {
     return tracks ? Object.values(tracks) : null;
   });
   const scrollContainerRef = useRef(null);
+  const { theme } = useContext(ThemeContext);
 
   const addSongHandler = async (payload) => {
     if (playlistId) {
@@ -84,7 +87,11 @@ export default function SongRecs() {
                           )}
                         </div>
                       ) : (
-                        <BsPlayCircle className="text-gray-300 text-2xl" />
+                        <BsPlayCircle
+                          className={`text-gray-300 text-2xl
+                        ${theme === "dark" && "text-slate-800"}
+                        `}
+                        />
                       )}
                       {playlistId && (
                         <IoAddCircleOutline

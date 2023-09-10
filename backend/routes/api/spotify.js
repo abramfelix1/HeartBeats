@@ -236,7 +236,7 @@ router.post("/recsongs", async (req, res) => {
   console.log("GENRES: ", genres);
   console.log("ARTISTS: ", artists);
 
-  const rangeOffset = 0.252125;
+  const rangeOffset = 0.152125;
   let minValence = valence - rangeOffset;
   let maxValence = valence + rangeOffset;
   let minEnergy = energy - rangeOffset;
