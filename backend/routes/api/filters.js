@@ -83,4 +83,82 @@ router.post("/:id", async (req, res) => {
   });
 });
 
+/* DELETE FILTER ASSOCIATIONS */
+router.delete("/:id", async (req, res, next) => {
+  const { user } = req;
+  const filterId = req.params.id;
+  const { genreName, songId, artistId } = req.body;
+
+  let genre;
+  let filterGenre;
+  if (genreName) {
+    genre = await Genre.findOne({ where: { name: genreName } });
+    if (!genre) {
+      return next({
+        errors: { genre: "Genre not found", status: 404 },
+      });
+    } else {
+      filterGenre = await FilterGenre.findOne({
+        where: { filterId, genreId: genre.id },
+      });
+      if (!filterGenre) {
+        return next({
+          errors: { filter: "Filter GENRE not found", status: 404 },
+        });
+      } else {
+        await filterGenre.destroy();
+      }
+    }
+  }
+
+  let artist;
+  let filterArtist;
+  if (artistId) {
+    artist = await Artist.findOne({ where: { spotifyId: artistId } });
+    console.log(artist);
+    if (!artist) {
+      return next({
+        errors: { artist: "Artist not found", status: 404 },
+      });
+    } else {
+      filterArtist = await FilterArtist.findOne({
+        where: { filterId, artistId: artist.id },
+      });
+      if (!filterArtist) {
+        return next({
+          errors: { filter: "Filter ARTIST not found", status: 404 },
+        });
+      } else {
+        await filterArtist.destroy();
+      }
+    }
+  }
+
+  let song;
+  let filterSong;
+  if (songId) {
+    song = await Song.findOne({ where: { spotifyId: songId } });
+    if (!song) {
+      return next({
+        errors: { song: "Song not found", status: 404 },
+      });
+    } else {
+      filterSong = await FilterSong.findOne({
+        where: { filterId, songId: song.id },
+      });
+      if (!filterSong) {
+        return next({
+          errors: { filter: "Filter SONG not found", status: 404 },
+        });
+      } else {
+        await filterSong.destroy();
+      }
+    }
+  }
+
+  return res.json({
+    message: "Filter association(s) deleted successfully.",
+  });
+});
+
 module.exports = router;
