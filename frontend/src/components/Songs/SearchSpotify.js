@@ -37,7 +37,7 @@ export default function SearchSpotify() {
   const [filtersOpen, setFiltersOpen] = useState(false);
   const filtersRef = useRef(null);
   const filtersButtonRef = useRef(null);
-  const filterId = useSelector((state) => state.journals[journalId].filter.id);
+  const filterId = useSelector((state) => state.journals[journalId]?.filter.id ? state.journals[journalId]?.filter.id : null);
   const artists = useSelector((state) =>
     state.spotify.search ? state.spotify.search.artists : null
   );
@@ -48,23 +48,23 @@ export default function SearchSpotify() {
     state.spotify.genres?.genres ? state.spotify.genres.genres : null
   );
   const genresFilters = useSelector((state) =>
-    state.journals[journalId].filter?.genres
-      ? state.journals[journalId].filter.genres
+    state.journals[journalId]?.filter?.genres
+      ? state.journals[journalId]?.filter.genres
       : []
   );
   const songFilters = useSelector((state) =>
-    state.journals[journalId].filter?.songs
-      ? state.journals[journalId].filter.songs
+    state.journals[journalId]?.filter?.songs
+      ? state.journals[journalId]?.filter.songs
       : []
   );
   const artistFilters = useSelector((state) =>
-    state.journals[journalId].filter?.artists
-      ? state.journals[journalId].filter.artists
+    state.journals[journalId]?.filter?.artists
+      ? state.journals[journalId]?.filter.artists
       : []
   );
   const filterCount = useSelector((state) =>
     state.journals[journalId]?.filterCount
-      ? state.journals[journalId].filterCount
+      ? state.journals[journalId]?.filterCount
       : 0
   );
 
@@ -395,7 +395,7 @@ export default function SearchSpotify() {
           </div>
         )}
       </div>
-      {filtersOpen && (
+      {filtersOpen && filterCount > 0 && (
         <div className="text-txt-1 h-full absolute top-[79px] right-0 z-[10] ">
           <div
             className="playlist max-h-[50%] flex flex-row flex-wrap bg-bkg-card mx-10  shadow-xl overflow-y-scroll overflow-x-hidden justify-center my-2 border-[1px] border-bkg-nav"
