@@ -196,8 +196,6 @@ export default function JournalEditor() {
         return;
       });
       if (!hasError) {
-        recSongsHandler();
-        setEditorOpen(false);
         setJournalId(journal.journal.id);
         setFilters([]);
       }
@@ -266,20 +264,27 @@ export default function JournalEditor() {
             className="bg-white text-black overflow-hidden"
           />
           <div className="flex flex-col">
-            <button
-              className="flex justify-center p-4 hover:cursor-pointer border-b-[1px] border-b-bkg-nav"
-              onMouseEnter={(e) => setFilterHover(true)}
-              onMouseLeave={(e) => setFilterHover(false)}
-              onClick={() => setFilterOpen(!filterOpen)}
-            >
-              <p
-                className={`text-bkg-text font-semibold ${
-                  filterHover && "scale-105 text-txt-hover "
-                }`}
-              >
-                Filters{` ${filterCount > 0 ? `(${filterCount})` : ""}`}
-              </p>
-            </button>
+            <div className="flex justify-center p-4  border-b-[1px] border-b-bkg-nav">
+              {journalId ? (
+                <p
+                  className={`text-bkg-text font-semibold hover:cursor-pointer ${
+                    filterHover && "scale-105 text-txt-hover "
+                  }`}
+                  onMouseEnter={(e) => setFilterHover(true)}
+                  onMouseLeave={(e) => setFilterHover(false)}
+                  onClick={() => setFilterOpen(!filterOpen)}
+                >
+                  Filters{` ${filterCount > 0 ? `(${filterCount})` : ""}`}
+                </p>
+              ) : (
+                <p
+                  className={`text-bkg-text font-semibold cursor-default
+                  `}
+                >
+                  Create Journal to Access Filters
+                </p>
+              )}
+            </div>
             <div className="flex flex-row w-full h-full p-5 bg-bkg-card justify-around items-center rounded-b-3xl">
               <button
                 className="text-bkg-text hover:scale-105 hover:text-txt-hover w-fit h-fit p-1 font-semibold "
@@ -290,12 +295,21 @@ export default function JournalEditor() {
               >
                 Close
               </button>
-              <button
-                className="text-bkg-text hover:scale-105 hover:text-txt-hover w-fit h-fit p-1 font-semibold"
-                onClick={(e) => submitHandler(e)}
-              >
-                Save
-              </button>
+              {journalEntry ? (
+                <button
+                  className="text-bkg-text hover:scale-105 hover:text-txt-hover w-fit h-fit p-1 font-semibold"
+                  onClick={(e) => submitHandler(e)}
+                >
+                  Save
+                </button>
+              ) : (
+                <button
+                  className="text-bkg-text hover:scale-105 hover:text-txt-hover w-fit h-fit p-1 font-semibold"
+                  onClick={(e) => submitHandler(e)}
+                >
+                  Create
+                </button>
+              )}
             </div>
           </div>
         </div>
