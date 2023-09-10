@@ -13,6 +13,12 @@ module.exports = (sequelize, DataTypes) => {
         as: "feedback",
         foreignKey: "songId",
       });
+      Song.belongsToMany(models.Filter, {
+        through: models.FilterSong,
+        as: "songFilters",
+        foreignKey: "songId",
+        onDelete: "CASCADE",
+      });
     }
   }
   Song.init(

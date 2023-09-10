@@ -12,6 +12,18 @@ module.exports = (sequelize, DataTypes) => {
         as: "journal",
         foreignKey: "journalId",
       });
+      Filter.belongsToMany(models.Artist, {
+        through: models.FilterArtist,
+        as: "artists",
+        foreignKey: "filterId",
+        onDelete: "CASCADE",
+      });
+      Filter.belongsToMany(models.Song, {
+        through: models.FilterSong,
+        as: "songs",
+        foreignKey: "filterId",
+        onDelete: "CASCADE",
+      });
     }
   }
   Filter.init(
