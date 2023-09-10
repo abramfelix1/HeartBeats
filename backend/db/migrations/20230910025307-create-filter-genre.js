@@ -17,7 +17,7 @@ module.exports = {
         },
         onDelete: "CASCADE",
       },
-      fitlerId: {
+      filterId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {

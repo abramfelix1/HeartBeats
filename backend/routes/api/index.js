@@ -7,6 +7,7 @@ const journalsRouter = require("./journals.js");
 const playlistsRouter = require("./playlists.js");
 const feedbackRouter = require("./feedback.js");
 const songRouter = require("./song.js");
+const filterRouter = require("./filters.js");
 const { restoreUser } = require("../../utils/auth.js");
 
 // Connect restoreUser middleware to the API router
@@ -21,6 +22,7 @@ router.use("/journals", journalsRouter);
 router.use("/playlists", playlistsRouter);
 router.use("/feedbacks", feedbackRouter);
 router.use("/songs", songRouter);
+router.use("/filters", filterRouter);
 
 router.post("/test", function (req, res) {
   res.json({ requestBody: req.body });

@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
   FilterGenre.init(
     {
       genreId: DataTypes.INTEGER,
-      fitlerId: DataTypes.INTEGER,
+      filterId: DataTypes.INTEGER,
     },
     {
       sequelize,
