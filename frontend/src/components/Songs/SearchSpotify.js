@@ -104,7 +104,12 @@ export default function SearchSpotify() {
       }
       const newTimer = setTimeout(() => {
         console.log("DISPATCH VALUE: ", query);
-        dispatch(spotifySearch(query));
+        dispatch(spotifySearch(query)).catch(async (res) => {
+          const data = await res.json();
+          console.log(data.errors);
+          setErrors(data.errors);
+          setType("ERROR");
+        });
         setTimer(null);
       }, 500);
       setTimer(newTimer);

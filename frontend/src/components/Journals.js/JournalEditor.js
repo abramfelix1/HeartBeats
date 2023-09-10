@@ -135,7 +135,12 @@ export default function JournalEditor() {
         energy: energy,
         genre: "pop",
       })
-    );
+    ).catch(async (res) => {
+      const data = await res.json();
+      console.log(data.errors);
+      setErrors(data.errors);
+      setType("ERROR");
+    });
     setJournalContent(content);
   };
 

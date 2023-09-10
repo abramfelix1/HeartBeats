@@ -14,6 +14,7 @@ import { ReactComponent as ComposeIcon } from "../../images/icons/outline/compos
 import JournalNavItem from "./JournalNavItem";
 import { getRecSongs, resetRecSongsAction } from "../../store/spotify";
 import { convertTime } from "../../utils/helper";
+import { ErrorContext } from "../../context/ErrorContext";
 
 export default function JournalNav() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ export default function JournalNav() {
     setFilters,
   } = useContext(JournalContext);
   const { setPlaylistId, setIsSongRecsShown } = useContext(PlaylistContext);
+  const { errors, setErrors } = useContext(ErrorContext);
   const journals = useSelector((state) => Object.values(state.journals));
   const [searchInput, setSearchInput] = useState("");
 
@@ -75,7 +77,12 @@ export default function JournalNav() {
           energy: energy,
           genre: "pop",
         })
-      );
+      ).catch(async (res) => {
+        const data = await res.json();
+        console.log(data.errors);
+        setErrors(data.errors);
+        setType("ERROR");
+      });
     } else {
       dispatch(resetRecSongsAction());
       setJournalContent(null);

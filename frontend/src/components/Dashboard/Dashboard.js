@@ -19,6 +19,8 @@ import { ReactComponent as ComposeIcon } from "../../images/icons/outline/compos
 import { ReactComponent as RefreshIcon } from "../../images/icons/outline/refresh.svg";
 import { getEnergy, getValence } from "../../utils/journal-analyzer";
 import SearchSpotify from "../Songs/SearchSpotify";
+import { ErrorContext } from "../../context/ErrorContext";
+import { ModalContext } from "../../context/ModalContext";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -32,6 +34,8 @@ export default function Dashboard() {
   } = useContext(JournalContext);
   const { playlistOpen, showPlaylist, isSongRecsShown, setIsSongRecsShown } =
     useContext(PlaylistContext);
+  const { errors, setErrors } = useContext(ErrorContext);
+  const { type, setType } = useContext(ModalContext);
   const [isLoaded, setIsLoaded] = useState(false);
   const [navHovered, setNavHovered] = useState(false);
   const journalEntry = useSelector((state) =>
@@ -62,7 +66,12 @@ export default function Dashboard() {
       }
       const newTimer = setTimeout(() => {
         console.log("DISPATCH VALUE: ", query);
-        dispatch(getRecSongs(query));
+        dispatch(getRecSongs(query)).catch(async (res) => {
+          const data = await res.json();
+          console.log(data.errors);
+          setErrors(data.errors);
+          setType("ERROR");
+        });
         setTimer(null);
       }, 500);
       setTimer(newTimer);
