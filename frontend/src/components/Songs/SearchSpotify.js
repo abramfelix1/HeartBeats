@@ -20,6 +20,7 @@ import { HowlerContext } from "../../context/howlerContext";
 import { BsStopCircle, BsPlayCircle, BsQuestionCircle } from "react-icons/bs";
 import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
+import { JournalContext } from "../../context/journalContext";
 
 export default function SearchSpotify() {
   const [query, setQuery] = useState("");
@@ -28,6 +29,7 @@ export default function SearchSpotify() {
     useContext(HowlerContext);
   const { errors, setErrors } = useContext(ErrorContext);
   const { type, setType } = useContext(ModalContext);
+  const { filters, setFilters } = useContext(JournalContext);
   const [timer, setTimer] = useState(null);
   const [topResHover, setTopResHover] = useState(null);
   const artists = useSelector((state) =>
@@ -40,9 +42,9 @@ export default function SearchSpotify() {
     state.spotify.genres?.genres ? state.spotify.genres.genres : null
   );
   const [genresList, setGenresList] = useState([]);
-  const [filters, setFilters] = useState([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const filtersRef = useRef(null);
+  const filtersButtonRef = useRef(null);
 
   useEffect(() => {
     dispatch(getSpotifyGenre());
@@ -51,7 +53,7 @@ export default function SearchSpotify() {
   useEffect(() => {
     function handleOutsideClick(event) {
       if (type === "ERROR") return;
-      if (filtersRef.current && !filtersRef.current.contains(event.target)) {
+      if (filtersRef.current && !filtersRef.current.contains(event.target) && !filtersButtonRef.current.contains(event.target)) {
         setFiltersOpen(false);
       }
     }
@@ -171,15 +173,24 @@ export default function SearchSpotify() {
         />
         <div
           className={`text-txt-1 hover:cursor-pointer hover:scale-105 font-semibold
-          ${filtersOpen && "pointer-events-none"}
+          ${filtersOpen && ""}
           `}
-          onClick={() => {
-            if (!filtersOpen) {
-              setFiltersOpen(true);
-            }
-          }}
+          ref={filtersButtonRef}
         >
-          <p>Filters {`${filters.length >= 1 ? `(${filters.length})` : ""}`}</p>
+          <p
+            onClick={(e) => {
+              e.stopPropagation();
+              if (!filtersOpen) {
+                console.log("open");
+                setFiltersOpen(true);
+              } else {
+                console.log("close");
+                setFiltersOpen(false);
+              }
+            }}
+          >
+            Filters {`${filters.length >= 1 ? `(${filters.length})` : ""}`}
+          </p>
         </div>
       </div>
       <div className="flex flex-col h-full w-full pb-24 ">

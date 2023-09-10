@@ -26,6 +26,8 @@ export default function JournalNav() {
     setEditorOpen,
     journalContent,
     setJournalContent,
+    filters,
+    setFilters,
   } = useContext(JournalContext);
   const { setPlaylistId, setIsSongRecsShown } = useContext(PlaylistContext);
   const journals = useSelector((state) => Object.values(state.journals));

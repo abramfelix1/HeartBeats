@@ -40,6 +40,8 @@ export default function JournalEditor() {
     setJournalContent,
     filterOpen,
     setFilterOpen,
+    filters,
+    setFilters,
   } = useContext(JournalContext);
   const { playlistId, setPlaylistId, isSongRecsShown, setIsSongRecsShown } =
     useContext(PlaylistContext);
@@ -59,6 +61,7 @@ export default function JournalEditor() {
       if (event.keyCode === 27) {
         setEditorOpen(false);
         setFilterOpen(false);
+        setFilters([]);
       }
     };
     window.addEventListener("keydown", handleEsc);
@@ -74,6 +77,7 @@ export default function JournalEditor() {
       if (editorRef.current && !editorRef.current.contains(event.target)) {
         setEditorOpen(false);
         setFilterOpen(false);
+        setFilters([]);
       }
     }
     document.addEventListener("mousedown", handleOutsideClick);
@@ -267,7 +271,10 @@ export default function JournalEditor() {
             <div className="flex flex-row w-full h-full p-5 bg-bkg-card justify-around items-center rounded-b-3xl">
               <button
                 className="text-bkg-text hover:scale-105 hover:text-txt-hover w-fit h-fit p-1 font-semibold "
-                onClick={(e) => setEditorOpen(false)}
+                onClick={(e) => {
+                  setEditorOpen(false);
+                  setFilters([]);
+                }}
               >
                 Close
               </button>
