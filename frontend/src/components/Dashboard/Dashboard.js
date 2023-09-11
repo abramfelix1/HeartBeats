@@ -3,7 +3,11 @@ import Navigation from "../Navigation";
 import JournalContainer from "../Journals.js/JournalContainer";
 import * as sessionActions from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
-import { getRecSongs, getSpotifyUser } from "../../store/spotify";
+import {
+  getRecSongs,
+  getSpotifyUser,
+  resetRecSongsAction,
+} from "../../store/spotify";
 import Modal from "../../utils/Modal";
 import { JournalContext } from "../../context/journalContext";
 import SongsContainer from "../Songs/SongsContainer";
@@ -85,6 +89,7 @@ export default function Dashboard() {
 
   const recSongsHandler = (e) => {
     if (journalContent && journalId) {
+      dispatch(resetRecSongsAction());
       getSongs({
         filter: journalEntry.filter,
       });

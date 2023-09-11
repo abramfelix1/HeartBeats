@@ -32,6 +32,7 @@ module.exports = {
       },
       backgroundImage: {
         login: "url('./images/heartbeat-login-bg-no-g.png')",
+        landing: "url('./images/icons/landingAnimated.svg')",
       },
     },
   },

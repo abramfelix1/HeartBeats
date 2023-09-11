@@ -131,6 +131,7 @@ export default function JournalEditor() {
     console.log("CONTENT: ", content);
     const energy = getEnergy(content);
     const valence = getValence(content);
+    dispatch(resetRecSongsAction());
     dispatch(
       getRecSongs({
         filter: journalEntry.filter,

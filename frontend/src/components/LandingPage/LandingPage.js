@@ -17,7 +17,7 @@ export default function LandingPage() {
             <img className="w-36 px-2" src={spotify} alt="logo" />
           </div>
         </div>
-        <div className="flex w-full h-full justify-around items-center relative px-16">
+        <div className="flex w-full h-full justify-around items-center relative px-16 bg-landing">
           <div className="flex flex-col gap-y-4 items-center">
             <p className="text-4xl font-semibold ">Music to Match Your Mood</p>
             <p className="text-3xl font-medium">
