@@ -47,9 +47,9 @@ function LoginFormPage() {
   return (
     <div className="text-txt-1 bg-gradient-to-bl from-white via-azure-blue via-50% to-azure-blue relative">
       <div className="bg-login bg-cover bg-no-repeat absolute inset-0"></div>
-      <div className="flex justify-center items-center w-screen h-screen">
-        <div className="flex relative bg-bkg-card w-[80%] h-[80%] rounded-3xl">
-          <div className="flex flex-col justify-center items-center pl-20 py-20 w-[100%]">
+      <div className="flex justify-center items-center w-screen h-screen overflow-hidden">
+        <div className="flex relative bg-bkg-card w-[80%]  rounded-3xl  lg:w-[75%] xl:w-[80%]">
+          <div className="flex flex-col w-full items-center pl-20 py-20">
             <h1>Welcome Back!</h1>
             <div className="h-[20px] my-4">
               {errors.credential && (
@@ -57,7 +57,7 @@ function LoginFormPage() {
               )}
             </div>
             <form
-              className="flex flex-col gap-y-6 justify-center items-center"
+              className="flex flex-col gap-y-6 items-center"
               onSubmit={handleSubmit}
             >
               <div className="flex flex-col">

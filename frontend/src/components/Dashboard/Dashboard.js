@@ -80,7 +80,7 @@ export default function Dashboard() {
   );
 
   const recSongsHandler = (e) => {
-    if (journalContent) {
+    if (journalContent && journalId) {
       getSongs({
         filter: journalEntry.filter,
       });
