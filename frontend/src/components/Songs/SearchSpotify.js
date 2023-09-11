@@ -129,6 +129,7 @@ export default function SearchSpotify() {
   const inputHandler = (e) => {
     setQuery(e.target.value);
     console.log("SEARCH INPUT: ", e.target.value);
+    if(genres){
     if (e.target.value) {
       search(e.target.value);
       setGenresList(
@@ -143,7 +144,9 @@ export default function SearchSpotify() {
       }
       dispatch(resetSearchAction());
     }
+  }
   };
+
 
   const addFilterHandler = async (filter) => {
     if (filterId && filterCount < 5) {

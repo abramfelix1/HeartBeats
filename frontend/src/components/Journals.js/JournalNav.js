@@ -68,16 +68,10 @@ export default function JournalNav() {
     console.log("JOURNAL CONTENT: ", journalContent);
   };
 
-  const recSongsHandler = (valence, energy) => {
+  const recSongsHandler = (filter) => {
     console.log("REC SONGS HANDLER");
-    if (valence !== null && energy !== null) {
-      dispatch(
-        getRecSongs({
-          valence: valence,
-          energy: energy,
-          genre: "pop",
-        })
-      ).catch(async (res) => {
+    if (filter.valence !== null && filter.energy !== null) {
+      dispatch(getRecSongs(filter)).catch(async (res) => {
         const data = await res.json();
         console.log(data.errors);
         setErrors(data.errors);
@@ -145,7 +139,7 @@ export default function JournalNav() {
                       setJournalId(journalEntry.id);
                       setIsSongRecsShown(true);
                       getJournalContents(index);
-                      recSongsHandler(journalEntry.mood, journalEntry.energy);
+                      dispatch(resetRecSongsAction());
                     }}
                   >
                     <div className="text-center">{index + 1}</div>

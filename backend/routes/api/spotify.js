@@ -236,7 +236,7 @@ router.post("/recsongs", async (req, res) => {
   console.log("GENRES: ", genres);
   console.log("ARTISTS: ", artists);
 
-  const rangeOffset = 0.152125;
+  const rangeOffset = 0.252125;
   let minValence = valence - rangeOffset;
   let maxValence = valence + rangeOffset;
   let minEnergy = energy - rangeOffset;
@@ -265,7 +265,7 @@ router.post("/recsongs", async (req, res) => {
   }
 
   if (genres && genres.length > 0) {
-    const genreNames = genres.map((genre) => genre.name).join("%2C");
+    const genreNames = genres.map((genre) => genre.name).join("2%C");
     queryParams.push(`seed_genres=${genreNames}`);
   }
 
@@ -310,10 +310,8 @@ router.get("/search", async (req, res) => {
     } else {
       res.status(response.status).json({ error: data.error });
     }
-  } catch (error) {
-    return next({
-      errors: { error: error.message, status: 404 },
-    });
+  } catch (err) {
+    const error = await err.json();
     res.status(500).json({ error: error.message });
   }
 });

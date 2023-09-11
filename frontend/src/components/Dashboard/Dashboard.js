@@ -73,7 +73,7 @@ export default function Dashboard() {
           setType("ERROR");
         });
         setTimer(null);
-      }, 500);
+      }, 300);
       setTimer(newTimer);
     },
     [dispatch, timer]
@@ -81,15 +81,15 @@ export default function Dashboard() {
 
   const recSongsHandler = (e) => {
     if (journalContent) {
-      const energy = getEnergy(journalContent);
-      const valence = getValence(journalContent);
       getSongs({
-        valence: valence,
-        energy: energy,
-        genre: "pop",
+        filter: journalEntry.filter,
       });
     }
   };
+
+  useEffect(() => {
+    recSongsHandler();
+  }, [journalId]);
 
   return (
     <>
@@ -122,9 +122,11 @@ export default function Dashboard() {
           </div>
         ) : (
           <div className="flex flex-col w-[100%] h-full items-center justify-center overflow-hidden gap-y-2 z-9">
-            <p className="text-2xl font-semibold select-none">
-              Find songs write away!
-            </p>
+            {
+              <p className="text-2xl font-semibold select-none">
+                Find songs write away!
+              </p>
+            }
             <ComposeIcon
               className="hover:cursor-pointer fill-txt-1 hover:scale-105"
               onClick={(e) => {
@@ -136,7 +138,15 @@ export default function Dashboard() {
         {isSongRecsShown && journalEntry && journalContent ? (
           <>
             <div className="flex h-full w-full items-center overflow-hidden relative">
-              <SongsContainer />
+              {journalEntry.filter.songs.length === 0 &&
+              journalEntry.filter.genres.length === 0 &&
+              journalEntry.filter.artists.length === 0 ? (
+                <div className="text-txt-1 flex w-full items-center justify-center text-2xl font-semibold select-none">
+                  Select filters to begin your music journey!{" "}
+                </div>
+              ) : (
+                <SongsContainer />
+              )}
               <div
                 className="absolute w-full h-fit flex flex-col items-center justify-center
             2xl:bottom-32 xl:bottom-8 lg:bottom-4 md:bottom-2"
