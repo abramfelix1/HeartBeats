@@ -29,6 +29,7 @@ import { getEnergy, getValence } from "../../utils/journal-analyzer";
 import { PlaylistContext } from "../../context/playlistContext";
 import SearchSpotify from "../Songs/SearchSpotify";
 import { HowlerContext } from "../../context/howlerContext";
+import { ThemeContext } from "../../context/themeContext";
 
 export default function JournalEditor() {
   const dispatch = useDispatch();
@@ -48,6 +49,7 @@ export default function JournalEditor() {
     useContext(PlaylistContext);
   const { errors, setErrors } = useContext(ErrorContext);
   const { type, setType } = useContext(ModalContext);
+  const { theme } = useContext(ThemeContext);
   const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
     useContext(HowlerContext);
   const journalEntry = useSelector((state) =>
@@ -237,14 +239,6 @@ export default function JournalEditor() {
     }
   }, [journalEntry]);
 
-  const openEditorHandler = async () => {
-    console.log("CLICK CREATE JOURNAL");
-    const journal = await dispatch(createJournal());
-    console.log("NEW JOURNAL: ", journal);
-    setJournalId(journal.journal.id);
-    setPlaylistId(null);
-  };
-
   return (
     <div
       ref={editorRef}
@@ -266,7 +260,9 @@ export default function JournalEditor() {
             ref={quillRef}
             value={body}
             onChange={setBody}
-            className="bg-white text-black overflow-hidden"
+            className={` text-black overflow-hidden ${
+              theme === "dark" ? "bg-slate-300" : "bg-white"
+            }`}
           />
           <div className="flex flex-col">
             <div className="flex justify-center p-4  border-b-[1px] border-b-bkg-nav">

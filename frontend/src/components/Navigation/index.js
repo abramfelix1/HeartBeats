@@ -110,15 +110,6 @@ function Navigation({ isLoaded, navHovered, ...props }) {
             )}
           </div>
         )}
-        {/* {sessionUser && (
-          <div
-            className="flex gap-x-2 justify-center items-center  hover:cursor-pointer"
-            data-tooltip-id="nav-tooltip"
-            data-tooltip-content="Settings"
-          >
-            <SettingsIcon className="w-12 fill-txt-1 hover:scale-105" />
-          </div>
-        )} */}
         {sessionUser ? (
           <div
             className="flex gap-x-2 justify-center items-center hover:cursor-pointer pointer-events-auto"
