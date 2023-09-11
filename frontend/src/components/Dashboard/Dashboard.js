@@ -12,7 +12,7 @@ import { PlaylistContext } from "../../context/playlistContext";
 import PlaylistContainer from "../Playlist/PlaylistContainer";
 import Playlist from "../Playlist/Playlist";
 import SongRecs from "../Songs/SongRecs";
-import { convertTime } from "../../utils/helper";
+import { convertTime, convertTime2 } from "../../utils/helper";
 import JournalNav from "../Journals.js/JournalNav";
 import PlaylistNav from "../Playlist/PlaylistNav";
 import { ReactComponent as ComposeIcon } from "../../images/icons/outline/compose2.svg";
@@ -104,7 +104,7 @@ export default function Dashboard() {
         {journalEntry && journalContent ? (
           <div className="flex flex-col left-0 top-0 absolute mt-4 ml-4 w-[30%] h-[25%] z-[3] pointer-events-none ">
             <p className="flex text-3xl font-semibold whitespace-nowrap">
-              {convertTime(journalEntry.updatedAt)} - {journalEntry.name}
+              {convertTime2(journalEntry.updatedAt)} - {journalEntry.name}
             </p>
             <div className="flex flex-row w-full gap-x-2 items-center pointer-events-none select-none">
               <p className="text-2xl font-semibold truncate">

@@ -8,6 +8,7 @@ import Navigation from "./components/Navigation";
 import TestPage from "./TestPage";
 import Dashboard from "./components/Dashboard/Dashboard";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import LandingPage from "./components/LandingPage/LandingPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,9 @@ function App() {
           </Route>
           <Route path="/signup">
             <SignupFormPage />
+          </Route>
+          <Route path="/home">
+            <LandingPage />
           </Route>
           <Redirect to="/" />
         </Switch>
