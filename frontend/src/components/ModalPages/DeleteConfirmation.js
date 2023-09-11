@@ -37,7 +37,7 @@ export default function DeleteConfirmation({ id }) {
   return (
     <div className="min-w-[24rem] max-w-fit h-fit p-8 bg-baby-powder rounded-3xl">
       <div className="flex flex-col gap-y-5">
-        <p className="text-xl font-semibold">Confirm Delete</p>
+        <p className="text-xl font-medium">Confirm Delete</p>
         <div className="w-full border-[1px] border-black opacity-5"></div>
         <p className="text-lg">Are you sure you want to delete:</p>
         <p>
@@ -47,7 +47,7 @@ export default function DeleteConfirmation({ id }) {
         </p>
         <div className="flex flex-row gap-x-5 justify-end">
           <button
-            className="w-fit h-fit p-2 rounded-xl border-[1px] border-black hover:bg-slate-200  font-semibold"
+            className="w-fit h-fit p-2 rounded-xl border-[1px] border-black hover:bg-slate-200  font-medium"
             onClick={() => {
               setType(null);
               setDeleteContext(null);
@@ -56,7 +56,7 @@ export default function DeleteConfirmation({ id }) {
             Cancel
           </button>
           <button
-            className="w-fit h-fit p-2 rounded-xl border-[1px] border-black hover:bg-slate-200 font-semibold"
+            className="w-fit h-fit p-2 rounded-xl border-[1px] border-black hover:bg-slate-200 font-medium"
             onClick={() => {
               deleteContext === "PLAYLIST"
                 ? deletePlaylistHandler()

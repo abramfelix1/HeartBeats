@@ -68,7 +68,7 @@ export default function Playlist() {
       `}
       >
         <div className="px-4">
-          <div className="flex flex-row items-center justify-between text-txt-1 text-2xl font-semibold">
+          <div className="flex flex-row items-center justify-between text-txt-1 text-2xl font-medium">
             <input
               onChange={(e) => {
                 setTitle(e.target.value);

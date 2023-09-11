@@ -16,7 +16,7 @@ export default function Errors() {
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex flex-col gap-y-5">
-        <p className="text-xl font-semibold">ERROR</p>
+        <p className="text-xl font-medium">ERROR</p>
         <div className="w-full border-[1px] border-black opacity-5"></div>
         <p className="text-lg">Please fix the following:</p>
         {err.map((error) => (

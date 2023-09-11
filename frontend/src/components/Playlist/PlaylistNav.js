@@ -48,7 +48,7 @@ export default function PlaylistNav() {
     <div className="flex hover:cursor-default h-full w-full">
       <div className="flex flex-grow flex-col bg-bkg-card relative py-4 rounded-l-3xl">
         <div className="px-4">
-          <div className="flex flex-row justify-between text-txt-1 text-2xl font-semibold">
+          <div className="flex flex-row justify-between text-txt-1 text-2xl font-medium">
             <>Playlists</>
             <CloseIcon
               className="fill-txt-1 w-8 h-fit hover:cursor-pointer hover:scale-110"

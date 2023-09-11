@@ -251,7 +251,7 @@ export default function JournalEditor() {
           <input
             onChange={(e) => setTitle(e.target.value)}
             value={title}
-            className={`bg-bkg-card p-3 border-none rounded-3xl focus:outline-none font-semibold
+            className={`bg-bkg-card p-3 border-none rounded-3xl focus:outline-none font-medium
             ${filterOpen && "rounded-r-none"}
             `}
           />
@@ -268,7 +268,7 @@ export default function JournalEditor() {
             <div className="flex justify-center p-4  border-b-[1px] border-b-bkg-nav">
               {journalId ? (
                 <p
-                  className={`text-bkg-text font-semibold hover:cursor-pointer ${
+                  className={`text-bkg-text font-medium hover:cursor-pointer ${
                     filterHover && "scale-105 text-txt-hover "
                   }`}
                   onMouseEnter={(e) => setFilterHover(true)}
@@ -279,7 +279,7 @@ export default function JournalEditor() {
                 </p>
               ) : (
                 <p
-                  className={`text-bkg-text font-semibold cursor-default
+                  className={`text-bkg-text font-medium cursor-default
                   `}
                 >
                   Create Journal to Access Filters
@@ -288,7 +288,7 @@ export default function JournalEditor() {
             </div>
             <div className="flex flex-row w-full h-full p-5 bg-bkg-card justify-around items-center rounded-b-3xl">
               <button
-                className="text-bkg-text hover:scale-105 hover:text-txt-hover w-fit h-fit p-1 font-semibold "
+                className="text-bkg-text hover:scale-105 hover:text-txt-hover w-fit h-fit p-1 font-medium "
                 onClick={(e) => {
                   setEditorOpen(false);
                   setFilterOpen(false);
@@ -299,14 +299,14 @@ export default function JournalEditor() {
               </button>
               {journalEntry ? (
                 <button
-                  className="text-bkg-text hover:scale-105 hover:text-txt-hover w-fit h-fit p-1 font-semibold"
+                  className="text-bkg-text hover:scale-105 hover:text-txt-hover w-fit h-fit p-1 font-medium"
                   onClick={(e) => submitHandler(e)}
                 >
                   Save
                 </button>
               ) : (
                 <button
-                  className="text-bkg-text hover:scale-105 hover:text-txt-hover w-fit h-fit p-1 font-semibold"
+                  className="text-bkg-text hover:scale-105 hover:text-txt-hover w-fit h-fit p-1 font-medium"
                   onClick={(e) => submitHandler(e)}
                 >
                   Create

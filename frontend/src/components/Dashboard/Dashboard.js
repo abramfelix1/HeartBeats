@@ -94,7 +94,7 @@ export default function Dashboard() {
   return (
     <>
       <Modal />
-      <div className="bg-bkg-body flex-row text-txt-1 w-screen h-screen flex  relative cursor-default">
+      <div className="font-poppins bg-bkg-body flex-row text-txt-1 w-screen h-screen flex  relative cursor-default">
         <Navigation
           isLoaded={isLoaded}
           navHovered={navHovered}
@@ -103,11 +103,11 @@ export default function Dashboard() {
         />
         {journalEntry && journalContent ? (
           <div className="flex flex-col left-0 top-0 absolute mt-4 ml-4 w-[30%] h-[25%] z-[3] pointer-events-none ">
-            <p className="flex text-3xl font-semibold whitespace-nowrap">
+            <p className="flex text-3xl font-medium whitespace-nowrap">
               {convertTime2(journalEntry.updatedAt)} - {journalEntry.name}
             </p>
             <div className="flex flex-row w-full gap-x-2 items-center pointer-events-none select-none">
-              <p className="text-2xl font-semibold truncate">
+              <p className="text-2xl font-medium truncate">
                 "{journalContent}"
               </p>
               <button className="cursor-pointer w-10">
@@ -123,7 +123,7 @@ export default function Dashboard() {
         ) : (
           <div className="flex flex-col w-[100%] h-full items-center justify-center overflow-hidden gap-y-2 z-9">
             {
-              <p className="text-2xl font-semibold select-none">
+              <p className="text-2xl font-medium select-none">
                 Find songs write away!
               </p>
             }
@@ -141,7 +141,7 @@ export default function Dashboard() {
               {journalEntry.filter.songs.length === 0 &&
               journalEntry.filter.genres.length === 0 &&
               journalEntry.filter.artists.length === 0 ? (
-                <div className="text-txt-1 flex w-full items-center justify-center text-2xl font-semibold select-none">
+                <div className="text-txt-1 flex w-full items-center justify-center text-2xl font-medium select-none">
                   Select filters to begin your music journey!{" "}
                 </div>
               ) : (

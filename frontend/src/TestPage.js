@@ -238,7 +238,7 @@ export default function TestPage() {
             })
           }
         >
-          <p className="font-extrabold">GENERATE SONGS</p>
+          <p className="font-bold">GENERATE SONGS</p>
         </button>
         <div>
           Genre
@@ -337,17 +337,17 @@ export default function TestPage() {
 
       {/* JOURNALS SECTION */}
       <div className="flex flex-col items-start">
-        <p className="font-extrabold">JOURNALS</p>
-        <button className="font-semibold" onClick={getAllJournalsHandler}>
+        <p className="font-bold">JOURNALS</p>
+        <button className="font-medium" onClick={getAllJournalsHandler}>
           GET ALL JOURNALS
         </button>
-        <button className="font-semibold" onClick={createJournalHandler}>
+        <button className="font-medium" onClick={createJournalHandler}>
           CREATE
         </button>
-        <button className="font-semibold" onClick={updateJournalHandler}>
+        <button className="font-medium" onClick={updateJournalHandler}>
           UPDATE
         </button>
-        <button className="font-semibold" onClick={deleteJournalHandler}>
+        <button className="font-medium" onClick={deleteJournalHandler}>
           DELETE
         </button>
         {/* creating generates blank page, but sets title to date */}
@@ -360,35 +360,35 @@ export default function TestPage() {
 
       {/* PLAYLIST SECTION */}
       <div className="flex flex-col items-start">
-        <p className="font-extrabold">PLAYLISTS</p>
-        <button className="font-semibold" onClick={getAllPlaylistsHandler}>
+        <p className="font-bold">PLAYLISTS</p>
+        <button className="font-medium" onClick={getAllPlaylistsHandler}>
           GET ALL PLAYLISTS
         </button>
-        <button className="font-semibold" onClick={getPlaylistHandler}>
+        <button className="font-medium" onClick={getPlaylistHandler}>
           GET PLAYLIST
         </button>
-        <button className="font-semibold" onClick={createPlaylistHandler}>
+        <button className="font-medium" onClick={createPlaylistHandler}>
           CREATE PLAYLIST
         </button>
         {/* UPDATING PLAYLIST CONSISTS OF CHANGING THE CONTEXT OF THE JOURNAL CONTENT TO MODIFY MOOD AND VALENCE, ADDING AND REMOVING SONGS ALSO APPLY TO UPDATING. CHANGING PLAYLIST NAME IS ALSO CONSIDERED TO BE UPDATING */}
         {/* FIGURE OUT HOW TO CREATE SPOTIFY PLAYLIST AND LINK FOR SPOTIFY USERS */}
-        <button className="font-semibold" onClick={updatePlaylistHandler}>
+        <button className="font-medium" onClick={updatePlaylistHandler}>
           UPDATE PLAYLIST (MOOD, VALENCE, NAME)
         </button>
-        <button className="font-semibold" onClick={deletePlaylistHandler}>
+        <button className="font-medium" onClick={deletePlaylistHandler}>
           DELETE PLAYLIST
         </button>
       </div>
 
       {/* PLAYLIST SONGS SECTION */}
       <div className="flex flex-col items-start">
-        <p className="font-extrabold">PLAYLIST SONGS</p>
+        <p className="font-bold">PLAYLIST SONGS</p>
         {/* ADDING SONG TO PLAYLIST WILL CREATE A SONG INSTANCE AND MAKE A RELATION SHIP BETWEEN THE PLAYLIST AND SONG,
         FIGURE OUT IF SONG SHOULD BE ITS OWN INSTANCE WHEN CREATED WITH A PLAYLIST.
         BEFORE CREATING SONG, CHECK IF SONG WITH SPOTIFY ID EXISTS,
         DONT DELETE SONG WHEN DELETING PLAYLIST
          */}
-        <button className="font-semibold" onClick={getAllPlaylistsHandler}>
+        <button className="font-medium" onClick={getAllPlaylistsHandler}>
           ADD SONG TO PLAYLIST (CREATE SONG)
         </button>
       </div>

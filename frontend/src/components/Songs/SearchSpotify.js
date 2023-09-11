@@ -172,7 +172,7 @@ export default function SearchSpotify() {
           className="bg-bkg-button pl-8 p-2 w-[80%] rounded-full  border-2 border-transparent outline-none focus:border-text-txt-hover caret-text-txt-hover"
         />
         <div
-          className={`text-txt-1 hover:cursor-pointer hover:scale-105 font-semibold
+          className={`text-txt-1 hover:cursor-pointer hover:scale-105 font-medium
           ${filtersOpen && ""}
           `}
           ref={filtersButtonRef}
@@ -232,10 +232,8 @@ export default function SearchSpotify() {
                   />
                   <div className="flex flex-col py-2 px-4 w-full">
                     <div className="flex justify-between items-center">
-                      <p className="flex text-txt-1 font-semibold">
-                        Top Result
-                      </p>
-                      <p className="flex text-txt-1 font-semibold w-fit py-[1px]  px-2  rounded-xl bg-bkg-card">
+                      <p className="flex text-txt-1 font-medium">Top Result</p>
+                      <p className="flex text-txt-1 font-medium w-fit py-[1px]  px-2  rounded-xl bg-bkg-card">
                         Artist
                       </p>
                     </div>
@@ -279,7 +277,7 @@ export default function SearchSpotify() {
                               className="w-24 h-24"
                             />
                             <p
-                              className={`truncate text-txt-1 text-lg text-semibold ${
+                              className={`truncate text-txt-1 text-lg text-medium ${
                                 artist.name.length > 17 && "w-full"
                               }`}
                             >
@@ -318,10 +316,8 @@ export default function SearchSpotify() {
                   />
                   <div className="flex flex-col py-2 px-4 w-full">
                     <div className="flex justify-between items-center">
-                      <p className="flex text-txt-1 font-semibold">
-                        Top Result
-                      </p>
-                      <p className="flex text-txt-1 font-semibold w-fit py-[1px]  px-2 rounded-xl bg-bkg-card">
+                      <p className="flex text-txt-1 font-medium">Top Result</p>
+                      <p className="flex text-txt-1 font-medium w-fit py-[1px]  px-2 rounded-xl bg-bkg-card">
                         Song
                       </p>
                     </div>
@@ -331,7 +327,7 @@ export default function SearchSpotify() {
                           <p className="text-txt-1 text-xl font-bold items-center  truncate">
                             {songs?.items[0]?.name}
                           </p>
-                          <p className="text-lg text-txt-1 font-semibold items-center truncate">
+                          <p className="text-lg text-txt-1 font-medium items-center truncate">
                             {songs?.items[0]?.artists[0]?.name}
                           </p>
                         </div>
@@ -403,7 +399,7 @@ export default function SearchSpotify() {
                           className="w-24 h-24"
                         />
                         <div className="w-full truncate px-4">
-                          <p className="text-txt-1 font-semibold w-full truncate">
+                          <p className="text-txt-1 font-medium w-full truncate">
                             {song.name}
                           </p>
                           <p className="text-txt-1 text-lg w-full truncate">
@@ -449,8 +445,8 @@ export default function SearchSpotify() {
           </div>
         ) : (
           <div className="flex flex-col w-full items-center  mt-10">
-            <p className="text-txt-1 font-semibold">Select up to 5 filters.</p>
-            <p className="text-txt-1 font-semibold">
+            <p className="text-txt-1 font-medium">Select up to 5 filters.</p>
+            <p className="text-txt-1 font-medium">
               Choose from your favorite artists, songs, or genres.
             </p>
           </div>
@@ -477,7 +473,7 @@ export default function SearchSpotify() {
                     className="w-12 h-12"
                   />
                   <p
-                    className={`truncate text-txt-1 text-lg text-semibold px-4 ${
+                    className={`truncate text-txt-1 text-lg text-medium px-4 ${
                       filter.name.length > 17 && "w-full"
                     }`}
                   >
@@ -502,7 +498,7 @@ export default function SearchSpotify() {
                     className="w-12 h-12"
                   />
                   <div className="w-full truncate px-4">
-                    <p className="text-txt-1 font-semibold w-full truncate">
+                    <p className="text-txt-1 font-medium w-full truncate">
                       {filter.name}
                     </p>
                     <p className="text-txt-1 text-lg w-full truncate">
