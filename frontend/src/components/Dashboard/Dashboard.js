@@ -94,7 +94,7 @@ export default function Dashboard() {
   return (
     <>
       <Modal />
-      <div className="bg-bkg-body flex-row text-txt-1 w-screen h-screen flex  relative cursor-default ">
+      <div className="bg-bkg-body flex-row text-txt-1 w-screen h-screen flex  relative cursor-default">
         <Navigation
           isLoaded={isLoaded}
           navHovered={navHovered}
@@ -102,17 +102,17 @@ export default function Dashboard() {
           onMouseLeave={() => setNavHovered(false)}
         />
         {journalEntry && journalContent ? (
-          <div className="flex flex-col left-0 top-0 absolute mt-4 ml-4 w-[30%] h-[25%] z-[3]">
+          <div className="flex flex-col left-0 top-0 absolute mt-4 ml-4 w-[30%] h-[25%] z-[3] pointer-events-none ">
             <p className="flex text-3xl font-semibold whitespace-nowrap">
               {convertTime(journalEntry.updatedAt)} - {journalEntry.name}
             </p>
-            <div className="flex flex-row w-full gap-x-2 items-center">
+            <div className="flex flex-row w-full gap-x-2 items-center pointer-events-none select-none">
               <p className="text-2xl font-semibold truncate">
                 "{journalContent}"
               </p>
               <button className="cursor-pointer w-10">
                 <ComposeIcon
-                  className="w-8 cursor-pointer fill-txt-1 hover:scale-105"
+                  className="w-8 cursor-pointer fill-txt-1 hover:scale-105 pointer-events-auto"
                   onClick={(e) => {
                     setEditorOpen(true);
                   }}

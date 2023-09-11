@@ -56,11 +56,11 @@ function Navigation({ isLoaded, navHovered, ...props }) {
   };
 
   return (
-    <div className=" flex w-full justify-end absolute z-[1]">
-      <div className="bg-bgk-card flex flex-row items center gap-3 h-fit w-fit p-2 rounded-lg m-4">
+    <div className=" flex w-full justify-end absolute z-[1] pointer-events-none">
+      <div className="bg-bgk-card flex flex-row items center gap-3 h-fit w-fit p-2 rounded-lg m-4 ">
         {sessionUser && (
           <div
-            className=" flex gap-x-2 justify-center items-center  hover:cursor-pointer"
+            className=" flex gap-x-2 justify-center items-center  hover:cursor-pointer pointer-events-auto"
             data-tooltip-id="nav-tooltip"
             data-tooltip-content="Journals"
             onClick={toggleJournalPage}
@@ -70,7 +70,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
         )}
         {sessionUser && (
           <div
-            className="flex gap-x-2 justify-center items-center  hover:cursor-pointer"
+            className="flex gap-x-2 justify-center items-center  hover:cursor-pointer pointer-events-auto"
             data-tooltip-id="nav-tooltip"
             data-tooltip-content="Playlists"
             onClick={togglePlaylist}
@@ -80,7 +80,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
         )}
         {sessionUser && (
           <div
-            className="flex gap-x-2 justify-center items-center  hover:cursor-pointer"
+            className="flex gap-x-2 justify-center items-center  hover:cursor-pointer pointer-events-auto"
             data-tooltip-id="nav-tooltip"
             data-tooltip-content="Set Theme"
           >
@@ -96,7 +96,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
                 />
                 <label
                   for="check"
-                  className="mode-label relative flex justify-between items-center p-1 h-12 w-[48px] rounded-lg border-2 border-txt-1 cursor-pointer hover:scale-105"
+                  className="mode-label relative flex justify-between items-center p-1 h-12 w-[48px] rounded-lg border-2 border-txt-1 cursor-pointer hover:scale-105 pointer-events-auto"
                 >
                   <MoonIcon className="w-8 fill-txt-1" />
                   <SunIcon className="w-8 fill-txt-1" />
@@ -121,7 +121,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
         )} */}
         {sessionUser ? (
           <div
-            className="flex gap-x-2 justify-center items-center hover:cursor-pointer"
+            className="flex gap-x-2 justify-center items-center hover:cursor-pointer pointer-events-auto"
             onClick={() => {
               logoutClickHandler();
               collapseClickHandler();
@@ -134,11 +134,11 @@ function Navigation({ isLoaded, navHovered, ...props }) {
         ) : (
           <NavLink
             to="/login"
-            className="flex gap-x-2 justify-center items-center"
+            className="flex gap-x-2 justify-center items-center pointer-events-auto"
             data-tooltip-id="nav-tooltip"
             data-tooltip-content="Login"
           >
-            <LogInIcon className="w-12 fill-txt-1 hover:scale-105" />
+            <LogInIcon className="w-12 fill-txt-1 hover:scale-105 pointer-events-auto" />
           </NavLink>
         )}
       </div>
