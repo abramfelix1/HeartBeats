@@ -149,9 +149,9 @@ export default function Dashboard() {
         {isSongRecsShown && journalEntry && journalContent ? (
           <>
             <div className="flex h-full w-full items-center overflow-hidden relative">
-              {journalEntry.filter.songs.length === 0 &&
-              journalEntry.filter.genres.length === 0 &&
-              journalEntry.filter.artists.length === 0 ? (
+              {journalEntry?.filter?.songs?.length === 0 &&
+              journalEntry?.filter?.genres?.length === 0 &&
+              journalEntry?.filter?.artists?.length === 0 ? (
                 <div className="text-txt-1 flex w-full items-center justify-center text-2xl font-medium select-none">
                   Select filters to begin your music journey!{" "}
                 </div>
