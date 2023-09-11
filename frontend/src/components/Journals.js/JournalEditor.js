@@ -181,6 +181,7 @@ export default function JournalEditor() {
         recSongsHandler();
         setEditorOpen(false);
         setFilters([]);
+        stopSound();
       }
     } else {
       journal = await dispatch(
@@ -201,6 +202,7 @@ export default function JournalEditor() {
       if (!hasError) {
         setJournalId(journal.journal.id);
         setFilters([]);
+        stopSound();
       }
     }
   };
