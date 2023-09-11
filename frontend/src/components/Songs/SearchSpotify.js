@@ -23,6 +23,7 @@ import { ModalContext } from "../../context/ModalContext";
 import { JournalContext } from "../../context/journalContext";
 import { createFilters, deleteFilters } from "../../store/journals";
 import { ThemeContext } from "../../context/themeContext";
+import logo from "../../images/heartBeatLogo.png";
 
 export default function SearchSpotify() {
   const [query, setQuery] = useState("");
@@ -129,24 +130,23 @@ export default function SearchSpotify() {
   const inputHandler = (e) => {
     setQuery(e.target.value);
     console.log("SEARCH INPUT: ", e.target.value);
-    if(genres){
-    if (e.target.value) {
-      search(e.target.value);
-      setGenresList(
-        genres.filter((genre) =>
-          genre.toLowerCase().includes(query.toLowerCase())
-        )
-      );
-    } else {
-      if (timer) {
-        clearTimeout(timer);
-        setTimer(null);
+    if (genres) {
+      if (e.target.value) {
+        search(e.target.value);
+        setGenresList(
+          genres.filter((genre) =>
+            genre.toLowerCase().includes(query.toLowerCase())
+          )
+        );
+      } else {
+        if (timer) {
+          clearTimeout(timer);
+          setTimer(null);
+        }
+        dispatch(resetSearchAction());
       }
-      dispatch(resetSearchAction());
     }
-  }
   };
-
 
   const addFilterHandler = async (filter) => {
     if (filterId && filterCount < 5) {
@@ -226,7 +226,7 @@ export default function SearchSpotify() {
                   }
                 >
                   <img
-                    src={artists.items[0].images[0]?.url}
+                    src={artists?.items[0]?.images[0]?.url || logo}
                     alt={artists.items[0].name}
                     className="w-36 h-36"
                   />
@@ -274,7 +274,7 @@ export default function SearchSpotify() {
                             }
                           >
                             <img
-                              src={artist.images[0]?.url}
+                              src={artist?.images[0]?.url || logo}
                               alt={artist.name}
                               className="w-24 h-24"
                             />
@@ -312,7 +312,7 @@ export default function SearchSpotify() {
                   }
                 >
                   <img
-                    src={songs.items[0].album.images[0]?.url}
+                    src={songs.items[0]?.album?.images[0]?.url || logo}
                     alt={songs.items[0].name}
                     className="w-36 h-36"
                   />
@@ -369,7 +369,9 @@ export default function SearchSpotify() {
                             )}
                         </div>
                       ) : (
-                        <BsPlayCircle className="text-gray-300 text-2xl" />
+                        <div className="flex w-full items-center justify-end">
+                          <BsPlayCircle className="text-gray-300 text-2xl" />
+                        </div>
                       )}
                     </div>
                   </div>
@@ -395,7 +397,7 @@ export default function SearchSpotify() {
                         className="flex flex-row m-4 items-center w-full hover:cursor-pointer hover:bg-bkg-button max-w-[25rem] min-w-[25rem] bg-bkg-nav"
                       >
                         <img
-                          src={song.album.images[0]?.url}
+                          src={song.album.images[0]?.url || logo}
                           alt={song.name}
                           width="50"
                           className="w-24 h-24"
