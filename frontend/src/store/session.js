@@ -15,6 +15,11 @@ const clearSessionUser = () => ({
   type: CLEAR_SESSION_USER,
 });
 
+const refreshSpotifyClientToken = async (dispatch) => {
+  dispatch(spotifyToken());
+  setTimeout(() => refreshSpotifyClientToken(dispatch), 40 * 60 * 1000);
+};
+
 // Thunk action creators
 export const login = (user) => async (dispatch) => {
   const { credential, password } = user;
@@ -28,6 +33,7 @@ export const login = (user) => async (dispatch) => {
     console.log("LOGIN DaTA:", data);
     dispatch(setSessionUser(data.user));
     dispatch(spotifyToken());
+    setTimeout(() => refreshSpotifyClientToken(dispatch), 40 * 60 * 1000);
     return response;
   }
 };
@@ -58,9 +64,15 @@ export const signup = (user) => async (dispatch) => {
   if (response.ok) {
     const data = await response.json();
     dispatch(setSessionUser(data.user));
+    dispatch(spotifyToken());
+
+    setTimeout(() => refreshSpotifyClientToken(dispatch), 40 * 60 * 1000);
+
     return response;
   }
 };
+
+let tokenRefreshTimeout = null;
 
 export const logout = () => async (dispatch) => {
   const response = await csrfFetch("/api/session", {
@@ -69,7 +81,7 @@ export const logout = () => async (dispatch) => {
 
   if (response.ok) {
     dispatch(clearSessionUser());
-    dispatch(spotifyToken());
+    clearTimeout(tokenRefreshTimeout);
     return response;
   }
 };
