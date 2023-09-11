@@ -8,11 +8,12 @@ export default function LandingPage() {
   return (
     <div className="font-poppins flex w-screen h-screen bg-white">
       <div className="flex flex-col w-full">
-        <div className="flex items-center w-full p-10 ">
+        <div className="flex items-center justify-center w-full p-10 ">
           <img className="w-72" src={logo} alt="logo" />
-          <div className="flex px-4">
-            <p className="text-lg font-semibold">Powered By</p>
-            <img className="w-28 px-2" src={spotify} alt="logo" />
+          <p className="text-2xl p-4 scale-y-150">|</p>
+          <div className="flex items-center">
+            <p className="text-lg font-medium">Powered By</p>
+            <img className="w-36 px-2" src={spotify} alt="logo" />
           </div>
         </div>
         <div className="flex w-full h-full justify-around items-center relative px-16">
