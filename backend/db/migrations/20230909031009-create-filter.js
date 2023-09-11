@@ -14,7 +14,6 @@ module.exports = {
         allowNull: false,
         references: {
           model: "Journals",
-          key: "id",
         },
         onDelete: "CASCADE",
       },
