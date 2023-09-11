@@ -27,6 +27,7 @@ export default function JournalNav() {
     setEditorOpen,
     journalContent,
     setJournalContent,
+    setFilterOpen,
     filters,
     setFilters,
   } = useContext(JournalContext);
@@ -55,6 +56,7 @@ export default function JournalNav() {
     // setJournalId(journal.journal.id);
     dispatch(resetRecSongsAction());
     setEditorOpen(true);
+    setFilterOpen(false);
     setJournalId(null);
     setJournalContent(null);
   };
@@ -107,7 +109,9 @@ export default function JournalNav() {
             <div className="flex justify-center px-3 text-white bottom-0">
               <button
                 className="text-bkg-text hover:scale-105 hover:txt-hover w-fit h-fit p-1 font-bold "
-                onClick={createJournalHandler}
+                onClick={(e) => {
+                  createJournalHandler();
+                }}
               >
                 CREATE
               </button>
