@@ -498,10 +498,10 @@ export default function SearchSpotify() {
                     className="w-12 h-12"
                   />
                   <div className="w-full truncate px-4">
-                    <p className="text-txt-1 font-medium w-full truncate">
+                    <p className="text-txt-1 text-lg font-medium w-full truncate">
                       {filter.name}
                     </p>
-                    <p className="text-txt-1 text-lg w-full truncate">
+                    <p className="text-txt-1 w-full truncate">
                       {filter.artists}
                     </p>
                   </div>
