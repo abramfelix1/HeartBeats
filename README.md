@@ -120,6 +120,8 @@ Enjoy HeartBeats!
 ### Abram - (Redux State & Sockets)
 While researching ways to determine the valence values from text, I stumbled upon a library named "Sentiment." This library gauges valence by comparing text against a rated word list. Inspired by this, I developed my own equivalent for measuring "Energy." My energy definition incorporates factors like capitalizations, text length, punctuation, adjectives, and specific keywords. Each factor has its associated positive and negative multipliers. Since Spotify's API requires a value range of 0 to 1, I standardized the valence values from "Sentiment" and my energy analyzer's results. This process entailed extensive tweaking of multipliers across diverse text samples to achieve finely-tuned energy values.
 
+
+```javascript
 function normalize(z) {
   return 1 / (1 + Math.exp(-z));
 }
