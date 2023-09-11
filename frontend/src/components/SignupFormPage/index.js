@@ -13,7 +13,9 @@ import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 
 function SignupFormPage() {
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
+  const sessionUser = useSelector((state) =>
+    state.session.user ? state.session.user.id : null
+  );
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -63,8 +65,8 @@ function SignupFormPage() {
   };
 
   return (
-    <div className="text-txt-1 bg-gradient-to-bl from-white via-azure-blue via-50% to-azure-blue relative">
-      <div className="bg-login bg-cover bg-no-repeat absolute inset-0"></div>
+    <div className="font-poppins text-txt-1 bg-gradient-to-bl from-bkg-button via-bkg-nav via-50% to-bkg-card relative">
+      <div className="bg-login bg-cover bg-no-repeat absolute inset-0 opacity-50"></div>
       <div className="playlist flex justify-center items-center w-screen h-screen overflow-scroll">
         <div className="flex relative bg-bkg-card w-[80%]  rounded-3xl  lg:w-[75%] xl:w-[80%]">
           <div className="flex flex-col w-full items-center pl-20 py-20">

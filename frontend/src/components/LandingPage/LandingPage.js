@@ -3,6 +3,7 @@ import logo from "../../images/heartBeatLogoName.png";
 import songs from "../../images/landing2.png";
 import editor from "../../images/landingPageEditor.png";
 import spotify from "../../images/Spotify_Logo_RGB_Green.png";
+import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function LandingPage() {
   return (
@@ -22,9 +23,12 @@ export default function LandingPage() {
             <p className="text-3xl font-medium">
               Your journal is now your personal DJ.
             </p>
-            <button className="w-fit border-2 border-black rounded-3xl p-2 bg-green-200 hover:bg-green-300">
+            <NavLink
+              to="/login"
+              className="w-fit border-2 border-black rounded-3xl p-2 bg-green-200 hover:bg-green-300"
+            >
               Get Started
-            </button>
+            </NavLink>
           </div>
           <div>
             <img className="w-[920px] drop-shadow-xl" src={songs} alt="logo" />

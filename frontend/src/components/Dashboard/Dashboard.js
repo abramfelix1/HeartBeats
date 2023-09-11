@@ -21,6 +21,7 @@ import { getEnergy, getValence } from "../../utils/journal-analyzer";
 import SearchSpotify from "../Songs/SearchSpotify";
 import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -42,6 +43,9 @@ export default function Dashboard() {
     journalId ? state.journals[journalId] : null
   );
   const [timer, setTimer] = useState(null);
+  const sessionUser = useSelector((state) =>
+    state.session.user ? state.session.user.id : null
+  );
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
@@ -90,6 +94,8 @@ export default function Dashboard() {
   useEffect(() => {
     recSongsHandler();
   }, [journalId]);
+
+  if (!sessionUser) return <Redirect to="/home" />;
 
   return (
     <>

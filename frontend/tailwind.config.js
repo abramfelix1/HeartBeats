@@ -31,7 +31,7 @@ module.exports = {
         nav: "0 35px 60px -15px rgba(0, 0, 0, 0.3)",
       },
       backgroundImage: {
-        login: "url('./images/login-background4.png')",
+        login: "url('./images/heartbeat-login-bg-no-g.png')",
       },
     },
   },
