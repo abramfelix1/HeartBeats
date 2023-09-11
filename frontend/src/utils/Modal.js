@@ -27,7 +27,7 @@ export default function Modal(props) {
 
   if (type) {
     content = (
-      <div className="modalWrapper">
+      <div className="font-poppins modalWrapper">
         <div className="modalContent">
           <div className="closeButtonWrapper"></div>
           {type === "DELETE" && <DeleteConfirmation />}

@@ -115,7 +115,7 @@ export default function SongRecs() {
                     </div>
                   </div>
                   <div className="flex flex-col gap-y-1 py-2 font-medium px-4">
-                    <p className="text-xl truncate">{song.name}</p>
+                    <p className="text-xl truncate ">{song.name}</p>
                     <p className="text-bkg-text truncate text-lg">
                       <span></span>
                       {song.artists[0].name}
