@@ -183,5 +183,5 @@ function normalize(z) {
 ```
 
 ## Author
-* Abram's [Github](https://github.com/abramfelix1) and [LinkedIn](https://www.linkedin.com/in/abram-felix-98937b162/)
+* Abram's ![Github](https://github.com/abramfelix1) and ![LinkedIn](https://www.linkedin.com/in/abram-felix-98937b162/)
 
