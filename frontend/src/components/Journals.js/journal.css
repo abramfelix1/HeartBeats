@@ -1,0 +1,21 @@
+.journal-list {
+  overflow-y: scroll;
+  max-height: calc(100% - 125px);
+}
+
+/* width */
+.journal-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.journal-list::-webkit-scrollbar-track {
+  background: rgb(0, 0, 0, 0);
+  border-radius: 15px;
+}
+
+/* Handle */
+.journal-list::-webkit-scrollbar-thumb {
+  border-radius: 15px;
+  background: hsl(217deg 7% 43%);
+}

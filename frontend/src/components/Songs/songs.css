@@ -1,0 +1,72 @@
+/* .songs-list {
+  overflow-y: auto;
+  max-height: calc(100% - 125px);
+} */
+
+/* width */
+.songs-container::-webkit-scrollbar {
+  width: 0px;
+  height: 10px;
+  background: transparent;
+}
+
+/* Track */
+.songs-container::-webkit-scrollbar-track {
+  background: rgb(0, 0, 0, 0);
+  border-radius: 500px;
+}
+
+/* Handle */
+.songs-container::-webkit-scrollbar-thumb {
+  border-radius: 500px;
+  background: hsl(217deg 7% 43%);
+}
+
+/* width */
+.playlist::-webkit-scrollbar {
+  width: 5px;
+  /* height: 5px; */
+  /* background: transparent; */
+}
+
+/* Track */
+.playlist::-webkit-scrollbar-track {
+  background: rgb(0, 0, 0, 0);
+  border-radius: 500px;
+}
+
+/* Handle */
+.playlist::-webkit-scrollbar-thumb {
+  border-radius: 500px;
+  background: hsl(217deg 7% 43%);
+}
+
+/* @media (min-width: 1920px) {
+  .song-img {
+    height: 14rem;
+  }
+} */
+
+/* @media (min-width: 1745.45px) and (max-width: 1920px) {
+  .song-img {
+    height: 12rem;
+  }
+} */
+
+/* @media (min-width: 1536px) and (max-width: 1745.45px) {
+  .song-img {
+    height: 8rem;
+  }
+} */
+
+/* @media (min-width: 1097px) and (max-width: 1280px) {
+  .songs-container {
+    width: 40%;
+  }
+}
+
+@media (min-width: 960px) and (max-width: 1097px) {
+  .songs-container {
+    width: 35%;
+  }
+} */
