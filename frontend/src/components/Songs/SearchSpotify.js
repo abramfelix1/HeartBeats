@@ -398,11 +398,11 @@ export default function SearchSpotify() {
                           width="50"
                           className="w-24 h-24"
                         />
-                        <div className="w-full truncate px-4">
-                          <p className="text-txt-1 font-medium w-full truncate">
+                        <div className="w-full truncate px-4 font-medium">
+                          <p className="text-txt-1 text-lg font-medium w-full truncate">
                             {song.name}
                           </p>
-                          <p className="text-txt-1 text-lg w-full truncate">
+                          <p className="text-txt-1  w-full truncate">
                             {song.artists[0].name}
                           </p>
                         </div>
