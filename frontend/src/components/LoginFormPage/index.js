@@ -13,7 +13,9 @@ import spotifyLogo from "../../images/Spotify_Icon_RGB_Green.png";
 
 function LoginFormPage() {
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
+  const sessionUser = useSelector((state) =>
+    state.session.user ? state.session.user.id : null
+  );
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});

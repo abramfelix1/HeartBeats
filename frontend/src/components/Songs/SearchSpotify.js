@@ -211,10 +211,10 @@ export default function SearchSpotify() {
                   </div>
                 ))}
             </div>
-            {artists && (
+            {artists?.items?.length > 0 && (
               <div className="flex flex-col mx-2">
                 <div
-                  key={artists.items[0].id}
+                  key={artists?.items[0]?.id}
                   className="flex flex-row bg-bkg-nav hover:cursor-pointer hover:bg-bkg-button rounded-r-3xl select-none"
                   onClick={() =>
                     addFilterHandler({
@@ -227,7 +227,7 @@ export default function SearchSpotify() {
                 >
                   <img
                     src={artists?.items[0]?.images[0]?.url || logo}
-                    alt={artists.items[0].name}
+                    alt={artists?.items[0]?.name}
                     className="w-36 h-36"
                   />
                   <div className="flex flex-col py-2 px-4 w-full">
@@ -241,12 +241,12 @@ export default function SearchSpotify() {
                     </div>
                     <div className="flex h-full w-full items-center max-w-[15rem] min-w-[15rem]">
                       <p className="text-txt-1 text-xl font-bold">
-                        {artists.items[0].name}
+                        {artists?.items[0]?.name}
                       </p>
                     </div>
                   </div>
                 </div>
-                {artists.items.length > 1 && (
+                {artists?.items?.length > 1 && (
                   <div className="flex flex-row">
                     <Swiper
                       spaceBetween={8}
@@ -275,7 +275,7 @@ export default function SearchSpotify() {
                           >
                             <img
                               src={artist?.images[0]?.url || logo}
-                              alt={artist.name}
+                              alt={artist?.name}
                               className="w-24 h-24"
                             />
                             <p
@@ -293,10 +293,10 @@ export default function SearchSpotify() {
                 )}
               </div>
             )}
-            {songs && (
+            {songs?.items.length > 0 && (
               <div className="flex flex-col mx-2">
                 <div
-                  key={songs.items[0].id}
+                  key={songs?.items[0]?.id}
                   className={`flex flex-row bg-bkg-nav hover:cursor-pointer hover:bg-bkg-button rounded-r-3xl select-none
                   `}
                   onClick={() =>
@@ -312,8 +312,8 @@ export default function SearchSpotify() {
                   }
                 >
                   <img
-                    src={songs.items[0]?.album?.images[0]?.url || logo}
-                    alt={songs.items[0].name}
+                    src={songs?.items[0]?.album?.images[0]?.url || logo}
+                    alt={songs?.items[0]?.name}
                     className="w-36 h-36"
                   />
                   <div className="flex flex-col py-2 px-4 w-full">
@@ -329,27 +329,27 @@ export default function SearchSpotify() {
                       <div className="flex w-full">
                         <div className="flex flex-col h-full w-full justify-center max-w-[16rem] min-w-[16rem] ">
                           <p className="text-txt-1 text-xl font-bold items-center  truncate">
-                            {songs.items[0].name}
+                            {songs?.items[0]?.name}
                           </p>
                           <p className="text-lg text-txt-1 font-semibold items-center truncate">
-                            {songs.items[0].artists[0].name}
+                            {songs?.items[0]?.artists[0]?.name}
                           </p>
                         </div>
                       </div>
-                      {songs.items[0].preview_url ? (
+                      {songs?.items[0]?.preview_url ? (
                         <div className="flex w-full items-center justify-end">
                           <button
                             onClick={(e) => {
                               e.stopPropagation();
                               if (
                                 isPlaying &&
-                                currentPlaying === songs.items[0].id
+                                currentPlaying === songs?.items[0].id
                               ) {
                                 stopSound();
                               } else {
                                 playSound(
-                                  songs.items[0].preview_url,
-                                  songs.items[0].id
+                                  songs?.items[0]?.preview_url,
+                                  songs?.items[0]?.id
                                 );
                               }
                             }}
