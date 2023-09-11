@@ -7,6 +7,7 @@ import * as sessionActions from "./store/session";
 import Navigation from "./components/Navigation";
 import TestPage from "./TestPage";
 import Dashboard from "./components/Dashboard/Dashboard";
+import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
+          <Redirect to="/" />
         </Switch>
       )}
     </>

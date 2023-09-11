@@ -34,7 +34,9 @@ function Navigation({ isLoaded, navHovered, ...props }) {
   } = useContext(JournalContext);
   const { setPlaylistId, togglePlaylist } = useContext(PlaylistContext);
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const sessionUser = useSelector((state) => state.session.user);
+  const sessionUser = useSelector((state) =>
+    state.session.user ? state.session.user.id : null
+  );
   const { theme, toggleDark } = useContext(ThemeContext);
 
   const logoutClickHandler = () => {

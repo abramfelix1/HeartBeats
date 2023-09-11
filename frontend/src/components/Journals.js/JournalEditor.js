@@ -295,6 +295,7 @@ export default function JournalEditor() {
                 className="text-bkg-text hover:scale-105 hover:text-txt-hover w-fit h-fit p-1 font-semibold "
                 onClick={(e) => {
                   setEditorOpen(false);
+                  setFilterOpen(false);
                   setFilters([]);
                 }}
               >
