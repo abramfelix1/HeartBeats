@@ -21,10 +21,6 @@ export const getEnergy = (text) => {
   const exclamationCount = (text.match(/!/g) || []).length;
   energyScore += exclamationCount * 0.225;
 
-  // const allCapsCount = (text.match(/\b[A-Z]{3,}\b/g) || []).length;
-  // console.log("CAPS COUNT: ", allCapsCount);
-  // energyScore += allCapsCount * 0.325;
-
   const allCapsWords = text.match(/\b[A-Z]{3,}\b/g) || [];
   let positiveCapsCount = 0;
   let negativeCapsCount = 0;
@@ -44,20 +40,12 @@ export const getEnergy = (text) => {
 
   const textLength = text.split(" ").length;
   console.log("TEXT LENGTH: ", textLength);
-  // const incrementMultipler = 0.0125;
-  // for (let i = 2; i <= 500; i += 2) {
-  //   if (textLength >= i && textLength < i + 2) {
-  //     energyScore += incrementMultipler;
-  //   }
-  // }
+
   const incrementMultiplier = 0.005;
   const increments = textLength / 2;
   energyScore += incrementMultiplier * increments;
 
   lowEnergyWords.forEach((word) => {
-    // const wordCount = (text.match(new RegExp("\\b" + word + "\\b", "gi")) || [])
-    //   .length;
-    // energyScore -= wordCount * 0.35;
     const regex = new RegExp("\\b" + word + "\\b", "gi");
     let match;
     while ((match = regex.exec(text)) !== null) {
