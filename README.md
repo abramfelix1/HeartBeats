@@ -20,6 +20,8 @@ HeartBeats was built using the following technologies:
 - **JavaScript**
 - **React**
 - **Redux**
+- **HTML5**
+- **CSS**
 - **TailwindCSS**
 
 ### Others:
