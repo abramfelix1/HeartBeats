@@ -160,6 +160,11 @@ export default function JournalEditor() {
       setType("ERROR");
       return;
     }
+    if (content.trim().length < 1) {
+      setErrors({ name: "Journal cannot be empty" });
+      setType("ERROR");
+      return;
+    }
     const energy = getEnergy(content);
     const valence = getValence(content);
     let journal;
