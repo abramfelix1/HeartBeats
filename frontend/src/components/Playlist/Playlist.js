@@ -30,7 +30,7 @@ export default function Playlist() {
   const playlist = useSelector((state) => state.playlists[playlistId]);
   const playlistSongs = playlist?.songs ? Object.values(playlist.songs) : [];
   const [title, setTitle] = useState("");
-  const { setErrors } = useContext(ErrorContext);
+  const { errors, setErrors } = useContext(ErrorContext);
   const { setType } = useContext(ModalContext);
   const [hoverId, setHoverId] = useState("null");
 
@@ -41,13 +41,23 @@ export default function Playlist() {
   };
 
   const handleBlur = () => {
-    dispatch(updatePlaylist(playlistId, { name: title })).catch(async (res) => {
-      const data = await res.json();
-      console.log(data.errors);
-      setErrors(data.errors);
+    if (title.trim().length < 1) {
+      setErrors({ playlist: "Playlist name cannot be empty" });
       setType("ERROR");
       setTitle(playlist.name);
-    });
+      console.log("PLAYLIST NAME:", playlist.name);
+    } else {
+      dispatch(updatePlaylist(playlistId, { name: title })).catch(
+        async (res) => {
+          const data = await res.json();
+          console.log(data.errors);
+          setErrors(data.errors);
+          setType("ERROR");
+          setTitle(playlist.name);
+          console.log(playlist.name);
+        }
+      );
+    }
   };
 
   useEffect(() => {
@@ -80,7 +90,10 @@ export default function Playlist() {
             />
             <ArrowIcon
               className="fill-txt-1 w-10 h-fit hover:cursor-pointer hover:scale-110"
-              onClick={closeHandler}
+              onClick={() => {
+                handleBlur();
+                closeHandler();
+              }}
             />
           </div>
           <div className="text-bkg-text text-sm grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center px-4 py-1 pt-4 border-b-[1px] border-b-bkg-nav relative">

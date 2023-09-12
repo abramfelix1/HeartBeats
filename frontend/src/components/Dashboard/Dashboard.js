@@ -114,8 +114,8 @@ export default function Dashboard() {
           onMouseLeave={() => setNavHovered(false)}
         />
         {journalEntry && journalContent ? (
-          <div className="flex flex-col left-0 top-0 absolute mt-4 ml-4 w-[30%] h-[25%] z-[3] pointer-events-none ">
-            <p className="flex text-3xl font-medium whitespace-nowrap">
+          <div className="flex flex-col left-0 top-0 absolute mt-4 ml-4 w-[40%] h-[25%] z-[3] pointer-events-none">
+            <p className="text-3xl font-medium truncate">
               {convertTime2(journalEntry.updatedAt)} - {journalEntry.name}
             </p>
             <div className="flex flex-row w-full gap-x-2 items-center pointer-events-none select-none">
