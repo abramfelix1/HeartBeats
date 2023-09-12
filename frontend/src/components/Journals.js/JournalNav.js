@@ -140,10 +140,12 @@ export default function JournalNav() {
                     `}
                     key={journalEntry.id}
                     onClick={() => {
-                      setJournalId(journalEntry.id);
-                      setIsSongRecsShown(true);
-                      getJournalContents(index);
-                      dispatch(resetRecSongsAction());
+                      if (journalId !== journalEntry.id) {
+                        setJournalId(journalEntry.id);
+                        setIsSongRecsShown(true);
+                        getJournalContents(index);
+                        dispatch(resetRecSongsAction());
+                      }
                     }}
                   >
                     <div className="text-center">{index + 1}</div>
