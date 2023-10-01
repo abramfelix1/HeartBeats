@@ -174,8 +174,12 @@ router.get("/refresh_token", async (req, res) => {
     const data = await response.json();
     const newAccessToken = data.access_token;
     res.clearCookie("access_token");
-    res.cookie("access_token", accessToken);
-    return res.json({ access_token: newAccessToken });
+    res.cookie("access_token", newAccessToken);
+    return res.json({
+      access_token: newAccessToken,
+      expires_in: data.expires_in,
+      // data,
+    });
   } else throw new Error("Failed to refresh access token.");
 });
 

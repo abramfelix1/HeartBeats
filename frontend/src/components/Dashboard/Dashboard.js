@@ -26,6 +26,7 @@ import SearchSpotify from "../Songs/SearchSpotify";
 import { ErrorContext } from "../../context/ErrorContext";
 import { ModalContext } from "../../context/ModalContext";
 import { Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import PlayerWrapper from "../SpotifyPlayer/PlayerWrapper";
 
 export default function Dashboard() {
   const dispatch = useDispatch();
@@ -105,6 +106,7 @@ export default function Dashboard() {
 
   return (
     <>
+      <PlayerWrapper />
       <Modal />
       <div className="font-poppins bg-bkg-body flex-row text-txt-1 w-screen h-screen flex  relative cursor-default">
         <Navigation

@@ -105,12 +105,14 @@ export const spotifyToken = () => async (dispatch) => {
 export const refreshSpotifyToken = () => async (dispatch) => {
   const response = await csrfFetch("/api/spotify/refresh_token", {
     method: "GET",
-    credentials: "include",
+    // credentials: "include",
   });
+  // console.log("TEST REFRESH!!!!");
   if (response.ok) {
     const data = await response.json();
-    console.log("Refresh Token:", data);
-  }
+    // console.log("Refresh Token:", data);
+    return data;
+  } else return "ASDF";
 };
 
 export const checkLoggedIn = () => async (dispatch) => {
