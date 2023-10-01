@@ -8,14 +8,14 @@ import React, {
 import { useDispatch, useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Mousewheel, Navigation, FreeMode } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
 import {
   getSpotifyGenre,
   resetSearch,
   resetSearchAction,
   spotifySearch,
 } from "../../store/spotify";
-import "swiper/css";
-import "swiper/css/navigation";
 import { HowlerContext } from "../../context/howlerContext";
 import { BsStopCircle, BsPlayCircle, BsQuestionCircle } from "react-icons/bs";
 import { ErrorContext } from "../../context/ErrorContext";
