@@ -55,7 +55,7 @@ router.get("/login", (req, res) => {
     return res.status(400).send("CSRF token is missing.");
   }
   const scope =
-    "user-read-playback-state user-modify-playback-state user-read-currently-playing playlist-read-private playlist-modify-private playlist-modify-public user-read-playback-position user-library-modify user-library-read user-read-email user-read-private";
+    "user-read-playback-state user-modify-playback-state user-read-currently-playing playlist-read-private playlist-modify-private playlist-modify-public user-library-modify user-library-read streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state ";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
