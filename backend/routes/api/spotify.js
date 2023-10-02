@@ -178,7 +178,7 @@ router.get("/refresh_token", async (req, res) => {
     return res.json({
       access_token: newAccessToken,
       expires_in: data.expires_in,
-      // data,
+      data,
     });
   } else throw new Error("Failed to refresh access token.");
 });

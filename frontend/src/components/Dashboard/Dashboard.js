@@ -106,7 +106,6 @@ export default function Dashboard() {
 
   return (
     <>
-      <PlayerWrapper />
       <Modal />
       <div className="font-poppins bg-bkg-body flex-row text-txt-1 w-screen h-screen flex  relative cursor-default">
         <Navigation
@@ -151,7 +150,7 @@ export default function Dashboard() {
         )}
         {isSongRecsShown && journalEntry && journalContent ? (
           <>
-            <div className="flex h-full w-full items-center overflow-hidden relative">
+            <div className="flex flex-col h-full w-full items-center overflow-hidden relative">
               {journalEntry?.filterCount === 0 ? (
                 <div className="text-txt-1 flex w-full items-center justify-center text-2xl font-medium select-none">
                   Select filters to begin your music journey!{" "}
@@ -169,12 +168,14 @@ export default function Dashboard() {
                 />
                 <p className="text-txt-1 select-none">Refresh Songs</p>
               </div>
+              <div className="w-full pointer-events-auto">
+                <PlayerWrapper />
+              </div>
             </div>
           </>
         ) : (
           <div className=""></div>
         )}
-
         {showPlaylist && (
           <div className="flex flex-grow z-[3] h-full w-[55%]">
             <Playlist />

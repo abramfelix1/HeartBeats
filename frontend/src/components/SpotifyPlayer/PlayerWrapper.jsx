@@ -17,10 +17,10 @@ export default function PlayerWrapper() {
       return;
     }
 
-    const { access_token, expires_in, refresh_token } = await dispatch(
+    const { access_token, expires_in, refresh_token, data } = await dispatch(
       refreshSpotifyToken()
     );
-    console.log(access_token);
+    console.log(data);
 
     setAccessToken(access_token);
     setRefreshToken(refresh_token);
@@ -33,7 +33,8 @@ export default function PlayerWrapper() {
     <SpotifyPlayer
       getOAuthToken={getOAuthToken}
       token={accessToken}
-      uris={[]}
+      showSaveIcon={true}
+      uris={["spotify:track:5zwwW9Oq7ubSxoCGyW1nbY"]}
     />
   );
 }
