@@ -9,7 +9,7 @@ const { Op } = require("sequelize");
 const router = express.Router();
 const { setTokenCookie } = require("../../utils/auth");
 
-const client_id = "2c24c289ce0448af9c1a7a9f98f78d31";
+const client_id = "862fa5e982134c959b5203208de393f9";
 const client_secret = process.env.CLIENT_SECRET; //Set this ENV key on RENDER
 const redirect_uri =
   process.env.NODE_ENV === "production"

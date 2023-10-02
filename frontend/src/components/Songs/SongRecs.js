@@ -37,6 +37,15 @@ export default function SongRecs() {
     }
   };
 
+  const fakeData = [
+    {
+      album: { images: ["a", "a"] },
+      external_urls: {
+        spotify: "asdf",
+      },
+    },
+  ];
+
   return songs ? (
     <div className="flex rounded-3xl relative cursor-default">
       <div
