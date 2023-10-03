@@ -24,17 +24,23 @@ import { JournalContext } from "../../context/journalContext";
 import { createFilters, deleteFilters } from "../../store/journals";
 import { ThemeContext } from "../../context/themeContext";
 import logo from "../../images/heartBeatLogo.png";
+import { WebPlayerContext } from "../../context/webPlayerContext";
 
 export default function SearchSpotify() {
   const [query, setQuery] = useState("");
   const dispatch = useDispatch();
   const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
     useContext(HowlerContext);
+  const { setCurrentSongId, currentSongId, playSong, pauseSong } =
+    useContext(WebPlayerContext);
   const { errors, setErrors } = useContext(ErrorContext);
   const { type, setType } = useContext(ModalContext);
   const { filters, setFilters, journalId } = useContext(JournalContext);
   const [timer, setTimer] = useState(null);
   const { theme } = useContext(ThemeContext);
+  const sessionSpotify = useSelector((state) =>
+    state.session.user.spotifyId ? state.session.user.spotifyId : null
+  );
 
   const [genresList, setGenresList] = useState([]);
   const [filtersOpen, setFiltersOpen] = useState(false);
@@ -332,46 +338,76 @@ export default function SearchSpotify() {
                           </p>
                         </div>
                       </div>
-                      {songs?.items[0]?.preview_url ? (
-                        <div className="flex w-full items-center justify-end">
+                      {!sessionSpotify && (
+                        <>
+                          {songs?.items[0]?.preview_url ? (
+                            <div className="flex w-full items-center justify-end">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  if (
+                                    isPlaying &&
+                                    currentPlaying === songs?.items[0].id
+                                  ) {
+                                    stopSound();
+                                  } else {
+                                    playSound(
+                                      songs?.items[0]?.preview_url,
+                                      songs?.items[0]?.id
+                                    );
+                                  }
+                                }}
+                              >
+                                <div className="flex items-center">
+                                  {isPlaying &&
+                                  currentPlaying === songs.items[0].id ? (
+                                    <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                                  ) : (
+                                    <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105 hover:cur" />
+                                  )}
+                                </div>
+                              </button>
+                              {isPlaying &&
+                                currentPlaying === songs.items[0].id && (
+                                  <p className="pl-2">{remainingTime}</p>
+                                )}
+                            </div>
+                          ) : (
+                            <div className="flex w-full items-center justify-end">
+                              <BsPlayCircle className="text-gray-300 text-2xl" />
+                            </div>
+                          )}
+                        </>
+                      )}
+                      {sessionSpotify && (
+                        <div className="flex items-center justify-end">
                           <button
-                            onClick={(e) => {
-                              e.stopPropagation();
+                            onClick={() => {
                               if (
                                 isPlaying &&
-                                currentPlaying === songs?.items[0].id
+                                currentSongId === songs.items[0].id
                               ) {
-                                stopSound();
+                                pauseSong();
                               } else {
-                                playSound(
-                                  songs?.items[0]?.preview_url,
-                                  songs?.items[0]?.id
-                                );
+                                playSong(songs.items[0].id);
                               }
                             }}
                           >
                             <div className="flex items-center">
                               {isPlaying &&
-                              currentPlaying === songs.items[0].id ? (
+                              currentSongId === songs.items[0].id ? (
                                 <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
                               ) : (
-                                <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105 hover:cur" />
+                                <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
                               )}
                             </div>
                           </button>
-                          {isPlaying &&
-                            currentPlaying === songs.items[0].id && (
-                              <p className="pl-2">{remainingTime}</p>
-                            )}
-                        </div>
-                      ) : (
-                        <div className="flex w-full items-center justify-end">
-                          <BsPlayCircle className="text-gray-300 text-2xl" />
                         </div>
                       )}
                     </div>
                   </div>
                 </div>
+
                 <div className="flex flex-col ">
                   {songs.items.slice(1).map((song, index) => (
                     <div
@@ -406,35 +442,63 @@ export default function SearchSpotify() {
                             {song.artists[0].name}
                           </p>
                         </div>
-                        {song.preview_url ? (
-                          <div className="flex mx-4">
+                        {!sessionSpotify && (
+                          <>
+                            {song.preview_url ? (
+                              <div className="flex mx-4">
+                                <button
+                                  onClick={() => {
+                                    if (
+                                      isPlaying &&
+                                      currentPlaying === song?.id
+                                    ) {
+                                      stopSound();
+                                    } else {
+                                      playSound(song?.preview_url, song?.id);
+                                    }
+                                  }}
+                                >
+                                  <div className="flex items-center">
+                                    {isPlaying && currentPlaying === song.id ? (
+                                      <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                                    ) : (
+                                      <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                                    )}
+                                  </div>
+                                </button>
+                                {isPlaying && currentPlaying === song.id && (
+                                  <p className="pl-2">{remainingTime}</p>
+                                )}
+                              </div>
+                            ) : (
+                              <BsPlayCircle
+                                className={`text-gray-300 text-[40px] mx-4
+                            ${theme === "dark" && "text-slate-800"}
+                            `}
+                              />
+                            )}
+                          </>
+                        )}
+                        {sessionSpotify && (
+                          <div className="flex items-center mx-4">
                             <button
                               onClick={() => {
-                                if (isPlaying && currentPlaying === song?.id) {
-                                  stopSound();
+                                if (isPlaying && currentSongId === song.id) {
+                                  pauseSong();
                                 } else {
-                                  playSound(song?.preview_url, song?.id);
+                                  playSong(song.id);
                                 }
                               }}
                             >
                               <div className="flex items-center">
-                                {isPlaying && currentPlaying === song.id ? (
+                                {isPlaying && currentSongId === song.id ? (
                                   <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
                                 ) : (
                                   <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
                                 )}
                               </div>
                             </button>
-                            {isPlaying && currentPlaying === song.id && (
-                              <p className="pl-2">{remainingTime}</p>
-                            )}
                           </div>
-                        ) : (
-                          <BsPlayCircle
-                            className={`text-gray-300 text-[40px] mx-4
-                            ${theme === "dark" && "text-slate-800"}
-                            `}
-                          />
                         )}
                       </div>
                     </div>
@@ -541,6 +605,7 @@ export default function SearchSpotify() {
                   </div>
                 </div>
               ))}
+
             {genresFilters &&
               genresFilters.map((filter) => (
                 <div
