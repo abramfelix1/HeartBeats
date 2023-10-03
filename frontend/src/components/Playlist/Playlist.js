@@ -17,6 +17,7 @@ import { ModalContext } from "../../context/ModalContext";
 import { ReactComponent as CloseIcon } from "../../images/icons/outline/close.svg";
 import { ReactComponent as PlayIcon } from "../../images/icons/outline/play.svg";
 import { ReactComponent as StopIcon } from "../../images/icons/outline/stop.svg";
+import { ReactComponent as PauseIcon } from "../../images/icons/outline/pause.svg";
 import { ReactComponent as ArrowIcon } from "../../images/icons/outline/arrow.svg";
 import { HowlerContext } from "../../context/howlerContext";
 import { WebPlayerContext } from "../../context/webPlayerContext";
@@ -123,32 +124,67 @@ export default function Playlist() {
                   onMouseEnter={(e) => setHoverId(song.id)}
                   onMouseLeave={(e) => setHoverId(null)}
                 >
-                  {hoverId === song.id && song?.preview ? (
+                  {!sessionSpotify && (
+                    <>
+                      {hoverId === song.id &&
+                      song?.preview &&
+                      !sessionSpotify ? (
+                        <>
+                          <button
+                            onClick={() => {
+                              if (isPlaying && currentPlaying === index) {
+                                stopSound();
+                              } else {
+                                playSound(song.preview, index);
+                              }
+                            }}
+                          >
+                            <div>
+                              {isPlaying && currentPlaying === index ? (
+                                <StopIcon
+                                  className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
+                                  data-tooltip-id="playlist-tooltip"
+                                  data-tooltip-content="Stop Preview"
+                                />
+                              ) : (
+                                <PlayIcon
+                                  className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
+                                  data-tooltip-id="playlist-tooltip"
+                                  data-tooltip-content="Play Preview"
+                                />
+                              )}
+                            </div>
+                          </button>
+                        </>
+                      ) : (
+                        <div className="text-center">{index + 1}</div>
+                      )}
+                    </>
+                  )}
+
+                  {hoverId === song.id && sessionSpotify ? (
                     <>
                       <button
                         onClick={() => {
-                          if (isPlaying && currentPlaying === index) {
-                            stopSound();
+                          if (isPlaying && currentSongId === song.spotifyId) {
+                            pauseSong();
                           } else {
-                            if (sessionSpotify) {
-                              setCurrentSongId(song.spotifyId);
-                              setIsPlaying(true);
-                            } else playSound(song.preview, index);
+                            playSong(song.spotifyId);
                           }
                         }}
                       >
                         <div>
-                          {isPlaying && currentPlaying === index ? (
-                            <StopIcon
-                              className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
-                              data-tooltip-id="playlist-tooltip"
-                              data-tooltip-content="Play (ADD LATER)"
+                          {isPlaying && currentSongId === song.spotifyId ? (
+                            <PauseIcon
+                              className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
+                              // data-tooltip-id="playlist-tooltip"
+                              // data-tooltip-content="Pause"
                             />
                           ) : (
                             <PlayIcon
-                              className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
-                              data-tooltip-id="playlist-tooltip"
-                              data-tooltip-content="Play Preview"
+                              className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
+                              // data-tooltip-id="playlist-tooltip"
+                              // data-tooltip-content="Play"
                             />
                           )}
                         </div>
@@ -157,6 +193,7 @@ export default function Playlist() {
                   ) : (
                     <div className="text-center">{index + 1}</div>
                   )}
+
                   <div className="flex items-center w-full min-w-0">
                     <img
                       src={song.img_url}
