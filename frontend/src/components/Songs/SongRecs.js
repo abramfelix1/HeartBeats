@@ -108,7 +108,7 @@ export default function SongRecs() {
                       </>
                     )}
 
-                    {sessionSpotify ? (
+                    {sessionSpotify && (
                       <div className="flex items-center">
                         <button
                           onClick={() => {
@@ -128,12 +128,6 @@ export default function SongRecs() {
                           </div>
                         </button>
                       </div>
-                    ) : (
-                      <BsPlayCircle
-                        className={`text-gray-300 text-2xl
-                        ${theme === "dark" && "text-slate-800"}
-                        `}
-                      />
                     )}
                     {playlistId && (
                       <IoAddCircleOutline

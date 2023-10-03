@@ -167,53 +167,56 @@ export default function Playlist() {
                     </>
                   )}
 
-                  {hoverId === song.id && sessionSpotify ? (
+                  {sessionSpotify && (
                     <>
-                      <button
-                        onClick={() => {
-                          if (isPlaying && currentSongId === song.spotifyId) {
-                            pauseSong();
-                          } else {
-                            playSong(song.spotifyId);
-                          }
-                        }}
-                      >
-                        <div>
-                          {isPlaying && currentSongId === song.spotifyId ? (
-                            <PauseIcon
-                              className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
-                              // data-tooltip-id="playlist-tooltip"
-                              // data-tooltip-content="Pause"
+                      {hoverId === song.id && sessionSpotify ? (
+                        <>
+                          <button
+                            onClick={() => {
+                              if (
+                                isPlaying &&
+                                currentSongId === song.spotifyId
+                              ) {
+                                pauseSong();
+                              } else {
+                                playSong(song.spotifyId);
+                              }
+                            }}
+                          >
+                            <div>
+                              {isPlaying && currentSongId === song.spotifyId ? (
+                                <PauseIcon
+                                  className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
+                                  // data-tooltip-id="playlist-tooltip"
+                                  // data-tooltip-content="Pause"
+                                />
+                              ) : (
+                                <PlayIcon
+                                  className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
+                                  // data-tooltip-id="playlist-tooltip"
+                                  // data-tooltip-content="Play"
+                                />
+                              )}
+                            </div>
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          {currentSongId === song.spotifyId && isPlaying ? (
+                            <img
+                              src={
+                                theme === "dark" ? soundWavesDark : soundWaves
+                              }
+                              alt="Sound Waves"
+                              className="scale-150"
                             />
                           ) : (
-                            <PlayIcon
-                              className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
-                              // data-tooltip-id="playlist-tooltip"
-                              // data-tooltip-content="Play"
-                            />
+                            <div className="text-center">{index + 1}</div>
                           )}
-                        </div>
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      {currentSongId === song.spotifyId ? (
-                        // <AudioIcon
-                        //   className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
-                        //   // data-tooltip-id="playlist-tooltip"
-                        //   // data-tooltip-content="Pause"
-                        // />
-                        <img
-                          src={theme === "dark" ? soundWavesDark : soundWaves}
-                          alt="Sound Waves"
-                          className="scale-150"
-                        />
-                      ) : (
-                        <div className="text-center">{index + 1}</div>
+                        </>
                       )}
                     </>
                   )}
-
                   <div className="flex items-center w-full min-w-0">
                     <img
                       src={song.img_url}
