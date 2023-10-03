@@ -14,18 +14,24 @@ import { ModalContext } from "../../context/ModalContext";
 import { ThemeContext } from "../../context/themeContext";
 import loading from "../../images/icons/musicLoad.svg";
 import loading2 from "../../images/icons/musicLoad2.svg";
+import { WebPlayerContext } from "../../context/webPlayerContext";
 
 export default function SongRecs() {
   const dispatch = useDispatch();
   const { playlistId } = useContext(PlaylistContext);
   const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
     useContext(HowlerContext);
+  const { setCurrentSongId, currentSongId, playSong, pauseSong } =
+    useContext(WebPlayerContext);
   const songs = useSelector((state) => {
     const tracks = state.spotify.songs?.tracks;
     return tracks ? Object.values(tracks) : null;
   });
   const scrollContainerRef = useRef(null);
   const { theme } = useContext(ThemeContext);
+  const sessionSpotify = useSelector((state) =>
+    state.session.user.spotifyId ? state.session.user.spotifyId : null
+  );
 
   const addSongHandler = async (payload) => {
     if (playlistId) {
@@ -36,15 +42,6 @@ export default function SongRecs() {
       }
     }
   };
-
-  const fakeData = [
-    {
-      album: { images: ["a", "a"] },
-      external_urls: {
-        spotify: "asdf",
-      },
-    },
-  ];
 
   return songs ? (
     <div className="flex rounded-3xl relative cursor-default">
@@ -76,28 +73,60 @@ export default function SongRecs() {
                     />{" "}
                   </a>
                   <div className="flex flex-row gap-x-4 items-center">
-                    {song.preview_url ? (
+                    {!sessionSpotify && (
+                      <>
+                        {song.preview_url ? (
+                          <div className="flex items-center">
+                            <button
+                              onClick={() => {
+                                if (isPlaying && currentPlaying === idx) {
+                                  stopSound();
+                                } else {
+                                  playSound(song.preview_url, idx);
+                                }
+                              }}
+                            >
+                              <div className="flex items-center">
+                                {isPlaying && currentPlaying === idx ? (
+                                  <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                                ) : (
+                                  <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
+                                )}
+                              </div>
+                            </button>
+                            {isPlaying && currentPlaying === idx && (
+                              <p className="pl-2">{remainingTime}</p>
+                            )}
+                          </div>
+                        ) : (
+                          <BsPlayCircle
+                            className={`text-gray-300 text-2xl
+                        ${theme === "dark" && "text-slate-800"}
+                        `}
+                          />
+                        )}
+                      </>
+                    )}
+
+                    {sessionSpotify ? (
                       <div className="flex items-center">
                         <button
                           onClick={() => {
-                            if (isPlaying && currentPlaying === idx) {
-                              stopSound();
+                            if (isPlaying && currentSongId === song.id) {
+                              pauseSong();
                             } else {
-                              playSound(song.preview_url, idx);
+                              playSong(song.id);
                             }
                           }}
                         >
                           <div className="flex items-center">
-                            {isPlaying && currentPlaying === idx ? (
+                            {isPlaying && currentSongId === song.id ? (
                               <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
                             ) : (
                               <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
                             )}
                           </div>
                         </button>
-                        {isPlaying && currentPlaying === idx && (
-                          <p className="pl-2">{remainingTime}</p>
-                        )}
                       </div>
                     ) : (
                       <BsPlayCircle

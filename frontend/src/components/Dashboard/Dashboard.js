@@ -101,7 +101,7 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    recSongsHandler();
+    // recSongsHandler();
     console.log("filter count: ", journalEntry?.filterCount);
   }, [journalId]);
 

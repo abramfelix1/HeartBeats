@@ -19,13 +19,18 @@ import { ReactComponent as PlayIcon } from "../../images/icons/outline/play.svg"
 import { ReactComponent as StopIcon } from "../../images/icons/outline/stop.svg";
 import { ReactComponent as PauseIcon } from "../../images/icons/outline/pause.svg";
 import { ReactComponent as ArrowIcon } from "../../images/icons/outline/arrow.svg";
+// import { ReactComponent as ArrowIcon } from "../../images/icons/outline/arrow.svg";
+import soundWaves from "../../images/icons/soundWaves.gif";
+import soundWavesDark from "../../images/icons/soundWavesDark.gif";
 import { HowlerContext } from "../../context/howlerContext";
 import { WebPlayerContext } from "../../context/webPlayerContext";
+import { ThemeContext } from "../../context/themeContext";
 
 export default function Playlist() {
   const dispatch = useDispatch();
   const [title, setTitle] = useState("");
   const [hoverId, setHoverId] = useState("null");
+  const { theme } = useContext(ThemeContext);
   const { playlistId, setPlaylistId, setPlaylistOpen, setShowPlaylist } =
     useContext(PlaylistContext);
   const { setCurrentSongId, currentSongId, playSong, pauseSong } =
@@ -118,7 +123,7 @@ export default function Playlist() {
             {playlistSongs &&
               playlistSongs.map((song, index) => (
                 <div
-                  className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center border rounded h-14 border-transparent relative hover:bg-bkg-nav hover:cursor-pointer"
+                  className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center border rounded h-14 border-transparent relative hover:bg-bkg-nav "
                   key={song.id}
                   // data-id={song.id}
                   onMouseEnter={(e) => setHoverId(song.id)}
@@ -142,13 +147,13 @@ export default function Playlist() {
                             <div>
                               {isPlaying && currentPlaying === index ? (
                                 <StopIcon
-                                  className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
+                                  className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
                                   data-tooltip-id="playlist-tooltip"
                                   data-tooltip-content="Stop Preview"
                                 />
                               ) : (
                                 <PlayIcon
-                                  className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
+                                  className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
                                   data-tooltip-id="playlist-tooltip"
                                   data-tooltip-content="Play Preview"
                                 />
@@ -176,13 +181,13 @@ export default function Playlist() {
                         <div>
                           {isPlaying && currentSongId === song.spotifyId ? (
                             <PauseIcon
-                              className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
+                              className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
                               // data-tooltip-id="playlist-tooltip"
                               // data-tooltip-content="Pause"
                             />
                           ) : (
                             <PlayIcon
-                              className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
+                              className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
                               // data-tooltip-id="playlist-tooltip"
                               // data-tooltip-content="Play"
                             />
@@ -191,7 +196,22 @@ export default function Playlist() {
                       </button>
                     </>
                   ) : (
-                    <div className="text-center">{index + 1}</div>
+                    <>
+                      {currentSongId === song.spotifyId ? (
+                        // <AudioIcon
+                        //   className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
+                        //   // data-tooltip-id="playlist-tooltip"
+                        //   // data-tooltip-content="Pause"
+                        // />
+                        <img
+                          src={theme === "dark" ? soundWavesDark : soundWaves}
+                          alt="Sound Waves"
+                          className="scale-150"
+                        />
+                      ) : (
+                        <div className="text-center">{index + 1}</div>
+                      )}
+                    </>
                   )}
 
                   <div className="flex items-center w-full min-w-0">
