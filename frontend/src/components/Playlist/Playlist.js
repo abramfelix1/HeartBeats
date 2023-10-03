@@ -19,20 +19,32 @@ import { ReactComponent as PlayIcon } from "../../images/icons/outline/play.svg"
 import { ReactComponent as StopIcon } from "../../images/icons/outline/stop.svg";
 import { ReactComponent as ArrowIcon } from "../../images/icons/outline/arrow.svg";
 import { HowlerContext } from "../../context/howlerContext";
+import { WebPlayerContext } from "../../context/webPlayerContext";
 
 export default function Playlist() {
   const dispatch = useDispatch();
+  const [title, setTitle] = useState("");
+  const [hoverId, setHoverId] = useState("null");
   const { playlistId, setPlaylistId, setPlaylistOpen, setShowPlaylist } =
     useContext(PlaylistContext);
+  const { setCurrentSongId, currentSongId, playSong, pauseSong } =
+    useContext(WebPlayerContext);
   const { journal } = useContext(JournalContext);
-  const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
-    useContext(HowlerContext);
-  const playlist = useSelector((state) => state.playlists[playlistId]);
-  const playlistSongs = playlist?.songs ? Object.values(playlist.songs) : [];
-  const [title, setTitle] = useState("");
   const { errors, setErrors } = useContext(ErrorContext);
   const { setType } = useContext(ModalContext);
-  const [hoverId, setHoverId] = useState("null");
+  const {
+    stopSound,
+    playSound,
+    remainingTime,
+    currentPlaying,
+    isPlaying,
+    setIsPlaying,
+  } = useContext(HowlerContext);
+  const playlist = useSelector((state) => state.playlists[playlistId]);
+  const playlistSongs = playlist?.songs ? Object.values(playlist.songs) : [];
+  const sessionSpotify = useSelector((state) =>
+    state.session.user.spotifyId ? state.session.user.spotifyId : null
+  );
 
   const closeHandler = () => {
     setShowPlaylist(false);
@@ -118,7 +130,10 @@ export default function Playlist() {
                           if (isPlaying && currentPlaying === index) {
                             stopSound();
                           } else {
-                            playSound(song.preview, index);
+                            if (sessionSpotify) {
+                              setCurrentSongId(song.spotifyId);
+                              setIsPlaying(true);
+                            } else playSound(song.preview, index);
                           }
                         }}
                       >

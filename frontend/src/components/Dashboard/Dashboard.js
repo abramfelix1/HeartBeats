@@ -51,6 +51,9 @@ export default function Dashboard() {
   const sessionUser = useSelector((state) =>
     state.session.user ? state.session.user.id : null
   );
+  // const isSpotify = useSelector((state) =>
+  //   state.session.user ? state.session.user.id : null
+  // );
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
