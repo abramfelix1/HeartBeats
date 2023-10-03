@@ -53,7 +53,6 @@ export default function PlayerWrapper() {
         showSaveIcon={true}
         uris={currentSongId ? [`spotify:track:${currentSongId}`] : []}
         play={isPlaying}
-        // callback={handlePlayerCallback}
         styles={
           theme === "dark"
             ? {

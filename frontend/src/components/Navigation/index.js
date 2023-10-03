@@ -22,6 +22,7 @@ import { ReactComponent as LogOutIcon } from "../../images/icons/outline/logout.
 import { ReactComponent as SunIcon } from "../../images/icons/outline/sun.svg";
 import { ReactComponent as MoonIcon } from "../../images/icons/outline/moon.svg";
 import { resetRecSongsAction } from "../../store/spotify";
+import { HowlerContext } from "../../context/howlerContext";
 
 function Navigation({ isLoaded, navHovered, ...props }) {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
     state.session.user ? state.session.user.id : null
   );
   const { theme, toggleDark } = useContext(ThemeContext);
+  const { setIsPlaying } = useContext(HowlerContext);
 
   const logoutClickHandler = () => {
     dispatch(logout());
@@ -91,7 +93,9 @@ function Navigation({ isLoaded, navHovered, ...props }) {
                   type="checkbox"
                   id="check"
                   className="mode-checkbox opacity-0 absolute hover:scale-105"
-                  onChange={toggleDark}
+                  onChange={() => {
+                    toggleDark();
+                  }}
                   checked={theme === "dark"}
                 />
                 <label
