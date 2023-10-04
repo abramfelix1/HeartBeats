@@ -33,8 +33,14 @@ export default function Playlist() {
   const { theme } = useContext(ThemeContext);
   const { playlistId, setPlaylistId, setPlaylistOpen, setShowPlaylist } =
     useContext(PlaylistContext);
-  const { setCurrentSongId, currentSongId, playSong, pauseSong } =
-    useContext(WebPlayerContext);
+  const {
+    setCurrentSongId,
+    currentSongId,
+    playSong,
+    pauseSong,
+    setPlaylistUris,
+    handlePlaylist,
+  } = useContext(WebPlayerContext);
   const { journal } = useContext(JournalContext);
   const { errors, setErrors } = useContext(ErrorContext);
   const { setType } = useContext(ModalContext);
@@ -84,6 +90,13 @@ export default function Playlist() {
       setTitle(playlist?.name || "asdf");
     }
   }, [playlistId]);
+
+  useEffect(() => {
+    const spotifyUris = playlistSongs.map(
+      (song) => `spotify:track:${song.spotifyId}`
+    );
+    setPlaylistUris(spotifyUris);
+  }, []);
 
   const removeSongHandler = (songId) => {
     dispatch(removeSongFromPlaylist(playlistId, songId));
@@ -179,7 +192,8 @@ export default function Playlist() {
                               ) {
                                 pauseSong();
                               } else {
-                                playSong(song.spotifyId);
+                                // playSong(song.spotifyId);
+                                handlePlaylist(song.spotifyId);
                               }
                             }}
                           >

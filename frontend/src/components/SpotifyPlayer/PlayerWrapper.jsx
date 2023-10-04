@@ -9,8 +9,9 @@ import { WebPlayerContext } from "../../context/webPlayerContext";
 export default function PlayerWrapper() {
   const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext);
-  const { isPlaying } = useContext(HowlerContext);
-  const { currentSongId, playSong, pauseSong } = useContext(WebPlayerContext);
+  const { isPlaying, setIsPlaying } = useContext(HowlerContext);
+  const { currentSongId, playSong, pauseSong, playlistUris } =
+    useContext(WebPlayerContext);
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   const [expiresAt, setExpiresAt] = useState(0);
@@ -40,19 +41,20 @@ export default function PlayerWrapper() {
     callback(access_token);
   };
 
-  // const handlePlayerCallback = (state) => {
-  //   console.log(state.isPlaying);
-  //   setIsPlaying(state.isPlaying);
-  // };
+  const handlePlayerCallback = (state) => {
+    setIsPlaying(state.isPlaying);
+  };
 
   return (
     sessionSpotify && (
       <SpotifyPlayer
-      key={theme}
+        key={theme}
         getOAuthToken={getOAuthToken}
+        callback={handlePlayerCallback}
         token={accessToken}
         showSaveIcon={true}
-        uris={currentSongId ? [`spotify:track:${currentSongId}`] : []}
+        // uris={currentSongId ? [`spotify:track:${currentSongId}`] : []}
+        uris={playlistUris}
         play={isPlaying}
         styles={
           theme === "dark"
