@@ -18,15 +18,18 @@ export const WebPlayerProvider = ({ children }) => {
     const songUri = `spotify:track:${songId}`;
     const songIndex = playlistUris.findIndex((uri) => uri === songUri);
 
-    if (songIndex === -1) return;
+    // if (songIndex === -1) return;
+    // console.log("PLAYLIST URIS BEFORE: ", playlistUris);
 
-    const reorderedUris = [
-      songUri,
-      ...playlistUris.slice(songIndex + 1),
-      ...playlistUris.slice(0, songIndex),
-    ];
+    if (playlistUris.length > 1) {
+      const reorderedUris = [
+        songUri,
+        ...playlistUris.slice(songIndex + 1),
+        ...playlistUris.slice(0, songIndex),
+      ];
+      setPlaylistUris(reorderedUris);
+    }
 
-    setPlaylistUris(reorderedUris);
     setIsPlaying(true);
     console.log("CURRENT PLAYLIST: ", playlistUris);
   };
@@ -38,6 +41,10 @@ export const WebPlayerProvider = ({ children }) => {
   useEffect(() => {
     console.log("CURRENT SONG: ", currentSongId);
   }, [currentSongId]);
+
+  useEffect(() => {
+    console.log("PLAYLIST URIS: ", playlistUris);
+  }, [playlistUris]);
 
   return (
     <WebPlayerContext.Provider

@@ -21,8 +21,14 @@ export default function SongRecs() {
   const { playlistId } = useContext(PlaylistContext);
   const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
     useContext(HowlerContext);
-  const { setCurrentSongId, currentSongId, playSong, pauseSong } =
-    useContext(WebPlayerContext);
+  const {
+    setCurrentSongId,
+    currentSongId,
+    playSong,
+    pauseSong,
+    handlePlaylist,
+    setPlaylistUris,
+  } = useContext(WebPlayerContext);
   const songs = useSelector((state) => {
     const tracks = state.spotify.songs?.tracks;
     return tracks ? Object.values(tracks) : null;
@@ -79,22 +85,22 @@ export default function SongRecs() {
                           <div className="flex items-center">
                             <button
                               onClick={() => {
-                                if (isPlaying && currentPlaying === idx) {
+                                if (isPlaying && currentSongId === song.id) {
                                   stopSound();
                                 } else {
-                                  playSound(song.preview_url, idx);
+                                  playSound(song.preview_url, song.id);
                                 }
                               }}
                             >
                               <div className="flex items-center">
-                                {isPlaying && currentPlaying === idx ? (
+                                {isPlaying && currentPlaying === song.id ? (
                                   <BsStopCircle className="text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
                                 ) : (
                                   <BsPlayCircle className=" text-bkg-text text-2xl hover:text-txt-hover hover:scale-105" />
                                 )}
                               </div>
                             </button>
-                            {isPlaying && currentPlaying === idx && (
+                            {isPlaying && currentPlaying === song.id && (
                               <p className="pl-2">{remainingTime}</p>
                             )}
                           </div>
@@ -115,7 +121,9 @@ export default function SongRecs() {
                             if (isPlaying && currentSongId === song.id) {
                               pauseSong();
                             } else {
-                              playSong(song.id);
+                              // playSong(song.id);
+                              setPlaylistUris([`spotify:track:${song.id}`]);
+                              handlePlaylist(song.id);
                             }
                           }}
                         >

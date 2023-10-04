@@ -31,8 +31,14 @@ export default function SearchSpotify() {
   const dispatch = useDispatch();
   const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
     useContext(HowlerContext);
-  const { setCurrentSongId, currentSongId, playSong, pauseSong } =
-    useContext(WebPlayerContext);
+  const {
+    setCurrentSongId,
+    currentSongId,
+    playSong,
+    pauseSong,
+    setPlaylistUris,
+    handlePlaylist,
+  } = useContext(WebPlayerContext);
   const { errors, setErrors } = useContext(ErrorContext);
   const { type, setType } = useContext(ModalContext);
   const { filters, setFilters, journalId } = useContext(JournalContext);
@@ -382,14 +388,19 @@ export default function SearchSpotify() {
                       {sessionSpotify && (
                         <div className="flex items-center justify-end">
                           <button
-                            onClick={() => {
+                            onClick={(e) => {
+                              e.stopPropagation();
                               if (
                                 isPlaying &&
                                 currentSongId === songs.items[0].id
                               ) {
                                 pauseSong();
                               } else {
-                                playSong(songs.items[0].id);
+                                // playSong(songs.items[0].id);
+                                setPlaylistUris([
+                                  `spotify:track:${songs.items[0].id}`,
+                                ]);
+                                handlePlaylist(songs.items[0].id);
                               }
                             }}
                           >
@@ -482,11 +493,13 @@ export default function SearchSpotify() {
                         {sessionSpotify && (
                           <div className="flex items-center mx-4">
                             <button
-                              onClick={() => {
+                              onClick={(e) => {
+                                e.stopPropagation();
                                 if (isPlaying && currentSongId === song.id) {
                                   pauseSong();
                                 } else {
-                                  playSong(song.id);
+                                  setPlaylistUris([`spotify:track:${song.id}`]);
+                                  handlePlaylist(song.id);
                                 }
                               }}
                             >

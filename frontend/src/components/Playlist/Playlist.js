@@ -40,6 +40,7 @@ export default function Playlist() {
     pauseSong,
     setPlaylistUris,
     handlePlaylist,
+    playlistUris,
   } = useContext(WebPlayerContext);
   const { journal } = useContext(JournalContext);
   const { errors, setErrors } = useContext(ErrorContext);
@@ -91,12 +92,20 @@ export default function Playlist() {
     }
   }, [playlistId]);
 
-  useEffect(() => {
+  const setPlaylist = () => {
     const spotifyUris = playlistSongs.map(
       (song) => `spotify:track:${song.spotifyId}`
     );
+    console.log(spotifyUris);
     setPlaylistUris(spotifyUris);
-  }, []);
+    // console.log("PLAYLiST URIS BEFORE BEFORE: ", playlistUris);
+    handlePlaylist(currentSongId);
+  };
+
+  useEffect(() => {
+    console.log("Playlist Songs: ", playlistSongs);
+    setPlaylist();
+  }, [playlist]);
 
   const removeSongHandler = (songId) => {
     dispatch(removeSongFromPlaylist(playlistId, songId));
@@ -193,6 +202,7 @@ export default function Playlist() {
                                 pauseSong();
                               } else {
                                 // playSong(song.spotifyId);
+                                setPlaylist();
                                 handlePlaylist(song.spotifyId);
                               }
                             }}
@@ -252,6 +262,8 @@ export default function Playlist() {
                       className="text-bkg-text text-lg hover:text-txt-hover hover:scale-105"
                       onClick={() => {
                         removeSongHandler(song.id);
+                        setPlaylist();
+                        handlePlaylist(currentSongId);
                       }}
                       data-tooltip-id="playlist-tooltip"
                       data-tooltip-content="Remove Song"

@@ -42,7 +42,7 @@ export default function PlayerWrapper() {
 
   const handlePlayerCallback = (state) => {
     setIsPlaying(state.isPlaying);
-    if (state.track && state.track.id) {
+    if (state.track && state.track.id && playlistUris.length > 1) {
       setCurrentSongId(state.track.id);
     }
   };

@@ -40,9 +40,9 @@ export const HowlerProvider = ({ children }) => {
     }, 1000);
   };
 
-  const playSound = (songUrl, idx) => {
+  const playSound = (songUrl, id) => {
     setUrl(songUrl);
-    setCurrentPlaying(idx);
+    setCurrentPlaying(id);
     setIsPlaying(true);
   };
 
