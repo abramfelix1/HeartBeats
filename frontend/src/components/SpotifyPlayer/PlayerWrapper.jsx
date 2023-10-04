@@ -10,7 +10,8 @@ export default function PlayerWrapper() {
   const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext);
   const { isPlaying, setIsPlaying } = useContext(HowlerContext);
-  const { playlistUris, setCurrentSongId } = useContext(WebPlayerContext);
+  const { playlistUris, setCurrentSongId, setPlaylistUris } =
+    useContext(WebPlayerContext);
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   const [expiresAt, setExpiresAt] = useState(0);
@@ -44,6 +45,17 @@ export default function PlayerWrapper() {
     setIsPlaying(state.isPlaying);
     if (state.track && state.track.id && playlistUris.length > 1) {
       setCurrentSongId(state.track.id);
+
+      if (
+        `spotify:track:${state.track.id}` ===
+        playlistUris[playlistUris.length - 1]
+      ) {
+        const reorderedUris = [
+          `spotify:track:${state.track.id}`,
+          ...playlistUris.slice(0, playlistUris.length - 1),
+        ];
+        setPlaylistUris(reorderedUris);
+      }
     }
   };
 

@@ -19,8 +19,14 @@ import { WebPlayerContext } from "../../context/webPlayerContext";
 export default function SongRecs() {
   const dispatch = useDispatch();
   const { playlistId } = useContext(PlaylistContext);
-  const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
-    useContext(HowlerContext);
+  const {
+    stopSound,
+    playSound,
+    remainingTime,
+    currentPlaying,
+    isPlaying,
+    setIsPlaying,
+  } = useContext(HowlerContext);
   const {
     setCurrentSongId,
     currentSongId,
@@ -126,6 +132,7 @@ export default function SongRecs() {
                               handlePlaylist(song.id, [
                                 `spotify:track:${song.id}`,
                               ]);
+                              setIsPlaying(true);
                             }
                           }}
                         >

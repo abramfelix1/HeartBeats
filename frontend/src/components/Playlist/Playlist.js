@@ -107,13 +107,14 @@ export default function Playlist() {
     handlePlaylist(songId, reorderedUris);
   };
 
-  // useEffect(() => {
-  //   console.log("Playlist Songs: ", playlistSongs);
-  //   setPlaylist();
-  // }, [playlist.songs]);
+  useEffect(() => {
+    console.log("PLAYLIST SONGS:", playlistSongs);
+    setPlaylist(currentSongId);
+  }, [playlist.songs]);
 
   const removeSongHandler = async (songId) => {
     await dispatch(removeSongFromPlaylist(playlistId, songId));
+    console.log("PLAYLIST SONGS:", playlistSongs);
     setPlaylist(currentSongId);
   };
 
@@ -210,6 +211,7 @@ export default function Playlist() {
                                 // playSong(song.spotifyId);
                                 // setCurrentSongId(song.spotifyId);
                                 setPlaylist(song.spotifyId);
+                                setIsPlaying(true);
                                 // handlePlaylist(song.spotifyId);
                               }
                             }}

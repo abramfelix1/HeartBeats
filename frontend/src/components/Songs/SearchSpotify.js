@@ -29,8 +29,14 @@ import { WebPlayerContext } from "../../context/webPlayerContext";
 export default function SearchSpotify() {
   const [query, setQuery] = useState("");
   const dispatch = useDispatch();
-  const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
-    useContext(HowlerContext);
+  const {
+    stopSound,
+    playSound,
+    remainingTime,
+    currentPlaying,
+    isPlaying,
+    setIsPlaying,
+  } = useContext(HowlerContext);
   const {
     setCurrentSongId,
     currentSongId,
@@ -403,6 +409,7 @@ export default function SearchSpotify() {
                                 handlePlaylist(songs.items[0].id, [
                                   `spotify:track:${songs.items[0].id}`,
                                 ]);
+                                setIsPlaying(true);
                               }
                             }}
                           >
@@ -504,6 +511,7 @@ export default function SearchSpotify() {
                                   handlePlaylist(song.id, [
                                     `spotify:track:${song.id}`,
                                   ]);
+                                  setIsPlaying(true);
                                 }
                               }}
                             >

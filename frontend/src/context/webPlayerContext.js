@@ -31,8 +31,6 @@ export const WebPlayerProvider = ({ children }) => {
     } else {
       setPlaylistUris([songUri]);
     }
-
-    setIsPlaying(true);
     console.log("CURRENT PLAYLIST: ", playlistUris);
   };
 
