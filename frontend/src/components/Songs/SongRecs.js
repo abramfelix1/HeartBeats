@@ -28,6 +28,7 @@ export default function SongRecs() {
     pauseSong,
     handlePlaylist,
     setPlaylistUris,
+    setResetPlaylist,
   } = useContext(WebPlayerContext);
   const songs = useSelector((state) => {
     const tracks = state.spotify.songs?.tracks;
@@ -122,8 +123,9 @@ export default function SongRecs() {
                               pauseSong();
                             } else {
                               // playSong(song.id);
-                              setPlaylistUris([`spotify:track:${song.id}`]);
-                              handlePlaylist(song.id);
+                              handlePlaylist(song.id, [
+                                `spotify:track:${song.id}`,
+                              ]);
                             }
                           }}
                         >

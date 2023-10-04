@@ -7,27 +7,29 @@ export const WebPlayerProvider = ({ children }) => {
   const { isPlaying, setIsPlaying } = useContext(HowlerContext);
   const [currentSongId, setCurrentSongId] = useState(null);
   const [playlistUris, setPlaylistUris] = useState([]);
+  const [resetPlaylist, setResetPlaylist] = useState(false);
 
   const playSong = (songId) => {
     setCurrentSongId(songId);
     setIsPlaying(true);
   };
 
-  const handlePlaylist = (songId) => {
+  const handlePlaylist = (songId, playlist) => {
     setCurrentSongId(songId);
     const songUri = `spotify:track:${songId}`;
-    const songIndex = playlistUris.findIndex((uri) => uri === songUri);
-
-    // if (songIndex === -1) return;
-    // console.log("PLAYLIST URIS BEFORE: ", playlistUris);
-
-    if (playlistUris.length > 1) {
-      const reorderedUris = [
-        songUri,
-        ...playlistUris.slice(songIndex + 1),
-        ...playlistUris.slice(0, songIndex),
-      ];
-      setPlaylistUris(reorderedUris);
+    console.log("Playlist: ", playlist);
+    if (playlist.length > 1) {
+      setPlaylistUris(playlist);
+      // const songUri = `spotify:track:${songId}`;
+      // const songIndex = playlistUris.findIndex((uri) => uri === songUri);
+      // const reorderedUris = [
+      //   songUri,
+      //   ...playlistUris.slice(songIndex + 1),
+      //   ...playlistUris.slice(0, songIndex),
+      // ];
+      // setPlaylistUris(reorderedUris);
+    } else {
+      setPlaylistUris([songUri]);
     }
 
     setIsPlaying(true);
@@ -56,6 +58,8 @@ export const WebPlayerProvider = ({ children }) => {
         playSong,
         pauseSong,
         handlePlaylist,
+        resetPlaylist,
+        setResetPlaylist,
       }}
     >
       {children}

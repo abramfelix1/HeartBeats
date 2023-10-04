@@ -92,23 +92,29 @@ export default function Playlist() {
     }
   }, [playlistId]);
 
-  const setPlaylist = () => {
+  const setPlaylist = (songId) => {
     const spotifyUris = playlistSongs.map(
       (song) => `spotify:track:${song.spotifyId}`
     );
-    console.log(spotifyUris);
-    setPlaylistUris(spotifyUris);
-    // console.log("PLAYLiST URIS BEFORE BEFORE: ", playlistUris);
-    handlePlaylist(currentSongId);
+    const songUri = `spotify:track:${songId}`;
+    const songIndex = spotifyUris.findIndex((uri) => uri === songUri);
+    const reorderedUris = [
+      songUri,
+      ...spotifyUris.slice(songIndex + 1),
+      ...spotifyUris.slice(0, songIndex),
+    ];
+    // setPlaylistUris(reorderedUris);
+    handlePlaylist(songId, reorderedUris);
   };
 
-  useEffect(() => {
-    console.log("Playlist Songs: ", playlistSongs);
-    setPlaylist();
-  }, [playlist]);
+  // useEffect(() => {
+  //   console.log("Playlist Songs: ", playlistSongs);
+  //   setPlaylist();
+  // }, [playlist.songs]);
 
-  const removeSongHandler = (songId) => {
-    dispatch(removeSongFromPlaylist(playlistId, songId));
+  const removeSongHandler = async (songId) => {
+    await dispatch(removeSongFromPlaylist(playlistId, songId));
+    setPlaylist(currentSongId);
   };
 
   return (
@@ -202,8 +208,9 @@ export default function Playlist() {
                                 pauseSong();
                               } else {
                                 // playSong(song.spotifyId);
-                                setPlaylist();
-                                handlePlaylist(song.spotifyId);
+                                // setCurrentSongId(song.spotifyId);
+                                setPlaylist(song.spotifyId);
+                                // handlePlaylist(song.spotifyId);
                               }
                             }}
                           >
@@ -262,8 +269,7 @@ export default function Playlist() {
                       className="text-bkg-text text-lg hover:text-txt-hover hover:scale-105"
                       onClick={() => {
                         removeSongHandler(song.id);
-                        setPlaylist();
-                        handlePlaylist(currentSongId);
+                        // handlePlaylist(currentSongId,);
                       }}
                       data-tooltip-id="playlist-tooltip"
                       data-tooltip-content="Remove Song"

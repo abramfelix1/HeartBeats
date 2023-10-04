@@ -397,10 +397,12 @@ export default function SearchSpotify() {
                                 pauseSong();
                               } else {
                                 // playSong(songs.items[0].id);
-                                setPlaylistUris([
+                                // setPlaylistUris([
+                                //   `spotify:track:${songs.items[0].id}`,
+                                // ]);
+                                handlePlaylist(songs.items[0].id, [
                                   `spotify:track:${songs.items[0].id}`,
                                 ]);
-                                handlePlaylist(songs.items[0].id);
                               }
                             }}
                           >
@@ -498,8 +500,10 @@ export default function SearchSpotify() {
                                 if (isPlaying && currentSongId === song.id) {
                                   pauseSong();
                                 } else {
-                                  setPlaylistUris([`spotify:track:${song.id}`]);
-                                  handlePlaylist(song.id);
+                                  // setPlaylistUris([`spotify:track:${song.id}`]);
+                                  handlePlaylist(song.id, [
+                                    `spotify:track:${song.id}`,
+                                  ]);
                                 }
                               }}
                             >
