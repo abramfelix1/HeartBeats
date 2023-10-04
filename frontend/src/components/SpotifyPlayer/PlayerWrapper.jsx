@@ -48,6 +48,7 @@ export default function PlayerWrapper() {
   return (
     sessionSpotify && (
       <SpotifyPlayer
+      key={theme}
         getOAuthToken={getOAuthToken}
         token={accessToken}
         showSaveIcon={true}
