@@ -10,8 +10,7 @@ export default function PlayerWrapper() {
   const dispatch = useDispatch();
   const { theme } = useContext(ThemeContext);
   const { isPlaying, setIsPlaying } = useContext(HowlerContext);
-  const { currentSongId, playSong, pauseSong, playlistUris } =
-    useContext(WebPlayerContext);
+  const { playlistUris, setCurrentSongId } = useContext(WebPlayerContext);
   const [accessToken, setAccessToken] = useState("");
   const [refreshToken, setRefreshToken] = useState("");
   const [expiresAt, setExpiresAt] = useState(0);
@@ -43,6 +42,9 @@ export default function PlayerWrapper() {
 
   const handlePlayerCallback = (state) => {
     setIsPlaying(state.isPlaying);
+    if (state.track && state.track.id) {
+      setCurrentSongId(state.track.id);
+    }
   };
 
   return (

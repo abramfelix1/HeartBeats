@@ -37,7 +37,7 @@ export const WebPlayerProvider = ({ children }) => {
 
   useEffect(() => {
     console.log("CURRENT SONG: ", currentSongId);
-  }, [currentSongId, playlistUris]);
+  }, [currentSongId]);
 
   return (
     <WebPlayerContext.Provider
