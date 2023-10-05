@@ -57,6 +57,7 @@ export default function JournalEditor() {
   );
   const [title, setTitle] = useState("Untitled");
   const [body, setBody] = useState(journalEntry?.content || "");
+  const [triggerRecSongs, setTriggerRecSongs] = useState(false);
   const editorRef = useRef(null);
   const [filterHover, setFilterHover] = useState(false);
   const filterCount = useSelector((state) =>
@@ -129,8 +130,9 @@ export default function JournalEditor() {
     const content = quill.getText();
     const formattedContent = quill.getContents();
     console.log("CONTENT: ", content);
-    const energy = getEnergy(content);
-    const valence = getValence(content);
+    // const energy = getEnergy(content);
+    // const valence = getValence(content);
+    // console.log(journalEntry.filter);
     dispatch(resetRecSongsAction());
     dispatch(
       getRecSongs({
@@ -144,6 +146,13 @@ export default function JournalEditor() {
     });
     setJournalContent(content);
   };
+
+  useEffect(() => {
+    if (triggerRecSongs && journalEntry && journalEntry.filter) {
+      recSongsHandler();
+      setTriggerRecSongs(false);
+    }
+  }, [journalEntry, triggerRecSongs]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -186,7 +195,8 @@ export default function JournalEditor() {
         return;
       });
       if (!hasError) {
-        // recSongsHandler();
+        setTriggerRecSongs(true);
+        recSongsHandler();
         // setEditorOpen(false);
         setFilters([]);
         stopSound();
