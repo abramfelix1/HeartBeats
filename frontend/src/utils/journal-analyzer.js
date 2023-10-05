@@ -21,7 +21,7 @@ export const getEnergy = (text) => {
   const exclamationCount = (text.match(/!/g) || []).length;
   energyScore += exclamationCount * 0.225;
 
-  const allCapsWords = text.match(/\b[A-Z]{3,}\b/g) || [];
+  const allCapsWords = text.match(/\b[A-Z]\b/g) || [];
   let positiveCapsCount = 0;
   let negativeCapsCount = 0;
 

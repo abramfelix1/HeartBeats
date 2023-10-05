@@ -240,7 +240,7 @@ router.post("/recsongs", async (req, res) => {
   console.log("GENRES: ", genres);
   console.log("ARTISTS: ", artists);
 
-  const rangeOffset = 0.252125;
+  const rangeOffset = 0.052125;
   let minValence = valence - rangeOffset;
   let maxValence = valence + rangeOffset;
   let minEnergy = energy - rangeOffset;
@@ -253,8 +253,8 @@ router.post("/recsongs", async (req, res) => {
   let baseUrl = "https://api.spotify.com/v1/recommendations?";
   let queryParams = [];
 
-  queryParams.push(`min_energy=${minEnergy}`);
-  queryParams.push(`max_energy=${maxEnergy}`);
+  // queryParams.push(`min_energy=${minEnergy}`);
+  // queryParams.push(`max_energy=${maxEnergy}`);
   queryParams.push(`min_valence=${minValence}`);
   queryParams.push(`max_valence=${maxValence}`);
 

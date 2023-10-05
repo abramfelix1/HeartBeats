@@ -181,9 +181,41 @@ router.put("/:id", requireAuth, validateJournal, async (req, res, next) => {
 
   const filter = await Filter.findOne({
     where: { journalId: journalId },
+    include: [
+      {
+        model: Song,
+        as: "songs",
+        through: {
+          attributes: [],
+        },
+      },
+      {
+        model: Genre,
+        as: "genres",
+        through: {
+          attributes: [],
+        },
+      },
+      {
+        model: Artist,
+        as: "artists",
+        through: {
+          attributes: [],
+        },
+      },
+    ],
   });
 
+  let updatedFilter;
+
+  if (filter) {
+    updatedFilter = await filter.update({ valence, energy });
+    console.log("UPDATED FILTER: ", updatedFilter);
+  }
+
   const updatedJournal = await journal.update(req.body);
+
+  console.log("UPDATED JOURNAL FILTER: ", updatedJournal.filter);
 
   const reorderedJournal = {
     id: updatedJournal.id,
@@ -193,7 +225,7 @@ router.put("/:id", requireAuth, validateJournal, async (req, res, next) => {
     image_url: updatedJournal.image_url,
     createdAt: updatedJournal.createdAt,
     updatedAt: updatedJournal.updatedAt,
-    filter: updatedJournal.filter,
+    filter: updatedFilter,
     filterCount:
       updatedJournal.filter?.songs.length +
         updatedJournal.filter?.genres.length +

@@ -186,8 +186,8 @@ export default function JournalEditor() {
         return;
       });
       if (!hasError) {
-        recSongsHandler();
-        setEditorOpen(false);
+        // recSongsHandler();
+        // setEditorOpen(false);
         setFilters([]);
         stopSound();
       }
