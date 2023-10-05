@@ -51,6 +51,10 @@ export default function Dashboard() {
   const sessionUser = useSelector((state) =>
     state.session.user ? state.session.user.id : null
   );
+  const songs = useSelector((state) => {
+    const tracks = state.spotify.songs?.tracks;
+    return tracks ? Object.values(tracks) : null;
+  });
   // const isSpotify = useSelector((state) =>
   //   state.session.user ? state.session.user.id : null
   // );
@@ -104,6 +108,10 @@ export default function Dashboard() {
     recSongsHandler();
     console.log("filter count: ", journalEntry?.filterCount);
   }, [journalId]);
+
+  // useEffect(() => {
+  //   console.log("SONGS LENGTH: ", songs);
+  // }, [songs]);
 
   if (!sessionUser) return <Redirect to="/home" />;
 
@@ -167,16 +175,18 @@ export default function Dashboard() {
                 {/* <div className="w-full pointer-events-auto justify-end">
                 <PlayerWrapper />
               </div> */}
-                <div
-                  className="absolute w-full flex flex-col items-center justify-center
+                {songs && songs?.length == 20 && (
+                  <div
+                    className="absolute w-full flex flex-col items-center justify-center
             2xl:bottom-32 xl:bottom-8 lg:bottom-4 md:bottom-2 select-none pointer-events-none"
-                >
-                  <RefreshIcon
-                    className="fill-txt-1 w-10 hover:scale-105 hover:cursor-pointer pointer-events-auto"
-                    onClick={recSongsHandler}
-                  />
-                  <p className="text-txt-1 select-none">Refresh Songs</p>
-                </div>
+                  >
+                    <RefreshIcon
+                      className="fill-txt-1 w-10 hover:scale-105 hover:cursor-pointer pointer-events-auto"
+                      onClick={recSongsHandler}
+                    />
+                    <p className="text-txt-1 select-none">Refresh Songs</p>
+                  </div>
+                )}
               </div>
             </>
           ) : (

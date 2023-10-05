@@ -243,8 +243,8 @@ router.post("/recsongs", async (req, res) => {
   const rangeOffset = 0.052125;
   let minValence = valence - rangeOffset;
   let maxValence = valence + rangeOffset;
-  let minEnergy = energy - rangeOffset;
-  let maxEnergy = energy + rangeOffset;
+  let minEnergy = energy - rangeOffset * 3;
+  let maxEnergy = energy + rangeOffset * 3;
   minValence = Math.max(minValence, 0);
   maxValence = Math.min(maxValence, 1);
   minEnergy = Math.max(minEnergy, 0);
@@ -253,8 +253,8 @@ router.post("/recsongs", async (req, res) => {
   let baseUrl = "https://api.spotify.com/v1/recommendations?";
   let queryParams = [];
 
-  // queryParams.push(`min_energy=${minEnergy}`);
-  // queryParams.push(`max_energy=${maxEnergy}`);
+  queryParams.push(`min_energy=${minEnergy}`);
+  queryParams.push(`max_energy=${maxEnergy}`);
   queryParams.push(`min_valence=${minValence}`);
   queryParams.push(`max_valence=${maxValence}`);
 
