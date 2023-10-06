@@ -244,7 +244,7 @@ export default function JournalEditor() {
     if (quillRef.current) {
       const editor = quillRef.current.getEditor();
       const toolbar = editor.getModule("toolbar");
-      console.log("TOOLBAR:", toolbar);
+      // console.log("TOOLBAR:", toolbar);
       for (let button in tooltips) {
         let btns = toolbar.container.querySelectorAll(button);
         btns.forEach((btn) => {

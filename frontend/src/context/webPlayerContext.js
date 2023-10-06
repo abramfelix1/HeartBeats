@@ -42,9 +42,9 @@ export const WebPlayerProvider = ({ children }) => {
     console.log("CURRENT SONG: ", currentSongId);
   }, [currentSongId]);
 
-  useEffect(() => {
-    console.log("PLAYLIST URIS: ", playlistUris);
-  }, [playlistUris]);
+  // useEffect(() => {
+  //   console.log("PLAYLIST URIS: ", playlistUris);
+  // }, [playlistUris]);
 
   return (
     <WebPlayerContext.Provider
