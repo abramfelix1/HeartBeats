@@ -127,6 +127,7 @@ router.get("/callback", async (req, res) => {
             lastName: null,
             spotifyId: id,
           });
+          console.log("SPOTIFY USER ACCOUNT CREATED", user)
         }
         if (!req.session) {
           console.error("Session does not exist!");
