@@ -99,7 +99,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
                   checked={theme === "dark"}
                 />
                 <label
-                  for="check"
+                  htmlFor="check"
                   className="mode-label relative flex justify-between items-center p-1 h-12 w-[48px] rounded-lg border-2 border-txt-1 cursor-pointer hover:scale-105 pointer-events-auto"
                 >
                   <MoonIcon className="w-8 fill-txt-1" />

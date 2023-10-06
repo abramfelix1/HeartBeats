@@ -129,10 +129,10 @@ export default function JournalEditor() {
     const quill = quillRef.current.getEditor();
     const content = quill.getText();
     const formattedContent = quill.getContents();
-    console.log("CONTENT: ", content);
+    // console.log("CONTENT: ", content);
     // const energy = getEnergy(content);
     // const valence = getValence(content);
-    // console.log(journalEntry.filter);
+    console.log(journalEntry.filter);
     dispatch(resetRecSongsAction());
     dispatch(
       getRecSongs({
@@ -152,18 +152,18 @@ export default function JournalEditor() {
       recSongsHandler();
       setTriggerRecSongs(false);
     }
-  }, [journalEntry, triggerRecSongs]);
+  }, [journalEntry.filter, triggerRecSongs]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
     const quill = quillRef.current.getEditor();
     const content = quill.getText();
     const formattedContent = quill.getContents();
-    console.log("QUILL: ", quill);
-    console.log("CONTENT: ", content);
-    console.log("FORMATTED: ", formattedContent);
-    console.log("TITLE: ", title);
-    console.log("BODY: ", typeof body, body);
+    // console.log("QUILL: ", quill);
+    // console.log("CONTENT: ", content);
+    // console.log("FORMATTED: ", formattedContent);
+    // console.log("TITLE: ", title);
+    // console.log("BODY: ", typeof body, body);
     if (title.length < 4) {
       setErrors({ name: "Name must have at least 4 characters minimum" });
       setType("ERROR");
@@ -196,8 +196,8 @@ export default function JournalEditor() {
       });
       if (!hasError) {
         setTriggerRecSongs(true);
-        recSongsHandler();
-        // setEditorOpen(false);
+        // recSongsHandler();
+        setEditorOpen(false);
         setFilters([]);
         stopSound();
       }

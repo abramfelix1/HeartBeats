@@ -11,7 +11,6 @@ export default function SongsContainer() {
   const handleScroll = (event) => {
     if (event.deltaY !== 0) {
       containerRef.current.scrollLeft += event.deltaY;
-      event.preventDefault();
     }
   };
 

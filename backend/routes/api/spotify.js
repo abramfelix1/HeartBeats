@@ -127,7 +127,7 @@ router.get("/callback", async (req, res) => {
             lastName: null,
             spotifyId: id,
           });
-          console.log("SPOTIFY USER ACCOUNT CREATED", user)
+          console.log("SPOTIFY USER ACCOUNT CREATED", user);
         }
         if (!req.session) {
           console.error("Session does not exist!");
@@ -241,11 +241,11 @@ router.post("/recsongs", async (req, res) => {
   console.log("GENRES: ", genres);
   console.log("ARTISTS: ", artists);
 
-  const rangeOffset = 0.052125;
+  const rangeOffset = 0.25252125;
   let minValence = valence - rangeOffset;
   let maxValence = valence + rangeOffset;
-  let minEnergy = energy - rangeOffset * 3;
-  let maxEnergy = energy + rangeOffset * 3;
+  let minEnergy = energy - rangeOffset * 1.55;
+  let maxEnergy = energy + rangeOffset * 1.55;
   minValence = Math.max(minValence, 0);
   maxValence = Math.min(maxValence, 1);
   minEnergy = Math.max(minEnergy, 0);
@@ -283,9 +283,7 @@ router.post("/recsongs", async (req, res) => {
       method: "GET",
       headers: { Authorization: "Bearer " + accessToken },
     });
-
     const data = await response.json();
-
     if (response.ok) {
       return res.json({ ...data });
     } else {

@@ -11,7 +11,7 @@ export const getValence = (text) => {
 
   const normalized = normalize(result.score);
   // console.log(result);
-  console.log("NORMALIZED VALENCE: ", normalized.toFixed(3));
+  // console.log("NORMALIZED VALENCE: ", normalized.toFixed(3));
   return normalized;
 };
 
@@ -35,11 +35,11 @@ export const getEnergy = (text) => {
   energyScore -= negativeCapsCount * 0.325;
   energyScore += positiveCapsCount * 0.325;
 
-  console.log("POSITIVE CAPS COUNT: ", positiveCapsCount);
-  console.log("NEGATIVE CAPS COUNT: ", negativeCapsCount);
+  // console.log("POSITIVE CAPS COUNT: ", positiveCapsCount);
+  // console.log("NEGATIVE CAPS COUNT: ", negativeCapsCount);
 
   const textLength = text.split(" ").length;
-  console.log("TEXT LENGTH: ", textLength);
+  // console.log("TEXT LENGTH: ", textLength);
 
   const incrementMultiplier = 0.005;
   const increments = textLength / 2;
@@ -69,11 +69,11 @@ export const getEnergy = (text) => {
   });
 
   const punctuationsCount = (text.match(/[;,.?()&/]/g) || []).length;
-  console.log("PUNCTUATIONS COUNT: ", punctuationsCount);
+  // console.log("PUNCTUATIONS COUNT: ", punctuationsCount);
   energyScore += punctuationsCount * 0.05;
 
   const normalizedEnergy = Math.round(normalize(energyScore) * 100) / 100;
-  console.log("NORMALIZED ENERGRY: ", normalizedEnergy.toFixed(3));
+  // console.log("NORMALIZED ENERGRY: ", normalizedEnergy.toFixed(3));
   return normalizedEnergy;
 };
 
