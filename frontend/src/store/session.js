@@ -105,12 +105,14 @@ export const spotifyToken = () => async (dispatch) => {
 export const refreshSpotifyToken = () => async (dispatch) => {
   const response = await csrfFetch("/api/spotify/refresh_token", {
     method: "GET",
-    credentials: "include",
+    // credentials: "include",
   });
+  // console.log("TEST REFRESH!!!!");
   if (response.ok) {
     const data = await response.json();
-    console.log("Refresh Token:", data);
-  }
+    // console.log("Refresh Token:", data);
+    return data;
+  } else return "ASDF";
 };
 
 export const checkLoggedIn = () => async (dispatch) => {
@@ -140,7 +142,7 @@ const sessionReducer = (state = initialState, action) => {
     case CLEAR_SESSION_USER:
       newState = Object.assign({}, state);
       newState.user = null;
-      newState.spotify = null;
+      newState.spotifyInfo = null;
       return newState;
     case spotifyActions.GET_SPOTIFY:
       newState = { ...state, spotifyInfo: action.payload };

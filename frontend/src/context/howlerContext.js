@@ -4,6 +4,7 @@ import { Howl } from "howler";
 export const HowlerContext = createContext();
 
 export const HowlerProvider = ({ children }) => {
+  const playerRef = useRef(null);
   const [remainingTime, setRemainingTime] = useState("");
   const [currentPlaying, setCurrentPlaying] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -39,9 +40,9 @@ export const HowlerProvider = ({ children }) => {
     }, 1000);
   };
 
-  const playSound = (songUrl, idx) => {
+  const playSound = (songUrl, id) => {
     setUrl(songUrl);
-    setCurrentPlaying(idx);
+    setCurrentPlaying(id);
     setIsPlaying(true);
   };
 
@@ -93,6 +94,7 @@ export const HowlerProvider = ({ children }) => {
         remainingTime,
         currentPlaying,
         isPlaying,
+        setIsPlaying,
       }}
     >
       {children}

@@ -57,6 +57,7 @@ export default function JournalEditor() {
   );
   const [title, setTitle] = useState("Untitled");
   const [body, setBody] = useState(journalEntry?.content || "");
+  const [triggerRecSongs, setTriggerRecSongs] = useState(false);
   const editorRef = useRef(null);
   const [filterHover, setFilterHover] = useState(false);
   const filterCount = useSelector((state) =>
@@ -128,9 +129,10 @@ export default function JournalEditor() {
     const quill = quillRef.current.getEditor();
     const content = quill.getText();
     const formattedContent = quill.getContents();
-    console.log("CONTENT: ", content);
-    const energy = getEnergy(content);
-    const valence = getValence(content);
+    // console.log("CONTENT: ", content);
+    // const energy = getEnergy(content);
+    // const valence = getValence(content);
+    console.log(journalEntry.filter);
     dispatch(resetRecSongsAction());
     dispatch(
       getRecSongs({
@@ -145,16 +147,23 @@ export default function JournalEditor() {
     setJournalContent(content);
   };
 
+  useEffect(() => {
+    if (triggerRecSongs && journalEntry && journalEntry?.filter) {
+      recSongsHandler();
+      setTriggerRecSongs(false);
+    }
+  }, [journalEntry?.filter, triggerRecSongs]);
+
   const submitHandler = async (e) => {
     e.preventDefault();
     const quill = quillRef.current.getEditor();
     const content = quill.getText();
     const formattedContent = quill.getContents();
-    console.log("QUILL: ", quill);
-    console.log("CONTENT: ", content);
-    console.log("FORMATTED: ", formattedContent);
-    console.log("TITLE: ", title);
-    console.log("BODY: ", typeof body, body);
+    // console.log("QUILL: ", quill);
+    // console.log("CONTENT: ", content);
+    // console.log("FORMATTED: ", formattedContent);
+    // console.log("TITLE: ", title);
+    // console.log("BODY: ", typeof body, body);
     if (title.length < 4) {
       setErrors({ name: "Name must have at least 4 characters minimum" });
       setType("ERROR");
@@ -186,7 +195,8 @@ export default function JournalEditor() {
         return;
       });
       if (!hasError) {
-        recSongsHandler();
+        setTriggerRecSongs(true);
+        // recSongsHandler();
         setEditorOpen(false);
         setFilters([]);
         stopSound();
@@ -234,7 +244,7 @@ export default function JournalEditor() {
     if (quillRef.current) {
       const editor = quillRef.current.getEditor();
       const toolbar = editor.getModule("toolbar");
-      console.log("TOOLBAR:", toolbar);
+      // console.log("TOOLBAR:", toolbar);
       for (let button in tooltips) {
         let btns = toolbar.container.querySelectorAll(button);
         btns.forEach((btn) => {

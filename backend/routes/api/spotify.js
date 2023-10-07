@@ -9,7 +9,7 @@ const { Op } = require("sequelize");
 const router = express.Router();
 const { setTokenCookie } = require("../../utils/auth");
 
-const client_id = "2c24c289ce0448af9c1a7a9f98f78d31";
+const client_id = "862fa5e982134c959b5203208de393f9";
 const client_secret = process.env.CLIENT_SECRET; //Set this ENV key on RENDER
 const redirect_uri =
   process.env.NODE_ENV === "production"
@@ -55,7 +55,7 @@ router.get("/login", (req, res) => {
     return res.status(400).send("CSRF token is missing.");
   }
   const scope =
-    "user-read-playback-state user-modify-playback-state user-read-currently-playing playlist-read-private playlist-modify-private playlist-modify-public user-read-playback-position user-library-modify user-library-read user-read-email user-read-private";
+    "user-read-playback-state user-modify-playback-state user-read-currently-playing playlist-read-private playlist-modify-private playlist-modify-public user-library-modify user-library-read streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state ";
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -127,6 +127,7 @@ router.get("/callback", async (req, res) => {
             lastName: null,
             spotifyId: id,
           });
+          console.log("SPOTIFY USER ACCOUNT CREATED", user);
         }
         if (!req.session) {
           console.error("Session does not exist!");
@@ -174,8 +175,12 @@ router.get("/refresh_token", async (req, res) => {
     const data = await response.json();
     const newAccessToken = data.access_token;
     res.clearCookie("access_token");
-    res.cookie("access_token", accessToken);
-    return res.json({ access_token: newAccessToken });
+    res.cookie("access_token", newAccessToken);
+    return res.json({
+      access_token: newAccessToken,
+      expires_in: data.expires_in,
+      data,
+    });
   } else throw new Error("Failed to refresh access token.");
 });
 
@@ -236,11 +241,11 @@ router.post("/recsongs", async (req, res) => {
   console.log("GENRES: ", genres);
   console.log("ARTISTS: ", artists);
 
-  const rangeOffset = 0.252125;
+  const rangeOffset = 0.25252125;
   let minValence = valence - rangeOffset;
   let maxValence = valence + rangeOffset;
-  let minEnergy = energy - rangeOffset;
-  let maxEnergy = energy + rangeOffset;
+  let minEnergy = energy - rangeOffset * 1.15;
+  let maxEnergy = energy + rangeOffset * 1.15;
   minValence = Math.max(minValence, 0);
   maxValence = Math.min(maxValence, 1);
   minEnergy = Math.max(minEnergy, 0);
@@ -278,9 +283,7 @@ router.post("/recsongs", async (req, res) => {
       method: "GET",
       headers: { Authorization: "Bearer " + accessToken },
     });
-
     const data = await response.json();
-
     if (response.ok) {
       return res.json({ ...data });
     } else {

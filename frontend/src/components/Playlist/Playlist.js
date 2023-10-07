@@ -17,22 +17,47 @@ import { ModalContext } from "../../context/ModalContext";
 import { ReactComponent as CloseIcon } from "../../images/icons/outline/close.svg";
 import { ReactComponent as PlayIcon } from "../../images/icons/outline/play.svg";
 import { ReactComponent as StopIcon } from "../../images/icons/outline/stop.svg";
+import { ReactComponent as PauseIcon } from "../../images/icons/outline/pause.svg";
 import { ReactComponent as ArrowIcon } from "../../images/icons/outline/arrow.svg";
+// import { ReactComponent as ArrowIcon } from "../../images/icons/outline/arrow.svg";
+import soundWaves from "../../images/icons/soundWaves.gif";
+import soundWavesDark from "../../images/icons/soundWavesDark.gif";
 import { HowlerContext } from "../../context/howlerContext";
+import { WebPlayerContext } from "../../context/webPlayerContext";
+import { ThemeContext } from "../../context/themeContext";
 
 export default function Playlist() {
   const dispatch = useDispatch();
+  const [title, setTitle] = useState("");
+  const [hoverId, setHoverId] = useState("null");
+  const { theme } = useContext(ThemeContext);
   const { playlistId, setPlaylistId, setPlaylistOpen, setShowPlaylist } =
     useContext(PlaylistContext);
+  const {
+    setCurrentSongId,
+    currentSongId,
+    playSong,
+    pauseSong,
+    setPlaylistUris,
+    handlePlaylist,
+    playlistUris,
+  } = useContext(WebPlayerContext);
   const { journal } = useContext(JournalContext);
-  const { stopSound, playSound, remainingTime, currentPlaying, isPlaying } =
-    useContext(HowlerContext);
-  const playlist = useSelector((state) => state.playlists[playlistId]);
-  const playlistSongs = playlist?.songs ? Object.values(playlist.songs) : [];
-  const [title, setTitle] = useState("");
   const { errors, setErrors } = useContext(ErrorContext);
   const { setType } = useContext(ModalContext);
-  const [hoverId, setHoverId] = useState("null");
+  const {
+    stopSound,
+    playSound,
+    remainingTime,
+    currentPlaying,
+    isPlaying,
+    setIsPlaying,
+  } = useContext(HowlerContext);
+  const playlist = useSelector((state) => state.playlists[playlistId]);
+  const playlistSongs = playlist?.songs ? Object.values(playlist.songs) : [];
+  const sessionSpotify = useSelector((state) =>
+    state.session.user.spotifyId ? state.session.user.spotifyId : null
+  );
 
   const closeHandler = () => {
     setShowPlaylist(false);
@@ -67,8 +92,30 @@ export default function Playlist() {
     }
   }, [playlistId]);
 
-  const removeSongHandler = (songId) => {
-    dispatch(removeSongFromPlaylist(playlistId, songId));
+  const setPlaylist = (songId) => {
+    const spotifyUris = playlistSongs.map(
+      (song) => `spotify:track:${song.spotifyId}`
+    );
+    const songUri = `spotify:track:${songId}`;
+    const songIndex = spotifyUris.findIndex((uri) => uri === songUri);
+    const reorderedUris = [
+      songUri,
+      ...spotifyUris.slice(songIndex + 1),
+      ...spotifyUris.slice(0, songIndex),
+    ];
+    // setPlaylistUris(reorderedUris);
+    handlePlaylist(songId, reorderedUris);
+  };
+
+  useEffect(() => {
+    console.log("PLAYLIST SONGS:", playlistSongs);
+    setPlaylist(currentSongId);
+  }, [playlist.songs]);
+
+  const removeSongHandler = async (songId) => {
+    await dispatch(removeSongFromPlaylist(playlistId, songId));
+    console.log("PLAYLIST SONGS:", playlistSongs);
+    setPlaylist(currentSongId);
   };
 
   return (
@@ -105,42 +152,103 @@ export default function Playlist() {
             {playlistSongs &&
               playlistSongs.map((song, index) => (
                 <div
-                  className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center border rounded h-14 border-transparent relative hover:bg-bkg-nav hover:cursor-pointer"
+                  className="grid grid-cols-[16px,4fr,3fr,0.5fr] gap-4 items-center border rounded h-14 border-transparent relative hover:bg-bkg-nav "
                   key={song.id}
                   // data-id={song.id}
                   onMouseEnter={(e) => setHoverId(song.id)}
                   onMouseLeave={(e) => setHoverId(null)}
                 >
-                  {hoverId === song.id && song?.preview ? (
+                  {!sessionSpotify && (
                     <>
-                      <button
-                        onClick={() => {
-                          if (isPlaying && currentPlaying === index) {
-                            stopSound();
-                          } else {
-                            playSound(song.preview, index);
-                          }
-                        }}
-                      >
-                        <div>
-                          {isPlaying && currentPlaying === index ? (
-                            <StopIcon
-                              className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
-                              data-tooltip-id="playlist-tooltip"
-                              data-tooltip-content="Play (ADD LATER)"
+                      {hoverId === song.id &&
+                      song?.preview &&
+                      !sessionSpotify ? (
+                        <>
+                          <button
+                            onClick={() => {
+                              if (isPlaying && currentPlaying === index) {
+                                stopSound();
+                              } else {
+                                playSound(song.preview, index);
+                              }
+                            }}
+                          >
+                            <div>
+                              {isPlaying && currentPlaying === index ? (
+                                <StopIcon
+                                  className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
+                                  data-tooltip-id="playlist-tooltip"
+                                  data-tooltip-content="Stop Preview"
+                                />
+                              ) : (
+                                <PlayIcon
+                                  className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
+                                  data-tooltip-id="playlist-tooltip"
+                                  data-tooltip-content="Play Preview"
+                                />
+                              )}
+                            </div>
+                          </button>
+                        </>
+                      ) : (
+                        <div className="text-center">{index + 1}</div>
+                      )}
+                    </>
+                  )}
+
+                  {sessionSpotify && (
+                    <>
+                      {hoverId === song.id && sessionSpotify ? (
+                        <>
+                          <button
+                            onClick={() => {
+                              if (
+                                isPlaying &&
+                                currentSongId === song.spotifyId
+                              ) {
+                                pauseSong();
+                              } else {
+                                // playSong(song.spotifyId);
+                                // setCurrentSongId(song.spotifyId);
+                                setPlaylist(song.spotifyId);
+                                setIsPlaying(true);
+                                // handlePlaylist(song.spotifyId);
+                              }
+                            }}
+                          >
+                            <div>
+                              {isPlaying && currentSongId === song.spotifyId ? (
+                                <PauseIcon
+                                  className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
+                                  // data-tooltip-id="playlist-tooltip"
+                                  // data-tooltip-content="Pause"
+                                />
+                              ) : (
+                                <PlayIcon
+                                  className="w-5 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
+                                  // data-tooltip-id="playlist-tooltip"
+                                  // data-tooltip-content="Play"
+                                />
+                              )}
+                            </div>
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          {currentSongId === song.spotifyId && isPlaying ? (
+                            <img
+                              src={
+                                theme === "dark" ? soundWavesDark : soundWaves
+                              }
+                              alt="Sound Waves"
+                              className="scale-150"
                             />
                           ) : (
-                            <PlayIcon
-                              className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
-                              data-tooltip-id="playlist-tooltip"
-                              data-tooltip-content="Play Preview"
-                            />
+                            <div className="text-center">{index + 1}</div>
                           )}
-                        </div>
-                      </button>
+                        </>
+                      )}
                     </>
-                  ) : (
-                    <div className="text-center">{index + 1}</div>
                   )}
                   <div className="flex items-center w-full min-w-0">
                     <img
@@ -163,6 +271,7 @@ export default function Playlist() {
                       className="text-bkg-text text-lg hover:text-txt-hover hover:scale-105"
                       onClick={() => {
                         removeSongHandler(song.id);
+                        // handlePlaylist(currentSongId,);
                       }}
                       data-tooltip-id="playlist-tooltip"
                       data-tooltip-content="Remove Song"
