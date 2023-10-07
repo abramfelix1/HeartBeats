@@ -27,6 +27,7 @@ HeartBeats was built using the following technologies:
 ### Others:
 - **SENTIMENT**: Sentiment analysis based on AFINN's list of words
 - **SPOTIFY API**
+- - **REACT-SPOTIFY-WEB-PLAYBACK**
 
 ## Table of Contents
 - [Technologies Used](#technologies-used)
