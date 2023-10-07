@@ -63,7 +63,7 @@ export default function Dashboard() {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
     dispatch(getSpotifyUser());
     dispatch(sessionActions.checkLoggedIn());
-  }, [dispatch]);
+  }, [dispatch,sessionUser]);
 
   // useEffect(() => {
   //   console.log("NAV HOVERED: ", navHovered);
