@@ -148,11 +148,11 @@ export default function JournalEditor() {
   };
 
   useEffect(() => {
-    if (triggerRecSongs && journalEntry && journalEntry.filter) {
+    if (triggerRecSongs && journalEntry && journalEntry?.filter) {
       recSongsHandler();
       setTriggerRecSongs(false);
     }
-  }, [journalEntry.filter, triggerRecSongs]);
+  }, [journalEntry?.filter, triggerRecSongs]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
