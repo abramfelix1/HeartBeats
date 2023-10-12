@@ -70,7 +70,7 @@ export default function TestPage() {
   };
 
   useEffect(() => {
-    console.log(url);
+    // console.log(url);
     if (url) {
       if (soundRef.current) {
         soundRef.current.unload();
@@ -112,7 +112,7 @@ export default function TestPage() {
   };
 
   const recSongsHandler = (payload) => {
-    console.log("REC SONGS HANDLER");
+    // console.log("REC SONGS HANDLER");
     dispatch(getRecSongs(payload));
   };
 
@@ -122,54 +122,54 @@ export default function TestPage() {
 
   //JOURNAL HANDLERS
   const getAllJournalsHandler = () => {
-    console.log("CLICK GET ALL JOURNALS");
+    // console.log("CLICK GET ALL JOURNALS");
     dispatch(getAllJournals());
   };
 
   const createJournalHandler = () => {
-    console.log("CLICK CREATE JOURNAL");
+    // console.log("CLICK CREATE JOURNAL");
     dispatch(createJournal());
   };
 
   const updateJournalHandler = () => {
-    console.log("CLICK UPDATE JOURNAL");
+    // console.log("CLICK UPDATE JOURNAL");
     const id = 1;
     const payload = { name: "UPDATED NAME", content: "UPDATED CONTENT" };
     dispatch(updateJournal(id, payload));
   };
 
   const deleteJournalHandler = () => {
-    console.log("CLICK DELETE JOURNAL");
+    // console.log("CLICK DELETE JOURNAL");
     const id = 2;
     dispatch(deleteJournal(id));
   };
 
   // PLAYLIST HANDLERS
   const getAllPlaylistsHandler = () => {
-    console.log("CLICK GET ALL PLAYLISTS");
+    // console.log("CLICK GET ALL PLAYLISTS");
     dispatch(getAllPlaylists());
   };
 
   const getPlaylistHandler = () => {
-    console.log("CLICK GET PLAYLIST");
+    // console.log("CLICK GET PLAYLIST");
     const id = 3;
     dispatch(getPlaylist(id));
   };
 
   const createPlaylistHandler = () => {
-    console.log("CLICK CREATE PLAYLIST");
+    // console.log("CLICK CREATE PLAYLIST");
     const id = 17;
     dispatch(createPlaylist(id));
   };
 
   const updatePlaylistHandler = () => {
-    console.log("CLICK UPDATE PLAYLIST");
+    // console.log("CLICK UPDATE PLAYLIST");
     const id = 1;
     dispatch(updatePlaylist(1, { name: "UPDATED NAME", mood: 1, energy: 1 }));
   };
 
   const deletePlaylistHandler = () => {
-    console.log("CLICK DELETE PLAYLIST");
+    // console.log("CLICK DELETE PLAYLIST");
     const id = 3;
     dispatch(deletePlaylist(id));
   };

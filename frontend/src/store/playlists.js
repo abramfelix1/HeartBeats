@@ -121,7 +121,7 @@ export const updatePlaylist = (id, payload) => async (dispatch) => {
 
 /* DELETE PLAYLIST */
 export const deletePlaylist = (id) => async (dispatch) => {
-  console.log("STORE: ", id);
+  // console.log("STORE: ", id);
   const res = await csrfFetch(`/api/playlists/${id}`, {
     method: "DELETE",
     headers: {
@@ -148,8 +148,8 @@ export const createSong = (payload) => async (dispatch) => {
   });
   if (res.ok) {
     const data = await res.json();
-    console.log("SONG DATA: ", data);
-    console.log("SONG ID: ", data.id);
+    // console.log("SONG DATA: ", data);
+    // console.log("SONG ID: ", data.id);
     return data.song.id;
   }
 };
@@ -204,18 +204,18 @@ export default function playlistsReducer(state = initialState, action) {
       return playlists;
     }
     case GET_PLAYLIST: {
-      console.log("GET PLAYLIST PAYLOAD:", action.payload);
+      // console.log("GET PLAYLIST PAYLOAD:", action.payload);
       // newState[action.payload.playlist.id] = action.payload.playlist;
       // return newState;
       return action.payload;
     }
     case CREATE_PLAYLIST: {
-      console.log("CREATE PLAYLIST PAYLOAD:", action.payload);
+      // console.log("CREATE PLAYLIST PAYLOAD:", action.payload);
       newState[action.payload.playlist.id] = action.payload.playlist;
       return newState;
     }
     case UPDATE_PLAYLIST: {
-      console.log("UPDATE PLAYLIST PAYLOAD:", action.payload);
+      // console.log("UPDATE PLAYLIST PAYLOAD:", action.payload);
       newState[action.payload.playlist.id] = {
         ...newState[action.payload.playlist.id],
         ...action.payload.playlist,
@@ -223,17 +223,17 @@ export default function playlistsReducer(state = initialState, action) {
       return newState;
     }
     case DELETE_PLAYLIST: {
-      console.log("DELETE PLAYLIST PAYLOAD:", action.payload);
+      // console.log("DELETE PLAYLIST PAYLOAD:", action.payload);
       delete newState[action.payload.id];
       return newState;
     }
     case ADD_SONG_TO_PLAYLIST: {
-      console.log("ADD SONG TO PLAYLIST PAYLOAD:", action.payload);
+      // console.log("ADD SONG TO PLAYLIST PAYLOAD:", action.payload);
       newState[action.payload.id] = action.payload;
       return newState;
     }
     case REMOVE_SONG_FROM_PLAYLIST: {
-      console.log("REMOVE SONG FROM PLAYLIST PAYLOAD:", action.payload);
+      // console.log("REMOVE SONG FROM PLAYLIST PAYLOAD:", action.payload);
       newState[action.payload.id] = action.payload;
       return newState;
     }

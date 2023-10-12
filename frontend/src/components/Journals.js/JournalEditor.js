@@ -125,14 +125,14 @@ export default function JournalEditor() {
   };
 
   const recSongsHandler = (e) => {
-    console.log("REC SONGS HANDLER");
+    // console.log("REC SONGS HANDLER");
     const quill = quillRef.current.getEditor();
     const content = quill.getText();
     const formattedContent = quill.getContents();
     // console.log("CONTENT: ", content);
     // const energy = getEnergy(content);
     // const valence = getValence(content);
-    console.log(journalEntry.filter);
+    // console.log(journalEntry.filter);
     dispatch(resetRecSongsAction());
     dispatch(
       getRecSongs({
@@ -140,7 +140,7 @@ export default function JournalEditor() {
       })
     ).catch(async (res) => {
       const data = await res.json();
-      console.log(data.errors);
+      // console.log(data.errors);
       setErrors(data.errors);
       setType("ERROR");
     });
@@ -188,7 +188,7 @@ export default function JournalEditor() {
         })
       ).catch(async (res) => {
         const data = await res.json();
-        console.log(data.errors);
+        // console.log(data.errors);
         setErrors(data.errors);
         setType("ERROR");
         hasError = true;
@@ -211,7 +211,7 @@ export default function JournalEditor() {
         })
       ).catch(async (res) => {
         const data = await res.json();
-        console.log(data.errors);
+        // console.log(data.errors);
         setErrors(data.errors);
         setType("ERROR");
         hasError = true;

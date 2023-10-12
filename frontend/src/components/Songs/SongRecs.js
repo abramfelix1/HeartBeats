@@ -49,7 +49,7 @@ export default function SongRecs() {
   const addSongHandler = async (payload) => {
     if (playlistId) {
       const songId = await dispatch(createSong(payload));
-      console.log(songId);
+      // console.log(songId);
       if (songId) {
         await dispatch(addSongToPlaylist(playlistId, songId));
       }

@@ -8,7 +8,7 @@ export default function Errors() {
   const { errors, setErrors } = useContext(ErrorContext);
 
   const err = Object.values(errors);
-  console.log("ERROR: ", err);
+  // console.log("ERROR: ", err);
 
   return (
     <div

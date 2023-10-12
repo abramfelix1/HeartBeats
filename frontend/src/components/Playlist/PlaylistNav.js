@@ -39,7 +39,7 @@ export default function PlaylistNav() {
   }, [playlists]);
 
   const createPlaylistHandler = async () => {
-    console.log("CLICK CREATE PLAYLIST");
+    // console.log("CLICK CREATE PLAYLIST");
     const playlist = await dispatch(createPlaylist());
     setPlaylistId(playlist.playlist.id);
   };

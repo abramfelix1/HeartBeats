@@ -19,13 +19,13 @@ export default function PlayerWrapper() {
     state.session.user.spotifyId ? state.session.user.spotifyId : null
   );
 
-  useEffect(()=>{
-    console.log("SPOTIFY SESSION USER: ", sessionSpotify)
-  },[sessionSpotify])
+  // useEffect(()=>{
+  //   console.log("SPOTIFY SESSION USER: ", sessionSpotify)
+  // },[sessionSpotify])
 
-  useEffect(() => {
-    console.log("SEESSION", sessionSpotify);
-  }, [sessionSpotify]);
+  // useEffect(() => {
+  //   console.log("SEESSION", sessionSpotify);
+  // }, [sessionSpotify]);
 
   const getOAuthToken = async (callback) => {
     if (expiresAt > Date.now()) {

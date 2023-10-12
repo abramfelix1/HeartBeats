@@ -9,15 +9,15 @@ export function ModalProvider({ children }) {
   const [deleteId, setDeleteId] = useState(null);
 
   useEffect(() => {
-    console.log("MODAL TYPE: ", type);
+    // console.log("MODAL TYPE: ", type);
   }, [type]);
 
   useEffect(() => {
-    console.log("DELETE CONTEXT: ", deleteContext);
+    // console.log("DELETE CONTEXT: ", deleteContext);
   }, [deleteContext]);
 
   useEffect(() => {
-    console.log("DELETE ID: ", deleteId);
+    // console.log("DELETE ID: ", deleteId);
   }, [deleteId]);
 
   return (

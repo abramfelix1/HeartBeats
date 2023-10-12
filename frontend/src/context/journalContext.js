@@ -10,12 +10,12 @@ export const JournalProvider = ({ children }) => {
   const [filterOpen, setFilterOpen] = useState(false);
   const [filters, setFilters] = useState([]);
 
-  useEffect(() => {
-    console.log("JOURNAL CONTEXT: ", journalId);
-  }, [journalId]);
+  // useEffect(() => {
+  //   console.log("JOURNAL CONTEXT: ", journalId);
+  // }, [journalId]);
 
   const toggleJournalPage = () => {
-    console.log("JOURNAL OPEN: ", journalOpen);
+    // console.log("JOURNAL OPEN: ", journalOpen);
     setJournalOpen(!journalOpen);
   };
 
