@@ -26,6 +26,7 @@ import { HowlerContext } from "../../context/howlerContext";
 
 function Navigation({ isLoaded, navHovered, ...props }) {
   const dispatch = useDispatch();
+  const { stopSound } = useContext(HowlerContext);
   const {
     toggleJournalPage,
     setJournalOpen,
@@ -39,7 +40,6 @@ function Navigation({ isLoaded, navHovered, ...props }) {
     state.session.user ? state.session.user.id : null
   );
   const { theme, toggleDark } = useContext(ThemeContext);
-  const { setIsPlaying } = useContext(HowlerContext);
 
   const logoutClickHandler = () => {
     dispatch(logout());
@@ -51,6 +51,7 @@ function Navigation({ isLoaded, navHovered, ...props }) {
     setPlaylistId(null);
     setEditorOpen(false);
     setFilterOpen(false);
+    stopSound();
   };
 
   const collapseClickHandler = () => {
