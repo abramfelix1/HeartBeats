@@ -92,7 +92,7 @@ export default function SongRecs() {
                           <div className="flex items-center">
                             <button
                               onClick={() => {
-                                if (isPlaying && currentSongId === song.id) {
+                                if (isPlaying && currentPlaying === song.id) {
                                   stopSound();
                                 } else {
                                   playSound(song.preview_url, song.id);
