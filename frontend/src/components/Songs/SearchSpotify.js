@@ -97,7 +97,7 @@ export default function SearchSpotify() {
     const getGenre = async () =>
       await dispatch(getSpotifyGenre()).catch(async (res) => {
         const data = await res.json();
-        console.log(data.errors);
+        // console.log(data.errors);
         setErrors(data.errors);
         setType("ERROR");
       });
@@ -121,9 +121,9 @@ export default function SearchSpotify() {
     };
   }, [type, errors, filtersOpen]);
 
-  useEffect(() => {
-    console.log(filters);
-  }, [filters]);
+  // useEffect(() => {
+  //   console.log(filters);
+  // }, [filters]);
 
   const search = useCallback(
     (query) => {
@@ -131,10 +131,10 @@ export default function SearchSpotify() {
         clearTimeout(timer);
       }
       const newTimer = setTimeout(async () => {
-        console.log("DISPATCH VALUE: ", query);
+        // console.log("DISPATCH VALUE: ", query);
         await dispatch(spotifySearch(query)).catch(async (res) => {
           const data = await res.json();
-          console.log(data.errors);
+          // console.log(data.errors);
           setErrors(data.errors);
           setType("ERROR");
         });
@@ -147,7 +147,7 @@ export default function SearchSpotify() {
 
   const inputHandler = (e) => {
     setQuery(e.target.value);
-    console.log("SEARCH INPUT: ", e.target.value);
+    // console.log("SEARCH INPUT: ", e.target.value);
     if (genres) {
       if (e.target.value) {
         search(e.target.value);
@@ -199,10 +199,10 @@ export default function SearchSpotify() {
             onClick={(e) => {
               e.stopPropagation();
               if (!filtersOpen) {
-                console.log("open");
+                // console.log("open");
                 setFiltersOpen(true);
               } else {
-                console.log("close");
+                // console.log("close");
                 setFiltersOpen(false);
               }
             }}
@@ -267,8 +267,8 @@ export default function SearchSpotify() {
                     <Swiper
                       spaceBetween={8}
                       slidesPerView={3}
-                      onSlideChange={() => console.log("slide change")}
-                      onSwiper={(swiper) => console.log(swiper)}
+                      // onSlideChange={() => console.log("slide change")}
+                      // onSwiper={(swiper) => console.log(swiper)}
                       mousewheel={true}
                       // navigation={true}
                       freeMode={true}

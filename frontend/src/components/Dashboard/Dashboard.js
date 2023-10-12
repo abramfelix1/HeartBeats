@@ -63,14 +63,14 @@ export default function Dashboard() {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
     dispatch(getSpotifyUser());
     dispatch(sessionActions.checkLoggedIn());
-  }, [dispatch]);
+  }, [dispatch, sessionUser]);
 
   // useEffect(() => {
   //   console.log("NAV HOVERED: ", navHovered);
   // }, [navHovered]);
 
   useEffect(() => {
-    console.log("DASHBOARD: ", journalOpen);
+    // console.log("DASHBOARD: ", journalOpen);
   }, [journalOpen]);
 
   // bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#7CA8D2] from-0% to-azure-blue to-100% bg-whoite
@@ -81,10 +81,10 @@ export default function Dashboard() {
         clearTimeout(timer);
       }
       const newTimer = setTimeout(() => {
-        console.log("DISPATCH VALUE: ", query);
+        // console.log("DISPATCH VALUE: ", query);
         dispatch(getRecSongs(query)).catch(async (res) => {
           const data = await res.json();
-          console.log(data.errors);
+          // console.log(data.errors);
           setErrors(data.errors);
           setType("ERROR");
         });
@@ -106,7 +106,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     recSongsHandler();
-    console.log("filter count: ", journalEntry?.filterCount);
+    // console.log("filter count: ", journalEntry?.filterCount);
   }, [journalId]);
 
   // useEffect(() => {

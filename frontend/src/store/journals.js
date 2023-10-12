@@ -88,7 +88,7 @@ export const getAllJournals = () => async (dispatch) => {
 
 /* CREATE JOURNAL */
 export const createJournal = (payload) => async (dispatch) => {
-  console.log("CREATE JOURNAL THUNK PAYLOAD: ", payload);
+  // console.log("CREATE JOURNAL THUNK PAYLOAD: ", payload);
   const res = await csrfFetch("/api/journals", {
     method: "POST",
     headers: {
@@ -181,7 +181,7 @@ export default function journalsReducer(state = initialState, action) {
   let newState = { ...state };
   switch (action.type) {
     case GET_ALL_JOURNALS: {
-      console.log("ALL JOURNALS PAYLOAD:", action.payload);
+      // console.log("ALL JOURNALS PAYLOAD:", action.payload);
       const journals = action.payload.journals.reduce((journals, journal) => {
         journals[journal.id] = journal;
         return journals;
@@ -189,12 +189,12 @@ export default function journalsReducer(state = initialState, action) {
       return journals;
     }
     case CREATE_JOURNAL: {
-      console.log("CREATE JOURNALS PAYLOAD", action.payload);
+      // console.log("CREATE JOURNALS PAYLOAD", action.payload);
       newState[action.payload.journal.id] = action.payload.journal;
       return newState;
     }
     case UPDATE_JOURNAL: {
-      console.log("UPDATE JOURNALS PAYLOAD", action.payload);
+      // console.log("UPDATE JOURNALS PAYLOAD", action.payload);
       newState[action.payload.journal.id] = {
         ...newState[action.payload.journal.id],
         ...action.payload.journal,
@@ -202,12 +202,12 @@ export default function journalsReducer(state = initialState, action) {
       return newState;
     }
     case DELETE_JOURNAL: {
-      console.log("DELETE JOURNALS PAYLOAD", action.payload);
+      // console.log("DELETE JOURNALS PAYLOAD", action.payload);
       delete newState[action.payload.id];
       return newState;
     }
     case JOURNAL_ADD_PLAYLIST: {
-      console.log("ADD PLAYLIST TO JOURNAL PAYLOAD", action.payload);
+      // console.log("ADD PLAYLIST TO JOURNAL PAYLOAD", action.payload);
       newState[action.payload.id] = {
         ...newState[action.payload.id],
         ...action.payload.playlist,
@@ -215,7 +215,7 @@ export default function journalsReducer(state = initialState, action) {
       return newState;
     }
     case ADD_FILTERS: {
-      console.log("ADD FILTERS PAYLOAD", action.payload);
+      // console.log("ADD FILTERS PAYLOAD", action.payload);
       newState[action.payload.journal.id] = {
         ...newState[action.payload.journal.id],
         ...action.payload.journal,
@@ -223,7 +223,7 @@ export default function journalsReducer(state = initialState, action) {
       return newState;
     }
     case DELETE_FILTERS: {
-      console.log("DELETE FILTERS PAYLOAD", action.payload);
+      // console.log("DELETE FILTERS PAYLOAD", action.payload);
       newState[action.payload.journal.id] = {
         ...newState[action.payload.journal.id],
         ...action.payload.journal,
@@ -231,7 +231,7 @@ export default function journalsReducer(state = initialState, action) {
       return newState;
     }
     case RESET_JOURNALS: {
-      console.log("RESET JOURNALS");
+      // console.log("RESET JOURNALS");
       return initialState;
     }
     default:

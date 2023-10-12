@@ -9,19 +9,19 @@ export const PlaylistProvider = ({ children }) => {
   const [isSongRecsShown, setIsSongRecsShown] = useState(true);
 
   useEffect(() => {
-    console.log("PLAYLIST CONTEXT: ", playlistId);
+    // console.log("PLAYLIST CONTEXT: ", playlistId);
   }, [playlistId]);
 
   useEffect(() => {
-    console.log("SONGREC CONTEXT: ", isSongRecsShown);
+    // console.log("SONGREC CONTEXT: ", isSongRecsShown);
   }, [isSongRecsShown]);
 
   useEffect(() => {
-    console.log("SHOW PLAYIST CONTEXT: ", isSongRecsShown);
+    // console.log("SHOW PLAYIST CONTEXT: ", isSongRecsShown);
   }, [showPlaylist]);
 
   const togglePlaylist = () => {
-    console.log("PLAYLIST OPEN: ", playlistOpen);
+    // console.log("PLAYLIST OPEN: ", playlistOpen);
     setPlaylistOpen(!playlistOpen);
   };
 

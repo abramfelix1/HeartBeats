@@ -17,7 +17,7 @@ export const WebPlayerProvider = ({ children }) => {
   const handlePlaylist = (songId, playlist) => {
     setCurrentSongId(songId);
     const songUri = `spotify:track:${songId}`;
-    console.log("Playlist: ", playlist);
+    // console.log("Playlist: ", playlist);
     if (playlist.length > 1) {
       setPlaylistUris(playlist);
       // const songUri = `spotify:track:${songId}`;
@@ -31,7 +31,7 @@ export const WebPlayerProvider = ({ children }) => {
     } else {
       setPlaylistUris([songUri]);
     }
-    console.log("CURRENT PLAYLIST: ", playlistUris);
+    // console.log("CURRENT PLAYLIST: ", playlistUris);
   };
 
   const pauseSong = () => {
@@ -39,7 +39,7 @@ export const WebPlayerProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log("CURRENT SONG: ", currentSongId);
+    // console.log("CURRENT SONG: ", currentSongId);
   }, [currentSongId]);
 
   // useEffect(() => {

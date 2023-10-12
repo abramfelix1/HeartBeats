@@ -5,9 +5,9 @@ export const ErrorContext = createContext();
 export const ErrorProvider = ({ children }) => {
   const [errors, setErrors] = useState(null);
 
-  useEffect(() => {
-    console.log("ERRORS CONTEXT: ", errors);
-  }, [errors]);
+  // useEffect(() => {
+  //   console.log("ERRORS CONTEXT: ", errors);
+  // }, [errors]);
 
   return (
     <ErrorContext.Provider

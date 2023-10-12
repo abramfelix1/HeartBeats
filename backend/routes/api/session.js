@@ -57,7 +57,7 @@ router.delete("/", (_req, res) => {
 // Check for session user
 router.get("/user", (req, res) => {
   if (req.session && req.session.user) {
-    console.log("CHECK SESSION:", req.session.user);
+    // console.log("CHECK SESSION:", req.session.user);
     return res.json({ user: req.session.user });
   } else {
     return res.status(401).json({ error: "Not authenticated" });

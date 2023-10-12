@@ -70,23 +70,23 @@ export default function Playlist() {
       setErrors({ playlist: "Playlist name cannot be empty" });
       setType("ERROR");
       setTitle(playlist.name);
-      console.log("PLAYLIST NAME:", playlist.name);
+      // console.log("PLAYLIST NAME:", playlist.name);
     } else {
       dispatch(updatePlaylist(playlistId, { name: title })).catch(
         async (res) => {
           const data = await res.json();
-          console.log(data.errors);
+          // console.log(data.errors);
           setErrors(data.errors);
           setType("ERROR");
           setTitle(playlist.name);
-          console.log(playlist.name);
+          // console.log(playlist.name);
         }
       );
     }
   };
 
   useEffect(() => {
-    console.log("PLAYLIST: ", playlist);
+    // console.log("PLAYLIST: ", playlist);
     if (playlistId) {
       setTitle(playlist?.name || "asdf");
     }
@@ -108,13 +108,13 @@ export default function Playlist() {
   };
 
   useEffect(() => {
-    console.log("PLAYLIST SONGS:", playlistSongs);
+    // console.log("PLAYLIST SONGS:", playlistSongs);
     setPlaylist(currentSongId);
   }, [playlist.songs]);
 
   const removeSongHandler = async (songId) => {
     await dispatch(removeSongFromPlaylist(playlistId, songId));
-    console.log("PLAYLIST SONGS:", playlistSongs);
+    // console.log("PLAYLIST SONGS:", playlistSongs);
     setPlaylist(currentSongId);
   };
 

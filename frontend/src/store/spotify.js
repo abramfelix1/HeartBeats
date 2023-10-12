@@ -63,11 +63,11 @@ export const getSpotifyUser = () => async (dispatch) => {
     if (res.ok) {
       const data = await res.json();
       await dispatch(getSpotifyUserAction(data));
-      console.log("SPOTIFY USER ACCOUNT", data);
+      // console.log("SPOTIFY USER ACCOUNT", data);
     }
   } catch (err) {
     const data = await err.json();
-    console.error("getSpotifyUser Error:", data.error);
+    // console.error("getSpotifyUser Error:", data.error);
   }
 };
 
@@ -80,7 +80,7 @@ export const getTestSong = () => async (dispatch) => {
     if (res.ok) {
       const data = await res.json();
       await dispatch(getTestSongAction(data));
-      console.log("TEST SONG", data);
+      // console.log("TEST SONG", data);
     }
   } catch (err) {
     const data = await err.json();
@@ -100,7 +100,7 @@ export const getRecSongs = (payload) => async (dispatch) => {
     if (res.ok) {
       const data = await res.json();
       await dispatch(getRecSongsAction(data));
-      console.log("TEST SONG", data);
+      // console.log("TEST SONG", data);
     }
   } catch (err) {
     const data = await err.json();

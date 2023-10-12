@@ -139,7 +139,7 @@ router.delete("/:id", async (req, res, next) => {
   const { user } = req;
   const filterId = req.params.id;
   const { genreName, songId, artistId } = req.body;
-  console.log("ARTIST ID: ", artistId);
+  // console.log("ARTIST ID: ", artistId);
 
   let genre;
   let filterGenre;
@@ -167,7 +167,7 @@ router.delete("/:id", async (req, res, next) => {
   let filterArtist;
   if (artistId) {
     artist = await Artist.findOne({ where: { spotifyId: artistId } });
-    console.log(artist);
+    // console.log(artist);
     if (!artist) {
       return next({
         errors: { artist: "Artist not found", status: 404 },

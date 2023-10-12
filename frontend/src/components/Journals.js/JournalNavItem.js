@@ -13,7 +13,7 @@ export default function JournalNavItem({ content, quillRef }) {
           theme === "dark" && "bg-slate-300"
         }`}
         onClick={(e) => {
-          console.log("SDFASDFASDFSDAf");
+          // console.log("SDFASDFASDFSDAf");
         }}
       >
         <ReactQuill

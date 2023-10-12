@@ -90,7 +90,7 @@ router.get("/:id", requireAuth, async (req, res, next) => {
 router.post("/", requireAuth, validateJournal, async (req, res, next) => {
   const { user } = req;
   const { valence, energy } = req.body;
-  console.log("JOURNAL CREATE REQ BODY: ", req.body);
+  // console.log("JOURNAL CREATE REQ BODY: ", req.body);
   const newJournal = await Journal.create({
     userId: user.dataValues.id,
     name: req.body.name,
@@ -132,7 +132,7 @@ router.put("/:id", requireAuth, validateJournal, async (req, res, next) => {
   const { valence, energy } = req.body;
   const journalId = req.params.id;
 
-  console.log("JOURNAL UPDATE REQ BODY: ", req.body);
+  // console.log("JOURNAL UPDATE REQ BODY: ", req.body);
 
   const journal = await Journal.findOne({
     where: { id: journalId },
@@ -210,12 +210,12 @@ router.put("/:id", requireAuth, validateJournal, async (req, res, next) => {
 
   if (filter) {
     updatedFilter = await filter.update({ valence, energy });
-    console.log("UPDATED FILTER: ", updatedFilter);
+    // console.log("UPDATED FILTER: ", updatedFilter);
   }
 
   const updatedJournal = await journal.update(req.body);
 
-  console.log("UPDATED JOURNAL FILTER: ", updatedJournal.filter);
+  // console.log("UPDATED JOURNAL FILTER: ", updatedJournal.filter);
 
   const reorderedJournal = {
     id: updatedJournal.id,

@@ -67,15 +67,15 @@ export default function JournalNav() {
       const content = quillRefs.current[index].current.getEditor().getText();
       setJournalContent(content);
     }
-    console.log("JOURNAL CONTENT: ", journalContent);
+    // console.log("JOURNAL CONTENT: ", journalContent);
   };
 
   const recSongsHandler = (filter) => {
-    console.log("REC SONGS HANDLER");
+    // console.log("REC SONGS HANDLER");
     if (filter.valence !== null && filter.energy !== null) {
       dispatch(getRecSongs(filter)).catch(async (res) => {
         const data = await res.json();
-        console.log(data.errors);
+        // console.log(data.errors);
         setErrors(data.errors);
         setType("ERROR");
       });

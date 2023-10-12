@@ -127,7 +127,7 @@ router.get("/callback", async (req, res) => {
             lastName: null,
             spotifyId: id,
           });
-          console.log("SPOTIFY USER ACCOUNT CREATED", user);
+          // console.log("SPOTIFY USER ACCOUNT CREATED", user);
         }
         if (!req.session) {
           console.error("Session does not exist!");
@@ -234,12 +234,12 @@ router.get("/songtest", async (req, res) => {
 router.post("/recsongs", async (req, res) => {
   //https://developer.spotify.com/documentation/web-api/reference/get-recommendations
   const accessToken = req.cookies.access_token;
-  console.log("REQ BODY:", req.body);
+  // console.log("REQ BODY:", req.body);
   const { valence, energy, songs, genres, artists } = req.body.filter;
 
-  console.log("SONGS: ", songs);
-  console.log("GENRES: ", genres);
-  console.log("ARTISTS: ", artists);
+  // console.log("SONGS: ", songs);
+  // console.log("GENRES: ", genres);
+  // console.log("ARTISTS: ", artists);
 
   const rangeOffset = 0.25252125;
   let minValence = valence - rangeOffset;
