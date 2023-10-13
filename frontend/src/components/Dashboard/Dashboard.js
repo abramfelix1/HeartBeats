@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
+import { Tooltip } from "react-tooltip";
 import Navigation from "../Navigation";
 import JournalContainer from "../Journals.js/JournalContainer";
 import * as sessionActions from "../../store/session";
@@ -217,6 +218,20 @@ export default function Dashboard() {
             {filterOpen && <SearchSpotify />}
           </div>
         )}
+        {/* <div
+          className="absolute bottom-4 left-4 bg-bkg-card text-txt-1 rounded-full p-2 font-bold text-2xl shadow-md hover:scale-105 hover:cursor-pointer"
+          data-tooltip-id="dash-tooltip"
+          data-tooltip-content="Help"
+        >
+          ?
+        </div>
+        <Tooltip
+          className="z-10"
+          place="bottom"
+          type="dark"
+          effect="solid"
+          id="dash-tooltip"
+        /> */}
       </div>
     </>
   );
