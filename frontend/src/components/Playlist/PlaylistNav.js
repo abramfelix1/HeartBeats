@@ -23,6 +23,9 @@ export default function PlaylistNav() {
   const playlists = useSelector((state) => Object.values(state.playlists));
   const [searchInput, setSearchInput] = useState("");
   const [hoverId, setHoverId] = useState("null");
+  const sessionSpotify = useSelector((state) =>
+    state.session.user.spotifyId ? state.session.user.spotifyId : null
+  );
 
   const closeHandler = () => {
     setPlaylistOpen(false);
@@ -97,15 +100,15 @@ export default function PlaylistNav() {
                   onMouseEnter={(e) => setHoverId(playlist.id)}
                   onMouseLeave={(e) => setHoverId(null)}
                 >
-                  {hoverId === playlist.id ? (
+                  {/* {hoverId === playlist.id ? (
                     <PlayIcon
                       className="w-6 h-fit m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-105"
                       data-tooltip-id="playlist-tooltip"
                       data-tooltip-content="Play Playlist (ADD LATER)"
                     />
-                  ) : (
-                    <div className="text-center">{index + 1}</div>
-                  )}
+                  ) : ( */}
+                  <div className="text-center">{index + 1}</div>
+                  {/* )} */}
                   <div className="flex items-center w-full min-w-0">
                     <PlaylistNavItem songs={playlist.songs} />
                     <div className="flex items-center gap-y-[0.5px] px-2 w-full truncate">
@@ -116,27 +119,29 @@ export default function PlaylistNav() {
                     {convertTime(playlist.createdAt)}
                   </div>{" "}
                   <div className="flex flex-row gap-x-2 items-center">
-                    <div>
-                      {theme === "dark" ? (
-                        <img
-                          src={spotifyIconGreen}
-                          alt="spotify icon"
-                          className="w-9 hover:scale-105"
-                          data-tooltip-id="journal-tooltip"
-                          data-tooltip-content="Open Spotify (ADD LATER)"
-                        />
-                      ) : (
-                        <img
-                          src={spotifyIcon}
-                          alt="spotify icon"
-                          className="w-8 hover:scale-105"
-                          data-tooltip-id="playlist-tooltip"
-                          data-tooltip-content="Open Spotify (ADD LATER)"
-                        />
-                      )}
-                    </div>
+                    {/* {sessionSpotify && (
+                      <div>
+                        {theme === "dark" ? (
+                          <img
+                            src={spotifyIconGreen}
+                            alt="spotify icon"
+                            className="w-9 hover:scale-105"
+                            data-tooltip-id="journal-tooltip"
+                            data-tooltip-content="Open Spotify (ADD LATER)"
+                          />
+                        ) : (
+                          <img
+                            src={spotifyIcon}
+                            alt="spotify icon"
+                            className="w-8 hover:scale-105"
+                            data-tooltip-id="playlist-tooltip"
+                            data-tooltip-content="Open Spotify (ADD LATER)"
+                          />
+                        )}
+                      </div>
+                    )} */}
                     <TrashIcon
-                      className="w-11 h-fit ml-3 m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
+                      className="w-6 h-fit ml-3 m-0 fill-txt-hover  hover:cursor-pointer outline-none border-none hover:scale-110"
                       onClick={(e) => {
                         e.stopPropagation();
                         setDeleteId(playlist.id);
