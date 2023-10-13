@@ -9,7 +9,7 @@ import { FaGithubSquare } from "react-icons/fa";
 
 export default function LandingPage() {
   return (
-    <div className="font-poppins flex w-screen h-screen bg-white">
+    <div className="font-poppins flex w-screen h-screen bg-white select-none">
       <div className="flex flex-col w-full">
         <div className="flex items-center justify-center w-full p-10 ">
           <img className="w-72" src={logo} alt="logo" />
@@ -37,13 +37,13 @@ export default function LandingPage() {
           </div>
         </div>
       </div>
-      <div className="flex absolute bottom-0 gap-x-2 bg-slate-500 w-fit text-white p-2 justify-end">
+      <div className="flex absolute bottom-0 gap-x-2 bg-slate-500 w-fit text-white p-2 justify-end select-none">
         <p>by Abram Felix</p>
         <a
           href={"https://www.linkedin.com/in/abram-felix/"}
           target="_blank"
           rel="noreferrer"
-          className="flex items-center"
+          className="flex items-center hover:scale-110"
         >
           <BsLinkedin />
         </a>
@@ -51,7 +51,7 @@ export default function LandingPage() {
           href={"https://github.com/abramfelix1"}
           target="_blank"
           rel="noreferrer"
-          className="flex items-center"
+          className="flex items-center hover:scale-110"
         >
           <FaGithubSquare className="text-xl" />
         </a>
