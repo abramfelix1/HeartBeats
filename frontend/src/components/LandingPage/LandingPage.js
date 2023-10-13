@@ -4,6 +4,8 @@ import songs from "../../images/landing2.png";
 import editor from "../../images/landingPageEditor.png";
 import spotify from "../../images/Spotify_Logo_RGB_Green.png";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import { BsLinkedin } from "react-icons/bs";
+import { FaGithubSquare } from "react-icons/fa";
 
 export default function LandingPage() {
   return (
@@ -34,6 +36,25 @@ export default function LandingPage() {
             <img className="w-[920px] drop-shadow-xl" src={songs} alt="logo" />
           </div>
         </div>
+      </div>
+      <div className="flex absolute bottom-0 gap-x-2 bg-slate-500 w-fit text-white p-2 justify-end">
+        <p>by Abram Felix</p>
+        <a
+          href={"https://www.linkedin.com/in/abram-felix/"}
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center"
+        >
+          <BsLinkedin />
+        </a>
+        <a
+          href={"https://github.com/abramfelix1"}
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center"
+        >
+          <FaGithubSquare className="text-xl" />
+        </a>
       </div>
     </div>
   );
