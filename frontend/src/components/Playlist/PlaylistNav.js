@@ -45,6 +45,8 @@ export default function PlaylistNav() {
     // console.log("CLICK CREATE PLAYLIST");
     const playlist = await dispatch(createPlaylist());
     setPlaylistId(playlist.playlist.id);
+    setShowPlaylist(true);
+    setPlaylistOpen(false);
   };
 
   return (

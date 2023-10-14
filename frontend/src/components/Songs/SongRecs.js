@@ -154,7 +154,7 @@ export default function SongRecs() {
                       <IoAddCircleOutline
                         className="text-bkg-text text-3xl hover:text-txt-hover hover:scale-105 hover:cursor-pointer"
                         data-tooltip-id="song-recs"
-                        data-tooltip-content={`Add to: "${playlist.name}"`}
+                        data-tooltip-content={`Add "${song.name}" to: "${playlist.name}"`}
                         onClick={() => {
                           addSongHandler({
                             name: song.name,

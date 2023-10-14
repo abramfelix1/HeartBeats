@@ -58,9 +58,9 @@ export default function Dashboard() {
     const tracks = state.spotify.songs?.tracks;
     return tracks ? Object.values(tracks) : null;
   });
-  // const isSpotify = useSelector((state) =>
-  //   state.session.user ? state.session.user.id : null
-  // );
+  const sessionSpotify = useSelector((state) =>
+    state.session.user?.spotifyId ? state.session.user.spotifyId : null
+  );
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
@@ -240,7 +240,11 @@ export default function Dashboard() {
           effect="solid"
           id="dash-tooltip"
         /> */}
-        <div className="flex absolute bottom-4  gap-x-2 bg-slate-500 w-fit text-white p-2 justify-end select-none">
+        <div
+          className={`flex absolute gap-x-2 bg-bkg-card w-fit text-white p-2 justify-end select-none ${
+            sessionSpotify ? " bottom-24 " : " bottom-4 "
+          }`}
+        >
           <p>by Abram Felix</p>
           <a
             href={"https://www.linkedin.com/in/abram-felix/"}
