@@ -65,7 +65,6 @@ export default function JournalEditor() {
       ? state.journals[journalId].filterCount
       : 0
   );
-
   useEffect(() => {
     const handleEsc = (event) => {
       if (errors || type === "ERROR") return;
@@ -134,16 +133,18 @@ export default function JournalEditor() {
     // const valence = getValence(content);
     // console.log(journalEntry.filter);
     dispatch(resetRecSongsAction());
-    dispatch(
-      getRecSongs({
-        filter: journalEntry.filter,
-      })
-    ).catch(async (res) => {
-      const data = await res.json();
-      // console.log(data.errors);
-      setErrors(data.errors);
-      setType("ERROR");
-    });
+    if (journalEntry?.filter) {
+      dispatch(
+        getRecSongs({
+          filter: journalEntry.filter,
+        })
+      ).catch(async (res) => {
+        const data = await res.json();
+        // console.log(data.errors);
+        setErrors(data.errors);
+        setType("ERROR");
+      });
+    }
     setJournalContent(content);
   };
 
@@ -154,7 +155,7 @@ export default function JournalEditor() {
     }
   }, [journalEntry?.filter, triggerRecSongs]);
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e, index) => {
     e.preventDefault();
     const quill = quillRef.current.getEditor();
     const content = quill.getText();
@@ -196,7 +197,7 @@ export default function JournalEditor() {
       });
       if (!hasError) {
         setTriggerRecSongs(true);
-        // recSongsHandler();
+        recSongsHandler();
         setEditorOpen(false);
         setFilters([]);
         stopSound();
@@ -221,6 +222,7 @@ export default function JournalEditor() {
         setJournalId(journal.journal.id);
         setFilters([]);
         stopSound();
+        recSongsHandler();
       }
     }
   };

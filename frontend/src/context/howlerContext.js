@@ -54,6 +54,7 @@ export const HowlerProvider = ({ children }) => {
     setCurrentPlaying(null);
     setRemainingTime("");
     setUrl(null);
+    console.log("STOP SOUND");
   };
 
   useEffect(() => {

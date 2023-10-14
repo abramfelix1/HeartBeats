@@ -193,7 +193,7 @@ export default function playlistsReducer(state = initialState, action) {
   let newState = { ...state };
   switch (action.type) {
     case GET_ALL_PLAYLISTS: {
-      console.log("ALL PLAYLISTS PAYLOAD:", action.payload);
+      // console.log("ALL PLAYLISTS PAYLOAD:", action.payload);
       const playlists = action.payload.playlists.reduce(
         (playlists, playlist) => {
           playlists[playlist.id] = playlist;

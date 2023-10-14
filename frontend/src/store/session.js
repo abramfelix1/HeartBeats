@@ -30,7 +30,7 @@ export const login = (user) => async (dispatch) => {
 
   if (response.ok) {
     const data = await response.json();
-    console.log("LOGIN DaTA:", data);
+    // console.log("LOGIN DaTA:", data);
     dispatch(setSessionUser(data.user));
     dispatch(spotifyToken());
     setTimeout(() => refreshSpotifyClientToken(dispatch), 40 * 60 * 1000);

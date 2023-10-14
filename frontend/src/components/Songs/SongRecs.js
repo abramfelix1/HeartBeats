@@ -15,6 +15,7 @@ import { ThemeContext } from "../../context/themeContext";
 import loading from "../../images/icons/musicLoad.svg";
 import loading2 from "../../images/icons/musicLoad2.svg";
 import { WebPlayerContext } from "../../context/webPlayerContext";
+import { Tooltip } from "react-tooltip";
 
 export default function SongRecs() {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ export default function SongRecs() {
   const sessionSpotify = useSelector((state) =>
     state.session.user.spotifyId ? state.session.user.spotifyId : null
   );
+  const playlist = useSelector((state) => state.playlists?.[playlistId]);
 
   const addSongHandler = async (payload) => {
     if (playlistId) {
@@ -92,7 +94,7 @@ export default function SongRecs() {
                           <div className="flex items-center">
                             <button
                               onClick={() => {
-                                if (isPlaying && currentSongId === song.id) {
+                                if (isPlaying && currentPlaying === song.id) {
                                   stopSound();
                                 } else {
                                   playSound(song.preview_url, song.id);
@@ -116,6 +118,8 @@ export default function SongRecs() {
                             className={`text-gray-300 text-2xl
                         ${theme === "dark" && "text-slate-800"}
                         `}
+                            data-tooltip-id="song-recs"
+                            data-tooltip-content={`"${song.name}" Preview Unavailable`}
                           />
                         )}
                       </>
@@ -146,9 +150,11 @@ export default function SongRecs() {
                         </button>
                       </div>
                     )}
-                    {playlistId && (
+                    {playlistId ? (
                       <IoAddCircleOutline
                         className="text-bkg-text text-3xl hover:text-txt-hover hover:scale-105 hover:cursor-pointer"
+                        data-tooltip-id="song-recs"
+                        data-tooltip-content={`Add "${song.name}" to: "${playlist.name}"`}
                         onClick={() => {
                           addSongHandler({
                             name: song.name,
@@ -160,6 +166,14 @@ export default function SongRecs() {
                             preview: song?.preview_url || null,
                           });
                         }}
+                      />
+                    ) : (
+                      <IoAddCircleOutline
+                        className={`text-gray-300 text-3xl
+                      ${theme === "dark" && "text-slate-800"}
+                      `}
+                        data-tooltip-id="song-recs"
+                        data-tooltip-content={`Open A Playlist To Add "${song.name}"`}
                       />
                     )}
                   </div>
@@ -187,6 +201,13 @@ export default function SongRecs() {
             ))}
         </div>
       </div>
+      <Tooltip
+        className="z-10"
+        place="bottom"
+        type="dark"
+        effect="solid"
+        id="song-recs"
+      />
     </div>
   ) : (
     <div className="flex justify-center ">

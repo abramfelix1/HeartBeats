@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
+import { Tooltip } from "react-tooltip";
 import Navigation from "../Navigation";
 import JournalContainer from "../Journals.js/JournalContainer";
 import * as sessionActions from "../../store/session";
@@ -21,6 +22,8 @@ import JournalNav from "../Journals.js/JournalNav";
 import PlaylistNav from "../Playlist/PlaylistNav";
 import { ReactComponent as ComposeIcon } from "../../images/icons/outline/compose2.svg";
 import { ReactComponent as RefreshIcon } from "../../images/icons/outline/refresh.svg";
+import { BsLinkedin } from "react-icons/bs";
+import { FaGithubSquare } from "react-icons/fa";
 import { getEnergy, getValence } from "../../utils/journal-analyzer";
 import SearchSpotify from "../Songs/SearchSpotify";
 import { ErrorContext } from "../../context/ErrorContext";
@@ -55,9 +58,9 @@ export default function Dashboard() {
     const tracks = state.spotify.songs?.tracks;
     return tracks ? Object.values(tracks) : null;
   });
-  // const isSpotify = useSelector((state) =>
-  //   state.session.user ? state.session.user.id : null
-  // );
+  const sessionSpotify = useSelector((state) =>
+    state.session.user?.spotifyId ? state.session.user.spotifyId : null
+  );
 
   useEffect(() => {
     dispatch(sessionActions.restoreUser()).then(() => setIsLoaded(true));
@@ -164,8 +167,14 @@ export default function Dashboard() {
             <>
               <div className="flex flex-col h-full w-full items-center justify-between overflow-hidden relative">
                 {journalEntry?.filterCount === 0 ? (
-                  <div className="text-txt-1 flex w-full h-full items-center justify-center text-2xl font-medium select-none">
-                    Select filters to begin your music journey!{" "}
+                  <div className="flex flex-col text-txt-1 w-full h-full items-center justify-center text-2xl font-medium select-none">
+                    <p>Select filters to begin your music journey!</p>
+                    <ComposeIcon
+                      className="w-8 cursor-pointer fill-txt-1 hover:scale-105 pointer-events-auto"
+                      onClick={(e) => {
+                        setEditorOpen(true);
+                      }}
+                    />
                   </div>
                 ) : (
                   <>
@@ -217,6 +226,43 @@ export default function Dashboard() {
             {filterOpen && <SearchSpotify />}
           </div>
         )}
+        {/* <div
+          className="absolute bottom-4 left-4 bg-bkg-card text-txt-1 rounded-full p-2 font-bold text-2xl shadow-md hover:scale-105 hover:cursor-pointer"
+          data-tooltip-id="dash-tooltip"
+          data-tooltip-content="Help"
+        >
+          ?
+        </div>
+        <Tooltip
+          className="z-10"
+          place="bottom"
+          type="dark"
+          effect="solid"
+          id="dash-tooltip"
+        /> */}
+        <div
+          className={`flex absolute gap-x-2 bg-bkg-card w-fit text-white p-2 justify-end select-none ${
+            sessionSpotify ? " bottom-24 " : " bottom-4 "
+          }`}
+        >
+          <p>by Abram Felix</p>
+          <a
+            href={"https://www.linkedin.com/in/abram-felix/"}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center hover:scale-110"
+          >
+            <BsLinkedin />
+          </a>
+          <a
+            href={"https://github.com/abramfelix1"}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center hover:scale-110"
+          >
+            <FaGithubSquare className="text-xl" />
+          </a>
+        </div>
       </div>
     </>
   );

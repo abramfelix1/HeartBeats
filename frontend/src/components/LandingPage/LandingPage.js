@@ -4,10 +4,12 @@ import songs from "../../images/landing2.png";
 import editor from "../../images/landingPageEditor.png";
 import spotify from "../../images/Spotify_Logo_RGB_Green.png";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import { BsLinkedin } from "react-icons/bs";
+import { FaGithubSquare } from "react-icons/fa";
 
 export default function LandingPage() {
   return (
-    <div className="font-poppins flex w-screen h-screen bg-white">
+    <div className="font-poppins flex w-screen h-screen bg-white select-none">
       <div className="flex flex-col w-full">
         <div className="flex items-center justify-center w-full p-10 ">
           <img className="w-72" src={logo} alt="logo" />
@@ -34,6 +36,25 @@ export default function LandingPage() {
             <img className="w-[920px] drop-shadow-xl" src={songs} alt="logo" />
           </div>
         </div>
+      </div>
+      <div className="flex absolute bottom-4 gap-x-2 bg-slate-500 w-fit text-white p-2 justify-end select-none">
+        <p>by Abram Felix</p>
+        <a
+          href={"https://www.linkedin.com/in/abram-felix/"}
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center hover:scale-110"
+        >
+          <BsLinkedin />
+        </a>
+        <a
+          href={"https://github.com/abramfelix1"}
+          target="_blank"
+          rel="noreferrer"
+          className="flex items-center hover:scale-110"
+        >
+          <FaGithubSquare className="text-xl" />
+        </a>
       </div>
     </div>
   );
