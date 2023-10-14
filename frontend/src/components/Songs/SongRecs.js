@@ -46,6 +46,7 @@ export default function SongRecs() {
   const sessionSpotify = useSelector((state) =>
     state.session.user.spotifyId ? state.session.user.spotifyId : null
   );
+  const playlist = useSelector((state) => state.playlists?.[playlistId]);
 
   const addSongHandler = async (payload) => {
     if (playlistId) {
@@ -152,6 +153,8 @@ export default function SongRecs() {
                     {playlistId ? (
                       <IoAddCircleOutline
                         className="text-bkg-text text-3xl hover:text-txt-hover hover:scale-105 hover:cursor-pointer"
+                        data-tooltip-id="song-recs"
+                        data-tooltip-content={`Add to: "${playlist.name}"`}
                         onClick={() => {
                           addSongHandler({
                             name: song.name,
