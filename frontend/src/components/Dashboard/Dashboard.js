@@ -22,6 +22,8 @@ import JournalNav from "../Journals.js/JournalNav";
 import PlaylistNav from "../Playlist/PlaylistNav";
 import { ReactComponent as ComposeIcon } from "../../images/icons/outline/compose2.svg";
 import { ReactComponent as RefreshIcon } from "../../images/icons/outline/refresh.svg";
+import { BsLinkedin } from "react-icons/bs";
+import { FaGithubSquare } from "react-icons/fa";
 import { getEnergy, getValence } from "../../utils/journal-analyzer";
 import SearchSpotify from "../Songs/SearchSpotify";
 import { ErrorContext } from "../../context/ErrorContext";
@@ -232,6 +234,25 @@ export default function Dashboard() {
           effect="solid"
           id="dash-tooltip"
         /> */}
+        <div className="flex absolute bottom-4  gap-x-2 bg-slate-500 w-fit text-white p-2 justify-end select-none">
+          <p>by Abram Felix</p>
+          <a
+            href={"https://www.linkedin.com/in/abram-felix/"}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center hover:scale-110"
+          >
+            <BsLinkedin />
+          </a>
+          <a
+            href={"https://github.com/abramfelix1"}
+            target="_blank"
+            rel="noreferrer"
+            className="flex items-center hover:scale-110"
+          >
+            <FaGithubSquare className="text-xl" />
+          </a>
+        </div>
       </div>
     </>
   );

@@ -37,7 +37,7 @@ export default function LandingPage() {
           </div>
         </div>
       </div>
-      <div className="flex absolute bottom-0 gap-x-2 bg-slate-500 w-fit text-white p-2 justify-end select-none">
+      <div className="flex absolute bottom-4 gap-x-2 bg-slate-500 w-fit text-white p-2 justify-end select-none">
         <p>by Abram Felix</p>
         <a
           href={"https://www.linkedin.com/in/abram-felix/"}
