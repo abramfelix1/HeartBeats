@@ -167,8 +167,14 @@ export default function Dashboard() {
             <>
               <div className="flex flex-col h-full w-full items-center justify-between overflow-hidden relative">
                 {journalEntry?.filterCount === 0 ? (
-                  <div className="text-txt-1 flex w-full h-full items-center justify-center text-2xl font-medium select-none">
-                    Select filters to begin your music journey!{" "}
+                  <div className="flex flex-col text-txt-1 w-full h-full items-center justify-center text-2xl font-medium select-none">
+                    <p>Select filters to begin your music journey!</p>
+                    <ComposeIcon
+                      className="w-8 cursor-pointer fill-txt-1 hover:scale-105 pointer-events-auto"
+                      onClick={(e) => {
+                        setEditorOpen(true);
+                      }}
+                    />
                   </div>
                 ) : (
                   <>
