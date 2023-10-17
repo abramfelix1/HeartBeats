@@ -111,7 +111,6 @@ Enjoy HeartBeats!
 ## Future Features
 
 ### More Spotify Utilization:
-- **Spotify Web Player**: Enable Spotify Web Player for verified Spotify users to play full songs and playlists
 - **Importing Playlists**: Allow users to import their created playlists to Spotify
 
 
