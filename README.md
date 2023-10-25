@@ -2,7 +2,7 @@
 
 <h1 align="center"> <img src="https://github.com/abramfelix1/HeartBeats/assets/62622410/cf5fbca8-f858-475c-bd4a-453f20434c38" alt="image description" height="135"></h1>
 
-[HeartBeats](https://HeartBeats-ajr.onrender.com/), a capstone project developed by Abram Felix for App Academy, offers users to explore music tailored to their emotions and effortlessly craft mood-centric playlists."
+[HeartBeats](https://heart-beats.onrender.com/), a capstone project developed by Abram Felix for App Academy, offers users to explore music tailored to their emotions and effortlessly craft mood-centric playlists."
 
 ![Screenshot_24](https://github.com/abramfelix1/HeartBeats/assets/62622410/3bad4c58-3a2b-47b7-8382-18caa37a77bb)
 
