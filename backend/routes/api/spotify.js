@@ -55,7 +55,8 @@ router.get("/login", (req, res) => {
     return res.status(400).send("CSRF token is missing.");
   }
   const scope =
-    "user-read-playback-state user-modify-playback-state user-read-currently-playing playlist-read-private playlist-modify-private playlist-modify-public user-library-modify user-library-read streaming user-read-email user-read-private user-read-playback-state user-modify-playback-state ";
+    "user-modify-playback-state user-library-modify streaming user-read-email";
+
   res.redirect(
     "https://accounts.spotify.com/authorize?" +
       querystring.stringify({
@@ -72,6 +73,7 @@ router.get("/login", (req, res) => {
 router.get("/callback", async (req, res) => {
   const code = req.query.code;
 
+  console.log("111111111111111111111111111111111111111111111111");
   const response = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {
@@ -86,6 +88,7 @@ router.get("/callback", async (req, res) => {
       grant_type: "authorization_code",
     }),
   });
+  console.log("222222222222222222222222222222222222222222222222");
 
   if (response.ok) {
     const { user } = req;
@@ -94,7 +97,7 @@ router.get("/callback", async (req, res) => {
     const refreshToken = data.refresh_token;
     res.cookie("access_token", accessToken);
     res.cookie("refresh_token", refreshToken);
-
+    console.log("DATA", data);
     //Fetch spotify user data and create a User instance
     try {
       const response = await fetch("https://api.spotify.com/v1/me", {
